@@ -48,6 +48,8 @@ export default {
 <style lang="scss">
 @import '~@/styles/font/iconfont.css';
 @import '~@/styles/common.css';
+@import '~@/styles/cube.scss';
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

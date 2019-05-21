@@ -13,23 +13,83 @@
     </div>
     <!-- 背景 end -->
 
+    <div class="login-container">
+      <form autocomplete="off">
+        <div class="input-item">
+          <i class="iconfont icon-my"></i>
+          <input type="text" placeholder="请输入您的账号" v-model="username">
+        </div>
 
+        <div class="input-item">
+          <i class="iconfont icon-mima"></i>
+          <input type="password" placeholder="请输入6-16位字符的密码" v-model="pwd">
+        </div>
+
+        <button type="button" class="blue-btn" @click="onLogin()">
+          登录
+        </button>
+      </form>
+    </div>
   </w-container>
 </template>
 <script>
+import Utils from '@/common/Utils';
+import service from '@/services/login.service';
+
 export default {
   data() {
     return {
+      username: '',
+      pwd: '',
+      loading: false,
     };
   },
   created() {},
   mounted() {},
   components: {},
-  methods: {},
+  methods: {
+    // 登录
+    async onLogin() {
+      if (!this.username) {
+        Utils.showToast('请输入您的账号');
+        return;
+      }
+
+      if (!this.pwd) {
+        Utils.showToast('"请输入6-16位字符的密码');
+        return;
+      }
+
+      if (this.pwd.length < 6 || this.pwd.length > 16) {
+        Utils.showToast('请输入6-16位字符的密码');
+        return;
+      }
+
+      if (this.loading) return;
+      Utils.showLoading();
+      this.loading = true;
+
+      const result = await service.login(this.username, this.pwd);
+      this.loading = false;
+      if (!result) {
+        // 请求成功
+        return;
+      }
+      Utils.hideLoading();
+      // 更新用户id
+      this.$store.commit('user/updateUserId', result.userid);
+      Utils.showToast('登录成功');
+      this.$router.push('/home');
+
+      // setTimeout(() => {
+      //   Utils.hideLoading();
+      // }, 300);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+@import '~@/styles/components/button.scss';
 .login-bg {
   width: 100%;
   position: relative;
@@ -69,5 +129,41 @@ export default {
     }
   }
 }
+
+.login-container {
+  width: 60%;
+  margin: 0 auto;
+  margin-top: 12%;
+  .input-item {
+    width: 100%;
+    margin-top: .1rem;
+    border-bottom: .01rem solid $color-blue;
+    display: flex;
+    align-items: center;
+
+    .iconfont {
+      color: $color-blue;
+      border: .01rem solid $color-blue;
+      width: .2rem;
+      height: .2rem;
+      border-radius: .2rem;
+      text-align: center;
+      line-height: .2rem;
+    }
+
+    input {
+      height: .4rem;
+      border: 0;
+      margin-left: .1rem;
+      flex: 1;
+    }
+  }
+
+  .blue-btn {
+    margin-top: 8%;
+    border-radius: .4rem;
+    width: 65%;
+  }
+} // login-container
 
 </style>

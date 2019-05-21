@@ -1,10 +1,76 @@
-import { MessageBox } from 'mint-ui';
+import Vue from 'vue';
+import { Toast, Dialog } from 'cube-ui'
+
+Vue.use(Toast);
+Vue.use(Dialog);
+
 
 export default {
+  loading: null,
   log: (...obj) => {
     if (process.env.NODE_ENV !== 'production') {
       console.log(...obj);
     }
+  },
+  // 显示toast
+  showToast(msg) {
+    const toast = Toast.$create({
+      txt: msg || '提示',
+      type: 'txt'
+    })
+    toast.show();
+  },
+  // 显示loading
+  showLoading(msg) {
+    this.loading = Toast.$create({
+      txt: msg || '加载中...',
+      mask: true,
+      time: 0,
+    })
+    this.loading.show();
+  },
+  // 隐藏loading
+  hideLoading() {
+    if (!this.loading) return;
+    this.loading.hide();
+  },
+  /**
+   * 显示提示窗, 就一个按钮
+   * @param {*} title 标题
+   * @param {*} content 内容
+   * @param {*} icon 图标
+   * @param {*} maskClosable 点击蒙版是否可以关闭
+   */
+  showAlert({ title, content, icon, maskClosable }) {
+    Dialog.$create({
+      type: 'alert',
+      title,
+      content,
+      icon,
+      maskClosable: maskClosable || false,
+    }).show();
+  },
+  /**
+   * 显示弹窗, 两个按钮
+   * @param {*} title 标题
+   * @param {*} content 内容
+   * @param {*} icon 图标
+   * @param {*} confirmBtn 确认按钮
+   * @param {*} cancelBtn 取消按钮
+   * @param {*} onConfirm 点击确认回调
+   * @param {*} onCancel 点击取消回调
+   * @param {*} maskClosable 点击蒙版是否可以关闭
+   */
+  showConfirm({ title, content, icon, confirmBtn, cancelBtn, onConfirm, onCancel, maskClosable }) {
+    Dialog.$create({
+      type: 'confirm',
+      title, content, icon,
+      confirmBtn: confirmBtn || '确定',
+      cancelBtn: cancelBtn || '取消',
+      onConfirm,
+      onCancel,
+      maskClosable: maskClosable || false,
+    }).show();
   },
   /**
    * 获取用户id
@@ -57,14 +123,14 @@ export default {
       // 报错啦, 比如: 超出了大小限制
       console.log(error);
       // Toast('本地存储空间已满, 无法存储相关信息');
-      MessageBox.confirm('本地存储空间已满，无法存储信息，是否清空所有的数据？').then((action) => {
-        console.log(action);
-        if (action === 'confirm') {
-          const userId = this.getUserId();
-          this.clearLocalStorage();
-          this.saveLocalStorageItem('userId', userId);
-        }
-      });
+      // MessageBox.confirm('本地存储空间已满，无法存储信息，是否清空所有的数据？').then((action) => {
+      //   console.log(action);
+      //   if (action === 'confirm') {
+      //     const userId = this.getUserId();
+      //     this.clearLocalStorage();
+      //     this.saveLocalStorageItem('userId', userId);
+      //   }
+      // });
     }
   },
   /**
@@ -314,11 +380,11 @@ export default {
    * 显示loading
    * @return {[type]} [description]
    */
-  showLoading() {
+  showLoadingLock() {
     let div = document.createElement("div");
     div.classList = ['w-loading', 'w-loading-bg'];
     let img = document.createElement('img');
-    img.src = '~@/assets/imgs/loading.gif';
+    img.src = '~@/assets/loading.gif';
     img.className = 'loading-img';
     div.appendChild(img);
     document.body.appendChild('div');
@@ -327,7 +393,7 @@ export default {
    * 关闭loading
    * @return {[type]} [description]
    */
-  hideLoading() {
+  hideLoadingLock() {
     // layer.closeAll();
     // $(".w-loading").remove();
     const loadings = document.getElementsByClassName('w-loading');

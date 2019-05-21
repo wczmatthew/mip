@@ -3,10 +3,12 @@ import Vue from 'vue';
 import axios from 'axios';
 // 引入qs
 import qs from 'qs';
-import { Toast } from 'mint-ui';
+import Utils from '@/common/Utils';
+
 import {
   LOGINERR,
   LOGOUT,
+  FAIL,
   MOCKHOST,
   EASEMOCKHOST,
 } from './httpConst';
@@ -15,10 +17,10 @@ import router from '../router';
 let httpHost = '';
 if (process.env.NODE_ENV === 'production') {
   // 正式版本
-  httpHost = '/MobileOa';
+  httpHost = '/prod';
 } else if (process.env.NODE_ENV === 'test-dev' || process.env.NODE_ENV === 'development') {
   // httpHost = '/app/mboa';
-  httpHost = '/wechint';
+  httpHost = '/local';
 }
 // console.log('http env: ', process.env.NODE_ENV)
 
@@ -28,29 +30,29 @@ axios.defaults.baseURL = httpHost; // 默认的请求url
 
 
 function handleRes(response, showErrToast) {
-  if (parseInt(response.data.Code, 10) === LOGOUT) {
-    Toast('退出登录成功');
-    router.push('/login');
+  if (parseInt(response.data.code, 10) === LOGOUT) {
+    Utils.showToast('退出登录成功');
+    router.push('/');
     return '';
   }
 
-  if (parseInt(response.data.Code, 10) === LOGINERR) {
+  if (parseInt(response.data.code, 10) === LOGINERR) {
     // localStorage.clear();
     // console.log('clear local');
-    Toast(response.data.Msg || '登录超时, 请重新登录');
-    router.push('/login');
+    Utils.showToast(response.data.msg || '登录超时, 请重新登录');
+    router.push('/');
     return '';
   }
 
-  if (showErrToast && !response.data.Success) {
-    Toast(response.data.Msg || '请求失败, 请重试');
+  if (showErrToast && parseInt(response.data.code, 10) === FAIL) {
+    Utils.showToast(response.data.msg || '请求失败, 请重试');
     return '';
   }
 
   if (process.env.NODE_ENV !== 'production') {
-    console.debug('response: ', response.data.Data);
+    console.debug('response: ', response.data.data);
   }
-  return response.data.Data || ' ';
+  return response.data.data || ' ';
 }
 
 /**
@@ -103,7 +105,7 @@ export async function postHttp({
     return handleRes(response, showErrToast);
   } catch (e) {
     console.error('err: ', e);
-    Toast('请求失败, 请重试');
+    Utils.showToast('请求失败, 请重试');
     return '';
   }
 }
@@ -139,7 +141,7 @@ export async function postHttpFormData({
     return handleRes(response, showErrToast);
   } catch (e) {
     console.error('err: ', e);
-    Toast('请求失败, 请重试');
+    Utils.showToast('请求失败, 请重试');
     return '';
   }
 }
@@ -176,7 +178,7 @@ export async function postHttpNoQs({
     return handleRes(response, showErrToast);
   } catch (e) {
     console.error('err: ', e);
-    Toast('请求失败, 请重试');
+    Utils.showToast('请求失败, 请重试');
     return '';
   }
 }
@@ -215,7 +217,7 @@ export async function getHttp({
     return handleRes(response, showErrToast);
   } catch (e) {
     console.error('err: ', e);
-    Toast('请求失败, 请重试');
+    Utils.showToast('请求失败, 请重试');
     return '';
   }
 }

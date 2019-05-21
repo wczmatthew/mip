@@ -14,5 +14,34 @@ module.exports = {
       postCompile: true,
       theme: true
     }
+  },
+  devServer: {
+    proxy: {
+      '/test': {
+        target: 'http://10.10.14.123:8715',
+        ws: true,
+        changeOrigin: true,
+        //路径重写
+        pathRewrite: {
+          '^/test': ''
+        },
+      },
+      '/local': {
+        target: 'http://10.1.110.26:8709',
+        changeOrigin: true,
+        //路径重写
+        pathRewrite: {
+          '^/local': ''
+        },
+      },
+      '/prod': {
+        target: 'https://cbp.chint.com:8707',
+        changeOrigin: true,
+        //路径重写
+        pathRewrite: {
+          '^/prod': ''
+        },
+      }
+    }
   }
 }

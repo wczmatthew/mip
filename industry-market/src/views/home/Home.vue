@@ -253,7 +253,7 @@ export default {
     }
 
     img {
-      width: 70%;
+      width: 50%;
       display: block;
       margin: 0 auto;
     }
@@ -271,7 +271,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   padding: 0 .15rem;
-  margin-top: .15rem;
+  margin-top: .1rem;
 
   .menu {
     position: relative;
@@ -322,13 +322,13 @@ export default {
 
   .menu1 {
     width: 49%;
-    height: 15vh;
+    height: .9rem;
     margin-right: 1%;
   }
 
   .menu2 {
     width: 24.5%;
-    height: 15vh;
+    height: .9rem;
     margin-right: 1%;
 
     &::before {
@@ -350,7 +350,7 @@ export default {
 
   .menu3 {
     width: 24.5%;
-    height: 15vh;
+    height: .9rem;
 
     &::before {
       width: 33%;
