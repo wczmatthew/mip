@@ -95,7 +95,8 @@ export default {
   position: relative;
 
   .bg {
-    height: 1.6rem;
+    max-height: 35vh;
+    min-height: .3rem;
     overflow: hidden;
   }
 
@@ -105,20 +106,22 @@ export default {
 
   .wave {
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     left: 0;
     z-index: 10;
   }
 
   .logo {
     position: absolute;
-    bottom: -.5rem;
+    bottom: -10vh;
     left: 50%;
-    margin-left: -.5rem;
+    margin-left: -10vh;
     z-index: 10;
-    width: 1rem;
-    height: 1rem;
-    border-radius: 1rem;
+    width: 20vh;
+    min-width: .3rem;
+    min-height: .3rem;
+    height: 20vh;
+    border-radius: 20vh;
     background: $color-blue;
     display: flex;
     align-items: center;
@@ -133,7 +136,7 @@ export default {
 .login-container {
   width: 60%;
   margin: 0 auto;
-  margin-top: 12%;
+  margin-top: 12vh;
   .input-item {
     width: 100%;
     margin-top: .1rem;
@@ -149,10 +152,13 @@ export default {
       border-radius: .2rem;
       text-align: center;
       line-height: .2rem;
+      flex-shrink: 0;
     }
 
     input {
-      height: .4rem;
+      height: 12vh;
+      min-height: .2rem;
+      max-height: .4rem;
       border: 0;
       margin-left: .1rem;
       flex: 1;
@@ -160,9 +166,13 @@ export default {
   }
 
   .blue-btn {
-    margin-top: 8%;
+    margin-top: 5%;
     border-radius: .4rem;
     width: 65%;
+    height: 10vh;
+    font-size: .14rem;
+    max-height: .35rem;
+    min-height: .2rem;
   }
 } // login-container
 

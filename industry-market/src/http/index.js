@@ -17,7 +17,7 @@ import router from '../router';
 let httpHost = '';
 if (process.env.NODE_ENV === 'production') {
   // 正式版本
-  httpHost = '/prod';
+  httpHost = '';
 } else if (process.env.NODE_ENV === 'test-dev' || process.env.NODE_ENV === 'development') {
   // httpHost = '/app/mboa';
   httpHost = '/local';
