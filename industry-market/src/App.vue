@@ -19,7 +19,7 @@ export default {
   // watch $route 决定使用哪种过渡
   watch: {
     '$route'(to, from) {
-      if (to.path.indexOf('/home') >= 0) {
+      if (to.path.indexOf('/index') >= 0) {
         this.transitionName = 'slide-right-half';
       } else {
         const toDepth = to.path.split('/').length;

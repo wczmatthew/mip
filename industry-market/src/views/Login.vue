@@ -4,7 +4,7 @@
     <!-- 背景 -->
     <div class="login-bg">
       <div class="bg">
-        <img src="../assets/login/login-bg.jpg" alt="">
+        <img src="../assets/login/login-bg2.jpg" alt="">
       </div>
       <img src="../assets/login/wave.png" alt="" class="wave">
       <div class="logo">
@@ -79,7 +79,7 @@ export default {
       // 更新用户id
       this.$store.commit('user/updateUserId', result.userid);
       Utils.showToast('登录成功');
-      this.$router.push('/home');
+      this.$router.push('/index');
 
       // setTimeout(() => {
       //   Utils.hideLoading();
@@ -90,6 +90,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
+.w-container {
+  background: #fff;
+}
 .login-bg {
   width: 100%;
   position: relative;
@@ -122,7 +125,7 @@ export default {
     min-height: .3rem;
     height: 20vh;
     border-radius: 20vh;
-    background: $color-blue;
+    background: $default-color;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -140,13 +143,13 @@ export default {
   .input-item {
     width: 100%;
     margin-top: .1rem;
-    border-bottom: .01rem solid $color-blue;
+    border-bottom: .01rem solid $default-color;
     display: flex;
     align-items: center;
 
     .iconfont {
-      color: $color-blue;
-      border: .01rem solid $color-blue;
+      color: $default-color;
+      border: .01rem solid $default-color;
       width: .2rem;
       height: .2rem;
       border-radius: .2rem;

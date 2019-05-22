@@ -4,7 +4,7 @@
 
 // action-sheet
 $action-sheet-color := $color-grey
-$action-sheet-active-color := $color-blue
+$action-sheet-active-color := $color-default
 $action-sheet-bgc := $color-white
 $action-sheet-active-bgc := $color-light-grey-opacity
 $action-sheet-title-color := $color-dark-grey
@@ -19,15 +19,15 @@ $action-sheet-picker-cancel-active-color := $color-light-grey-s
 $btn-color := $color-white
 $btn-bgc := $color-regular-blue
 $btn-bdc := $color-regular-blue
-$btn-active-bgc := $color-blue
-$btn-active-bdc := $color-blue
+$btn-active-bgc := $color-default
+$btn-active-bdc := $color-default
 $btn-disabled-color := $color-white
 $btn-disabled-bgc := $color-light-grey-s
 $btn-disabled-bdc := $color-light-grey-s
 /// primary
 $btn-primary-color := $color-white
-$btn-primary-bgc := $color-blue
-$btn-primary-bdc := $color-blue
+$btn-primary-bgc := $color-default
+$btn-primary-bdc := $color-default
 $btn-primary-active-bgc := $color-dark-blue
 $btn-primary-active-bdc := $color-dark-blue
 /// light
@@ -43,10 +43,10 @@ $btn-outline-bdc := $color-grey
 $btn-outline-active-bgc := $color-grey-opacity
 $btn-outline-active-bdc := $color-grey
 /// outline-primary
-$btn-outline-primary-color := $color-blue
+$btn-outline-primary-color := $color-default
 $btn-outline-primary-bgc := transparent
-$btn-outline-primary-bdc := $color-blue
-$btn-outline-primary-active-bgc := $color-blue-opacity
+$btn-outline-primary-bdc := $color-default
+$btn-outline-primary-active-bgc := $color-default-opacity
 $btn-outline-primary-active-bdc := $color-dark-blue
 
 // toolbar
@@ -57,13 +57,13 @@ $toolbar-active-bgc := $color-active-grey
 $checkbox-color := $color-grey
 $checkbox-icon-color := $color-light-grey-s
 /// checked
-$checkbox-checked-icon-color := $color-blue
+$checkbox-checked-icon-color := $color-default
 $checkbox-checked-icon-bgc := $color-white
 /// disabled
 $checkbox-disabled-icon-color := $color-light-grey-ss
 $checkbox-disabled-icon-bgc := $color-light-grey-ss
 // checkbox hollow
-$checkbox-hollow-checked-icon-color := $color-blue
+$checkbox-hollow-checked-icon-color := $color-default
 $checkbox-hollow-disabled-icon-color := $color-light-grey-ss
 // checkbox-group
 $checkbox-group-bgc := $color-white
@@ -76,11 +76,11 @@ $radio-color := $color-grey
 $radio-icon-color := $color-light-grey-s
 /// selected
 $radio-selected-icon-color := $color-white
-$radio-selected-icon-bgc := $color-blue
+$radio-selected-icon-bgc := $color-default
 /// disabled
 $radio-disabled-icon-bgc := $color-light-grey-ss
 // radio hollow
-$radio-hollow-selected-icon-color := $color-blue
+$radio-hollow-selected-icon-color := $color-default
 $radio-hollow-disabled-icon-color := $color-light-grey-ss
 
 // dialog
@@ -93,7 +93,7 @@ $dialog-close-color := $color-light-grey
 $dialog-btn-color := $color-light-grey
 $dialog-btn-bgc := $color-white
 $dialog-btn-active-bgc := $color-light-grey-opacity
-$dialog-btn-highlight-color := $color-blue
+$dialog-btn-highlight-color := $color-default
 $dialog-btn-highlight-active-bgc := $color-light-orange-opacity
 $dialog-btn-disabled-color := $color-light-grey
 $dialog-btn-disabled-active-bgc := transparent
@@ -107,7 +107,7 @@ $index-list-anchor-bgc := #f7f7f7
 $index-list-item-color := $color-dark-grey
 $index-list-item-active-bgc := $color-light-grey-opacity
 $index-list-nav-color := $color-grey
-$index-list-nav-active-color := $color-blue
+$index-list-nav-active-color := $color-default
 
 // loading
 
@@ -115,7 +115,7 @@ $index-list-nav-active-color := $color-blue
 $picker-bgc := $color-white
 $picker-title-color := $color-dark-grey
 $picker-subtitle-color := $color-light-grey
-$picker-confirm-btn-color := $color-blue
+$picker-confirm-btn-color := $color-default
 $picker-confirm-btn-active-color := $color-light-orange
 $picker-cancel-btn-color := $color-light-grey
 $picker-cancel-btn-active-color := $color-light-grey-s
@@ -129,7 +129,7 @@ $popup-mask-opacity := .4
 
 // slide
 $slide-dot-bgc := $color-light-grey-s
-$slide-dot-active-bgc := $color-blue
+$slide-dot-active-bgc := $color-default
 
 // time-picker
 
@@ -151,13 +151,13 @@ $upload-file-bgc := $color-white
 $upload-file-remove-color := rgba(0, 0, 0, .8)
 $upload-file-remove-bgc := $color-white
 $upload-file-state-bgc := $color-mask-bg
-$upload-file-success-color := $color-blue
+$upload-file-success-color := $color-default
 $upload-file-error-color := #f43530
 $upload-file-status-bgc := $color-white
 $upload-file-progress-color := $color-white
 
 // switch
-$switch-on-bgc := $color-blue
+$switch-on-bgc := $color-default
 $switch-off-bgc := $color-white
 $switch-off-border-color := #e4e4e4
 
@@ -165,7 +165,7 @@ $switch-off-border-color := #e4e4e4
 $input-color := $color-grey
 $input-bgc := $color-white
 $input-border-color := $color-row-line
-$input-focus-border-color := $color-blue
+$input-focus-border-color := $color-default
 $input-placeholder-color := $color-light-grey-s
 $input-clear-icon-color := $color-light-grey
 
@@ -173,8 +173,8 @@ $input-clear-icon-color := $color-light-grey
 $textarea-color := $color-grey
 $textarea-bgc := $color-white
 $textarea-border-color := $color-row-line
-$textarea-focus-border-color := $color-blue
-$textarea-outline-color := $color-blue
+$textarea-focus-border-color := $color-default
+$textarea-outline-color := $color-default
 $textarea-placeholder-color := $color-light-grey-s
 $textarea-indicator-color := $color-light-grey-s
 
@@ -187,7 +187,7 @@ $select-bgc := $color-white
 $select-disabled-color := #b8b8b8
 $select-disabled-bgc := $color-light-grey-opacity
 $select-border-color := $color-light-grey-s
-$select-border-active-color := $color-blue
+$select-border-active-color := $color-default
 $select-icon-color := $color-light-grey
 $select-placeholder-color := $color-light-grey-s
 
@@ -212,7 +212,7 @@ $drawer-item-active-bgc := $color-light-grey-opacity
 // scroll-nav
 $scroll-nav-bgc := $color-white
 $scroll-nav-color := $color-grey
-$scroll-nav-active-color := $color-blue
+$scroll-nav-active-color := $color-default
 
 // image-preview
 $image-preview-counter-color := $color-white

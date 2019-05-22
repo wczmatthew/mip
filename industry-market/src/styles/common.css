@@ -206,7 +206,7 @@ a {
   top: 0;
   left: 0;
   z-index: 20;
-  background: #fff;
+  background: #f8f8f8;
   transition: all .5s cubic-bezier(.55, 0, .1, 1);
 }
 
@@ -287,6 +287,7 @@ a {
   background: #fff;
   position: relative;
   box-shadow: 0 -.03rem .05rem #999;
+  display: flex;
 }
 
 .w-header::after {
@@ -311,19 +312,23 @@ a {
   color: #fff;
   font-weight: 700;
   z-index: 10;
+  flex-shrink: 0;
 }
 
 .w-header-blue .back {
   color: #4696e7;
 }
 
+.w-header-mid {
+  flex: 1;
+}
+
 .w-header .header-right {
-  width: .45rem;
+  min-width: .45rem;
   height: .44rem;
-  position: absolute;
-  top: 0;
-  right: 0;
   font-size: .25rem;
+  flex-shrink: 0;
+  display: flex;
 }
 
 .w-header .header-right-txt {
@@ -338,12 +343,10 @@ a {
 .w-header .header-left {
   width: .45rem;
   height: .44rem;
-  position: absolute;
-  top: 0;
-  left: 0;
   font-size: .2rem;
-  color: #333;
+  color: #005bac;
   z-index: 10;
+  flex-shrink: 0;
 }
 
 .w-footer {
@@ -353,6 +356,7 @@ a {
 }
 
 .w-tabbar {
+  height: .44rem;
   border-top: .01rem solid #e6e6e6;
   display: -webkit-box;
   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
@@ -373,6 +377,7 @@ a {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
+  flex-shrink: 0;
 }
 
 .w-tabbar .item {
@@ -397,7 +402,7 @@ a {
   height: .2rem;
   display: block;
   margin: 0 auto;
-  margin-bottom: .05rem;
+  margin-bottom: .02rem;
 }
 
 .w-tabbar .item .iconfont {

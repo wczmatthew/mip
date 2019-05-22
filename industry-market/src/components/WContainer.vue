@@ -6,7 +6,9 @@
       <i class="iconfont icon-back header-left" v-if="showBack"
         @click="$router.back();"></i>
 
-      <slot name="w-header"></slot>
+      <div class="w-header-mid">
+        <slot name="header-mid"></slot>
+      </div>
 
       <slot name="header-right"></slot>
     </header>

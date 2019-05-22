@@ -78,6 +78,7 @@ export default {
 }
 
 .w-search-bar .search-view {
+  margin-left: 0;
   margin-right: 0;
 }
 

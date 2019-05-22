@@ -1,6 +1,6 @@
 <!--  -->
 <template lang='html'>
-  <w-container>
+  <div>
     <!-- 顶部栏 -->
     <div class="header">
       <div class="city">
@@ -10,11 +10,7 @@
       <w-search class="search">
         <i class="iconfont icon-scan" slot="right-icon"></i>
       </w-search>
-      <div class="msg">
-        <i class="iconfont icon-xiaoxi">
-          <i class="point"></i>
-        </i>
-      </div>
+      <w-msg-icon></w-msg-icon>
     </div>
     <!-- 顶部栏 end -->
 
@@ -70,10 +66,11 @@
     </div>
     <!-- 菜单 end -->
 
-  </w-container>
+  </div>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
+import WMsgIcon from '@/components/WMsgIcon.vue';
 import banner from '@/assets/home/banner.png';
 import banner2 from '@/assets/home/banner2.jpg';
 import icon1 from '@/assets/home/icon1.png';
@@ -107,7 +104,7 @@ export default {
   created() {},
   mounted() {
     this.caterotyList = [
-      { icon: icon1, title: '导购界面' },
+      { icon: icon1, title: '商城界面', url: '/mall' },
       { icon: icon2, title: '订单管理' },
       { icon: icon3, title: '客户管理' },
       { icon: icon4, title: '二维码' },
@@ -120,6 +117,7 @@ export default {
   },
   components: {
     WSearch,
+    WMsgIcon,
   },
   methods: {
     // 点击轮播图
@@ -128,7 +126,9 @@ export default {
     },
     // 点击类目
     onCategoryClick(item) {
-      console.log(item);
+      if (item.url) {
+        this.$router.push(item.url);
+      }
     },
   },
 };
@@ -171,6 +171,7 @@ export default {
 
   .search {
     flex: 1;
+    margin-left: .1rem;
 
     .w-search-bar .search-view .iconfont {
       color: #fff;
@@ -181,32 +182,6 @@ export default {
     color: #fff;
   }
 
-  .msg {
-    width: .4rem;
-    height: 100%;
-    flex-shrink: 0;
-    position: relative;
-    color: #fff;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: .22rem;
-
-    .iconfont {
-      position: relative;
-      .point {
-        width: .06rem;
-        height: .06rem;
-        border-radius: .06rem;
-        background: $color-red;
-        position: absolute;
-        right: -.01rem;
-        top: 0;
-        z-index: 10;
-      }
-    }
-
-  }
 }
 
 .banner {
@@ -272,6 +247,7 @@ export default {
   flex-wrap: wrap;
   padding: 0 .15rem;
   margin-top: .1rem;
+  padding-bottom: .1rem;
 
   .menu {
     position: relative;
