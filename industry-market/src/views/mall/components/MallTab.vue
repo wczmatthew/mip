@@ -1,8 +1,9 @@
 <!-- 商品页面 tabbar -->
 <template lang='html'>
   <div class="w-tabbar sticky-header">
-    <div class="item" v-for="(item, index) in tabList" :key="index" @click="toggle()">
-      {{ item.selectTxt || item.title }}
+    <div class="item" v-for="(item, index) in list" :key="index" @click="toggle(index)" :class="{'actived': tabIndex == index}">
+      <span>{{ item.selectTxt || item.title }}</span>
+      <i class="iconfont icon-arrow-down"></i>
     </div>
 
     <!-- 展开内容 -->
@@ -17,7 +18,7 @@
       <div class="right">
         <div class="list">
           <div class="right-item" v-for="(item, index) in detailList" :key="'detail'+index" :class="{'actived': detailIndex == index}"
-          @click="onSelect(item)">
+          @click="onSelect(item, index)">
             {{ item.title }}
           </div>
         </div>
@@ -30,9 +31,11 @@
 export default {
   data() {
     return {
+      tabIndex: -1,
       menuIndex: 0, // 选中的菜单下标
       detailIndex: 0, // 选中的详情下标
       isShow: false,
+      list: [],
       menuList: [
         { title: '电容器', id: '1' },
         { title: '接触器', id: '2' },
@@ -48,11 +51,13 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.list = [...this.tabList];
+  },
   components: {},
   methods: {
     show(selectIndex) {
-      if (selectIndex != undefined) {
+      if (selectIndex !== undefined) {
         this.detailIndex = selectIndex;
       }
       this.isShow = true;
@@ -60,13 +65,27 @@ export default {
     hide() {
       this.isShow = false;
     },
-    toggle() {
-      this.isShow = !this.isShow;
+    toggle(index) {
+      if (this.tabIndex === index) {
+        this.isShow = !this.isShow;
+        this.tabIndex = -1;
+        return;
+      }
+
+      if (!this.isShow) this.isShow = true;
+      // TODO: 切换到另外一个分类, 需要更换显示的内容
+      this.tabIndex = index;
     },
     // 选择具体内容
-    onSelect(item) {
+    onSelect(item, index) {
       this.hide();
       this.$emit('select', item);
+      this.detailIndex = index;
+
+      if (this.tabIndex !== -1) {
+        this.list[this.tabIndex].selectTxt = this.list[this.tabIndex].selectTxt === item.title ? '' : item.title;
+      }
+      this.tabIndex = -1;
     },
   },
   props: {
@@ -83,13 +102,40 @@ export default {
   background: #fff;
   border: 0;
   position: relative;
+  padding: 0 .05rem;
 
   .item {
-    color: $color-black;
+    color: $default-color;
     line-height: .44rem;
-    font-size: .12rem;
+    font-size: .11rem;
     position: relative;
     z-index: 12;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    padding: 0 .05rem;
+
+    span {
+      @include text-ellipsis;
+      flex: 1;
+    }
+
+    .iconfont {
+      width: auto;
+      height: auto;
+      font-size: .1rem;
+      margin: 0;
+      margin-left: .05rem;
+      flex-shrink: 0;
+    }
+
+    &.actived {
+      border-radius: .4rem;
+      box-shadow: 0 0 .05rem #ccc;
+      height: .3rem;
+      line-height: .3rem;
+    }
   }
 }
 
