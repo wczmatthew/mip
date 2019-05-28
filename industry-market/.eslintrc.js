@@ -21,6 +21,7 @@ module.exports = {
     'no-shadow': 'off',
     'space-before-function-paren': 'off',
     'import/no-extraneous-dependencies': ["error", { devDependencies: true, }],
+    'object-curly-newline': 'off'
   },
   parserOptions: {
     parser: 'babel-eslint',

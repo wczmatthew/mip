@@ -16,14 +16,11 @@
   opacity: .5;
 }
 
-/* 蓝色 - 实心 */
-.blue-btn {
-  background: $color-blue;
+[class$="-btn"] {
   color: #fff;
   font-size: .16rem;
   width: 90%;
   height: .4rem;
-  /* line-height: .4rem; */
   text-align: center;
   display: block;
   margin: 0 auto;
@@ -31,103 +28,48 @@
   -moz-border-radius: .05rem;
   -webkit-border-radius: .05rem;
   border-radius: .05rem;
+}
+
+/* 蓝色 - 实心 */
+.blue-btn {
+  background: $color-blue;
+}
+
+/* 浅蓝色 - 实心 */
+.light-blue-btn {
+  background: $color-blue-light;
 }
 
 /* 渐变色 - 实心 */
 .gradient-btn {
   @include background-left-gradient($color-gradient1, $color-gradient2);
-  color: #fff;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 绿色-实心 */
 .green-btn {
   background: $color-green;
-  color: #fff;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 白色-空心 */
 .plain-white-btn {
-  width: 90%;
-  height: .4rem;
   background-color: transparent;
   border: 1px solid #fff;
-  color: #fff;
-  text-align: center;
-  /* line-height: .4rem; */
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 灰色 - 实心 */
 .grey-btn {
   background: #999;
-  color: #fff;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 .plain-grey-btn {
   background: #fff;
   color: #999;
   border: 1px solid #999;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 .grey-light-btn {
   background: #e6e6e6;
   color: #fff;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 绿色 -- 空心 */
@@ -135,16 +77,6 @@
   background: #fff;
   color: $color-green;
   border: 1px solid $color-green;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 蓝色 -- 空心 */
@@ -152,32 +84,11 @@
   background: #fff;
   color: $color-blue;
   border: 1px solid $color-blue;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 橘色偏红($color-orange)-实心 */
 .orange-btn {
   background: $color-orange;
-  color: #fff;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 橘色偏红($color-orange) -- 空心 */
@@ -185,15 +96,6 @@
   background: #fff;
   color: $color-orange;
   border: 1px solid $color-orange;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 黑色 -- 空心 */
@@ -201,77 +103,31 @@
   background: #fff;
   color: #333;
   border: 1px solid #333;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  /* line-height: .4rem; */
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 红色 */
 .red-btn {
   background: $color-red;
-  color: #fff;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 .plain-red-btn {
   background: #fff;
   color: $color-red;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  text-align: center;
-  display: block;
-  margin: 0 auto;
   border: 1px solid $color-red;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 /* 黄色 */
 .yellow-btn {
   background: $color-yellow;
-  color: #fff;
-  font-size: .16rem;
-  width: 90%;
-  height: .4rem;
-  text-align: center;
-  display: block;
-  margin: 0 auto;
-  border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }
 
 .del-btn {
-  height: .4rem;
   color: #999;
   padding: 0 1.05rem;
   background: transparent;
   border-color: transparent;
   text-decoration: underline;
-  font-size: .16rem;
   text-align: center;
   display: block;
   border: 0;
-  -moz-border-radius: .05rem;
-  -webkit-border-radius: .05rem;
-  border-radius: .05rem;
 }

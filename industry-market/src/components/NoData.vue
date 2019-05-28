@@ -25,12 +25,12 @@ export default {
 </script>
 <style lang="scss" scoped>
 .icon-no-data {
-  font-size: 1rem;
+  font-size: .5rem;
   text-align: center;
   width: 100%;
   display: block;
   color: #999;
-  margin-bottom: .25rem;
+  margin-bottom: .1rem;
   margin-top: .1rem;
 }
 </style>

@@ -3,10 +3,6 @@
   <div>
     <!-- 顶部栏 -->
     <div class="header">
-      <div class="city">
-        温州
-        <i class="iconfont icon-triangle-down"></i>
-      </div>
       <w-search class="search">
         <i class="iconfont icon-scan" slot="right-icon"></i>
       </w-search>
@@ -17,118 +13,133 @@
     <!-- 轮播图 -->
     <div class="banner">
       <cube-slide ref="slide" :data="banners">
-        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item, index)" class="banner-item">
-          <img :src="item.imgUrl">
+        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item" :auto-play="autoplay">
+          <img :src="item.url">
         </cube-slide-item>
       </cube-slide>
     </div>
     <!-- 轮播图 end -->
 
     <!-- 常用功能 -->
-    <div class="categorys">
-      <div class="title">
-        <div class="line"></div>
-        常用功能
-        <div class="line"></div>
-      </div>
-
-      <div class="w-grid-list">
-        <div class="item" v-for="(item, index) in caterotyList" :key="index" @click="onCategoryClick(item)">
-          <img :src="item.icon" alt="">
-          <p class="sub-title">
-            {{ item.title }}
-          </p>
+    <div class="w-grid-list">
+      <div class="item">
+        <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
+        <div class="detail">
+          <p>店内模式</p>
+          <p>Store</p>
+          <p class="underline">Mode</p>
         </div>
       </div>
+
+      <div class="item" @click="toProductList()">
+        <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
+        <div class="detail">
+          <p>传统模式</p>
+          <p>Traditional</p>
+          <p class="underline">Mode</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="~@/assets/home/mode-bg3.png" alt="" class="bg">
+        <div class="detail">
+          <p>优惠信息</p>
+          <p>Preferential</p>
+          <p class="underline">Information</p>
+        </div>
+      </div>
+
+      <div class="item">
+        <img src="~@/assets/home/mode-bg4.png" alt="" class="bg">
+        <div class="detail">
+          <p>客户洽谈</p>
+          <p>Customer</p>
+          <p class="underline">Negotiation</p>
+        </div>
+      </div>
+
     </div>
     <!-- 常用功能 end -->
-
-    <!-- 菜单 -->
-    <div class="menu-list">
-      <div class="menu menu1 red">
-        <p class="txt">
-          分享领红包
-        </p>
-        <p class="txt">
-          抢10元券
-        </p>
-      </div>
-      <div class="menu menu2 blue">
-        <p class="txt">
-          打卡领积分
-        </p>
-      </div>
-      <div class="menu menu3 orange">
-        <p class="txt">
-          新政速递
-        </p>
-      </div>
-    </div>
-    <!-- 菜单 end -->
 
   </div>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import WMsgIcon from '@/components/WMsgIcon.vue';
 import banner from '@/assets/home/banner.png';
 import banner2 from '@/assets/home/banner2.jpg';
-import icon1 from '@/assets/home/icon1.png';
-import icon2 from '@/assets/home/icon2.png';
-import icon3 from '@/assets/home/icon3.png';
-import icon4 from '@/assets/home/icon4.png';
-import icon5 from '@/assets/home/icon5.png';
-import icon6 from '@/assets/home/icon6.png';
-import icon7 from '@/assets/home/icon7.png';
-import icon8 from '@/assets/home/icon8.png';
-import icon9 from '@/assets/home/icon9.png';
+import Utils from '@/common/Utils';
+import indexService from '@/services/index.service';
 
 export default {
   data() {
     return {
       banners: [
         {
-          imgUrl: banner,
+          url: banner,
           title: '图片1',
-          url: '',
         },
         {
-          imgUrl: banner2,
+          url: banner2,
           title: '图片2',
-          url: '',
         },
       ],
       caterotyList: [],
+      autoplay: true,
     };
+  },
+  watch: {
+    '$route'(to) {
+      if (to.path === '/market' && parseInt(to.query.tab, 10) === 0) {
+        this.autoplay = true;
+      } else {
+        // this.autoplay = false;
+      }
+      // console.log('autoplay: ', this.autoplay);
+      // this.$refs.slide && this.$refs.slide.refresh();
+    },
   },
   created() {},
   mounted() {
-    this.caterotyList = [
-      { icon: icon1, title: '商城界面', url: '/mall' },
-      { icon: icon2, title: '订单管理' },
-      { icon: icon3, title: '客户管理' },
-      { icon: icon4, title: '二维码' },
-      { icon: icon5, title: '待办事项' },
-      { icon: icon6, title: '库存管理' },
-      { icon: icon7, title: '系统设置' },
-      { icon: icon8, title: '门店管理' },
-      { icon: icon9, title: '帮助文档' },
-    ];
+    this.getBanner();
   },
   components: {
     WSearch,
-    WMsgIcon,
   },
   methods: {
     // 点击轮播图
-    clickHandler(item, index) {
-      console.log(item, ' ', index);
+    clickHandler(item) {
+      if (!item.goUrl) return;
+      if (item.goUrl.indexOf('http') > -1) {
+        try {
+          // eslint-disable-next-line
+          native_listen('goToUrl', { url: item.goUrl });
+        } catch (error) {
+          console.log('error: ', error);
+        }
+        return;
+      }
+
+      this.$router.push(item.url);
     },
     // 点击类目
     onCategoryClick(item) {
       if (item.url) {
         this.$router.push(item.url);
       }
+    },
+    // 获取首页轮播图
+    async getBanner() {
+      Utils.showLoading();
+      const result = await indexService.getBanner(4);
+      Utils.hideLoading();
+      if (!result) return;
+      this.banners = [...result];
+
+      this.$refs.slide && this.$refs.slide.refresh();
+    },
+    // 传统模式, 产品列表
+    toProductList() {
+      this.$router.push('/market/productList');
     },
   },
 };
@@ -145,7 +156,7 @@ export default {
   left: 0;
   width: 100%;
   height: .44rem;
-  z-index: 99;
+  z-index: 20;
   display: flex;
   padding-left: .15rem;
   align-items: center;
@@ -186,7 +197,7 @@ export default {
 
 .banner {
   width: 100%;
-  height: 1.4rem;
+  height: 1.3rem;
   overflow: hidden;
 
   .banner-item {
@@ -196,153 +207,52 @@ export default {
   }
 }
 
-.categorys {
-  .title {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: .1rem 0;
-    color: #695852;
-
-    .line {
-      background: $color-line;
-      width: .6rem;
-      height: .01rem;
-      margin: 0 .1rem;
-    }
-  }
-}
-
 .w-grid-list {
-  width: 80%;
+  width: 95%;
   margin: 0 auto;
+  justify-content: space-around;
 
   .item {
-    width: 16.66%;
+    width: 40%;
     padding: 0;
     padding-bottom: .1rem;
     padding-top: .05rem;
+    position: relative;
+    overflow: hidden;
 
     &:active {
-      background: #f5f5f5;
+      opacity: 0.8;
     }
 
-    img {
-      width: 50%;
+    img.bg {
+      width: 100%;
       display: block;
-      margin: 0 auto;
     }
 
-    .sub-title {
-      font-size: .1rem;
-      font-weight: 700;
-      margin-top: .1rem;
-      text-align: center;
-    }
-  }
-}
-
-.menu-list {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 .15rem;
-  margin-top: .1rem;
-  padding-bottom: .1rem;
-
-  .menu {
-    position: relative;
-    color: #fff;
-    padding-top: .08rem;
-
-    &::before,
-    &::after {
-      content: ' ';
-      display: block;
+    .detail {
       position: absolute;
-      bottom: 0;
-      right: 0;
-      background: #fff;
-      opacity: .32;
-      z-index: 1;
-    }
+      top: 30%;
+      left: 15%;
+      z-index: 10;
+      width: 50%;
 
-    &::before {
-      width: 30%;
-      height: 60%;
-    }
+      p {
+        color: #fff;
+        font-size: .16rem;
+        margin-bottom: .02rem;
 
-    &::after {
-      width: 26%;
-      height: 50%;
-    }
-
-    .txt {
-      width: 45%;
-      font-weight: 700;
-      margin-top: .1rem;
-      text-align: right;
-    }
-
-    &.red {
-      background: linear-gradient(to right, #f4c37b, #ef787c);
-    }
-
-    &.blue {
-      background: linear-gradient(to right, #34d1f4, #35a6f6);
-    }
-
-    &.orange {
-      background: linear-gradient(to right bottom, #f8a853, #fbbc4d, #fecc48);
-    }
-  }
-
-  .menu1 {
-    width: 49%;
-    height: .9rem;
-    margin-right: 1%;
-  }
-
-  .menu2 {
-    width: 24.5%;
-    height: .9rem;
-    margin-right: 1%;
-
-    &::before {
-      width: 33%;
-      height: 40%;
-    }
-
-    &::after {
-      width: 26%;
-      height: 30%;
-    }
-
-    .txt {
-      width: 100%;
-      text-align: left;
-      padding-left: 10%;
-    }
-  }
-
-  .menu3 {
-    width: 24.5%;
-    height: .9rem;
-
-    &::before {
-      width: 33%;
-      height: 40%;
-    }
-
-    &::after {
-      width: 26%;
-      height: 30%;
-    }
-
-    .txt {
-      width: 100%;
-      text-align: left;
-      padding-left: 10%;
+        &.underline::after {
+          display: block;
+          content: ' ';
+          width: 20%;
+          height: .02rem;
+          background-color: #fff;
+          margin-top: .05rem;
+          margin-left: .02rem;
+        }
+      }
     }
   }
 }
+
 </style>

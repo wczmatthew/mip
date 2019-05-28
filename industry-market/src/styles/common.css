@@ -175,7 +175,7 @@ a {
 }
 
 .no-data p {
-  font-size: .16rem;
+  font-size: .14rem;
   text-align: center;
   color: #999;
   font-weight: 700;
@@ -205,7 +205,7 @@ a {
   position: absolute;
   top: 0;
   left: 0;
-  z-index: 20;
+  z-index: 99;
   background: #f8f8f8;
   transition: all .5s cubic-bezier(.55, 0, .1, 1);
 }
@@ -288,6 +288,7 @@ a {
   position: relative;
   box-shadow: 0 -.03rem .05rem #999;
   display: flex;
+  color: #005bac;
 }
 
 .w-header::after {
@@ -329,6 +330,10 @@ a {
   font-size: .25rem;
   flex-shrink: 0;
   display: flex;
+}
+
+.w-header .header-right .iconfont {
+  width: .4rem;
 }
 
 .w-header .header-right-txt {
@@ -505,7 +510,7 @@ a {
   line-height: .4rem;
 }
 
-.w-tableview .cell .icon-right-arrow {
+.w-tableview .cell .icon-arrow-right {
   color: #999;
   font-size: .14rem;
   margin-left: .1rem;
