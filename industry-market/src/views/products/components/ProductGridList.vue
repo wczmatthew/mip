@@ -11,8 +11,13 @@
         <div class="title">
           {{item.XHGG}}
         </div>
-        <div class="price">
-          ￥{{item.DJJ || '--'}}
+        <div class="bottom">
+          <div class="price">
+            ￥{{item.DJJ || '--'}}
+          </div>
+          <div class="cart" @click.stop="onAddCart(item)">
+            <i class="iconfont icon-cart"></i>
+          </div>
         </div>
       </div>
     </div>
@@ -21,6 +26,8 @@
 </template>
 <script>
 import Utils from '@/common/Utils';
+import service from '@/services/order.service';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -35,6 +42,11 @@ export default {
     this.path = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: this.routePath });
   },
   components: {},
+  computed: {
+    ...mapGetters('user', {
+      userId: 'userId',
+    }),
+  },
   methods: {
     updateList(list) {
       this.productList = list;
@@ -42,6 +54,19 @@ export default {
     // 查看详情
     toDetail(item) {
       this.$router.push(`${this.path}/detail?bm=${item.BM}`);
+    },
+    // 加入购物车
+    async onAddCart(item) {
+      if (item.loading) {
+        Utils.showToast('正在加入购物车, 请勿频繁操作');
+        return;
+      }
+      item.loading = true;
+      console.log(this.userId);
+      const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: 1 });
+      item.loading = false;
+      if (!result) return;
+      Utils.showToast('加入购物车成功');
     },
   },
   props: {
@@ -82,7 +107,6 @@ export default {
 
     .title {
       color: $default-color;
-      text-align: right;
       @include text-overflow-muli(2);
       margin: .1rem;
       line-height: .18rem;
@@ -90,15 +114,39 @@ export default {
       height: .35rem;
     }
 
-    .price {
-      color: $color-red;
-      text-align: right;
-      font-size: .12rem;
-      @include text-ellipsis;
-      width: 100%;
-      padding: .1rem;
-      padding-top: 0;
+    .bottom {
+      display: flex;
+      align-items: center;
+
+      .price {
+        flex: 1;
+        color: $color-red;
+        font-size: .12rem;
+        @include text-ellipsis;
+        width: 100%;
+        padding: 0 .12rem;
+      }
+
+      .cart {
+        width: .4rem;
+        height: .3rem;
+        flex-shrink: 0;
+        padding-top: .05rem;
+        .iconfont {
+          width: .2rem;
+          height: .2rem;
+          background: $color-blue;
+          border-radius: .2rem;
+          color: #fff;
+          text-align: center;
+          line-height: .2rem;
+          display: block;
+          margin: 0 auto;
+        }
+      }
+
     }
+
   }
 }
 </style>

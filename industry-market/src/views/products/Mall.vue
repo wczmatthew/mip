@@ -14,13 +14,15 @@
     <cube-sticky :pos="scrollY">
       <div class="scroll-ele" @scroll="scrollHandler">
         <!-- 顶部活动区域 -->
-        <cube-slide ref="slide" style="height: auto;" :show-dots="false">
-          <cube-slide-item class="slide-item" v-for="(item, index) in banners" :key="index">
-            <div class="item" v-for="(banner, subIndex) in item" :key="'sub'+subIndex" @click="clickHandler(item)">
-              <img :src="banner.url">
-            </div>
-          </cube-slide-item>
-        </cube-slide>
+        <div style="min-height: 20vh">
+          <cube-slide ref="slide" style="height: auto;" :show-dots="false" v-if="banners.length">
+            <cube-slide-item class="slide-item" v-for="(item, index) in banners" :key="index">
+              <div class="item" v-for="(banner, subIndex) in item" :key="'sub'+subIndex" @click="clickHandler(item)">
+                <img :src="banner.url">
+              </div>
+            </cube-slide-item>
+          </cube-slide>
+        </div>
         <!-- 顶部活动区域 -->
 
         <!-- 菜单栏 -->
@@ -182,7 +184,7 @@ export default {
         }
       });
 
-      this.$refs.slide.refresh();
+      this.$refs.slide && this.$refs.slide.refresh();
     },
     async getData() {
       Utils.showLoading();

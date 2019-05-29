@@ -106,7 +106,7 @@ export default {
   mounted() {
     this.caterotyList = [
       { icon: icon1, title: '商城界面', url: '/mall' },
-      { icon: icon8, title: '工业超市', url: '/market/index' },
+      { icon: icon8, title: '工业超市', url: '/market?tab=0' },
       { icon: icon2, title: '订单管理' },
       { icon: icon3, title: '客户管理' },
       { icon: icon4, title: '二维码' },

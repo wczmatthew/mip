@@ -2,7 +2,7 @@
  * 用户相关数据存储区域
  */
 const state = {
-  userId: '',
+  userId: '100001581',
 };
 
 // getters

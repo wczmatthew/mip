@@ -274,8 +274,8 @@ a {
   -webkit-flex: 1;
   -ms-flex: 1;
   flex: 1;
-  position: relative;
   overflow: auto;
+  position: relative;
 }
 
 .w-header {

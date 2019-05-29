@@ -36,12 +36,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: .22rem;
+  font-size: .23rem;
   line-height: 1;
 
 
   .iconfont {
     position: relative;
+    width: auto;
     .point {
       width: .06rem;
       height: .06rem;
