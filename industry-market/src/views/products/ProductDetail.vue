@@ -104,10 +104,12 @@
           <i class="iconfont icon-store"></i>
           <p>首页</p>
         </div>
-        <div class="icon" @click="onToggleCollect()">
+        <div class="icon" @click="onToggleCollect()" style="min-width: .5rem; padding: .06rem 0;">
           <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
           'icon-notcollect']"></i>
-          <p>{{product.isCollect ? '已收藏' : '收藏'}}</p>
+          <p>
+            {{product.isCollect ? '取消收藏' : '收藏'}}
+          </p>
         </div>
         <div class="icon">
           <i class="iconfont icon-kefu"></i>
@@ -185,7 +187,7 @@ export default {
     },
     // 添加收藏或者取消收藏
     onToggleCollect() {
-      if (this.product.isCollect) {
+      if (!this.product.isCollect) {
         this.addCollect();
         return;
       }

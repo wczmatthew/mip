@@ -9,7 +9,10 @@ import WContainer from './components/WContainer.vue';
 import NoData from './components/NoData.vue';
 import WLoadingRow from './components/WLoadingRow.vue';
 import WMsgIcon from './components/WMsgIcon.vue';
+import WCartIcon from './components/WCartIcon.vue';
 import WImg from './components/WImg.vue';
+import WScroll from './components/WScroll.vue';
+import WModal from './components/WModal.vue';
 
 Vue.config.productionTip = false;
 
@@ -18,7 +21,10 @@ Vue.component('w-container', WContainer);
 Vue.component('no-data', NoData);
 Vue.component('w-loading-row', WLoadingRow);
 Vue.component('w-msg-icon', WMsgIcon);
+Vue.component('w-cart-icon', WCartIcon);
 Vue.component('w-img', WImg);
+Vue.component('w-scroll', WScroll); // 上拉下拉组件
+Vue.component('w-modal', WModal);
 
 new Vue({
   router,

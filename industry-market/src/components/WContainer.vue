@@ -26,7 +26,7 @@
     <!-- 中间内容 end -->
 
     <!-- 底部 -->
-    <footer class="w-footer" v-if="showFooter">
+    <footer class="w-footer" :class="footerClass" v-if="showFooter">
       <slot name="w-footer"></slot>
     </footer>
     <!-- 底部 end -->
@@ -86,6 +86,10 @@ export default {
     editContent: { // 是否自定义content
       type: Boolean,
       default: false,
+    },
+    footerClass: { // 底部栏样式
+      type: Array,
+      default: () => [],
     },
   },
 };

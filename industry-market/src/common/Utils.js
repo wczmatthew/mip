@@ -75,11 +75,8 @@ export default {
   /**
    * 获取用户id
    */
-  getUserId() {
-    if (!localStorage) {
-      return '';
-    }
-    return localStorage.getItem('userId');
+  getUserId(_this) {
+    return _this.$store.getters['user/userId'];
   },
   /**
    * 获取存储在本地的数据

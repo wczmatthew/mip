@@ -205,6 +205,7 @@ export default {
 @import '~@/styles/variable.scss';
 
 .header-right {
+  position: static;
   .iconfont {
     width: .45rem;
   }

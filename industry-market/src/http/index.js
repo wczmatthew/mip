@@ -8,7 +8,7 @@ import Utils from '@/common/Utils';
 import {
   LOGINERR,
   LOGOUT,
-  FAIL,
+  SUCCESS,
   MOCKHOST,
   EASEMOCKHOST,
 } from './httpConst';
@@ -44,7 +44,7 @@ function handleRes(response, showErrToast) {
     return '';
   }
 
-  if (showErrToast && parseInt(response.data.code, 10) === FAIL) {
+  if (showErrToast && parseInt(response.data.code, 10) !== SUCCESS) {
     Utils.showToast(response.data.msg || '请求失败, 请重试');
     return '';
   }
