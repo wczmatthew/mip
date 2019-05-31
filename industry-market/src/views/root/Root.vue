@@ -14,8 +14,12 @@
     <!-- 购物车 end -->
 
     <!-- 客户洽谈 -->
-    <customer-tab v-show="active == 'customer'" :is-tabbar="true" ref="customer" current-path="/market"></customer-tab>
+    <customer-tab v-show="active == 'customer'" ref="customer" current-path="/market"></customer-tab>
     <!-- 客户洽谈 end -->
+
+    <!-- 订单管理 -->
+    <order-list-tab v-show="active == 'order'" ref="order" current-path="/market"></order-list-tab>
+    <!-- 订单管理 end -->
 
     <div class="w-tabbar" slot="w-footer">
       <div class="item" v-for="(item, index) in tablist" :key="index"
@@ -31,6 +35,7 @@ import Home from './Home.vue';
 import Guide from './Guide.vue';
 import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
+import OrderListTab from '../order/OrderListTab.vue';
 
 export default {
   data() {
@@ -39,6 +44,7 @@ export default {
         { title: '首页', icon: 'icon-index', tab: 'home' },
         { title: '导购页', icon: 'icon-daogou', tab: 'guide' },
         { title: '客户洽谈', icon: 'icon-customers', tab: 'customer' },
+        { title: '订单管理', icon: 'icon-wenjianguanli', tab: 'order' },
         { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
       ],
       active: 'home',
@@ -60,6 +66,7 @@ export default {
     Home,
     CartTab,
     CustomerTab,
+    OrderListTab,
   },
   methods: {
     initTabActive() {

@@ -409,6 +409,12 @@ a {
   height: 100%;
 }
 
+.w-tabbar .item.txt {
+  line-height: .44rem;
+  font-size: .12rem;
+  padding: 0;
+}
+
 .w-tabbar .item.actived {
   color: #005bac;
 }
