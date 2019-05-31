@@ -10,11 +10,11 @@
     <!-- 导购页面 end -->
 
     <!-- 购物车 -->
-    <cart v-show="active == 'cart'" :show-back="false" ref="cart" current-path="/market"></cart>
+    <cart-tab v-show="active == 'cart'" ref="cart" current-path="/market"></cart-tab>
     <!-- 购物车 end -->
 
     <!-- 客户洽谈 -->
-    <customer-list v-show="active == 'customer'" :is-tabbar="true" ref="customer" current-path="/market"></customer-list>
+    <customer-tab v-show="active == 'customer'" :is-tabbar="true" ref="customer" current-path="/market"></customer-tab>
     <!-- 客户洽谈 end -->
 
     <div class="w-tabbar" slot="w-footer">
@@ -29,8 +29,8 @@
 <script>
 import Home from './Home.vue';
 import Guide from './Guide.vue';
-import Cart from '../cart/Cart.vue';
-import CustomerList from '../customers/CustomerList.vue';
+import CartTab from '../cart/CartTab.vue';
+import CustomerTab from '../customers/CustomerTab.vue';
 
 export default {
   data() {
@@ -58,8 +58,8 @@ export default {
   components: {
     Guide,
     Home,
-    Cart,
-    CustomerList,
+    CartTab,
+    CustomerTab,
   },
   methods: {
     initTabActive() {
@@ -77,7 +77,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.w-tabbar .item {
-  padding-top: .08rem;
+.w-tabbar {
+  background: #fff;
 }
 </style>

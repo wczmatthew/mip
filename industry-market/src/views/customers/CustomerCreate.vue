@@ -7,8 +7,8 @@
     </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <customer-form>
-      <button class="blue-btn">
+    <customer-form ref="customerForm">
+      <button class="blue-btn" @click="onCreate()">
         新增客户
       </button>
     </customer-form>
@@ -18,6 +18,8 @@
 </template>
 <script>
 import CustomerForm from './components/CustomerForm.vue';
+import service from '@/services/order.service';
+import Utils from '@/common/Utils';
 
 export default {
   data() {
@@ -25,11 +27,28 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    // 清空上次的数据
+    this.$store.commit('customer/updateCustomer');
+  },
   components: {
     CustomerForm,
   },
-  methods: {},
+  methods: {
+    async onCreate() {
+      const isValid = this.$refs.customerForm.validForm();
+      if (!isValid) return;
+
+      const customer = this.$refs.customerForm.getFormData();
+      Utils.showLoading();
+      const result = await service.addClient(customer);
+      Utils.hideLoading();
+      if (!result) return;
+      Utils.showToast('新增客户成功');
+      this.$store.commit('customer/updateCustomer', result);
+      this.$router.back();
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

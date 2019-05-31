@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 
 import user from './modules/common/user';
+import options from './modules/common/options';
 import customer from './modules/customer';
 
 Vue.use(Vuex);
@@ -12,6 +13,7 @@ export default new Vuex.Store({
   modules: {
     user,
     customer,
+    options,
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []

@@ -97,3 +97,29 @@
   height: .2rem;
 }
 // ----------------- picker 样式 end -------------------
+
+// ------------------- dialog 样式 -------------------
+
+.cube-dialog-main {
+  width: 65vw;
+  margin: 0 auto;
+  border-radius: .05rem;
+}
+
+.cube-dialog-title-def {
+  font-size: .16rem;
+  margin: .15rem .08rem 0;
+  line-height: .2rem;
+}
+
+.cube-dialog-content {
+  margin: .16rem 0;
+  font-size: .14rem;
+  line-height: .22rem;
+}
+
+.cube-dialog-btn {
+  padding: .1rem;
+  font-size: .14rem;
+}
+// ------------------- dialog 样式 end -------------------

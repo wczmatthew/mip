@@ -13,6 +13,7 @@ import WCartIcon from './components/WCartIcon.vue';
 import WImg from './components/WImg.vue';
 import WScroll from './components/WScroll.vue';
 import WModal from './components/WModal.vue';
+import WHeader from './components/WHeader.vue';
 
 Vue.config.productionTip = false;
 
@@ -25,6 +26,7 @@ Vue.component('w-cart-icon', WCartIcon);
 Vue.component('w-img', WImg);
 Vue.component('w-scroll', WScroll); // 上拉下拉组件
 Vue.component('w-modal', WModal);
+Vue.component('w-header', WHeader);
 
 new Vue({
   router,

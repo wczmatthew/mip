@@ -186,7 +186,7 @@ export default {
    * @return {[type]}       [true： 格式正确  false：格式错误]
    */
   checkPhoneNum: (phone) => {
-    return (/^1[3|4|5|7|8]\d{9}$/.test(phone));
+    return (/^1\d{10}$/.test(phone));
   },
   /**
    * [对Date的扩展，将 Date 转化为指定格式的String]

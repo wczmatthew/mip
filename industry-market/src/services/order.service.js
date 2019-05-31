@@ -68,4 +68,47 @@ export default {
     const params = { userid, pageNum, pageSize: pageSize || 20 };
     return postHttp({ url: '/ordercenter/client/getClientList', params });
   },
+  /**
+   * 获取客户销售区域列表
+   * @param userid 用户id
+   */
+  getAreaList: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/client/getAreaList', params });
+  },
+  /**
+   * 获取客户职务列表
+   * @param userid 用户id
+   */
+  getDutyList: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/client/getDeptList', params });
+  },
+  /**
+   * 获取客户行业接口
+   * @param userid 用户id
+   */
+  getIndustryList: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/client/getIndustryList', params });
+  },
+  /**
+   * 添加客户
+   * @param data 客户信息
+   */
+  addClient: data => postHttp({ url: '/ordercenter/client/addClient', params: data }),
+  /**
+   * 删除客户
+   * @param userid 用户id
+   * @param clientId 客户id
+   */
+  deleteClient: ({ userid, clientId }) => {
+    const params = { userid, clientId };
+    return postHttp({ url: '/ordercenter/client/deleteClient', params });
+  },
+  /**
+   * 编辑客户
+   * @param data 客户信息
+   */
+  editClient: data => postHttp({ url: '/ordercenter/client/editClient', params: data }),
 };

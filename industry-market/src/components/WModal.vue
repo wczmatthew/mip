@@ -24,9 +24,9 @@
         <!-- 显示内容 end -->
 
         <!-- 按钮区域 -->
-        <div class="modal-bottom">
-          <button type="button" class="confirm" @click.stop="onConfirm()">{{confirmTxt}}</button>
+        <div class="modal-bottom" v-show="showBtns">
           <button type="button" class="cancle" @click.stop="onCancle()">{{cancleTxt}}</button>
+          <button type="button" class="confirm" @click.stop="onConfirm()">{{confirmTxt}}</button>
         </div>
         <!-- 按钮区域 end -->
 
@@ -72,7 +72,7 @@ export default {
       this.cancleTxt = cancleTxt || '取消';
       this.callback = callback;
       this.shadowClose = shadowClose || true;
-      this.showBtns = showBtns || true;
+      this.showBtns = showBtns === undefined ? true : showBtns;
       this.isShow = true;
     },
     onCancle() {
@@ -109,7 +109,7 @@ export default {
   .modal {
     background: #fff;
     border-radius: .05rem;
-    width: 60%;
+    width: 70%;
     min-height: .3rem;
     position: relative;
 
@@ -143,7 +143,7 @@ export default {
     }
 
     .modal-content {
-      padding: .15rem .12rem;
+      padding: .15rem .12rem .2rem;
       @include break-word;
       text-align: center;
     }
@@ -153,7 +153,7 @@ export default {
 
       button {
         width: 50%;
-        height: .3rem;
+        height: .35rem;
         border: 0;
         position: relative;
 
@@ -194,7 +194,7 @@ export default {
 }
 @keyframes bounce-in {
   0% {
-    transform: scale(0);
+    transform: scale(0.5);
   }
   50% {
     transform: scale(1.2);

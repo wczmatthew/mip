@@ -5,22 +5,22 @@
       <div class="row">
         <div class="input-item col">
           <p>姓名</p>
-          <input type="text" placeholder="请输入姓名">
+          <input type="text" placeholder="请输入姓名" v-model="name" maxlength="20">
         </div>
         <div class="input-item col">
           <p>手机号</p>
-          <input type="text" placeholder="请输入手机号码">
+          <input type="text" placeholder="请输入手机号码" v-model="phone" maxlength="15">
         </div>
       </div>
 
       <div class="input-item">
         <p>通讯地址</p>
-        <input type="text" placeholder="请输入通讯地址">
+        <input type="text" placeholder="请输入通讯地址" v-model="address" maxlength="50">
       </div>
 
       <div class="input-item col">
         <p>所属公司</p>
-        <input type="text" placeholder="请输入所属公司">
+        <input type="text" placeholder="请输入所属公司" v-model="company" maxlength="50">
       </div>
 
       <div class="row">
@@ -32,11 +32,6 @@
             v-model="duty"
             :options="dutyOptions">
           </cube-select>
-          <!-- <select name="">
-            <option value="1">职务1</option>
-            <option value="2">职务2</option>
-            <option value="3">职务3</option>
-          </select> -->
         </div>
 
         <div class="input-item col">
@@ -47,23 +42,16 @@
             v-model="area"
             :options="areaOptions">
           </cube-select>
-          <!-- <select name="">
-            <option value="1">区域1</option>
-            <option value="2">区域2</option>
-            <option value="3">区域3</option>
-          </select> -->
         </div>
       </div>
 
       <div class="input-item">
         <p>所属行业</p>
         <div class="row-label">
-          <div class="label">
-            行业1
-            <i class="iconfont icon-close"></i>
-          </div>
-          <div class="label actived">
-            行业1
+          <div class="label" v-for="(item, index) in industryOptions"
+          :key="index" :class="{'actived': item.value == selectIndustry.value}"
+          @click.stop="onSelectIndustry(item)">
+            {{item.text}}
             <i class="iconfont icon-close"></i>
           </div>
         </div>
@@ -74,25 +62,131 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
+
 export default {
   data() {
     return {
-      duty: '',
-      dutyOptions: [
-        { text: '职务1', value: '1' },
-        { text: '职务2', value: '2' },
-      ],
-      area: '',
-      areaOptions: [
-        { text: '区域1', value: '1' },
-        { text: '区域2', value: '2' },
-      ],
+      customerId: '',
+      name: '', // 客户名称
+      phone: '', // 客户手机
+      address: '', // 客户地址
+      company: '', // 所属公司
+      duty: '', // 职务
+      area: '', // 销售区域
+      selectIndustry: { text: '', value: '' },
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.$store.dispatch('options/getAreaOptions');
+    this.$store.dispatch('options/getDutyOptions');
+    this.$store.dispatch('options/getIndustryOptions');
+  },
+  computed: {
+    ...mapGetters('options', {
+      areaOptions: 'areaOptions',
+      dutyOptions: 'dutyOptions',
+      industryOptions: 'industryOptions',
+    }),
+  },
   components: {},
-  methods: {},
+  methods: {
+    onSelectIndustry(item) {
+      if (item.value === this.selectIndustry.value) {
+        this.selectIndustry = { text: '', value: '' };
+        return;
+      }
+
+      this.selectIndustry = item;
+    },
+    // 更新客户信息
+    updateCustomer(customer) {
+      if (!customer) return;
+      this.name = customer.name;
+      this.phone = customer.phone;
+      this.address = customer.address;
+      this.duty = parseInt(customer.deptId, 10) || 0;
+      this.name = customer.name;
+      this.area = parseInt(customer.areaId, 10) || 0;
+      this.company = customer.companyName;
+      this.selectIndustry = { text: customer.industryName, value: parseInt(customer.industryId, 10) || 0 };
+      this.customerId = customer.id;
+    },
+    // 校验form表单
+    validForm() {
+      if (!this.name) {
+        Utils.showToast('请输入客户姓名');
+        return false;
+      }
+
+      if (this.name.length > 20) {
+        Utils.showToast('客户姓名最大为20字');
+        return false;
+      }
+
+      if (!this.phone) {
+        Utils.showToast('请输入客户手机号');
+        return false;
+      }
+
+      if (!Utils.checkPhoneNum(this.phone)) {
+        Utils.showToast('手机号格式错误');
+        return false;
+      }
+
+      if (!this.address) {
+        Utils.showToast('请输入通讯地址');
+        return false;
+      }
+
+      if (this.address.length > 50) {
+        Utils.showToast('通讯地址最大为50字');
+        return false;
+      }
+
+      if (!this.company) {
+        Utils.showToast('请输入客户所属公司');
+        return false;
+      }
+
+      if (this.company.length > 50) {
+        Utils.showToast('所属公司最大为5字');
+        return false;
+      }
+
+      if (!this.duty) {
+        Utils.showToast('请输入客户担任职务');
+        return false;
+      }
+
+      if (!this.area) {
+        Utils.showToast('请输入客户销售区域');
+        return false;
+      }
+
+      if (!this.selectIndustry.value) {
+        Utils.showToast('请输入客户所属行业');
+        return false;
+      }
+      return true;
+    },
+    // 获取表单数据
+    getFormData() {
+      return {
+        userid: Utils.getUserId(this),
+        name: this.name,
+        phone: this.phone,
+        address: this.address,
+        deptId: this.duty,
+        industryId: this.selectIndustry.value,
+        areaId: this.area,
+        companyName: this.company,
+        clientId: this.customerId,
+      };
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

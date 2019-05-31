@@ -1,27 +1,27 @@
 <!--  -->
 <template lang='html'>
-  <w-container show-header show-back>
+  <div class="w-container">
     <!-- 顶部栏 -->
-    <div slot="header-mid">
-      购物车({{totalNum}})
-    </div>
-    <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
-      {{ isEdit ? '完成' : '管理' }}
-    </div>
+    <w-header>
+      <div slot="header-mid">
+        购物车({{totalNum}})
+      </div>
+      <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
+        {{ isEdit ? '完成' : '管理' }}
+      </div>
+    </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <cart :current-path="routePath" ref="cart" @getTotal="getTotalNum"></cart>
+    <cart class="w-content" :current-path="currentPath" ref="cart" @getTotal="getTotalNum"></cart>
     <!-- 正文内容 end -->
-  </w-container>
+  </div>
 </template>
 <script>
-import Utils from '@/common/Utils';
 import Cart from './components/Cart.vue';
 
 export default {
   data() {
     return {
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
       totalNum: 0,
       isEdit: false,
     };
@@ -42,7 +42,12 @@ export default {
       this.$refs.cart.onEdit(this.isEdit);
     },
   },
-  props: {},
+  props: {
+    currentPath: {
+      type: String,
+      default: '',
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

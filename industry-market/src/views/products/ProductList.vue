@@ -94,7 +94,7 @@ export default {
     onPullingUp() {
       if (!this.hasNext) {
         // 没有数据
-        this.$refs.scroll.forceUpdate();
+        this.$refs.scroll.forceUpdate(true);
         return;
       }
       this.getData();
