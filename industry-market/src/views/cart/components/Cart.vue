@@ -164,7 +164,7 @@
     </w-modal>
 
     <w-modal ref="offlinePayModal">
-      实付金额为<span class="price">￥1250</span>, 请前往柜台完成付款
+      实付金额为<span class="price">￥{{(totalPrice - discountPrice).toFixed(2)}}</span>, 请前往柜台完成付款
     </w-modal>
 
     <w-modal ref="resultModal">
@@ -178,11 +178,11 @@
           </p>
           <div class="desc">
             <span class="sub-title">订单号：</span>
-            <span class="black">1234567890876654</span>
+            <span class="black">{{orderDetail.billId || '--'}}</span>
           </div>
           <div class="desc">
             <span class="sub-title">已付款：</span>
-            <span class="price">￥300.00</span>
+            <span class="price">￥{{orderDetail.totalPrice || '--'}}</span>
           </div>
         </div>
       </div>
@@ -215,6 +215,7 @@ export default {
       sendType: -1, // 配送方式
       fileMsg: -1, // 相关文件
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
+      orderDetail: {},
     };
   },
   created() {},
@@ -285,7 +286,7 @@ export default {
       let total = 0;
       this.productList.forEach((item) => {
         if (item.checked) {
-          total += parseFloat(item.price);
+          total += parseFloat(item.price) * parseInt(item.qty, 10);
         }
       });
       this.totalPrice = total;
@@ -430,7 +431,7 @@ export default {
           callback: (res) => {
             if (res !== 'confirm') return;
             // 点击完成付款, 生成订单信息
-            this.updateOrder();
+            this.updateOrder(list);
           },
         });
         return;
@@ -438,19 +439,42 @@ export default {
 
       // 柜台付款
       this.$refs.offlinePayModal.show({
-        title: '柜台支付',
+        title: '现金刷卡',
         content: '',
         confirmTxt: '完成付款',
         cancleTxt: '取消付款',
         callback: (res) => {
           if (res !== 'confirm') return;
           // 点击完成付款, 生成订单信息
-          this.updateOrder();
+          this.updateOrder(list);
         },
       });
     },
     // 生成订单
-    updateOrder() {
+    async updateOrder(list) {
+      if (this.loading) return;
+      this.loading = true;
+
+      const cardIds = [];
+      list.forEach((item) => {
+        cardIds.push(item.id);
+      });
+
+      const params = {
+        clientId: this.customer.id,
+        userid: Utils.getUserId(this),
+        carIds: cardIds.toString(),
+        postType: this.sendType, // 配送方式（1送货上门，2门店自提）
+        certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
+        payType: this.payWay,
+        memo: this.tips || '',
+      };
+      Utils.showLoading();
+      const result = await service.createOrder(params);
+      this.loading = false;
+      Utils.hideLoading();
+      if (!result) return;
+      this.orderDetail = result;
       this.$refs.resultModal.show({
         showBtns: false,
         callback: () => {
