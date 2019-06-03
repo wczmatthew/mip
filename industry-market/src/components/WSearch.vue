@@ -2,16 +2,19 @@
 <template lang='html'>
   <div class="w-search-bar">
     <div class="search-view" ref="searchView">
-      <div class="search-content">
+      <div class="search-content" @click.stop="onInputClick()">
         <i class="iconfont icon-search"></i>
         <input type="search" :disabled="disabled" v-model="keywords"
           :placeholder="placeholder" @keyup.enter="startSearch()">
         <slot name="right-icon"></slot>
+        <i class="iconfont icon-scan" v-if="showScan" @click.stop="toScan()"></i>
       </div>
     </div>
   </div>
 </template>
 <script>
+import Utils from '@/common/Utils';
+
 export default {
   data() {
     return {
@@ -34,6 +37,20 @@ export default {
   },
   components: {},
   methods: {
+    onInputClick() {
+      if (!this.disabled) return;
+      this.$emit('input-click');
+    },
+    // 打开扫一扫界面
+    toScan() {
+      // TODO:
+      try {
+        // eslint-disable-next-line
+        native_listen('goToUrl', { url: '' });
+      } catch (error) {
+        Utils.showToast('敬请期待');
+      }
+    },
     inputFocus() {
       // this.btnRight = '0';
       // this.marginRight = '0';
@@ -67,6 +84,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    showScan: { // 是否显示扫描图标
+      type: Boolean,
+      default: false,
+    },
   },
 };
 </script>
@@ -83,8 +104,14 @@ export default {
 }
 
 .w-search-bar .search-view .search-content {
-  background: rgba($color: #fff, $alpha: 0.5);
+  background: rgba($color: #fff, $alpha: 0.6);
   width: 100%;
   padding-right: 0;
+}
+
+.w-search-bar .search-view .icon-scan {
+  width: .3rem;
+  text-align: right;
+  padding-right: .05rem;
 }
 </style>

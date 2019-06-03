@@ -36,7 +36,7 @@
             <!-- 产品列表 -->
             <div class="product-item">
               <div class="img">
-                <w-img src="~@/assets/mall/product.png" alt=""/>
+                <w-img src="/assets/mall/product.png" alt=""/>
               </div>
               <div class="detail">
                 <div class="row">

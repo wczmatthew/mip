@@ -1,74 +1,70 @@
-<!--  -->
 <template lang='html'>
-  <div class="w-container">
-    <div class="w-content">
-      <!-- 顶部栏 -->
-      <div class="header">
-        <div class="city">
-          温州
-          <i class="iconfont icon-triangle-down"></i>
-        </div>
-        <w-search class="search">
-          <i class="iconfont icon-scan" slot="right-icon"></i>
-        </w-search>
-        <w-msg-icon></w-msg-icon>
+  <w-container>
+    <!-- 正文内容 -->
+    <!-- 顶部栏 -->
+    <div class="header">
+      <div class="city">
+        温州
+        <i class="iconfont icon-triangle-down"></i>
       </div>
-      <!-- 顶部栏 end -->
-
-      <!-- 轮播图 -->
-      <div class="banner">
-        <cube-slide ref="slide" :data="banners">
-          <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item">
-            <img :src="item.url">
-          </cube-slide-item>
-        </cube-slide>
-      </div>
-      <!-- 轮播图 end -->
-
-      <!-- 常用功能 -->
-      <div class="categorys">
-        <div class="title">
-          <div class="line"></div>
-          常用功能
-          <div class="line"></div>
-        </div>
-
-        <div class="w-grid-list">
-          <div class="item" v-for="(item, index) in caterotyList" :key="index" @click="onCategoryClick(item)">
-            <img :src="item.icon" alt="">
-            <p class="sub-title">
-              {{ item.title }}
-            </p>
-          </div>
-        </div>
-      </div>
-      <!-- 常用功能 end -->
-
-      <!-- 菜单 -->
-      <div class="menu-list">
-        <div class="menu menu1 red">
-          <p class="txt">
-            分享领红包
-          </p>
-          <p class="txt">
-            抢10元券
-          </p>
-        </div>
-        <div class="menu menu2 blue">
-          <p class="txt">
-            打卡领积分
-          </p>
-        </div>
-        <div class="menu menu3 orange">
-          <p class="txt">
-            新政速递
-          </p>
-        </div>
-      </div>
-      <!-- 菜单 end -->
-
+      <w-search class="index-search" disabled @input-click="toSearch()" show-scan></w-search>
+      <w-msg-icon></w-msg-icon>
     </div>
-  </div>
+    <!-- 顶部栏 end -->
+
+    <!-- 轮播图 -->
+    <div class="banner">
+      <cube-slide ref="slide" :data="banners">
+        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item">
+          <img :src="item.url">
+        </cube-slide-item>
+      </cube-slide>
+    </div>
+    <!-- 轮播图 end -->
+
+    <!-- 常用功能 -->
+    <div class="categorys">
+      <div class="title">
+        <div class="line"></div>
+        常用功能
+        <div class="line"></div>
+      </div>
+
+      <div class="w-grid-list">
+        <div class="item" v-for="(item, index) in caterotyList" :key="index" @click="onCategoryClick(item)">
+          <img :src="item.icon" alt="">
+          <p class="sub-title">
+            {{ item.title }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- 常用功能 end -->
+
+    <!-- 菜单 -->
+    <div class="menu-list">
+      <div class="menu menu1 red">
+        <p class="txt">
+          分享领红包
+        </p>
+        <p class="txt">
+          抢10元券
+        </p>
+      </div>
+      <div class="menu menu2 blue">
+        <p class="txt">
+          打卡领积分
+        </p>
+      </div>
+      <div class="menu menu3 orange">
+        <p class="txt">
+          新政速递
+        </p>
+      </div>
+    </div>
+    <!-- 菜单 end -->
+    <!-- 正文内容 end -->
+  </w-container>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
@@ -106,7 +102,7 @@ export default {
   mounted() {
     this.caterotyList = [
       { icon: icon1, title: '商城界面', url: '/mall' },
-      { icon: icon8, title: '工业超市', url: '/market?tab=0' },
+      { icon: icon8, title: '工业超市', url: '/market?tab=home' },
       { icon: icon2, title: '订单管理' },
       { icon: icon3, title: '客户管理' },
       { icon: icon4, title: '二维码' },
@@ -122,12 +118,16 @@ export default {
     WSearch,
   },
   methods: {
+    toSearch() {
+      this.$router.push('/index/search');
+    },
     // 点击轮播图
     clickHandler(item) {
       if (!item.goUrl) return;
 
       if (item.goUrl.indexOf('http') > -1) {
         try {
+          // TODO:
           // eslint-disable-next-line
           native_listen('goToUrl', { url: item.goUrl });
         } catch (error) {
@@ -190,20 +190,6 @@ export default {
       font-size: .1rem;
     }
   }
-
-  .search {
-    flex: 1;
-    margin-left: .1rem;
-
-    .w-search-bar .search-view .iconfont {
-      color: #fff;
-    }
-  }
-
-  .icon-scan {
-    color: #fff;
-  }
-
 }
 
 .banner {
@@ -365,6 +351,16 @@ export default {
       text-align: left;
       padding-left: 10%;
     }
+  }
+}
+</style>
+<style lang="scss">
+.index-search {
+  flex: 1;
+  margin-left: .1rem;
+
+  .icon-scan {
+    color: #fff;
   }
 }
 </style>

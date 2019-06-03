@@ -2,9 +2,8 @@
 <template lang='html'>
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid">
-      <i class="iconfont icon-scan" slot="right-icon"></i>
-    </w-search>
+    <w-search class="search" slot="header-mid" show-scan disabled
+    @input-click="toSearch()"></w-search>
     <div class="header-right" slot="header-right">
       <w-msg-icon color="blue"></w-msg-icon>
       <i class="iconfont icon-cart"></i>
@@ -138,11 +137,15 @@ export default {
     ProductGridList,
   },
   methods: {
+    toSearch() {
+      this.$router.push('/mall/search');
+    },
     // 点击轮播图
     clickHandler(item) {
       if (!item.goUrl) return;
       if (item.goUrl.indexOf('http') > -1) {
         try {
+          // TODO:
           // eslint-disable-next-line
           native_listen('goToUrl', { url: item.goUrl });
         } catch (error) {

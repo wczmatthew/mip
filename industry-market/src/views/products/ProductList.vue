@@ -2,11 +2,9 @@
 <template lang='html'>
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid">
-      <i class="iconfont icon-scan" slot="right-icon"></i>
-    </w-search>
+    <w-search class="search" slot="header-mid" show-scan @search="onSearch"></w-search>
     <div class="header-right" slot="header-right">
-      <w-msg-icon color="blue"></w-msg-icon>
+      <!-- <w-msg-icon color="blue"></w-msg-icon> -->
       <i class="iconfont icon-cart"></i>
     </div>
     <!-- 顶部栏 end -->
@@ -35,7 +33,7 @@ import WSearch from '@/components/WSearch.vue';
 import MallTab from './components/MallTab.vue';
 import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
-// import Utils from '@/common/Utils';
+import Utils from '@/common/Utils';
 import ProductGridList from './components/ProductGridList.vue';
 
 export default {
@@ -52,6 +50,7 @@ export default {
           txt: { more: '加载完成', noMore: '已加载全部' },
         },
       },
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' }), // 获取当前路由
       tabList: [
         { title: '综合电器', selectTxt: '' },
         { title: '配电电器', selectTxt: '' },
@@ -78,6 +77,9 @@ export default {
     ProductGridList,
   },
   methods: {
+    onSearch({ keywords }) {
+      console.log('keywords: ', keywords);
+    },
     onSelectTab(data) {
       console.log(data);
     },

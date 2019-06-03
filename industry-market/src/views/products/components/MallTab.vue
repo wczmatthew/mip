@@ -9,17 +9,23 @@
     <!-- 展开内容 -->
     <div class="list-bg" v-show="isShow" @click="hide()"></div>
     <div class="popup-down" v-show="isShow">
-      <div class="left">
+      <!-- <div class="left">
         <div class="left-item" v-for="(item, index) in menuList" :key="index"
         :class="{'actived': menuIndex == index}">
           {{ item.title }}
         </div>
-      </div>
-      <div class="right">
-        <div class="list">
-          <div class="right-item" v-for="(item, index) in detailList" :key="'detail'+index" :class="{'actived': detailIndex == index}"
-          @click="onSelect(item, index)">
+      </div> -->
+      <div class="list">
+        <div class="right-item" v-for="(item, index) in categoryList" :key="'detail'+index">
+          <p class="title">
             {{ item.title }}
+          </p>
+          <div class="right-list">
+            <div class="popup-item" @click.stop="onSelect(subItem, index, subIndex)"
+            v-for="(subItem, subIndex) in item.list" :key="index + subIndex"
+            :class="{'actived': menuIndex == index && detailIndex == subIndex}">
+              {{ subItem.title }}
+            </div>
           </div>
         </div>
       </div>
@@ -36,17 +42,29 @@ export default {
       detailIndex: 0, // 选中的详情下标
       isShow: false,
       list: [],
-      menuList: [
-        { title: '电容器', id: '1' },
-        { title: '接触器', id: '2' },
-      ],
-      detailList: [
-        { title: 'AZMJ-滤波' },
-        { title: 'BAFB智能' },
-        { title: 'JKF8控制器' },
-        { title: 'BZMJ' },
-        { title: 'BKMJ' },
-        { title: 'BAGB智能' },
+      categoryList: [
+        {
+          title: '电容器',
+          list: [
+            { title: 'AZMJ-滤波' },
+            { title: 'BAFB智能' },
+            { title: 'JKF8控制器' },
+            { title: 'BZMJ' },
+            { title: 'BKMJ' },
+            { title: 'BAGB智能' },
+          ],
+        },
+        {
+          title: '接触器',
+          list: [
+            { title: 'AZMJ-滤波1' },
+            { title: 'BAFB智能2' },
+            { title: 'JKF8控制器3' },
+            { title: 'BZMJ3' },
+            { title: 'BKMJ4' },
+            { title: 'BAGB智能4' },
+          ],
+        },
       ],
     };
   },
@@ -78,15 +96,16 @@ export default {
       this.tabIndex = index;
     },
     // 选择具体内容
-    onSelect(item, index) {
-      this.hide();
+    onSelect(item, index, subIndex) {
       this.$emit('select', item);
-      this.detailIndex = index;
+      this.detailIndex = subIndex;
+      this.menuIndex = index;
 
       if (this.tabIndex !== -1) {
         this.list[this.tabIndex].selectTxt = this.list[this.tabIndex].selectTxt === item.title ? '' : item.title;
       }
       this.tabIndex = -1;
+      this.hide();
     },
   },
   props: {
@@ -156,59 +175,46 @@ export default {
   z-index: 20;
   width: 98%;
   height: 45vh;
-  background: #f1f1f1;
-  display: flex;
+  background: #fff;
   border-radius: .1rem;
-  overflow: hidden;
+  overflow: auto;
   box-shadow: 0 0 .05rem #ccc;
 
-  .left {
-    width: 30%;
-    background: #fff;
-    flex-shrink: 0;
-    padding: .1rem 0;
-    height: 100%;
-    overflow: auto;
-
-    .left-item {
-      height: .4rem;
-      line-height: .4rem;
-      text-align: center;
-      color: $default-color;
-      overflow: hidden;
-
-      &.actived {
-        color: #fff;
-        background: $default-color;
-      }
-    }
+  .list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: .1rem;
   }
 
-  .right {
-    flex: 1;
-    overflow: auto;
-    padding-left: .1rem;
+  .right-item {
+    width: 100%;
+    margin-bottom: .1rem;
 
-    .list {
-      display: flex;
-      align-items: center;
-      flex-wrap: wrap;
+    .title {
+      font-size: .16rem;
       padding: .1rem 0;
     }
 
-    .right-item {
+    .right-list {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .popup-item {
       color: $default-color;
       padding: .1rem .07rem;
       background: #fff;
       border-radius: .05rem;
       margin-right: .1rem;
       margin-bottom: .1rem;
-
+      box-shadow: 0 0 .05rem #ccc;
       &.actived {
         color: #fff;
         background: $default-color;
       }
-    }
-  }
+    } // end item
+
+  } // ent right-item
 }
 </style>

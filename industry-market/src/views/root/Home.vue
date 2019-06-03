@@ -3,9 +3,7 @@
   <div>
     <!-- 顶部栏 -->
     <div class="header">
-      <w-search class="search">
-        <i class="iconfont icon-scan" slot="right-icon"></i>
-      </w-search>
+      <w-search class="home-search" disabled show-scan @input-click="toSearch()"></w-search>
       <w-msg-icon></w-msg-icon>
     </div>
     <!-- 顶部栏 end -->
@@ -22,7 +20,7 @@
 
     <!-- 常用功能 -->
     <div class="w-grid-list">
-      <div class="item">
+      <div class="item" @click="toGuide()">
         <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
         <div class="detail">
           <p>店内模式</p>
@@ -49,7 +47,7 @@
         </div>
       </div>
 
-      <div class="item">
+      <div class="item" @click="toCustomers()">
         <img src="~@/assets/home/mode-bg4.png" alt="" class="bg">
         <div class="detail">
           <p>客户洽谈</p>
@@ -106,11 +104,15 @@ export default {
     WSearch,
   },
   methods: {
+    toSearch() {
+      this.$router.push('/market/search');
+    },
     // 点击轮播图
     clickHandler(item) {
       if (!item.goUrl) return;
       if (item.goUrl.indexOf('http') > -1) {
         try {
+          // TODO:
           // eslint-disable-next-line
           native_listen('goToUrl', { url: item.goUrl });
         } catch (error) {
@@ -140,6 +142,14 @@ export default {
     // 传统模式, 产品列表
     toProductList() {
       this.$router.push('/market/productList');
+    },
+    // 店内模式
+    toGuide() {
+      this.$router.push('/market?tab=guide');
+    },
+    // 客户洽谈
+    toCustomers() {
+      this.$router.push('/market?tab=customer');
     },
   },
 };
@@ -178,19 +188,6 @@ export default {
       margin-left: .03rem;
       font-size: .1rem;
     }
-  }
-
-  .search {
-    flex: 1;
-    margin-left: .1rem;
-
-    .w-search-bar .search-view .iconfont {
-      color: #fff;
-    }
-  }
-
-  .icon-scan {
-    color: #fff;
   }
 
 }
@@ -255,4 +252,14 @@ export default {
   }
 }
 
+</style>
+<style lang="scss">
+.home-search {
+  flex: 1;
+  margin-left: .1rem;
+
+  .icon-scan {
+    color: #fff;
+  }
+}
 </style>

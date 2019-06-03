@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <!-- 使用动态的 transition name -->
-    <transition :name="transitionName">
+    <transition :name="transitionName" mode="in-out">
       <router-view></router-view>
     </transition>
   </div>

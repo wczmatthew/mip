@@ -59,7 +59,7 @@ function native_listen(event, params) {
       return ResultAndroid.webviewEvent(_json);
     }
   } catch (_e) {
-    alert(_e);
+    // alert(_e);
     return;
   }
 }
@@ -131,7 +131,7 @@ function webview_listen(event, params) {
       );
     }
   } catch (_e) {
-    alert(_e);
+    // alert(_e);
     return 'listen error!';
   }
 }
