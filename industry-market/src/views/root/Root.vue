@@ -21,6 +21,10 @@
     <order-list-tab v-show="active == 'order'" ref="order" current-path="/market"></order-list-tab>
     <!-- 订单管理 end -->
 
+    <!-- 个人中心 -->
+    <my v-show="active == 'my'" ref="my"></my>
+    <!-- 个人中心 end -->
+
     <div class="w-tabbar" slot="w-footer">
       <div class="item" v-for="(item, index) in tablist" :key="index"
       :class="{'actived': active == item.tab}" @click="onChangeTab(index, item)">
@@ -36,6 +40,7 @@ import Guide from './Guide.vue';
 import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
 import OrderListTab from '../order/OrderListTab.vue';
+import My from '../my/My.vue';
 
 export default {
   data() {
@@ -46,6 +51,7 @@ export default {
         { title: '客户洽谈', icon: 'icon-customers', tab: 'customer' },
         { title: '订单管理', icon: 'icon-wenjianguanli', tab: 'order' },
         { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
+        { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
       active: 'home',
     };
@@ -67,6 +73,7 @@ export default {
     CartTab,
     CustomerTab,
     OrderListTab,
+    My,
   },
   methods: {
     initTabActive() {

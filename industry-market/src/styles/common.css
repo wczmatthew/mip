@@ -533,6 +533,11 @@ a {
   margin-left: .1rem;
 }
 
+.w-tableview .cell:hover,
+.w-tableview .cell:active {
+  background: #f5f5f5;
+}
+
 .btn-bottom .green-btn,
 .btn-bottom .blue-btn {
   width: 100%;

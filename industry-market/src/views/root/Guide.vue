@@ -2,7 +2,7 @@
 <template lang='html'>
   <div class="w-container">
     <!-- 顶部栏 -->
-    <header class="w-header">
+    <!-- <header class="w-header">
 
       <div class="w-header-mid">
         店内模式
@@ -12,7 +12,7 @@
         <w-msg-icon color="blue"></w-msg-icon>
         <i class="iconfont icon-cart"></i>
       </div>
-    </header>
+    </header> -->
     <!-- 顶部栏 end -->
 
     <div class="w-content">

@@ -25,7 +25,7 @@
           <input type="password" placeholder="请输入6-16位字符的密码" v-model="pwd">
         </div>
 
-        <button type="button" class="blue-btn" @click="onLogin()">
+        <button type="button" class="blue-btn" @key.enter="onLogin()" @click="onLogin()">
           登录
         </button>
       </form>

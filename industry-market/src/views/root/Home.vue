@@ -38,7 +38,7 @@
         </div>
       </div>
 
-      <div class="item">
+      <!-- <div class="item">
         <img src="~@/assets/home/mode-bg3.png" alt="" class="bg">
         <div class="detail">
           <p>优惠信息</p>
@@ -54,7 +54,7 @@
           <p>Customer</p>
           <p class="underline">Negotiation</p>
         </div>
-      </div>
+      </div> -->
 
     </div>
     <!-- 常用功能 end -->
@@ -208,9 +208,10 @@ export default {
   width: 95%;
   margin: 0 auto;
   justify-content: space-around;
+  margin-top: .1rem;
 
   .item {
-    width: 40%;
+    width: 45%;
     padding: 0;
     padding-bottom: .1rem;
     padding-top: .05rem;
