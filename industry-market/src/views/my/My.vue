@@ -63,7 +63,7 @@
         <div class="title">
           我的订单
         </div>
-        <div class="desc">
+        <div class="desc" @click.stop="toOrders()">
           查看全部订单
           <!-- <i class="iconfont icon-arrow-right"></i> -->
         </div>
@@ -105,7 +105,7 @@
     <!-- 我的订单 end -->
 
     <!-- 管理中心 -->
-    <div class="card my-manage">
+    <!-- <div class="card my-manage">
       <div class="title-row">
         <div class="title">
           管理中心
@@ -115,19 +115,17 @@
       <div class="w-tableview">
         <div class="cell">
           <span class="title">
-            <i class="iconfont icon-wenjianguanli"></i>订单管理
-          </span>
-          <i class="iconfont icon-arrow-right"></i>
-        </div>
-        <div class="cell">
-          <span class="title">
             <i class="iconfont icon-customers"></i>客户管理
           </span>
           <i class="iconfont icon-arrow-right"></i>
         </div>
       </div>
-    </div>
+    </div> -->
     <!-- 管理中心 end -->
+
+    <button class="blue-btn bottom-btn">
+      退出登录
+    </button>
 
   </div>
 </template>
@@ -140,11 +138,15 @@ export default {
   created() {},
   mounted() {},
   components: {},
-  methods: {},
+  methods: {
+    toOrders() {
+      this.$router.push('/market/order');
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+@import '~@/styles/components/button.scss';
 
 .header {
   background: transparent;
@@ -335,5 +337,11 @@ export default {
     color: $color-grey;
     margin-right: .1rem;
   }
+}
+
+.bottom-btn {
+  margin-top: .2rem;
+  width: 60%;
+  border-radius: .4rem;
 }
 </style>

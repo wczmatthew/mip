@@ -5,9 +5,6 @@
     <div slot="header-mid">
       订单管理
     </div>
-    <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
-      {{ isEdit ? '完成' : '管理' }}
-    </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <orders :current-path="routePath" ref="order"></orders>
@@ -22,7 +19,6 @@ export default {
   data() {
     return {
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'order' }),
-      isEdit: false,
     };
   },
   created() {},

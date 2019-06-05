@@ -16,39 +16,41 @@
         class="scroll-view"
         @pulling-down="onPullingDown"
         @pulling-up="onPullingUp">
+        <div class="height-10"></div>
         <div class="order-list">
-          <no-data v-if="noData"></no-data>
+          <no-data v-if="!dataList.length"></no-data>
           <w-loading-row v-if="firstLoading"></w-loading-row>
 
           <!-- 订单信息 -->
-          <div class="item">
+          <div class="item" v-for="(item, index) in dataList" :key="index">
             <div class="store">
               <span class="msg">
                 <i class="iconfont icon-store"></i>
-                xxxxx店铺
-                <i class="iconfont icon-arrow-right"></i>
+                {{item.companyName}}
+                <!-- <i class="iconfont icon-arrow-right"></i> -->
               </span>
-              <span class="status">
-                已发货
+              <span class="status" :class="[getOrderColor(item)]">
+                <!-- 已发货 -->
+                {{getOrderText(item)}}
               </span>
             </div>
 
             <!-- 产品列表 -->
-            <div class="product-item">
+            <div class="product-item" v-for="(product, productIndex) in item.itemList" :key="index+productIndex">
               <div class="img">
-                <w-img src="/assets/mall/product.png" alt=""/>
+                <w-img :src="product.imgPath" alt=""/>
               </div>
               <div class="detail">
                 <div class="row">
-                  <span>空气开关NXB2LB-2P</span>
-                  <span class="price">
-                    ￥200.00
-                  </span>
+                  <span>{{product.xhgg}}</span>
+                  <!-- <span class="price">
+                    ￥{{product.normSum}}
+                  </span> -->
                 </div>
                 <div class="row">
-                  <span class="desc">2P</span>
-                  <span class="desc">
-                    X1
+                  <span class="desc">X{{product.qty || 0}}</span>
+                  <span class="desc price">
+                    ￥{{product.normSum}}
                   </span>
                 </div>
               </div>
@@ -57,15 +59,19 @@
 
             <!-- 订单总计 -->
             <div class="order-total">
-              共1件商品 合计: <span class="price">￥200.00</span>
+              共{{item.totalCount || 0}}件商品 合计: <span class="price">￥{{item.totalPrice}}</span>
             </div>
             <!-- 订单总计 end -->
 
             <!-- 按钮区域 -->
             <div class="order-bottom">
-              <button>申请售后</button>
-              <button class="grey">查看详情</button>
-              <button class="grey">删除订单</button>
+              <button v-if="item.billType == 2" @click.stop="onConfirmReceive(item, index)">
+                确认收货
+              </button>
+              <button class="grey" @click.stop="toDetail(item)">查看详情</button>
+              <button class="grey" v-if="item.billType == 1" @click.stop="onCloseOrder(item, index)">
+                关闭订单
+              </button>
             </div>
             <!-- 按钮区域 end -->
           </div>
@@ -77,41 +83,62 @@
   </div>
 </template>
 <script>
+import service from '@/services/order.service';
+import Utils from '@/common/Utils';
+
 export default {
   data() {
     return {
-      firstLoading: false,
+      firstLoading: true,
+      loading: false,
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 5,
       hasNext: true,
       noData: false,
       tabValue: -1,
       tabIndex: 0,
       tabList: [
         { title: '全部', value: -1 },
-        { title: '售后中', value: 1 },
-        { title: '待支付', value: 2 },
-        { title: '待收货', value: 3 },
-        { title: '待发货', value: 4 },
-        { title: '已完成', value: 5 },
-        { title: '已关闭', value: 6 },
+        // { title: '售后中', value: 4, color: 'grey' },
+        { title: '待发货', value: 1, color: 'yellow' },
+        { title: '待收货', value: 2, color: 'blue' },
+        { title: '已完成', value: 3, color: 'green' },
+        { title: '已关闭', value: 5, color: 'grey' },
       ],
-      lineWidth: 100 / 7,
+      lineWidth: 100 / 5,
+      dataList: [],
+      customer: {},
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.onPullingDown();
+  },
   components: {},
   methods: {
+    // 获取订单状态颜色
+    getOrderColor(item) {
+      const list = this.tabList.filter(tab => tab.value === item.billType);
+      if (!list || !list.length) return '';
+      return list[0].color;
+    },
+    // 获取订单状态文字
+    getOrderText(item) {
+      const list = this.tabList.filter(tab => tab.value === item.billType);
+      if (!list || !list.length) return '';
+      return list[0].title;
+    },
     onChangeTab(item, index) {
       if (this.tabValue === item.value) return;
       this.tabValue = item.value;
       this.tabIndex = index;
+      this.firstLoading = true;
+      this.onPullingDown();
     },
     // 下拉刷新
     onPullingDown() {
       this.pageNum = 1;
-      // this.getData();
+      this.getData();
     },
     // 上拉加载
     onPullingUp() {
@@ -120,8 +147,75 @@ export default {
         this.$refs.scroll.forceUpdate(true);
         return;
       }
-      console.log('111');
-      // this.getData();
+      this.getData();
+    },
+    async getData() {
+      const result = await service.getOrderList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, type: this.tabValue === -1 ? '' : this.tabValue });
+      if (this.firstLoading) {
+        this.firstLoading = false;
+      }
+      if (!result) return;
+      // 整理数据
+      if (this.pageNum === 1) {
+        this.dataList = [...result.rows];
+        this.noData = !this.dataList.length;
+      } else {
+        this.dataList = this.dataList.concat([...result.rows]);
+      }
+      // 判断是否还有下一页
+      this.hasNext = this.dataList.length < result.total;
+      if (this.hasNext) {
+        this.pageNum += 1;
+      }
+      this.$refs.scroll.forceUpdate(true);
+    },
+    // 查看详情
+    toDetail(item) {
+      this.$router.push(`${this.currentPath}/orderDetail?id=${item.billNo}`);
+    },
+    // 确认收货
+    async onConfirmReceive(item, index) {
+      if (this.loading) return;
+      this.loading = true;
+      Utils.showLoading();
+      const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 3 });
+      Utils.hideLoading();
+      this.loading = false;
+      if (!result) return;
+      Utils.showToast('确认收货成功');
+      if (this.tabValue === -1) {
+        // 全部
+        item.billType = 3;
+        return;
+      }
+
+      // 待收货状态
+      this.dataList.splice(index, 1);
+    },
+    // 关闭订单
+    async onCloseOrder(item, index) {
+      if (this.loading) return;
+      this.loading = true;
+      Utils.showLoading();
+      const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 5 });
+      Utils.hideLoading();
+      this.loading = false;
+      if (!result) return;
+      Utils.showToast('关闭订单成功');
+      if (this.tabValue === -1) {
+        // 全部
+        item.billType = 5;
+        return;
+      }
+
+      // 对应状态
+      this.dataList.splice(index, 1);
+    },
+  },
+  props: {
+    currentPath: {
+      type: String,
+      default: '',
     },
   },
 };
@@ -156,7 +250,6 @@ export default {
 .order-list {
   width: 80%;
   margin: 0 auto;
-  padding-top: .2rem;
 
   .item {
     background: #fff;
@@ -210,19 +303,29 @@ export default {
         &.green {
           color: $color-green;
         }
+
+        &.yellow {
+          color: $color-yellow;
+        }
       }
     } // end store
 
     .product-item {
       display: flex;
       padding-right: .15rem;
+      padding-top: .1rem;
 
       .img {
-        width: 20%;
+        width: .6rem;
+        height: .6rem;
         flex-shrink: 0;
         margin-right: .1rem;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         img {
-          width: 100%;
+          height: 100%;
         }
       } // end img
 
@@ -244,6 +347,10 @@ export default {
           .desc {
             color: $color-grey;
             font-size: .12rem;
+          }
+
+          .desc.price {
+            color: $color-black;
           }
         } // end row
       }

@@ -39,6 +39,7 @@ export default {
     //   e.stopPropagation();
     //   // e.preventDefault();
     // }, false);
+    this.$store.dispatch('category/getSortList');
   },
   components: {},
   methods: {},

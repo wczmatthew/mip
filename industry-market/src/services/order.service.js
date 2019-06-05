@@ -116,7 +116,7 @@ export default {
    * @param userid 用户id
    * @param clientId 客户id
    * @param carIds 购物车id,复数用逗号隔开
-   * @param payType 付款方式（1 线上付款，2 柜台付款）
+   * @param payType 付款方式（1 线上付款，2 现金刷卡）
    * @param postType 配送方式（1送货上门，2门店自提）
    * @param certType 相关文件（1资质证书，2发票，3出库单）
    * @param memo 备注
@@ -127,5 +127,35 @@ export default {
   }) => {
     const params = { userid, clientId, carIds, payType, memo, postType, certType };
     return postHttp({ url: '/ordercenter/order/createOrder', params });
+  },
+  /**
+   * 获取订单列表
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示多少条
+   * @param type 订单类型（不传获取全部）
+   */
+  getOrderList: ({ userid, pageNum, pageSize, type }) => {
+    const params = { userid, pageNum, pageSize: pageSize || 10, type: type || '' };
+    return postHttp({ url: '/ordercenter/order/getOrderList', params });
+  },
+  /**
+   * 修改订单状态
+   * @param userid 用户id
+   * @param orderId 订单号
+   * @param type 状态id（1待发货，2 待收货，3已完成，4退货中，5已取消）
+   */
+  changeOrderType: ({ userid, orderId, type }) => {
+    const params = { userid, orderId, type };
+    return postHttp({ url: '/ordercenter/order/changeOrderType', params });
+  },
+  /**
+   * 获取订单详情接口
+   * @param userid 用户id
+   * @param orderId 订单号
+   */
+  getOrderDetail: ({ userid, orderId }) => {
+    const params = { userid, orderId };
+    return postHttp({ url: '/ordercenter/order/getOrderDetail', params });
   },
 };

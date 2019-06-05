@@ -1,6 +1,8 @@
 import productList from './products/productList';
 import customer from './customer';
 import search from './products/search';
+import detail from './order/detail';
+import order from './order';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -18,6 +20,8 @@ export default [
       ...productList,
       ...customer,
       ...search,
+      ...detail,
+      ...order,
       {
         path: 'cart',
         component: Cart,

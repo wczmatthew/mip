@@ -32,6 +32,14 @@ export default {
   components: {
     Orders,
   },
+  watch: {
+    '$route'(to) {
+      if (to.path === '/market' && to.query.tab === 'order') {
+        // 重新进入页面
+        this.$refs.order && this.$refs.order.onPullingDown();
+      }
+    },
+  },
   methods: {
     onEdit() {
       this.isEdit = !this.isEdit;

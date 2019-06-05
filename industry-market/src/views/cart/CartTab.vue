@@ -33,6 +33,14 @@ export default {
   components: {
     Cart,
   },
+  watch: {
+    '$route'(to) {
+      if (to.path === '/market' && to.query.tab === 'cart') {
+        // 重新进入页面
+        this.$refs.cart && this.$refs.cart.onPullingDown();
+      }
+    },
+  },
   methods: {
     getTotalNum(totalNum) {
       this.totalNum = totalNum;

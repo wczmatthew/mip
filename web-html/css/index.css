@@ -1,0 +1,76 @@
+@charset 'utf-8';
+.index-banner {
+  width: 100%;
+  position: relative;
+}
+
+.index-banner img {
+  width: 100%;
+}
+
+.index-banner .desc {
+  position: absolute;
+  left: 7%;
+  top: 20%;
+  z-index: 10;
+}
+
+.index-banner .desc .small {
+  font-size: 20px;
+}
+
+.index-banner .desc .big {
+  font-size: 46px;
+}
+
+.index-banner .desc p {
+  color: #fff;
+  font-weight: 700;
+  background-image:-webkit-linear-gradient(top, #fff, #fff, #848ab4); 
+  -webkit-background-clip:text; 
+  -webkit-text-fill-color:transparent; 
+  margin-bottom: 35px;
+}
+
+.index-banner .category {
+  padding: 25px 20px;
+  background: #fff;
+  border-radius: 5px;
+  overflow: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center;
+  width: 80%;
+  position: absolute;
+  left: 10%;
+  bottom: -35px;
+  box-shadow: 0 3px 8px #a1b8d0;
+}
+
+.index-banner .category .link {
+  font-size: 18px;
+  position: relative;
+  padding: 0 40px;
+}
+
+.index-banner .category .link:not(:last-child)::after {
+  content: ' ';
+  display: block;
+  position: absolute;
+  width: 1px;
+  height: 100%;
+  background: #d4d4d4;
+  top: 0;
+  right: 0;
+}

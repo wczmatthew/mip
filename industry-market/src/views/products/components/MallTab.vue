@@ -1,9 +1,11 @@
 <!-- 商品页面 tabbar -->
 <template lang='html'>
   <div class="w-tabbar sticky-header">
-    <div class="item" v-for="(item, index) in list" :key="index" @click="toggle(index)" :class="{'actived': tabIndex == index}">
-      <span>{{ item.selectTxt || item.title }}</span>
-      <i class="iconfont icon-arrow-down"></i>
+    <div class="item" v-for="(item, index) in list" :key="index" @click="toggle(index)" :class="{'actived': tabIndex == index, 'selected': checkTabSelected(item)}">
+      <span>
+        {{ item.selectTab ? (item.selectTab.name || item.sname) : item.sname }}
+      </span>
+      <i class="iconfont icon-arrow-down" v-if="item.childList && item.childList.length"></i>
     </div>
 
     <!-- 展开内容 -->
@@ -16,15 +18,17 @@
         </div>
       </div> -->
       <div class="list">
-        <div class="right-item" v-for="(item, index) in categoryList" :key="'detail'+index">
+        <div class="right-item" v-for="(item, index) in categoryList" :key="'detail'+index" v-show="item.childList && item.childList.length">
           <p class="title">
-            {{ item.title }}
+            {{ item.sname }}
           </p>
           <div class="right-list">
-            <div class="popup-item" @click.stop="onSelect(subItem, index, subIndex)"
-            v-for="(subItem, subIndex) in item.list" :key="index + subIndex"
-            :class="{'actived': menuIndex == index && detailIndex == subIndex}">
-              {{ subItem.title }}
+            <div class="popup-item"
+            @click.stop="onSelect(subItem, index, subIndex)"
+            v-for="(subItem, subIndex) in item.childList"
+            :key="index + subIndex"
+            :class="{'actived': selectItem.value == subItem.sid}">
+              {{ subItem.sname }}
             </div>
           </div>
         </div>
@@ -34,75 +38,68 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
       tabIndex: -1,
-      menuIndex: 0, // 选中的菜单下标
-      detailIndex: 0, // 选中的详情下标
+      selectItem: {}, // 选中的详情
       isShow: false,
       list: [],
-      categoryList: [
-        {
-          title: '电容器',
-          list: [
-            { title: 'AZMJ-滤波' },
-            { title: 'BAFB智能' },
-            { title: 'JKF8控制器' },
-            { title: 'BZMJ' },
-            { title: 'BKMJ' },
-            { title: 'BAGB智能' },
-          ],
-        },
-        {
-          title: '接触器',
-          list: [
-            { title: 'AZMJ-滤波1' },
-            { title: 'BAFB智能2' },
-            { title: 'JKF8控制器3' },
-            { title: 'BZMJ3' },
-            { title: 'BKMJ4' },
-            { title: 'BAGB智能4' },
-          ],
-        },
-      ],
+      categoryList: [],
     };
   },
   created() {},
   mounted() {
-    this.list = [...this.tabList];
+    this.list = [
+      { sname: '全部' },
+      ...this.sortList,
+    ];
+  },
+  computed: {
+    ...mapGetters('category', {
+      sortList: 'sortList',
+    }),
   },
   components: {},
   methods: {
-    show(selectIndex) {
-      if (selectIndex !== undefined) {
-        this.detailIndex = selectIndex;
-      }
-      this.isShow = true;
+    checkTabSelected(item) {
+      if (!item.selectTab) return false;
+      return item.value === item.sid;
     },
     hide() {
-      this.isShow = false;
       this.tabIndex = -1;
+      this.isShow = false;
     },
     toggle(index) {
       if (this.tabIndex === index) {
         this.isShow = !this.isShow;
         this.tabIndex = -1;
+        this.categoryList = [];
         return;
       }
 
       if (!this.isShow) this.isShow = true;
-      // TODO: 切换到另外一个分类, 需要更换显示的内容
       this.tabIndex = index;
+      this.categoryList = this.list[index].childList;
+
+      // 设置选中
+      this.selectItem = this.list[this.tabIndex].selectTab || {};
     },
     // 选择具体内容
-    onSelect(item, index, subIndex) {
+    onSelect(item) {
       this.$emit('select', item);
-      this.detailIndex = subIndex;
-      this.menuIndex = index;
 
       if (this.tabIndex !== -1) {
-        this.list[this.tabIndex].selectTxt = this.list[this.tabIndex].selectTxt === item.title ? '' : item.title;
+        const selectTab = { ...this.list[this.tabIndex].selectTab };
+        this.list[this.tabIndex].selectTab = {
+          name: selectTab.name === item.sname ? '' : item.sname,
+          value: selectTab.value === item.sid ? '' : item.sid,
+        };
+        this.selectItem = { ...this.list[this.tabIndex].selectTab };
+        // this.list[this.tabIndex].selectTxt = this.list[this.tabIndex].selectTxt === item.sname ? '' : item.sname;
+        // this.list[this.tabIndex].selectValue = this.list[this.tabIndex].selectValue === item.sid ? '' : item.sid;
       }
       this.tabIndex = -1;
       this.hide();
@@ -125,7 +122,7 @@ export default {
   padding: 0 .05rem;
 
   .item {
-    color: $default-color;
+    color: $color-black;
     line-height: .44rem;
     font-size: .11rem;
     position: relative;
@@ -155,6 +152,11 @@ export default {
       box-shadow: 0 0 .05rem #ccc;
       height: .3rem;
       line-height: .3rem;
+      color: $color-blue;
+    }
+
+    &.selected {
+      color: $color-blue;
     }
   }
 }
