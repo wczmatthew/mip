@@ -2,10 +2,11 @@
 <template lang='html'>
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" show-scan @search="onSearch"></w-search>
+    <w-search class="search" ref="search" slot="header-mid" show-scan @search="onSearch"></w-search>
     <div class="header-right" slot="header-right">
       <!-- <w-msg-icon color="blue"></w-msg-icon> -->
-      <i class="iconfont icon-cart"></i>
+      <!-- <i class="iconfont icon-cart"></i> -->
+      <w-cart-icon :current-path="routePath"></w-cart-icon>
     </div>
     <!-- 顶部栏 end -->
 
@@ -65,10 +66,16 @@ export default {
       noProduct: false,
       pageNum: 1,
       hasNext: true,
+      keywords: '',
+      bnr: '',
     };
   },
   created() {},
   mounted() {
+    this.keywords = this.$route.query.keywords || '';
+    this.$nextTick(() => {
+      this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
+    });
     this.getData();
   },
   components: {
@@ -78,10 +85,14 @@ export default {
   },
   methods: {
     onSearch({ keywords }) {
-      console.log('keywords: ', keywords);
+      // console.log('keywords: ', keywords);
+      this.keywords = keywords;
+      this.onPullingDown();
     },
     onSelectTab(data) {
-      console.log(data);
+      // console.log(data);
+      this.bnr = data.bnr || '';
+      this.onPullingDown();
     },
     // 图片加载失败
     imgErr(item) {
@@ -103,7 +114,7 @@ export default {
     },
     async getData() {
       // Utils.showLoading();
-      const result = await service.getProductList({ pageNum: this.pageNum, pageSize: 6 });
+      const result = await service.getProductList({ pageNum: this.pageNum, pageSize: 9, keyword: this.keywords, bnr: this.bnr });
       if (!result) {
         this.noProduct = !this.productList.length;
         return;
@@ -122,7 +133,9 @@ export default {
       if (this.hasNext) {
         this.pageNum += 1;
       }
-      this.$refs.scroll.forceUpdate(true);
+      this.$nextTick(() => {
+        this.$refs.scroll.forceUpdate(true);
+      });
 
       // this.$nextTick(() => {
       //   // 重新计算高度

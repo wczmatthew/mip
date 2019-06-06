@@ -1,0 +1,9 @@
+/*pc-底部*/
+$('.footer-select').click(function(){
+  $(this).find('.icon-triangle-down').removeClass('icon-triangle-down').addClass('icon-triangle-up');
+  $('ul',this).slideToggle()
+});
+$('.footer-select').mouseleave(function(){
+  $(this).find('.icon-triangle-up').removeClass('icon-triangle-up').addClass('icon-triangle-down');
+  $('ul',this).slideUp();
+});

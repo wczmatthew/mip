@@ -1,21 +1,21 @@
-import { getHttp } from '@/http';
+import { getHttp, postHttp } from '@/http';
 
 export default {
   /**
    * 获取产品列表
    * @param pageNum 页码
    * @param pageSize 一页多少条
-   * @param orderByColumn pc表示热门
-   * @param isAsc 正序或者倒序排列
+   * @param keyword 型号规格（模糊查询）
+   * @param bnr 正序或者倒序排列
    */
-  getProductList: ({ pageNum, pageSize, orderByColumn, isAsc }) => {
+  getProductList: ({ pageNum, pageSize, keyword, bnr }) => {
     const params = {
       pageNum,
       pageSize: pageSize || 10,
-      orderByColumn: orderByColumn || 'pc',
-      isAsc: isAsc || 'desc',
+      bnr: bnr || '',
+      keyword: keyword || '',
     };
-    return getHttp({ url: '/productcenter/product/search', params });
+    return postHttp({ url: '/productcenter/product/search', params });
   },
   /**
    * 获取前几个产品列表
@@ -28,5 +28,15 @@ export default {
   getProductDetail: ({ bm }) => {
     const params = { bm };
     return getHttp({ url: '/productcenter/product/get', params });
+  },
+  /**
+   * 获取区域货位列表
+   * @param userid 用户id
+   */
+  getShelfList: ({ userid }) => {
+    const params = {
+      userid,
+    };
+    return postHttp({ url: '/productcenter/stock/getShelfList', params });
   },
 };

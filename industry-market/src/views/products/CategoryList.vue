@@ -68,6 +68,8 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
+import service from '@/services/product.service';
+import Utils from '@/common/Utils';
 
 export default {
   data() {
@@ -81,25 +83,34 @@ export default {
   },
   created() {},
   mounted() {
-    for (let i = 0; i < 5; i++) {
-      const item = {
-        title: `${i + 1}区`,
-        list: [],
-        isOpen: false,
-      };
+    this.getShelfData();
+    // for (let i = 0; i < 5; i++) {
+    //   const item = {
+    //     title: `${i + 1}区`,
+    //     list: [],
+    //     isOpen: false,
+    //   };
 
-      for (let j = 0; j < 5; j++) {
-        item.list.push({
-          title: `${i + 1}区-0${j + 1}`,
-        });
-      }
-      this.menuList.push(item);
-    }
+    //   for (let j = 0; j < 5; j++) {
+    //     item.list.push({
+    //       title: `${i + 1}区-0${j + 1}`,
+    //     });
+    //   }
+    //   this.menuList.push(item);
+    // }
   },
   components: {
     WSearch,
   },
   methods: {
+    // 获取货架信息
+    async getShelfData() {
+      Utils.showLoading();
+      const result = await service.getShelfList({ userid: Utils.getUserId(this) });
+      Utils.hideLoading();
+      if (!result) return;
+      this.menuList = [...result];
+    },
     toggleMenu(item) {
       item.isOpen = !item.isOpen;
     },

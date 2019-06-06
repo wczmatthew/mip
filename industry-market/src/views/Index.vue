@@ -13,7 +13,7 @@
     <!-- 顶部栏 end -->
 
     <!-- 轮播图 -->
-    <div class="banner">
+    <div class="banner" v-if="banners && banners.length">
       <cube-slide ref="slide" :data="banners">
         <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item">
           <img :src="item.url">
@@ -147,7 +147,7 @@ export default {
     // 获取首页轮播图
     async getBanner() {
       Utils.showLoading();
-      const result = await indexService.getBanner(2);
+      const result = await indexService.getBanner(3);
       Utils.hideLoading();
       if (!result) return;
       this.banners = [...result];

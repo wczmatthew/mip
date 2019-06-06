@@ -9,7 +9,7 @@
     <!-- 顶部栏 end -->
 
     <!-- 轮播图 -->
-    <div class="banner">
+    <div class="banner" v-if="banners && banners.length">
       <cube-slide ref="slide" :data="banners">
         <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item" :auto-play="autoplay">
           <img :src="item.url">
@@ -132,12 +132,13 @@ export default {
     // 获取首页轮播图
     async getBanner() {
       Utils.showLoading();
-      const result = await indexService.getBanner(4);
+      const result = await indexService.getBanner(5);
       Utils.hideLoading();
       if (!result) return;
       this.banners = [...result];
-
-      this.$refs.slide && this.$refs.slide.refresh();
+      this.$nextTick(() => {
+        this.$refs.slide.refresh();
+      });
     },
     // 传统模式, 产品列表
     toProductList() {
@@ -194,7 +195,8 @@ export default {
 
 .banner {
   width: 100%;
-  height: 1.3rem;
+  // height: 1.3rem;
+  max-height: 40vh;
   overflow: hidden;
 
   .banner-item {

@@ -9,9 +9,9 @@
       <p class="header-mid"></p>
 
       <div class="header-right">
-        <div class="circle">
+        <!-- <div class="circle">
           <w-msg-icon class="msg-icon"></w-msg-icon>
-        </div>
+        </div> -->
         <div class="circle">
           <i class="iconfont icon-cart"></i>
         </div>
@@ -28,7 +28,7 @@
 
     <!-- 产品价格, 名称 -->
     <div class="price">
-      ￥{{product.DJJ || '--'}}
+      ￥{{product.DJJ || 0}}
     </div>
     <div class="product-title">
       {{product.XHGG || '暂无'}}
@@ -72,7 +72,7 @@
           单价
         </div>
         <div class="desc price" style="padding: 0;">
-          ￥{{product.DJJ || '--'}}
+          ￥{{product.DJJ || 0}}
         </div>
       </div>
       <div class="cell">
@@ -80,7 +80,7 @@
           装箱数
         </div>
         <div class="desc">
-          {{product.ZXS || '--'}}
+          {{product.ZXS || 0}}
         </div>
       </div>
       <div class="cell">
@@ -88,7 +88,7 @@
           盒装数
         </div>
         <div class="desc">
-          {{product.HZS || '--'}}
+          {{product.HZS || 0}}
         </div>
       </div>
     </div>
@@ -100,11 +100,11 @@
     <!-- 底部栏 -->
     <footer slot="w-footer" class="footer">
       <div class="left">
-        <div class="icon">
+        <div class="icon" @click="toIndex()">
           <i class="iconfont icon-store"></i>
           <p>首页</p>
         </div>
-        <div class="icon" @click="onToggleCollect()" style="min-width: .5rem; padding: .06rem 0;">
+        <div class="icon" @click="onToggleCollect()" style="min-width: .5rem;">
           <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
           'icon-notcollect']"></i>
           <p>
@@ -121,9 +121,9 @@
         <button class="light-blue-btn" @click="onAddCart()">
           加入购物车
         </button>
-        <button class="blue-btn">
+        <!-- <button class="blue-btn">
           立即购买
-        </button>
+        </button> -->
       </div>
     </footer>
     <!-- 底部栏 end -->
@@ -154,6 +154,9 @@ export default {
   },
   components: {},
   methods: {
+    toIndex() {
+      this.$router.push('/market?tab=home');
+    },
     async getData() {
       if (!this.$route.query.bm) {
         Utils.showToast('无法获取改产品详情');
@@ -324,19 +327,24 @@ export default {
     justify-content: space-between;
     align-items: center;
     padding-right: .12rem;
+    background: #fff;
+    border-top: 1px solid $color-line;
 
     .left {
       display: flex;
+      height: 100%;
       .icon {
         display: block;
+        height: 100%;
         text-align: center;
         color: $color-grey;
-        padding: .06rem .1rem;
+        padding: 0 .1rem;
+        padding-top: .06rem;
 
         .iconfont {
           display: block;
-          margin-bottom: .05rem;
-          font-size: .25rem;
+          margin-bottom: .02rem;
+          font-size: .22rem;
         }
 
         .icon-collect {
@@ -344,7 +352,7 @@ export default {
         }
 
         p {
-          font-size: .12rem;
+          font-size: .1rem;
           text-align: center;
         }
       }
@@ -357,7 +365,7 @@ export default {
       border-radius: .3rem;
       overflow: hidden;
       button {
-        width: 50%;
+        flex: 1;
         border-radius: 0;
         height: 100%;
         font-size: .14rem;

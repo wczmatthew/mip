@@ -25,9 +25,9 @@
         <!-- 顶部活动区域 -->
 
         <!-- 菜单栏 -->
-        <cube-sticky-ele>
+        <!-- <cube-sticky-ele>
           <mall-tab :tab-list="tabList" @select="onSelectTab"></mall-tab>
-        </cube-sticky-ele>
+        </cube-sticky-ele> -->
         <!-- 菜单栏 end -->
 
         <!-- 商品列表 -->
@@ -91,7 +91,7 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import MallTab from './components/MallTab.vue';
+// import MallTab from './components/MallTab.vue';
 import productImg from '@/assets/mall/product.png';
 import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
@@ -133,7 +133,7 @@ export default {
   },
   components: {
     WSearch,
-    MallTab,
+    // MallTab,
     ProductGridList,
   },
   methods: {
@@ -168,7 +168,7 @@ export default {
     },
     // 获取首页轮播图
     async getBanner() {
-      const result = await indexService.getBanner(3);
+      const result = await indexService.getBanner(4);
       if (!result) return;
       const list = [...result];
 

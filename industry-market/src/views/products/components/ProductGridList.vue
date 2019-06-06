@@ -13,7 +13,7 @@
         </div>
         <div class="bottom">
           <div class="price">
-            ￥{{item.DJJ || '--'}}
+            ￥{{item.DJJ || '0'}}
           </div>
           <div class="cart" @click.stop="onAddCart(item)">
             <i class="iconfont icon-cart"></i>

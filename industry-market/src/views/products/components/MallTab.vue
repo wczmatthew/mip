@@ -1,11 +1,16 @@
 <!-- 商品页面 tabbar -->
 <template lang='html'>
   <div class="w-tabbar sticky-header">
-    <div class="item" v-for="(item, index) in list" :key="index" @click="toggle(index)" :class="{'actived': tabIndex == index, 'selected': checkTabSelected(item)}">
+    <div class="item" @click="onSelectAll()" :class="{'selected': selectItem && selectItem.value == -1}">
+      <span>
+        全部
+      </span>
+    </div>
+    <div class="item" v-for="(item, index) in list" :key="index" @click="toggle(index)" :class="{'actived': tabIndex == index, 'selected': item.selectTab && item.selectTab.name}">
       <span>
         {{ item.selectTab ? (item.selectTab.name || item.sname) : item.sname }}
       </span>
-      <i class="iconfont icon-arrow-down" v-if="item.childList && item.childList.length"></i>
+      <i class="iconfont icon-arrow-down"></i>
     </div>
 
     <!-- 展开内容 -->
@@ -18,7 +23,14 @@
         </div>
       </div> -->
       <div class="list">
-        <div class="right-item" v-for="(item, index) in categoryList" :key="'detail'+index" v-show="item.childList && item.childList.length">
+        <div class="popup-item"
+          @click.stop="onSelect(item)"
+          v-for="(item, index) in categoryList"
+          :key="index"
+          :class="{'actived': selectItem.value == item.sid}">
+          {{ item.sname }}
+        </div>
+        <!-- <div class="right-item" v-for="(item, index) in categoryList" :key="'detail'+index" v-show="item.childList && item.childList.length">
           <p class="title">
             {{ item.sname }}
           </p>
@@ -31,7 +43,7 @@
               {{ subItem.sname }}
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- 展开内容 end -->
@@ -44,18 +56,26 @@ export default {
   data() {
     return {
       tabIndex: -1,
-      selectItem: {}, // 选中的详情
+      selectItem: {
+        name: '全部',
+        bnr: '',
+        value: -1,
+      }, // 选中的详情
       isShow: false,
       list: [],
       categoryList: [],
+      isChangeTab: false,
     };
   },
   created() {},
   mounted() {
-    this.list = [
-      { sname: '全部' },
-      ...this.sortList,
-    ];
+    // 深层数据进行深拷贝
+    try {
+      const json = JSON.stringify(this.sortList);
+      this.list = JSON.parse(json);
+    } catch (error) {
+      console.log(error);
+    }
   },
   computed: {
     ...mapGetters('category', {
@@ -64,10 +84,6 @@ export default {
   },
   components: {},
   methods: {
-    checkTabSelected(item) {
-      if (!item.selectTab) return false;
-      return item.value === item.sid;
-    },
     hide() {
       this.tabIndex = -1;
       this.isShow = false;
@@ -81,6 +97,7 @@ export default {
       }
 
       if (!this.isShow) this.isShow = true;
+      this.isChangeTab = this.tabIndex !== index;
       this.tabIndex = index;
       this.categoryList = this.list[index].childList;
 
@@ -89,20 +106,44 @@ export default {
     },
     // 选择具体内容
     onSelect(item) {
-      this.$emit('select', item);
-
       if (this.tabIndex !== -1) {
         const selectTab = { ...this.list[this.tabIndex].selectTab };
+
+        this.list.forEach((item) => {
+          item.selectTab = {
+            name: '',
+            value: '',
+            bnr: '',
+          };
+        });
         this.list[this.tabIndex].selectTab = {
-          name: selectTab.name === item.sname ? '' : item.sname,
+          name: selectTab.value === item.sid ? '' : item.sname,
           value: selectTab.value === item.sid ? '' : item.sid,
+          bnr: selectTab.value === item.sid ? '' : item.bnr,
         };
         this.selectItem = { ...this.list[this.tabIndex].selectTab };
-        // this.list[this.tabIndex].selectTxt = this.list[this.tabIndex].selectTxt === item.sname ? '' : item.sname;
-        // this.list[this.tabIndex].selectValue = this.list[this.tabIndex].selectValue === item.sid ? '' : item.sid;
       }
+
+      this.$emit('select', this.selectItem);
       this.tabIndex = -1;
       this.hide();
+    },
+    // 选择全部
+    onSelectAll() {
+      if (this.selectItem.value === -1) return;
+      this.list.forEach((item) => {
+        item.selectTab = {
+          name: '',
+          value: '',
+          bnr: '',
+        };
+      });
+      this.selectItem = {
+        name: '全部',
+        bnr: '',
+        value: -1,
+      };
+      this.$emit('select', this.selectItem);
     },
   },
   props: {
@@ -176,7 +217,7 @@ export default {
   left: 1%;
   z-index: 20;
   width: 98%;
-  height: 45vh;
+  height: 55vh;
   background: #fff;
   border-radius: .1rem;
   overflow: auto;
@@ -188,6 +229,21 @@ export default {
     flex-wrap: wrap;
     padding: .1rem;
   }
+
+  .popup-item {
+    color: $default-color;
+    padding: .1rem .07rem;
+    background: #fff;
+    border-radius: .05rem;
+    margin-right: .1rem;
+    margin-bottom: .1rem;
+    box-shadow: 0 0 .05rem #ccc;
+    &.actived {
+      color: #fff;
+      background: $default-color;
+    }
+  } // end popup-item
+
 
   .right-item {
     width: 100%;
@@ -215,7 +271,7 @@ export default {
         color: #fff;
         background: $default-color;
       }
-    } // end item
+    } // end popup-item
 
   } // ent right-item
 }
