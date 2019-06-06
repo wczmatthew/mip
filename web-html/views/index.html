@@ -12,6 +12,12 @@
   <link rel="stylesheet" href="../css/index.css">
 </head>
 <body>
+  <!-- 客服图标 -->
+  <div class="kefu hvr-bounce-in">
+    <i class="iconfont icon-kefu"></i>
+  </div>
+  <!-- 客服图标 end -->
+
   <!-- 顶部栏 -->
   <div class="top-nav">
     <div class="row-1">
@@ -29,10 +35,10 @@
           <li>
             帮助
           </li>
-          <li>
+          <li @click="showLogin()">
             登录
           </li>
-          <li>
+          <li @click="showRegist()">
             注册
           </li>
         </ul>
@@ -563,6 +569,7 @@
   <script src="../js/jquery-3.4.1.min.js"></script>
   <script src="../js/utils.js"></script>
   <script src="../js/footer.js"></script>
+  <script src="../js/layer/layer.js"></script>
   <script src="../js/views/index.js"></script>
 </body>
 </html>

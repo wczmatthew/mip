@@ -6,7 +6,8 @@
     <w-search class="search" slot="header-mid" show-scan></w-search>
     <div class="header-right" slot="header-right">
       <!-- <w-msg-icon color="blue"></w-msg-icon> -->
-      <i class="iconfont icon-cart"></i>
+      <!-- <i class="iconfont icon-cart"></i> -->
+      <w-cart-icon :currentPath="routePath" color="blue"></w-cart-icon>
     </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
@@ -30,20 +31,26 @@
       <w-loading-row v-show="firstLoading"></w-loading-row>
       <div class="row" v-for="(item, index) in dataList" :key="index">
 
+        <!-- 货架商品列表 -->
         <div class="product-list">
           <div class="item" v-for="(product, productIndex) in item" :key="productIndex + index">
-            <w-img :src="product.imgPath"></w-img>
+            <w-img :src="product.imgPath" v-if="product.xhgg" @click.native.stop="toDetail(product)"></w-img>
+            <no-data v-else style="margin-top: -.3rem;" desc="补货中"></no-data>
           </div>
         </div>
+        <!-- 货架商品列表 end -->
 
+        <!-- 货架 -->
         <div class="row-bottom">
           <img src="~@/assets/common/shelf-top.png" alt="" class="top">
           <div class="mid">
             <div class="col" v-for="(product, productIndex) in item" :key="productIndex + 'prorow'">
-              {{ product.xhgg }}
+              {{ product.xhgg || product.name }}
             </div>
           </div>
         </div>
+        <!-- 货架 end -->
+
       </div>
 
     </div>
@@ -66,6 +73,7 @@ export default {
       firstLoading: true,
       selectShelf: {},
       dataList: [],
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' }), // 获取当前路由
     };
   },
   created() {},
@@ -76,6 +84,10 @@ export default {
     WSearch,
   },
   methods: {
+    toDetail(item) {
+      if (!item.bm) return;
+      this.$router.push(`${this.routePath}/detail?bm=${item.bm}`);
+    },
     // 获取货架信息
     async getShelfData() {
       Utils.showLoading();
@@ -84,8 +96,22 @@ export default {
       if (!result) return;
       this.menuList = [...result];
 
-      // 默认选中第一个
       if (!this.menuList.length) return;
+
+      if (this.$route.query.id) {
+        // 点击某一个货架进来, 选中对应货架
+        const index = this.menuList.findIndex(item => item.id === parseInt(this.$route.query.id, 10));
+        if (index < 0) return;
+        this.menuList[index].isOpen = true;
+        if (this.menuList[index].childList.length) {
+          this.selectShelf = this.menuList[index].childList[0];
+          this.firstLoading = true;
+          this.getProductData();
+        }
+        return;
+      }
+
+      // 默认选中第一个
       this.menuList[0].isOpen = true;
       if (this.menuList[0].childList.length) {
         this.selectShelf = this.menuList[0].childList[0];

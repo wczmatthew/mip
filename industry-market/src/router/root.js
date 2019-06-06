@@ -1,8 +1,10 @@
 import productList from './products/productList';
 import customer from './customer';
 import search from './products/search';
+import productDetail from './products/detail';
 import detail from './order/detail';
 import order from './order';
+import cart from './order/cart';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -28,6 +30,10 @@ export default [
       {
         path: 'category',
         component: CategoryList,
+        children: [
+          ...productDetail,
+          ...cart,
+        ],
       },
     ],
   },

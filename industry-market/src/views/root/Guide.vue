@@ -19,11 +19,11 @@
       <div class="w-grid-list">
         <div class="item" v-for="(item, index) in list" :key="index" @click="toCategory(item)">
           <div class="img">
-            <w-img :src="item.imgUrl"/>
+            <w-img :src="item.image"/>
           </div>
           <div class="detail">
-            <p>{{item.area}}</p>
-            <p>{{item.content}}</p>
+            <p>{{item.name}}</p>
+            <p>{{item.memo}}</p>
           </div>
         </div>
       </div>
@@ -45,24 +45,29 @@
   </div>
 </template>
 <script>
-import img from '@/assets/guide/img.png';
+// import img from '@/assets/guide/img.png';
+import Utils from '@/common/Utils';
+import service from '@/services/product.service';
 
 export default {
   data() {
     return {
-      list: [
-        { imgUrl: img, area: 'A区', content: '控制电器区' },
-        { imgUrl: img, area: 'B区', content: '控制电器区1' },
-        { imgUrl: img, area: 'C区', content: '控制电器区2' },
-        { imgUrl: img, area: 'D区', content: '控制电器区3' },
-        { imgUrl: img, area: 'E区', content: '控制电器区4' },
-      ],
+      list: [],
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getData();
+  },
   components: {},
   methods: {
+    async getData() {
+      Utils.showLoading();
+      const result = await service.getTopShelfList({ userid: Utils.getUserId(this) });
+      Utils.hideLoading();
+      if (!result) return;
+      this.list = [...result];
+    },
     toCategory(item) {
       if (item) {
         this.$router.push(`/market/category?id=${item.id}`);
@@ -106,6 +111,7 @@ export default {
       height: 100%;
       overflow: hidden;
       background: #fff;
+      padding: .05rem 0;
       img {
         height: 100%;
         display: block;

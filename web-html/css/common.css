@@ -4,34 +4,6 @@
   font-size: inherit; /* 继承上一级字体大小 */
 }
 
-/* iPhone 5 ----------- */
-/* @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
-  html {
-    font-size: 100px !important;
-  }
-} */
-
-/* iPhone 6 ----------- */
-/* @media only screen and (min-device-width: 375px) and (max-device-width: 413px) {
-  html {
-    font-size: 118px !important;
-  }
-} */
-
-/* iPhone 6+ ----------- */
-/* @media only screen and (min-device-width: 414px) and (max-device-width: 700px) {
-  html {
-    font-size: 130px !important;
-  }
-} */
-
-/* iPhone 6+ ----------- */
-/* @media only screen and (min-device-width: 700px) {
-  html {
-    font-size: 180px !important;
-  }
-} */
-
 body {
   padding: 0;
   margin: 0;
@@ -82,7 +54,6 @@ i {
 }
 
 /* 强制换行 */
-
 .break-word {
   word-wrap: break-word;
   word-break: break-all;
@@ -142,7 +113,6 @@ a:active {
 }
 
 /* 一行显示显示不下... */
-
 .text-ellipsis {
   overflow: hidden;
   white-space: nowrap;
@@ -175,34 +145,6 @@ a:active {
   margin: 0 auto;
   width: 100%;
   max-width: 1290px;
-}
-
-.top-logo {
-  margin: 0 0 0 26px;
-  padding-top: 16px;
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  color: #333333;
-  font-size: 20px;
-  position: relative;
-  z-index: 10;
-}
-
-.top-logo img {
-  height: 24px;
-  margin-right: 5px;;
 }
 
 .txt-center {
@@ -437,110 +379,6 @@ a:active {
   box-shadow: 0 0 10px 0px #ccc;
 }
 
-.w-sort-area {
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  font-size: 14px;
-  color: #262626;
-  height: 80px;
-  background: #fff;
-  width: 100%;
-}
-
-.w-sort-area .item {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  height: 100%;
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-}
-
-.w-sort-area .item:active {
-  background: rgba(0, 0, 0, 0.1);
-}
-
-.w-sort-area .item .arrow {
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  flex-direction: column;
-  -webkit-flex-direction: column;
-  height: 18px;
-  margin-left: 5px;;
-}
-
-.w-sort-area .item .arrow .iconfont {
-  font-size: 12px;
-  line-height: 0;
-  height: 24px;
-  color: #262626;
-}
-
-.w-sort-area .item .arrow .icon-up-arrow-b {
-  line-height: 24px;
-}
-
-.w-sort-area .item.actived {
-  color: #3ccf8a;
-}
-
-.w-sort-area .item .arrow .iconfont.actived {
-  color: #3ccf8a;
-}
-
 .w-back-top {
   position: fixed;
   bottom: 120px;
@@ -674,100 +512,6 @@ ul.w-menu li a {
 
 ul.w-menu li:last-child {
   border: 0;
-}
-
-.w-category {
-  background: #fff;
-}
-
-.w-category .category {
-  width: 80%;
-  margin: 24px auto;
-  border: 1px solid #005bac;
-  -moz-border-radius: 5px;;
-  -webkit-border-radius: 5px;;
-  border-radius: 5px;;
-  overflow: hidden;
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-}
-
-.w-category .category button {
-  height: 100%;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  border: 0;
-  -moz-border-radius: 0;
-  -webkit-border-radius: 0;
-  border-radius: 0;
-}
-
-.w-sort-list {
-  background: #fff;
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-  position: relative;
-}
-
-.w-sort-list::after {
-  content: ' ';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  height: 1px;
-  background: #e6e6e6;
-  transform: scaleY(0.5);
-}
-
-.w-sort-list .item {
-  height: 80px;
-  line-height: 80px;
-  text-align: center;
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  color: #262626;
-  transition: all .3s ease;
-  -webkit-transition: all .3s ease;
-  -moz-transition: all .3s ease;
-}
-
-.w-sort-list .item.actived {
-  color: #005bac;
-  position: relative;
-}
-
-.w-sort-list .item.actived::after {
-  content: " ";
-  display: block;
-  width: 100%;
-  height: 1px;
-  background: #005bac;
-  position: absolute;
-  bottom: 0;
-  left: 0;
 }
 
 .w-row {
@@ -953,79 +697,6 @@ ul.w-menu li:last-child {
   margin-right: 20px;
 }
 
-.w-news-item {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  background: #fff;
-  position: relative;
-  font-size: 13px;
-  padding: 16px 24px;
-}
-
-.w-news-item .img {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  overflow: hidden;
-  border: 01px solid #e6e6e6;
-  -ms-flex-negative: 0;
-  flex-shrink: 0;
-  margin-right: 020px;
-  width: 0120px;
-  height: 080px;
-}
-
-.w-news-item .img img {
-  width: 100%;
-  height: 100%;
-}
-
-.w-news-item .content {
-  -webkit-box-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  overflow: hidden;
-}
-
-.w-news-item .content .title {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  font-size: 014px;
-}
-
-.w-news-item .content .desc {
-  font-size: 11px;
-  color: #666;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-}
-
-.w-news-item:not(:last-child)::after {
-    content: ' ';
-    position: absolute;
-    bottom: 0;
-    left: 024px;
-    width: calc(100% - 024px);
-    height: 1px;
-    background: #e6e6e6;
-    -webkit-transform: scaleY(0.5);
-    transform: scaleY(0.5);
-}
-
 .w-gradient-left-bg {
   background: -webkit-linear-gradient(left, #4194f4, #00fdaf); 
   background: -o-linear-gradient(right, #4194f4, #00fdaf); 
@@ -1036,68 +707,11 @@ ul.w-menu li:last-child {
   position: relative;
 }
 
-.w-edit-header .header-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: 120px;
-  height: 88px;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-  -o-text-overflow: ellipsis; /* for Opera */
-  text-overflow: ellipsis; /* for IE */
-  font-size: 12px;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  -o-flex-direction: column;
-  flex-direction: column;
-  line-height: 18px;
-  padding-top: 5px;;
-}
-
-.w-edit-header .header-right .iconfont {
-  color: #158BE0;
-  font-size: 20px;
-}
-
-.w-edit-header .header-right p {
-  color: #158BE0;
-  font-size: 12px;
-}
-
-.opacity-link {
-  display: block;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 10;
-  opacity: 0;
-}
-
-.w-underline,
-.w-underline-1 {
+.w-underline{
   position: relative;
 }
 
-.w-underline::after,
-.w-underline-1::after {
+.w-underline::after {
   content: ' ';
   position: absolute;
   bottom: 0;
@@ -1105,11 +719,4 @@ ul.w-menu li:last-child {
   width: 100%;
   height: 1px;
   background: #e6e6e6;
-  -webkit-transform: scaleY(0.5);
-  transform: scaleY(0.5);
-}
-
-.w-underline-1::after {
-  -webkit-transform: scaleY(1);
-  transform: scaleY(1);
 }

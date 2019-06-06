@@ -482,3 +482,20 @@
 .chint-intro .w-grid-list .item .desc {
   margin-bottom: 25px;
 }
+
+.kefu {
+  position: fixed;
+  top: 40%;
+  right: 10%;
+  width: 80px;
+  height: 80px;
+  border-radius: 80px;
+  background: #fff;
+  color: #005bac;
+  border: 3px solid #005bac;
+  text-align: center;
+  line-height: 74px;
+  font-size: 50px;
+  z-index: 999;
+  cursor: pointer;
+}

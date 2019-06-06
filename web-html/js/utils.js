@@ -11,3 +11,18 @@ function showLoading(id) {
 function hideLoading(id) {
   $("#" + id).find('.w-loading-mid').remove();
 }
+
+// 显示登录
+function showLogin() {
+  var loginHtml = '' +
+  '<div></div>'
+
+  layer.open({
+    type: 1,
+    title: false,
+    closeBtn: 0,
+    shadeClose: true,
+    skin: 'login-modal',
+    content: loginHtml
+  });
+}

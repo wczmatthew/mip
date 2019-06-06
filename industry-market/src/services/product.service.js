@@ -51,4 +51,14 @@ export default {
     };
     return postHttp({ url: '/productcenter/stock/getShelfProductList', params });
   },
+  /**
+   * 获取店内模式区域列表
+   * @param userid 用户id
+   */
+  getTopShelfList: ({ userid }) => {
+    const params = {
+      userid,
+    };
+    return postHttp({ url: '/productcenter/stock/getTopShelfList', params });
+  },
 };
