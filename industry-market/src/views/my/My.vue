@@ -70,36 +70,36 @@
       </div>
 
       <div class="grid-list">
-        <div class="item">
+        <!-- <div class="item">
           <i class="iconfont icon-daifukuan">
             <i class="num"></i>
           </i>
           <p class="tip">待付款</p>
-        </div>
-        <div class="item">
+        </div> -->
+        <div class="item" @click.stop="toOrders(1)">
           <i class="iconfont icon-daifahuo">
             <i class="num"></i>
           </i>
           <p class="tip">待发货</p>
         </div>
-        <div class="item">
-          <i class="iconfont icon-daishouhuo">
+        <div class="item" @click.stop="toOrders(2)">
+          <i class="iconfont icon-dai           shouhuo">
             <i class="num"></i>
           </i>
           <p class="tip">待收货</p>
         </div>
-        <div class="item">
+        <div class="item" @click.stop="toOrders(3)">
           <i class="iconfont icon-daipingjia">
             <i class="num"></i>
           </i>
-          <p class="tip">待评价</p>
+          <p class="tip">已完成</p>
         </div>
-        <div class="item">
+        <!-- <div class="item">
           <i class="iconfont icon-tuihuo">
             <i class="num"></i>
           </i>
           <p class="tip">售后/退货</p>
-        </div>
+        </div> -->
       </div>
     </div>
     <!-- 我的订单 end -->
@@ -139,8 +139,12 @@ export default {
   mounted() {},
   components: {},
   methods: {
-    toOrders() {
-      this.$router.push('/market/order');
+    toOrders(status) {
+      if (!status) {
+        this.$router.push('/market/order');
+        return;
+      }
+      this.$router.push(`/market/order?status=${status}`);
     },
   },
 };

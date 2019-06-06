@@ -5,7 +5,7 @@
     <!-- 顶部栏 -->
     <w-search class="search" slot="header-mid" show-scan></w-search>
     <div class="header-right" slot="header-right">
-      <w-msg-icon color="blue"></w-msg-icon>
+      <!-- <w-msg-icon color="blue"></w-msg-icon> -->
       <i class="iconfont icon-cart"></i>
     </div>
     <!-- 顶部栏 end -->
@@ -14,55 +14,39 @@
       <div class="menu-item" v-for="(item, index) in menuList" :key="index">
         <div class="menu" @click.stop="toggleMenu(item, index)"
         :class="{'actived': item.isOpen}">
-          <span>{{ item.title }}</span>
+          <span>{{ item.name }}</span>
           <i class="iconfont icon-arrow-down"></i>
         </div>
         <div v-show="item.isOpen" class="sub-list">
-          <div class="sub-item" v-for="(subItem, subIndex) in item.list" :key="index + subIndex">
-            {{ subItem.title }}
+          <div class="sub-item" v-for="(subItem, subIndex) in item.childList" :key="index + subIndex" :class="{'actived': selectShelf.id == subItem.id}" @click.stop="onChangeShelf(subItem)">
+            {{ subItem.name }}
           </div>
         </div>
       </div>
     </div>
-    <w-scroll
-      ref="scroll"
-      class="scroll-view"
-      @pulling-down="onPullingDown"
-      @pulling-up="onPullingUp">
+    <div class="scroll-view">
 
       <no-data v-if="noData"></no-data>
-
-      <div class="row">
+      <w-loading-row v-show="firstLoading"></w-loading-row>
+      <div class="row" v-for="(item, index) in dataList" :key="index">
 
         <div class="product-list">
-          <div class="item">
-            <w-img src="https://newsdc.chint.com:8442/sdc-image/LNR/NXBLE-63.jpg"></w-img>
-          </div>
-          <div class="item">
-            <w-img src="https://newsdc.chint.com:8442/sdc-image/LNR/NXBLE-63.jpg"></w-img>
-          </div>
-          <div class="item">
-            <w-img src="https://newsdc.chint.com:8442/sdc-image/LNR/NXBLE-63.jpg"></w-img>
+          <div class="item" v-for="(product, productIndex) in item" :key="productIndex + index">
+            <w-img :src="product.imgPath"></w-img>
           </div>
         </div>
 
         <div class="row-bottom">
           <img src="~@/assets/common/shelf-top.png" alt="" class="top">
           <div class="mid">
-            <div class="col">
-              正泰电器DZ471P-63A
-            </div>
-            <div class="col">
-              正泰电器DZ471P-63A
-            </div>
-            <div class="col">
-              正泰电器DZ471P-63A
+            <div class="col" v-for="(product, productIndex) in item" :key="productIndex + 'prorow'">
+              {{ product.xhgg }}
             </div>
           </div>
         </div>
       </div>
 
-    </w-scroll>
+    </div>
     <!-- 正文内容 end -->
   </w-container>
 </template>
@@ -79,25 +63,14 @@ export default {
       pageSize: 10,
       hasNext: true,
       noData: false,
+      firstLoading: true,
+      selectShelf: {},
+      dataList: [],
     };
   },
   created() {},
   mounted() {
     this.getShelfData();
-    // for (let i = 0; i < 5; i++) {
-    //   const item = {
-    //     title: `${i + 1}区`,
-    //     list: [],
-    //     isOpen: false,
-    //   };
-
-    //   for (let j = 0; j < 5; j++) {
-    //     item.list.push({
-    //       title: `${i + 1}区-0${j + 1}`,
-    //     });
-    //   }
-    //   this.menuList.push(item);
-    // }
   },
   components: {
     WSearch,
@@ -110,23 +83,47 @@ export default {
       Utils.hideLoading();
       if (!result) return;
       this.menuList = [...result];
+
+      // 默认选中第一个
+      if (!this.menuList.length) return;
+      this.menuList[0].isOpen = true;
+      if (this.menuList[0].childList.length) {
+        this.selectShelf = this.menuList[0].childList[0];
+        this.firstLoading = true;
+        this.getProductData();
+      }
     },
     toggleMenu(item) {
-      item.isOpen = !item.isOpen;
+      // item.isOpen = !item.isOpen;
+      this.$set(item, 'isOpen', !item.isOpen);
     },
-    // 下拉刷新
-    onPullingDown() {
-      this.pageNum = 1;
-      // this.getData();
+    onChangeShelf(item) {
+      this.selectShelf = { ...item };
+      this.firstLoading = true;
+      this.getProductData();
     },
-    // 上拉加载
-    onPullingUp() {
-      // if (!this.hasNext) {
-      //   // 没有数据
-      //   this.$refs.scroll.forceUpdate(true);
-      //   return;
-      // }
-      // this.getData();
+    // 获取货架产品信息
+    async getProductData() {
+      const result = await service.getShelfProductList({ userid: Utils.getUserId(this), shelfId: this.selectShelf.id });
+      this.firstLoading = false;
+      if (!result) return;
+      // 整理数据
+      // 数据整理, 一行3个
+      let list = [];
+      this.dataList = [];
+      result.forEach((item, index) => {
+        list.push(item);
+        if ((index + 1) % 3 === 0) {
+          // 准备下一行的数据
+          this.dataList.push([...list]);
+          list = [];
+        } else if (index === result.length - 1) {
+          // 最后一个数据, 未满一行
+          this.dataList.push([...list]);
+        }
+      });
+
+      this.noData = !this.dataList.length;
     },
   },
 };
@@ -183,12 +180,11 @@ export default {
   .sub-list {
     background: #fff;
     overflow: hidden;
-    height: 270px;
   }
 
   .sub-item {
-    height: .3rem;
-    line-height: .3rem;
+    height: .4rem;
+    line-height: .4rem;
     padding: 0 .1rem;
     text-align: center;
     background: #fff;
@@ -219,7 +215,6 @@ export default {
       background: $color-blue;
       display: flex;
       align-items: center;
-      justify-content: space-around;
       .col {
         width: 30%;
         height: .25rem;
@@ -230,6 +225,7 @@ export default {
         box-shadow: inset 0 -0.02rem 0.01rem #80add6;
         border-top: .01rem solid #00182f;
         border-radius: .05rem;
+        margin-left: 2.5%;
       }
     } // end mid
   } // end row-bottom
@@ -255,5 +251,10 @@ export default {
       }
     }
   }
+}
+
+.scroll-view {
+  height: 100%;
+  overflow: auto;
 }
 </style>

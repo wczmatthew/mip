@@ -195,7 +195,7 @@ export default {
 
 .banner {
   width: 100%;
-  // height: 1.3rem;
+  min-height: 30vh;
   max-height: 40vh;
   overflow: hidden;
 

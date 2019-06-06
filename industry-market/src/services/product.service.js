@@ -39,4 +39,16 @@ export default {
     };
     return postHttp({ url: '/productcenter/stock/getShelfList', params });
   },
+  /**
+   * 根据货位获取货架产品信息
+   * @param userid 用户id
+   * @param shelfId 货位id
+   */
+  getShelfProductList: ({ userid, shelfId }) => {
+    const params = {
+      userid,
+      shelfId,
+    };
+    return postHttp({ url: '/productcenter/stock/getShelfProductList', params });
+  },
 };

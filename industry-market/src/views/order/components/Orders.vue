@@ -112,6 +112,11 @@ export default {
   },
   created() {},
   mounted() {
+    if (this.$route.query.status) {
+      this.tabValue = parseInt(this.$route.query.status, 10) || -1;
+      const index = this.tabList.findIndex(tab => tab.value === this.tabValue);
+      this.tabIndex = index <= 0 ? 0 : index;
+    }
     this.onPullingDown();
   },
   components: {},
