@@ -197,7 +197,7 @@ export default {
    * (new Date()).Format('yyyy-M-d h:m:s.S')      ==> 2006-7-2 8:9:4.18
    * @param {[type]} fmt [格式]
    */
-  dateFormat: (dateStr, fmt) => { // author: meizz
+  dateFormat: (t, fmt) => { // author: meizz
     // ios 兼容写法
     dateStr = dateStr.replace(/\-/g, "/");  
     let date = new Date(dateStr);

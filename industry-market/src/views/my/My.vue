@@ -36,22 +36,25 @@
           </div> -->
           <div class="item">
             <p class="top-num">
-              132123132
+              {{totalCount}}
             </p>
             <p class="tip">
               <i class="iconfont icon-shuliang"></i>
               产品销售数量
             </p>
           </div>
-          <!-- <div class="item">
-            <i class="iconfont icon-kehu">
-              <i class="num">99+</i>
-            </i>
-            <p class="tip">新增客户</p>
-          </div> -->
           <div class="item">
             <p class="top-num">
-              222222
+              {{todayPrice}}
+            </p>
+            <p class="tip">
+              <i class="iconfont icon-shuliang"></i>
+              今日销售额
+            </p>
+          </div>
+          <div class="item">
+            <p class="top-num">
+              {{totalPrice}}
             </p>
             <!-- <i class="iconfont icon-qian">
               <i class="num">222222</i>
@@ -150,16 +153,31 @@
 </template>
 <script>
 import Utils from '@/common/Utils';
+import service from '@/services/order.service';
 
 export default {
   data() {
     return {
+      todayPrice: 0, // 今日收入
+      totalPrice: 0, // 总收入
+      totalCount: 0, // 今日销售数量
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getData();
+  },
   components: {},
   methods: {
+    async getData() {
+      Utils.showLoading();
+      const result = await service.getOrderStatisticInfo({ userid: Utils.getUserId(this) });
+      Utils.hideLoading();
+      if (!result) return;
+      this.todayPrice = result.todayPrice || 0;
+      this.totalPrice = result.totalPrice || 0;
+      this.totalCount = result.totalCount || 0;
+    },
     toOrders(status) {
       if (!status) {
         this.$router.push('/market/order');

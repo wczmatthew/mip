@@ -158,4 +158,13 @@ export default {
     const params = { userid, orderId };
     return postHttp({ url: '/ordercenter/order/getOrderDetail', params });
   },
+  /**
+   * 获取订单相关统计数据
+   * @param userid 用户id
+   * @param orderId 订单号
+   */
+  getOrderStatisticInfo: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/order/getOrderStatisticInfo', params });
+  },
 };

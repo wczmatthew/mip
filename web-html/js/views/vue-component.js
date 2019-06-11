@@ -5,13 +5,20 @@ Vue.component('chint-header', {
   },
   methods: {
     showLogin() {
-      console.log('show login');
+      // console.log('show login');
+      showLoginModal();
     },
     showRegist() {
       console.log('show regist');
     },
     onSearch() {
       console.log('show onSearch');
+    },
+  },
+  props: {
+    index: {
+      type: Number,
+      default: 0,
     },
   },
   template: 
@@ -44,16 +51,16 @@ Vue.component('chint-header', {
   '    <header class="header">'+
   '      <img src="../assets/common/logo.jpg" alt="" class="logo">'+
   '      <nav class="mid">'+
-  '        <a href="index" class="item">'+
+  '        <a href="index.html" class="item" :class="{actived: index == 0}">'+
   '          采购云首页'+
   '        </a>'+
-  '        <a href="center" class="item">'+
+  '        <a href="news.html" class="item" :class="{actived: index == 1}">'+
   '          采购中心'+
   '        </a>'+
-  '        <a href="dynamic" class="item">'+
+  '        <a href="news.html" class="item" :class="{actived: index == 2}">'+
   '          采购动态'+
   '        </a>'+
-  '        <a href="service" class="item">'+
+  '        <a href="service" class="item" :class="{actived: index == 3}">'+
   '          服务监督'+
   '        </a>'+
   '      </nav>'+

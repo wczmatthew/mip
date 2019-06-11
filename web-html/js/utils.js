@@ -48,9 +48,31 @@ function dataFormat(dateStr, fmt) {
 }
 
 // 显示登录
-function showLogin() {
+function showLoginModal() {
   var loginHtml = '' +
-  '<div class="login"></div>'
+  '<div class="login-modal">'+
+  '  <i class="iconfont icon-close" onclick="onCloseLogin()"></i>'+
+  '  <img src="../assets/login/erweima-bg.png" class="change-icon" onclick="changeToScanLogin(this)"/>'+
+  '  <div class="login-modal-title">'+
+  '    <img src="../assets/common/chint-logo.png" class="title-icon"/>'+
+  '    <p class="title">正泰统一登录门户</p>'+
+  '  </div>'+
+  '  <div class="login-modal-content" id="loginModalContent">'+
+  '    <div class="input-item">'+
+  '      <i class="iconfont icon-gerenguanli"></i>'+
+  '      <input type="text" placeholder="域账号"/>'+
+  '    </div>'+
+  '    <div class="input-item">'+
+  '      <i class="iconfont icon-mima"></i>'+
+  '      <input type="text" placeholder="密码"/>'+
+  '    </div>'+
+  '    <div class="login-tip">'+
+  '      <input type="checkbox"/> 七天内记住密码'+
+  '    </div>'+
+  '  </div>'+
+  '  <button type="button" class="blue-btn" onclick="onLogin()">登录</button>'+
+  '  <div class="login-bottom-line"></div>'+
+  '</div>';
 
   layer.open({
     type: 1,
@@ -60,4 +82,47 @@ function showLogin() {
     skin: 'login-modal',
     content: loginHtml
   });
+}
+
+// 点击登录
+function onLogin() {
+  var isChecked = $("#loginModalContent .login-tip input[type=checkbox]").prop('checked');
+  if (isChecked) {
+    // 勾选了7天记住密码
+  }
+  // 进行登录操作
+}
+
+// 关闭登录按钮
+function onCloseLogin() {
+  layer.closeAll();
+}
+
+// 更改为扫码登录
+function changeToScanLogin(_this) {
+  $(_this).attr('src', '../assets/login/login-icon.png').attr('onclick', 'changeToNormalLogin(this)');
+  $("#loginModalContent").empty().append(
+    '<img src="" class="login-modal-erweima"/>'+
+    '<div class="login-erweima-tip">'+
+    '  打开<span class="blue">公司内部网APP</span>扫码登录'+
+    '</div>'
+  );
+}
+
+// 更改为账号密码登录
+function changeToNormalLogin(_this) {
+  $(_this).attr('src', '../assets/login/erweima-bg.png').attr('onclick', 'changeToScanLogin(this)');;
+  $("#loginModalContent").empty().append(
+    '<div class="input-item">'+
+    '  <i class="iconfont icon-gerenguanli"></i>'+
+    '  <input type="text" placeholder="域账号"/>'+
+    '</div>'+
+    '<div class="input-item">'+
+    '  <i class="iconfont icon-mima"></i>'+
+    '  <input type="text" placeholder="密码"/>'+
+    '</div>'+
+    '<div class="login-tip">'+
+    '  <input type="checkbox"/> 七天内记住密码'+
+    '</div>'
+  );
 }
