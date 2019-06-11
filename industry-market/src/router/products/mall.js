@@ -1,6 +1,7 @@
 // 商城页
 import detail from './detail';
 import search from './search';
+import cart from '../order/cart';
 
 const Mall = () => import('@/views/products/Mall.vue');
 
@@ -11,6 +12,7 @@ export default [
     children: [
       ...detail,
       ...search,
+      ...cart,
     ],
   },
 ];

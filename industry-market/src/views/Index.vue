@@ -8,7 +8,7 @@
         <i class="iconfont icon-triangle-down"></i>
       </div>
       <w-search class="index-search" disabled @input-click="toSearch()" show-scan></w-search>
-      <w-msg-icon></w-msg-icon>
+      <!-- <w-msg-icon></w-msg-icon> -->
     </div>
     <!-- 顶部栏 end -->
 

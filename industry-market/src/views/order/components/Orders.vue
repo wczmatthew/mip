@@ -149,7 +149,7 @@ export default {
     onPullingUp() {
       if (!this.hasNext) {
         // 没有数据
-        this.$refs.scroll.forceUpdate(true);
+        this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
         return;
       }
       this.getData();
@@ -172,7 +172,7 @@ export default {
       if (this.hasNext) {
         this.pageNum += 1;
       }
-      this.$refs.scroll.forceUpdate(true);
+      this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
     },
     // 查看详情
     toDetail(item) {

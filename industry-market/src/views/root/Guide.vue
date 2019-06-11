@@ -84,7 +84,7 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
 .w-content {
-  background: url('~@/assets/guide/bg.png') no-repeat;
+  background: url('~@/assets/guide/bg.jpg') no-repeat;
   background-size: cover;
 }
 
@@ -92,7 +92,7 @@ export default {
   width: 80%;
   margin: 0 auto;
   justify-content: space-between;
-  padding-top: .2rem;
+  padding-top: .4rem;
 
   .item {
     width: 45%;
@@ -104,7 +104,7 @@ export default {
     padding: 0;
     background: $color-blue;
     margin-bottom: .2rem;
-    box-shadow: 0 .02rem .05rem #000;
+    box-shadow: 0 .02rem .05rem #313131;
 
     .img {
       width: 50%;
@@ -122,6 +122,7 @@ export default {
     .detail {
       flex: 1;
       overflow: hidden;
+      padding-top: .05rem;
       p {
         color: #fff;
         margin-bottom: .05rem;

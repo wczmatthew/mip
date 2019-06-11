@@ -237,7 +237,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
 @import '~@/styles/components/button.scss';
 
 .customer-list {
@@ -246,6 +245,7 @@ export default {
   justify-content: space-between;
   padding: .1rem .12rem;
   flex-wrap: wrap;
+  background: $color-bg;
 
   .item {
     width: 49%;

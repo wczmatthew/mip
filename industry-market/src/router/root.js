@@ -37,6 +37,7 @@ export default [
         children: [
           ...productDetail,
           ...cart,
+          ...search,
         ],
       },
     ],

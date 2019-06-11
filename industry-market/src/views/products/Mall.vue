@@ -5,8 +5,9 @@
     <w-search class="search" slot="header-mid" show-scan disabled
     @input-click="toSearch()"></w-search>
     <div class="header-right" slot="header-right">
-      <w-msg-icon color="blue"></w-msg-icon>
-      <i class="iconfont icon-cart"></i>
+      <!-- <w-msg-icon color="blue"></w-msg-icon> -->
+      <!-- <i class="iconfont icon-cart"></i> -->
+      <w-cart-icon color="blue" :current-path="routePath"></w-cart-icon>
     </div>
     <!-- 顶部栏 end -->
 
@@ -124,6 +125,7 @@ export default {
           title: '正泰插座NEA系列2', star: 4, imgPath: productImg, labels: ['满100-3', '买2送1', '全国包邮'],
         },
       ],
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'mall' }), // 获取当前路由
     };
   },
   created() {},

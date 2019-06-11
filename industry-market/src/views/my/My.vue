@@ -6,9 +6,9 @@
       <div slot="header-mid">
         个人中心
       </div>
-      <div class="header-right" slot="header-right">
+      <!-- <div class="header-right" slot="header-right">
         <w-msg-icon></w-msg-icon>
-      </div>
+      </div> -->
     </w-header>
     <!-- 顶部栏 end -->
 
@@ -145,7 +145,7 @@
     </div>
     <!-- 管理中心 end -->
 
-    <button class="blue-btn bottom-btn">
+    <button class="blue-btn bottom-btn" @click="onLogout()">
       退出登录
     </button>
 
@@ -169,6 +169,11 @@ export default {
   },
   components: {},
   methods: {
+    // 退出登录
+    onLogout() {
+      this.$store.commit('user/updateUserId', '');
+      this.$router.push('/login');
+    },
     async getData() {
       Utils.showLoading();
       const result = await service.getOrderStatisticInfo({ userid: Utils.getUserId(this) });

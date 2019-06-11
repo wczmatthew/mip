@@ -3,7 +3,7 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" show-scan></w-search>
+    <w-search class="search" slot="header-mid" show-scan disabled @input-click="toSearch()"></w-search>
     <div class="header-right" slot="header-right">
       <!-- <w-msg-icon color="blue"></w-msg-icon> -->
       <!-- <i class="iconfont icon-cart"></i> -->
@@ -73,6 +73,7 @@ export default {
       firstLoading: true,
       selectShelf: {},
       dataList: [],
+      shelfDataList: [],
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' }), // 获取当前路由
     };
   },
@@ -84,6 +85,9 @@ export default {
     WSearch,
   },
   methods: {
+    toSearch() {
+      this.$router.push(`${this.routePath}/search`);
+    },
     toDetail(item) {
       if (!item.bm) return;
       this.$router.push(`${this.routePath}/detail?bm=${item.bm}`);
@@ -136,18 +140,20 @@ export default {
       // 整理数据
       // 数据整理, 一行3个
       let list = [];
-      this.dataList = [];
+      this.shelfDataList = [];
       result.forEach((item, index) => {
         list.push(item);
         if ((index + 1) % 3 === 0) {
           // 准备下一行的数据
-          this.dataList.push([...list]);
+          this.shelfDataList.push([...list]);
           list = [];
         } else if (index === result.length - 1) {
           // 最后一个数据, 未满一行
-          this.dataList.push([...list]);
+          this.shelfDataList.push([...list]);
         }
       });
+
+      this.dataList = [...this.shelfDataList];
 
       this.noData = !this.dataList.length;
     },

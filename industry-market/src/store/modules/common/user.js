@@ -3,6 +3,7 @@
  */
 const state = {
   userId: '100001581',
+  // userId: '',
 };
 
 // getters

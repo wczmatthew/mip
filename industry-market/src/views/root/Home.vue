@@ -3,8 +3,8 @@
   <div>
     <!-- 顶部栏 -->
     <div class="header">
-      <w-search class="home-search" disabled show-scan @input-click="toSearch()"></w-search>
-      <w-msg-icon></w-msg-icon>
+      <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .3rem;"></w-search>
+      <!-- <w-msg-icon></w-msg-icon> -->
     </div>
     <!-- 顶部栏 end -->
 
@@ -137,7 +137,7 @@ export default {
       if (!result) return;
       this.banners = [...result];
       this.$nextTick(() => {
-        this.$refs.slide.refresh();
+        this.$refs.slide && this.$refs.slide.refresh();
       });
     },
     // 传统模式, 产品列表

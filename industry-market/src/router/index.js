@@ -1,7 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import root from './root';
-import products from './products';
+import mall from './products/mall';
 import search from './products/search';
 
 const Login = () => import('@/views/Login.vue'); // 登录
@@ -23,6 +23,6 @@ export default new Router({
       ],
     },
     ...root,
-    ...products,
+    ...mall,
   ],
 });

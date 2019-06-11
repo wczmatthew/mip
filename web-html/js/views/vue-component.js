@@ -54,7 +54,7 @@ Vue.component('chint-header', {
   '        <a href="index.html" class="item" :class="{actived: index == 0}">'+
   '          采购云首页'+
   '        </a>'+
-  '        <a href="news.html" class="item" :class="{actived: index == 1}">'+
+  '        <a href="inviteBids.html" class="item" :class="{actived: index == 1}">'+
   '          采购中心'+
   '        </a>'+
   '        <a href="news.html" class="item" :class="{actived: index == 2}">'+

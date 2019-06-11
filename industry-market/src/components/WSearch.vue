@@ -28,12 +28,16 @@ export default {
   },
   mounted() {
     this.marginRight = '.12rem';
-    this.inputWidth = this.$refs.searchView.offsetWidth;
-
-    this.$nextTick(() => {
+    if (this.$refs.searchView) {
       this.inputWidth = this.$refs.searchView.offsetWidth;
-      this.inputTransition = 'all .3s ease';
-    });
+  
+      this.$nextTick(() => {
+        if (this.$refs.searchView) {
+          this.inputWidth = this.$refs.searchView.offsetWidth;
+        }
+        this.inputTransition = 'all .3s ease';
+      });
+    }
   },
   components: {},
   methods: {

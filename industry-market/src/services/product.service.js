@@ -34,6 +34,7 @@ export default {
    * @param userid 用户id
    */
   getShelfList: ({ userid }) => {
+    if (!userid) return;
     const params = {
       userid,
     };
@@ -45,6 +46,7 @@ export default {
    * @param shelfId 货位id
    */
   getShelfProductList: ({ userid, shelfId }) => {
+    if (!userid) return;
     const params = {
       userid,
       shelfId,
@@ -56,6 +58,7 @@ export default {
    * @param userid 用户id
    */
   getTopShelfList: ({ userid }) => {
+    if (!userid) return;
     const params = {
       userid,
     };

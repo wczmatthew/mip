@@ -76,6 +76,14 @@ export default {
    * 获取用户id
    */
   getUserId(_this) {
+    if (!_this.$store.getters['user/userId']) {
+      // userid 为空, 需要重新登录
+      _this.$router.push('/login');
+      setTimeout(() => {
+        this.showToast('登录失效, 请重新登录');
+      }, 300);
+      return;
+    }
     return _this.$store.getters['user/userId'];
   },
   /**
