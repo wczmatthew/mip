@@ -62,14 +62,24 @@
             <i class="iconfont icon-delete"></i>
           </div>
           <!-- 编辑按钮 end -->
+          <!-- 洽谈按钮 -->
+          <div class="right-icon right-icon2" @click.stop="onChat(item)"  v-show="isTabbar && !isEdit">
+            <i class="iconfont icon-chat"></i>
+          </div>
+          <!-- 洽谈按钮 end -->
         </div>
       </div>
     </w-scroll>
     <!-- 正文内容 end -->
 
-    <button class="blue-btn bottom-btn" slot="w-footer" @click="onNew()">
-      新增客户
-    </button>
+    <div slot="w-footer" class="bottom-btn">
+      <button class="blue-btn" @click="onNew()">
+        新增客户
+      </button>
+      <button class="blue-btn" @click="onChat()" v-if="isTabbar">
+        开始洽谈
+      </button>
+    </div>
   </div>
 </template>
 <script>
@@ -97,6 +107,7 @@ export default {
   },
   watch: {
     '$route'(to) {
+      this.$refs.scroll.forceUpdate(true);
       if (to.path !== this.currentPath) return;
       // 重新进入
       if (!this.customer || !this.customer.id) {
@@ -159,6 +170,11 @@ export default {
     },
     onNew() {
       this.$router.push(`${this.currentPath}/new`);
+    },
+    // 开始洽谈
+    onChat(item) {
+      this.$store.commit('customer/updateSelectCustomer', item);
+      this.$router.push(`${this.currentPath}/chat`);
     },
     // 选择客户信息
     onSelect(customer) {
@@ -352,6 +368,14 @@ export default {
       }
     }
 
+    .right-icon2 {
+      top: .4rem;
+
+      .iconfont {
+        color: $color-gold;
+      }
+    }
+
     .icon-bottom-select {
       display: none;
     }
@@ -384,11 +408,19 @@ export default {
   position: absolute;
   bottom: .1rem;
   left: 50%;
-  margin-left: -.75rem;
-  width: 1.5rem;
-  font-size: .14rem;
-  border-radius: .3rem;
-  height: .3rem;
+  margin-left: -1.6rem;
   z-index: 10;
+  display: flex;
+  height: .3rem;
+  align-items: center;
+  width: 3.2rem;
+  justify-content: space-between;
+
+  button {
+    width: 1.5rem;
+    font-size: .14rem;
+    border-radius: .3rem;
+    height: .3rem;
+  }
 }
 </style>

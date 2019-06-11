@@ -6,7 +6,7 @@
     <div class="header-right" slot="header-right">
       <!-- <w-msg-icon color="blue"></w-msg-icon> -->
       <!-- <i class="iconfont icon-cart"></i> -->
-      <w-cart-icon :current-path="routePath"></w-cart-icon>
+      <w-cart-icon :current-path="routePath" color="blue"></w-cart-icon>
     </div>
     <!-- 顶部栏 end -->
 

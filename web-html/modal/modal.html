@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>首页</title>
+</head>
+<body>
+
+  <input type="button" onclick="showNormalModal()" value="显示通用弹窗">
+  <input type="button" onclick="showSearchModal()" value="显示通用弹窗">
+
+  <script src="./modal.js"></script>
+  <script>
+
+    function showNormalModal() {
+      // showModal('提示', '提示内容');
+      showModal('提示', '提示内容', function() {
+        console.log('confirm');
+      }, function() {
+        console.log('cancel');
+      });
+    }
+
+    // 显示带搜索的弹窗
+    function showSearchModal() {
+      var modal = showModalTable("", ['测试1', '测试2', '测试3'], function() {
+        // input 按下回车键之后, 进行搜索, 模拟ajax请求
+        setTimeout(function() {
+          var data = ['测试11', '测试21', '测试31'];
+          updateModalTable(modal, data);
+        }, 500)
+      }, function(res) {
+        // 双击选中条目回调方法
+        console.log(res);
+      });
+    }
+  </script>
+</body>
+</html>

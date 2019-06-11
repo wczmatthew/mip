@@ -117,13 +117,13 @@
             <span class="title">
               相关文件
             </span>
-            <span class="desc" v-if="certType == 1">
+            <span class="desc" v-if="orderDetail.certType == 1">
               资质文件
             </span>
-            <span class="desc" v-else-if="certType == 2">
+            <span class="desc" v-else-if="orderDetail.certType == 2">
               发票
             </span>
-            <span class="desc" v-else-if="certType == 3">
+            <span class="desc" v-else-if="orderDetail.certType == 3">
               出库单
             </span>
             <span class="desc" v-else>
@@ -152,7 +152,7 @@
             </span>
             <span class="desc">
               门店自提
-              {{ postType == 1 ? '送货上门' : '门店自提'}}
+              {{ orderDetail.postType == 1 ? '送货上门' : '门店自提'}}
             </span>
           </div>
           <div class="cell">

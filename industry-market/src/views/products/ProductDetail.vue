@@ -13,7 +13,8 @@
           <w-msg-icon class="msg-icon"></w-msg-icon>
         </div> -->
         <div class="circle">
-          <i class="iconfont icon-cart"></i>
+          <!-- <i class="iconfont icon-cart"></i> -->
+          <w-cart-icon :current-path="routePath" class="msg-icon"></w-cart-icon>
         </div>
       </div>
     </header>
@@ -141,6 +142,7 @@ export default {
       product: {},
       loading: false,
       firstLoading: true,
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'detail' }), // 获取当前路由
     };
   },
   created() {},

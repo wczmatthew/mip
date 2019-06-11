@@ -28,29 +28,38 @@
           </div>
         </div>
         <div class="grid-list">
-          <div class="item">
+          <!-- <div class="item">
             <i class="iconfont icon-notcollect">
               <i class="num">99</i>
             </i>
             <p class="tip">我的收藏</p>
-          </div>
+          </div> -->
           <div class="item">
-            <i class="iconfont icon-shuliang">
-              <i class="num">99+</i>
-            </i>
-            <p class="tip">产品销售数量</p>
+            <p class="top-num">
+              132123132
+            </p>
+            <p class="tip">
+              <i class="iconfont icon-shuliang"></i>
+              产品销售数量
+            </p>
           </div>
-          <div class="item">
+          <!-- <div class="item">
             <i class="iconfont icon-kehu">
               <i class="num">99+</i>
             </i>
             <p class="tip">新增客户</p>
-          </div>
+          </div> -->
           <div class="item">
-            <i class="iconfont icon-qian">
-              <i class="num">2</i>
-            </i>
-            <p class="tip">现金收入</p>
+            <p class="top-num">
+              222222
+            </p>
+            <!-- <i class="iconfont icon-qian">
+              <i class="num">222222</i>
+            </i> -->
+            <p class="tip">
+              <i class="iconfont icon-qian"></i>
+              现金收入
+            </p>
           </div>
         </div>
       </div>
@@ -83,7 +92,7 @@
           <p class="tip">待发货</p>
         </div>
         <div class="item" @click.stop="toOrders(2)">
-          <i class="iconfont icon-dai           shouhuo">
+          <i class="iconfont icon-daishouhuo">
             <i class="num"></i>
           </i>
           <p class="tip">待收货</p>
@@ -105,7 +114,7 @@
     <!-- 我的订单 end -->
 
     <!-- 管理中心 -->
-    <!-- <div class="card my-manage">
+    <div class="card my-manage">
       <div class="title-row">
         <div class="title">
           管理中心
@@ -113,14 +122,24 @@
       </div>
 
       <div class="w-tableview">
-        <div class="cell">
+        <div class="cell" @click="toCollection()">
           <span class="title">
-            <i class="iconfont icon-customers"></i>客户管理
+            <i class="iconfont icon-notcollect"></i>
+            我的收藏
           </span>
           <i class="iconfont icon-arrow-right"></i>
         </div>
+
+        <!-- <div class="cell">
+          <span class="title">
+            <i class="iconfont icon-kehu"></i>
+            我的客户
+          </span>
+          <i class="iconfont icon-arrow-right"></i>
+        </div> -->
+
       </div>
-    </div> -->
+    </div>
     <!-- 管理中心 end -->
 
     <button class="blue-btn bottom-btn">
@@ -130,6 +149,8 @@
   </div>
 </template>
 <script>
+import Utils from '@/common/Utils';
+
 export default {
   data() {
     return {
@@ -145,6 +166,9 @@ export default {
         return;
       }
       this.$router.push(`/market/order?status=${status}`);
+    },
+    toCollection() {
+      Utils.showToast('敬请期待');
     },
   },
 };
@@ -196,12 +220,16 @@ export default {
       transform: scaleX(.5);
     }
 
+    .top-num {
+      text-align: center;
+      font-size: .2rem;
+    }
+
     .iconfont {
       display: inline-block;
       font-size: .2rem;
       color: $color-blue;
       position: relative;
-
       .num {
         position: absolute;
         top: -.06rem;
@@ -222,6 +250,14 @@ export default {
       color: $color-grey;
       font-size: .12rem;
       margin-top: .05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .iconfont {
+        font-size: .12rem;
+        margin-right: .05rem;
+      }
     }
   }
 }

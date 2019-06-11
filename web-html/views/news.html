@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>新闻</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/components/button.css">
+  <link rel="stylesheet" href="../css/hover-min.css">
+  <link rel="stylesheet" href="../css/pagination.css">
+  <link rel="stylesheet" href="../css/views/index.css">
+  <link rel="stylesheet" href="../css/views/news.css">
+</head>
+<body>
+  <div id="chintNews">
+  
+    <!-- 顶部栏 -->
+    <chint-header></chint-header>
+    <!-- 顶部栏 end -->
+  
+    <!-- 顶部大图 -->
+    <div class="web-index">
+      <div class="index-banner">
+        <img src="../assets/common/banner1.jpg" alt="">
+        <div class="desc">
+          <p class="small">新视界   新链接   新融合</p>
+          <p class="big">采购可以如此简单</p>
+          <p class="small">公平   公正   公开</p>
+        </div>
+      </div>
+    </div>
+    <!-- 顶部大图 -->
+
+    <div class="news-container">
+      <!-- 采购新鲜动态 -->
+      <div class="web-row dynamic-row">
+        <div class="w-container">
+          <p class="top-title">
+            采购新鲜动态
+          </p>
+          <p class="top-desc">
+            公告，技术，新闻多种文章大集合
+          </p>
+          
+          <!-- 动态列表 -->
+          <div class="dynamic-list" id="dynamicList">
+            <div class="col1 hvr-bob" onclick="toNews(1)">
+              <div class="img">
+                <img src="../assets/home/img1.jpg" alt="">
+              </div>
+              <div class="detail">
+                <p class="title">
+                  辽宁省政协主席夏德仁 调研正泰
+                </p>
+                <p class="desc">
+                  4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线
+                </p>
+              </div>
+            </div>
+    
+            <div class="col2">
+              <div class="item hvr-bob" onclick="toNews(1)">
+                <div class="detail">
+                  <p class="title">
+                    辽宁省政协主席夏德仁 调研正泰
+                  </p>
+                  <p class="desc">
+                    4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线
+                  </p>
+                </div>
+              </div>
+    
+              <div class="item hvr-bob" onclick="toNews(1)">
+                <div class="img">
+                  <img src="../assets/home/img2.jpg" alt="">
+                </div>
+                <div class="detail">
+                  <p class="title">
+                    辽宁省政协主席夏德仁调研正泰
+                  </p>
+                  <p class="desc">
+                    4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线
+                  </p>
+                </div>
+              </div>
+              
+              <div class="item bg-white hvr-bob" onclick="toNews(1)">
+                <div class="detail">
+                  <p class="title">
+                    辽宁省政协主席夏德仁 调研正泰
+                  </p>
+                  <p class="desc">
+                    4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线
+                  </p>
+                </div>
+              </div>
+    
+              <div class="item bg-white item-2 hvr-bob" onclick="toNews(1)">
+                <div class="detail">
+                  <p class="title">
+                    辽宁省政协主席夏德仁 调研正泰
+                  </p>
+                  <p class="desc">
+                    4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线
+                  </p>
+                </div>
+              </div>
+    
+              <div class="item hvr-bob" onclick="toNews(1)">
+                <div class="detail">
+                  <p class="title">
+                    辽宁省政协主席夏德仁 调研正泰
+                  </p>
+                  <p class="desc">
+                    4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- 动态列表 end -->
+    
+          <!-- <div class="sm-tip">
+            <a onclick="exchangeDynamic()">
+              换一换
+            </a>
+          </div> -->
+    
+        </div>
+      </div>
+      <!-- 采购新鲜动态 end -->
+  
+      <div class="w-container">
+        <!-- 新闻列表 -->
+        <div class="news-list">
+          <!-- 加载页面 -->
+          <div class="w-loading-mid" style="display: none;">
+            <img src="../assets/common/loading.svg" class="loading-img">
+          </div>
+          <!-- 加载页面 end -->
+          <div id="newList">
+            <div class="item hvr-sweep-to-right" onclick="toNews(1)">
+              <div class="left">
+                <p>2019</p>
+                <p class="desc">
+                  04-01
+                </p>
+              </div>
+              <div class="detail">
+                <p class="title">
+                  2018年度培训年会及培训总结表彰大会
+                </p>
+                <p class="desc">
+                  2019年1月17日，正泰电器股份公司“2018年度培训年会及培训总结表彰大会”于温州科技楼三楼报告厅隆重召开。在大会上，颁授并表彰了21位新晋内训师聘书，表彰了“年度十佳内训师”，4位年度优秀培训管理员，4家年度优秀学习单位，6门“金牌课程”。
+                </p>
+              </div>
+            </div>
+  
+            <div class="item hvr-sweep-to-right" onclick="toNews(1)">
+              <div class="left">
+                <p>2019</p>
+                <p class="desc">
+                  04-01
+                </p>
+              </div>
+              <div class="detail">
+                <p class="title">
+                  2018年度培训年会及培训总结表彰大会
+                </p>
+                <p class="desc">
+                  2019年1月17日，正泰电器股份公司“2018年度培训年会及培训总结表彰大会”于温州科技楼三楼报告厅隆重召开。在大会上，颁授并表彰了21位新晋内训师聘书，表彰了“年度十佳内训师”，4位年度优秀培训管理员，4家年度优秀学习单位，6门“金牌课程”。
+                </p>
+              </div>
+            </div>
+  
+            <div class="item hvr-sweep-to-right" onclick="toNews(1)">
+              <div class="left">
+                <p>2019</p>
+                <p class="desc">
+                  04-01
+                </p>
+              </div>
+              <div class="detail">
+                <p class="title">
+                  2018年度培训年会及培训总结表彰大会
+                </p>
+                <p class="desc">
+                  2019年1月17日，正泰电器股份公司“2018年度培训年会及培训总结表彰大会”于温州科技楼三楼报告厅隆重召开。在大会上，颁授并表彰了21位新晋内训师聘书，表彰了“年度十佳内训师”，4位年度优秀培训管理员，4家年度优秀学习单位，6门“金牌课程”。
+                </p>
+              </div>
+            </div>
+  
+            <div class="item hvr-sweep-to-right" onclick="toNews(1)">
+              <div class="left">
+                <p>2019</p>
+                <p class="desc">
+                  04-01
+                </p>
+              </div>
+              <div class="detail">
+                <p class="title">
+                  2018年度培训年会及培训总结表彰大会
+                </p>
+                <p class="desc">
+                  2019年1月17日，正泰电器股份公司“2018年度培训年会及培训总结表彰大会”于温州科技楼三楼报告厅隆重召开。在大会上，颁授并表彰了21位新晋内训师聘书，表彰了“年度十佳内训师”，4位年度优秀培训管理员，4家年度优秀学习单位，6门“金牌课程”。
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- 新闻列表 end -->
+    
+        <!-- 分页 -->
+        <div class="pagination clearfix">
+          <div class="m-style M-box3"></div>
+        </div>
+        <!-- 分页 end -->
+      </div>
+    </div>
+  
+    <!-- 底部 -->
+    <chint-footer></chint-footer>
+    <!-- 底部 end -->
+  </div>
+
+
+  <script src="../js/jquery-3.4.1.min.js"></script>
+  <script src="../js/jquery.pagination.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layer/layer.js"></script>
+  <script src="../js/views/news.js"></script>
+  <script src="../js/vue.min.js"></script>
+  <script src="../js/views/vue-component.js"></script>
+  <script>
+    new Vue({ el: '#chintNews' });
+  </script>
+</body>
+</html>

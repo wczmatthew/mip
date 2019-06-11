@@ -1,8 +1,13 @@
+import customer from '../customer';
+
 const Cart = () => import('@/views/cart/Cart.vue');
+
 export default [
   {
     path: 'cart',
     component: Cart,
-    children: [],
+    children: [
+      ...customer,
+    ],
   },
 ];

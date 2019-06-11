@@ -141,7 +141,7 @@
   -webkit-border-top-right-radius: 5px;
   border-top-right-radius: 5px;
   background: #fff;
-  background: url('../assets/home/card-bg.jpg') no-repeat;
+  background: url('../../assets/home/card-bg.jpg') no-repeat;
   background-size: 100%;
   background-position: bottom;
 }
