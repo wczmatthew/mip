@@ -8,7 +8,7 @@ export default {
    * @param qty 产品数量
    */
   addCart: ({ userid, bm, qty }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, bm, qty };
     return getHttp({ url: '/ordercenter/shopcar/addToShopCar', params });
   },
@@ -18,7 +18,7 @@ export default {
    * @param bm 产品编号
    */
   addCollect: ({ userid, bm }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, bm, qty: 1 };
     return getHttp({ url: '/ordercenter/shopcar/addToCollect', params });
   },
@@ -28,7 +28,7 @@ export default {
    * @param bm 产品编号
    */
   deleteCollect: ({ userid, bm }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, bm };
     return getHttp({ url: '/ordercenter/shopcar/deleteCollect', params });
   },
@@ -39,7 +39,7 @@ export default {
    * @param pageSize 一页显示多少条
    */
   getCartList: ({ userid, pageNum, pageSize }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, pageNum, pageSize: pageSize || 20 };
     return postHttp({ url: '/ordercenter/shopcar/getShopCarList', params });
   },
@@ -50,7 +50,7 @@ export default {
    * @param qty 产品数量
    */
   editCartNum: ({ userid, bm, qty }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, bm, qty };
     return postHttp({ url: '/ordercenter/shopcar/editShopCar', params });
   },
@@ -60,7 +60,7 @@ export default {
    * @param bm 产品编号
    */
   deleteShopCar: ({ userid, bm }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, bm };
     return postHttp({ url: '/ordercenter/shopcar/deleteShopCar', params });
   },
@@ -71,7 +71,7 @@ export default {
    * @param pageSize 一页显示多少条
    */
   getCustomerList: ({ userid, pageNum, pageSize }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, pageNum, pageSize: pageSize || 20 };
     return postHttp({ url: '/ordercenter/client/getClientList', params });
   },
@@ -80,7 +80,7 @@ export default {
    * @param userid 用户id
    */
   getAreaList: ({ userid }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid };
     return postHttp({ url: '/ordercenter/client/getAreaList', params });
   },
@@ -89,7 +89,7 @@ export default {
    * @param userid 用户id
    */
   getDutyList: ({ userid }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid };
     return postHttp({ url: '/ordercenter/client/getDeptList', params });
   },
@@ -98,7 +98,7 @@ export default {
    * @param userid 用户id
    */
   getIndustryList: ({ userid }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid };
     return postHttp({ url: '/ordercenter/client/getIndustryList', params });
   },
@@ -113,7 +113,7 @@ export default {
    * @param clientId 客户id
    */
   deleteClient: ({ userid, clientId }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, clientId };
     return postHttp({ url: '/ordercenter/client/deleteClient', params });
   },
@@ -136,7 +136,7 @@ export default {
     clientId, userid, carIds,
     payType, memo, postType, certType,
   }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, clientId, carIds, payType, memo, postType, certType };
     return postHttp({ url: '/ordercenter/order/createOrder', params });
   },
@@ -148,7 +148,7 @@ export default {
    * @param type 订单类型（不传获取全部）
    */
   getOrderList: ({ userid, pageNum, pageSize, type }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, pageNum, pageSize: pageSize || 10, type: type || '' };
     return postHttp({ url: '/ordercenter/order/getOrderList', params });
   },
@@ -159,7 +159,7 @@ export default {
    * @param type 状态id（1待发货，2 待收货，3已完成，4退货中，5已取消）
    */
   changeOrderType: ({ userid, orderId, type }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, orderId, type };
     return postHttp({ url: '/ordercenter/order/changeOrderType', params });
   },
@@ -169,7 +169,7 @@ export default {
    * @param orderId 订单号
    */
   getOrderDetail: ({ userid, orderId }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid, orderId };
     return postHttp({ url: '/ordercenter/order/getOrderDetail', params });
   },
@@ -179,7 +179,7 @@ export default {
    * @param orderId 订单号
    */
   getOrderStatisticInfo: ({ userid }) => {
-    if (!userid) return;
+    if (!userid) return '';
     const params = { userid };
     return postHttp({ url: '/ordercenter/order/getOrderStatisticInfo', params });
   },
