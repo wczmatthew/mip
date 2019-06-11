@@ -68,6 +68,9 @@
               <button v-if="item.billType == 2" @click.stop="onConfirmReceive(item, index)">
                 确认收货
               </button>
+              <button v-if="item.billType == 6" @click.stop="onConfirmPay(item, index)">
+                确认付款
+              </button>
               <button class="grey" @click.stop="toDetail(item)">查看详情</button>
               <button class="grey" v-if="item.billType == 1" @click.stop="onCloseOrder(item, index)">
                 关闭订单
@@ -100,6 +103,7 @@ export default {
       tabList: [
         { title: '全部', value: -1 },
         // { title: '售后中', value: 4, color: 'grey' },
+        { title: '待付款', value: 6, color: 'red' },
         { title: '待发货', value: 1, color: 'yellow' },
         { title: '待收货', value: 2, color: 'blue' },
         { title: '已完成', value: 3, color: 'green' },
@@ -112,6 +116,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.lineWidth = 100 / this.tabList.length;
     if (this.$route.query.status) {
       this.tabValue = parseInt(this.$route.query.status, 10) || -1;
       const index = this.tabList.findIndex(tab => tab.value === this.tabValue);
@@ -177,6 +182,25 @@ export default {
     // 查看详情
     toDetail(item) {
       this.$router.push(`${this.currentPath}/orderDetail?id=${item.billNo}`);
+    },
+    // 确认付款, 付款成功
+    async onConfirmPay(item, index) {
+      if (this.loading) return;
+      this.loading = true;
+      Utils.showLoading();
+      const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 1 });
+      Utils.hideLoading();
+      this.loading = false;
+      if (!result) return;
+      Utils.showToast('确认付款成功');
+      if (this.tabValue === -1) {
+        // 全部
+        item.billType = 1;
+        return;
+      }
+
+      // 待收货状态
+      this.dataList.splice(index, 1);
     },
     // 确认收货
     async onConfirmReceive(item, index) {

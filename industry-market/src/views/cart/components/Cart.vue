@@ -96,7 +96,7 @@
           </div>
           <div class="item" @click="payWay = 2">
             <i class="iconfont" :class="[payWay == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            现金刷卡
+            现金/刷卡
           </div>
         </div>
       </div>

@@ -20,10 +20,10 @@
           <img src="~@/assets/common/user-logo.png" alt="" class="logo">
           <div class="detail">
             <p class="title">
-              绍兴工业超市导购
+              {{userData.userName || '--'}}
             </p>
             <p class="desc">
-              上次登录时间: 3小时前
+              上次登录时间: {{userData.loginTime || '--'}}
             </p>
           </div>
         </div>
@@ -82,27 +82,27 @@
       </div>
 
       <div class="grid-list">
-        <!-- <div class="item">
+        <div class="item" @click.stop="toOrders(6)">
           <i class="iconfont icon-daifukuan">
-            <i class="num"></i>
+            <!-- <i class="num"></i> -->
           </i>
           <p class="tip">待付款</p>
-        </div> -->
+        </div>
         <div class="item" @click.stop="toOrders(1)">
           <i class="iconfont icon-daifahuo">
-            <i class="num"></i>
+            <!-- <i class="num"></i> -->
           </i>
           <p class="tip">待发货</p>
         </div>
         <div class="item" @click.stop="toOrders(2)">
           <i class="iconfont icon-daishouhuo">
-            <i class="num"></i>
+            <!-- <i class="num"></i> -->
           </i>
           <p class="tip">待收货</p>
         </div>
         <div class="item" @click.stop="toOrders(3)">
           <i class="iconfont icon-daipingjia">
-            <i class="num"></i>
+            <!-- <i class="num"></i> -->
           </i>
           <p class="tip">已完成</p>
         </div>
@@ -154,6 +154,7 @@
 <script>
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
+import userService from '@/services/user.service';
 
 export default {
   data() {
@@ -161,10 +162,13 @@ export default {
       todayPrice: 0, // 今日收入
       totalPrice: 0, // 总收入
       totalCount: 0, // 今日销售数量
+      userData: {},
     };
   },
   created() {},
   mounted() {
+    Utils.showLoading();
+    this.getUserData();
     this.getData();
   },
   components: {},
@@ -174,13 +178,17 @@ export default {
       this.$store.commit('user/updateUserId', '');
       this.$router.push('/login');
     },
+    async getUserData() {
+      const result = await userService.getUserInfo({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      this.userData = { ...result };
+    },
     async getData() {
-      Utils.showLoading();
       const result = await service.getOrderStatisticInfo({ userid: Utils.getUserId(this) });
       Utils.hideLoading();
       if (!result) return;
-      this.todayPrice = result.todayPrice || 0;
-      this.totalPrice = result.totalPrice || 0;
+      this.todayPrice = (result.todayPrice || 0).toFixed(2);
+      this.totalPrice = (result.totalPrice || 0).toFixed(2);
       this.totalCount = result.totalCount || 0;
     },
     toOrders(status) {
