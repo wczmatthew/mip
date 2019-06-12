@@ -200,9 +200,6 @@ export default {
       totalPrice: 0,
       discountPrice: 0,
       tips: '',
-      payWay: -1, // 支付方式
-      sendType: -1, // 配送方式
-      fileMsg: -1, // 相关文件
       orderDetail: {},
       customer: {},
     };

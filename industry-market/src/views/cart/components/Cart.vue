@@ -115,7 +115,7 @@
           </div>
         </div>
       </div>
-      <div class="pay-msg">
+      <!-- <div class="pay-msg">
         <div class="title">
           相关文件:
         </div>
@@ -133,7 +133,7 @@
             出库单
           </div>
         </div>
-      </div>
+      </div> -->
 
       <div class="pay-msg">
         <div class="title">
@@ -416,11 +416,11 @@ export default {
         return;
       }
 
-      if (this.fileMsg === -1) {
-        Utils.showToast('请先选择资质文件类型');
-        return;
-      }
-      console.log('start pay');
+      // if (this.fileMsg === -1) {
+      //   Utils.showToast('请先选择资质文件类型');
+      //   return;
+      // }
+      // console.log('start pay');
 
       if (this.payWay === 1) {
         // 在线支付
@@ -465,7 +465,7 @@ export default {
         userid: Utils.getUserId(this),
         carIds: cardIds.toString(),
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）
-        certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
+        // certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
         payType: this.payWay,
         memo: this.tips || '',
       };

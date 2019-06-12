@@ -39,7 +39,7 @@
         <div class="content" v-show="!isEdit">
           <div v-for="(item, index) in dataList" :key="index">
             <p class="question">
-              {{index + 1}}. {{item.question}}
+              {{index + 1}}. {{item.title}}
             </p>
             <p class="answer">
               {{item.answer}}
@@ -50,19 +50,19 @@
         <div class="content" v-show="isEdit">
           <div v-for="(item, index) in editList" :key="index">
             <p class="question">
-              {{index + 1}}. {{item.question}}
+              {{index + 1}}. {{item.title}}
             </p>
             <p class="answer edit-answer">
               <!-- <input type="text" v-model="item.answer"> -->
-              <cube-textarea v-model="item.answer" :maxlength="200" placeholder="请输入内容..." :auto-expand="true"></cube-textarea>
+              <cube-textarea v-model="item.answer" :maxlength="500" placeholder="请输入内容..." :auto-expand="true"></cube-textarea>
             </p>
           </div>
-          <p class="question">
+          <!-- <p class="question">
             {{editList.length + 1}}. 其他
           </p>
           <p class="answer edit-answer">
             <cube-textarea v-model="desc" :maxlength="500" placeholder="请输入内容..." :auto-expand="true"></cube-textarea>
-          </p>
+          </p> -->
         </div>
       </div>
       <!-- 交谈内容 end -->
@@ -73,6 +73,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
+import service from '@/services/common.service';
 
 export default {
   data() {
@@ -86,12 +87,22 @@ export default {
   },
   created() {},
   mounted() {
-    for (let i = 0; i < 3; i++) {
-      this.dataList.push({
-        question: `客户洽谈问题${(Math.random() * 100).toFixed(0)}`,
-        answer: `客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案${(Math.random() * 100).toFixed(0)}`,
-      });
-    }
+    // for (let i = 0; i < 3; i++) {
+    //   this.dataList.push({
+    //     question: `客户洽谈问题${(Math.random() * 100).toFixed(0)}`,
+    //     answer: `客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案${(Math.random() * 100).toFixed(0)}`,
+    //   });
+    // }
+    if (!this.customer.id) return;
+    this.getData();
+  },
+  watch: {
+    '$route'(to) {
+      if (to.path !== this.routePath) return;
+      // 重新进入
+      if (!this.customer.id) return;
+      this.getData();
+    },
   },
   computed: {
     ...mapGetters('customer', {
@@ -112,6 +123,13 @@ export default {
       if (this.isEdit) {
         this.editList = [...this.dataList];
       }
+    },
+    async getData() {
+      Utils.showLoading();
+      const result = await service.getQuestionList({ clientId: this.customer.id });
+      Utils.hideLoading();
+      if (!result) return;
+      this.dataList = result;
     },
   },
 };
@@ -175,7 +193,7 @@ export default {
   margin-top: .1rem;
   border-radius: .05rem;
   box-shadow: 0 0 .05rem #ccc;
-  padding: .1rem .1rem 0;
+  padding: 0 .1rem;
   display: flex;
   flex-direction: column;
 
