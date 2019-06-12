@@ -10,6 +10,9 @@ $(function() {
       console.log('currentPage: ', currentPage);
 
       // 模拟ajax请求
+      setTimeout(() => {
+        
+      }, 300);
       updateData();
     }
   });
@@ -23,126 +26,101 @@ function toNews(id) {
 
 // 更新列表数据
 function updateData() {
-  $(".news-list .w-loading-mid").show();
+  showLoading('bidList');
   setTimeout(function() {
-    // 列表形式的新闻列表
-    updateGridNews();
-
-    // 新闻列表
-    $('#newList').empty();
+    // 更新列表数据
+    $('#bidList').empty();
     for (var i = 0; i < 8; i++) {
       var data = {
-        title: '2018年度培训年会及培训总结表彰大会' + (Math.random() * 10).toFixed(0),
-        content: '2019年1月17日，正泰电器股份公司“2018年度培训年会及培训总结表彰大会”于温州科技楼三楼报告厅隆重召开。在大会上，颁授并表彰了21位新晋内训师聘书，表彰了“年度十佳内训师”，4位年度优秀培训管理员，4家年度优秀学习单位，6门“金牌课程”。',
-        time: '2019-04-02',
+        title: '正泰新能源2019年高性能电池及模组项目招标公告' + (Math.random() * 10).toFixed(0),
+        fileList: [
+          { title: '正泰新能源2019年高性能电池及模组项目招标公告1.doc', downloadurl: '', previewUrl: '' },
+          { title: '正泰新能源2019年高性能电池及模组项目招标公告2.doc', downloadurl: '', previewUrl: '' },
+        ],
+        time: '2019-04-02 ~ 2019-04-22',
+        logo: '../assets/inviteBids/logo.png',
+        type: '信息类',
         id: i + 1,
+        valid: i % 2 == 0, // 是否可报名
       };
-      $('#newList').append(
-        '<div class="item hvr-sweep-to-right" onclick="toNews(\''+data.id+'\')">'+
-        '  <div class="left">'+
-        '    <p>'+ dataFormat(data.time, 'yyyy') +'</p>'+
-        '    <p class="desc">'+ dataFormat(data.time, 'MM-dd') +'</p>'+
-        '  </div>'+
-        '  <div class="detail">'+
-        '    <p class="title">' + data.title + '</p>'+
-        '    <p class="desc">' + data.content + '</p>'+
-        '  </div>'+
-        '</div>'
-      );
+
+      var fileHtml = '';
+      for (var j = 0; j < data.fileList.length; j++) {
+        var file = data.fileList[j];
+        fileHtml += '<div class="file">'+
+        '  <span>'+
+        '    <i class="iconfont icon-file"></i>'+
+        '    '+ file.title +
+        '  </span>'+
+        '  <a href="'+ file.downloadurl +'">下载</a>'+
+        '  <a href="'+ file.previewUrl +'">预览</a>'+
+        '</div>';
+      }
+
+      if (data.valid) {
+        // 可以报名
+        $('#bidList').append(
+          '<div class="card">'+
+          '  <div class="header"></div>'+
+          '  <div class="bids-item">'+
+          '    <div class="img">'+
+          '      <img src="'+ data.logo +'" alt="">'+
+          '    </div>'+
+          '    <div class="detail">'+
+          '      <p class="title">'+ data.title +'</p>'+
+          '      '+ fileHtml +
+          '      <div class="bottom">'+
+          '        <div class="tips">'+
+          '          <span>'+
+          '            <i class="iconfont icon-fenlei"></i>'+
+          '            '+ data.type +
+          '          </span>'+
+          '          <span>'+
+          '            <i class="iconfont icon-clock"></i>'+
+          '            '+ data.time +
+          '          </span>'+
+          '        </div>'+
+          '        <button class="blue-btn" onclick="onApply(\''+data.id+'\')">立即报名</button>' +
+          '      </div>'+
+          '    </div>'+
+          '  </div>'+
+          '</div>'
+        );
+      } else {
+        // 不可报名
+        $('#bidList').append(
+          '<div class="card card2">'+
+          '  <div class="bids-item">'+
+          '    <div class="img">'+
+          '      <img src="'+ data.logo +'" alt="">'+
+          '    </div>'+
+          '    <div class="detail">'+
+          '      <p class="title">'+ data.title +'</p>'+
+          '      '+ fileHtml +
+          '      <div class="bottom">'+
+          '        <div class="tips">'+
+          '          <span>'+
+          '            <i class="iconfont icon-fenlei"></i>'+
+          '            '+ data.type +
+          '          </span>'+
+          '          <span>'+
+          '            <i class="iconfont icon-clock"></i>'+
+          '            '+ data.time +
+          '          </span>'+
+          '        </div>'+
+          '      </div>'+
+          '    </div>'+
+          '  </div>'+
+          '</div>'
+        );
+      }
     }
 
-    $(".news-list .w-loading-mid").hide();
+    hideLoading('bidList');
   }, 300);
 }
 
-/**
- * 动态列表 换一换
- */
-function updateGridNews() {
-  // 这里做ajax请求
-  // 模拟数据
-  // 显示loading
-  showLoading('dynamicList');
-  
-  var data = [
-    {
-      title: '辽宁省政协主席夏德仁调研正泰' + (Math.random() * 100 ).toFixed(0),
-      desc: '4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线',
-      imgPath: '../assets/home/img1.jpg',
-      id: 11,
-    },
-    {
-      title: '辽宁省政协主席夏德仁调研正泰' + (Math.random() * 100 ).toFixed(0),
-      desc: '4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线',
-      id: 1,
-    },
-    {
-      title: '辽宁省政协主席夏德仁调研正泰' + (Math.random() * 100 ).toFixed(0),
-      desc: '4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线',
-      imgPath: '../assets/home/img2.jpg',
-      id: 1,
-    },
-    {
-      title: '辽宁省政协主席夏德仁调研正泰' + (Math.random() * 100 ).toFixed(0),
-      desc: '4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线',
-      id: 1,
-    },
-    {
-      title: '辽宁省政协主席夏德仁调研正泰' + (Math.random() * 100 ).toFixed(0),
-      desc: '4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线',
-      id: 1,
-    },
-    {
-      title: '辽宁省政协主席夏德仁调研正泰' + (Math.random() * 100 ).toFixed(0),
-      desc: '4月25日下午，辽宁省政协主席夏德仁率队到访正泰杭州滨江园区，就民营企业发展情况进行深入调研。正在参观正泰杭州滨江园区生产流水线',
-      id: 1,
-    },
-  ];
-
-
-  $("#dynamicList .col1").empty().append(
-    '<div class="img">' +
-    '  <img src="'+data[0].imgPath+'" alt="">' +
-    '</div>' +
-    '<div class="detail">' +
-    '  <p class="title">' + data[0].title + '</p>' +
-    '  <p class="desc">' + data[0].desc + '</p>' +
-    '</div>'
-  );
-  $("#dynamicList .col1").attr('onclick', 'toNews(\''+data[0].id+'\')');
-
-  $("#dynamicList .col2").empty();
-  for (var i = 1; i < data.length; i++) {
-    var item = data[i];
-    var imgs = '';
-    if (i == 2) {
-      imgs = 
-      '<div class="img">'+
-        '<img src="'+item.imgPath+'" alt="">'+
-      '</div>';
-    }
-
-    var itemClass = '';
-    if (i == 3 || i == 4) {
-      itemClass = 'bg-white';
-    }
-
-    if (i == 4) {
-      itemClass += ' item-2';
-    }
-    $("#dynamicList .col2").append(
-      '<div class="item hvr-bob '+itemClass+'" onclick="toNews(\''+item.id+'\')">'+
-      imgs +
-      '  <div class="detail">'+
-      '    <p class="title">'+ item.title + '</p>'+
-      '    <p class="desc">'+ item.desc + '</p>'+
-      '  </div>'+
-      '</div>'
-    );
-  }
-
-  // 模拟请求
-  setTimeout(() => {
-    hideLoading('dynamicList');
-  }, 300);
+// 开始报名
+function onApply(id) {
+  console.log('报名id: ', id);
 }

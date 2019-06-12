@@ -34,6 +34,7 @@
 
 .bids-list .card-row {
   display: block;
+  position: relative;
 }
 
 .bids-list .card-row .card {
@@ -96,8 +97,12 @@
   flex: 1;
 }
 
-.bid-container .bid-right {
+.bid-container .right-container {
   width: 22%;
+}
+
+.bid-right {
+  width: 100%;
   border: 1px solid #d4d4d4;
   -moz-border-top-right-radius: 5px;
   -webkit-border-top-right-radius: 5px;
@@ -108,6 +113,7 @@
   overflow: hidden;
   margin-top: 40px;
   background: #f6f7ff;
+  padding-bottom: 60px;
 }
 
 .bid-right .header-bg {
