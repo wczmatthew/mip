@@ -84,25 +84,25 @@
       <div class="grid-list">
         <div class="item" @click.stop="toOrders(6)">
           <i class="iconfont icon-daifukuan">
-            <!-- <i class="num"></i> -->
+            <i class="num" v-if="waitPayCount">{{waitPayCount}}</i>
           </i>
           <p class="tip">待付款</p>
         </div>
         <div class="item" @click.stop="toOrders(1)">
           <i class="iconfont icon-daifahuo">
-            <!-- <i class="num"></i> -->
+            <i class="num" v-if="waitGetCount">{{waitGetCount}}</i>
           </i>
           <p class="tip">待发货</p>
         </div>
         <div class="item" @click.stop="toOrders(2)">
           <i class="iconfont icon-daishouhuo">
-            <!-- <i class="num"></i> -->
+            <i class="num" v-if="waitPostCount">{{waitPostCount}}</i>
           </i>
           <p class="tip">待收货</p>
         </div>
         <div class="item" @click.stop="toOrders(3)">
           <i class="iconfont icon-daipingjia">
-            <!-- <i class="num"></i> -->
+            <!-- <i class="num" v-if="finishCount">{{finishCount}}</i> -->
           </i>
           <p class="tip">已完成</p>
         </div>
@@ -162,6 +162,10 @@ export default {
       todayPrice: 0, // 今日收入
       totalPrice: 0, // 总收入
       totalCount: 0, // 今日销售数量
+      finishCount: 0, // 订单-已完成数量
+      waitGetCount: 0, // 订单-待收货数量
+      waitPayCount: 0, // 订单-待付款数量
+      waitPostCount: 0, // 订单-待发货数量
       userData: {},
     };
   },
@@ -170,6 +174,14 @@ export default {
     Utils.showLoading();
     this.getUserData();
     this.getData();
+  },
+  watch: {
+    '$route'(to) {
+      if (to.path === '/market' && to.query.tab === 'my') {
+        // 进入页面, 重新获取数据
+        this.getData();
+      }
+    },
   },
   components: {},
   methods: {
@@ -190,6 +202,15 @@ export default {
       this.todayPrice = (result.todayPrice || 0).toFixed(2);
       this.totalPrice = (result.totalPrice || 0).toFixed(2);
       this.totalCount = result.totalCount || 0;
+      // this.finishCount = result.finishCount || 0;
+      this.waitGetCount = result.waitGetCount || 0;
+      this.waitPayCount = result.waitPayCount || 0;
+      this.waitPostCount = result.waitPostCount || 0;
+
+      // if (this.finishCount > 99) this.finishCount = '99+';
+      if (this.waitGetCount > 99) this.waitGetCount = '99+';
+      if (this.waitPayCount > 99) this.waitPayCount = '99+';
+      if (this.waitPostCount > 99) this.waitPostCount = '99+';
     },
     toOrders(status) {
       if (!status) {
@@ -382,10 +403,11 @@ export default {
   }
 
   .grid-list .item .iconfont .num {
-    width: .1rem;
-    min-width: .1rem;
-    height: .1rem;
-    top: 0;
+    min-width: .15rem;
+    max-width: .25rem;
+    height: .15rem;
+    top: -.05rem;
+    font-size: .1rem;
   }
 
   .grid-list .item:after {

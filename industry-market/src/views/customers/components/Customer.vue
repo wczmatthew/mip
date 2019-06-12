@@ -107,7 +107,7 @@ export default {
   },
   watch: {
     '$route'(to) {
-      this.$refs.scroll.forceUpdate(true);
+      this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
       if (to.path !== this.currentPath) return;
       // 重新进入
       if (!this.customer || !this.customer.id) {

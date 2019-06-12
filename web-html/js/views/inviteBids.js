@@ -10,7 +10,7 @@ $(function() {
       console.log('currentPage: ', currentPage);
 
       // 模拟ajax请求
-      updateNewsData();
+      updateData();
     }
   });
 });
@@ -21,8 +21,8 @@ function toNews(id) {
   // window.location.href = '' + id;
 }
 
-// 更新新闻列表数据
-function updateNewsData() {
+// 更新列表数据
+function updateData() {
   $(".news-list .w-loading-mid").show();
   setTimeout(function() {
     // 列表形式的新闻列表
