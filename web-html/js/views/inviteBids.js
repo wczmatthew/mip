@@ -3,6 +3,8 @@ $(function() {
   $(".M-box3").pagination({
     pageCount: 50,
     current: 1,
+    showData: 5,
+    coping: true,
     jump: true,
     callback: function (api) {
       // console.log(api);
@@ -10,9 +12,6 @@ $(function() {
       console.log('currentPage: ', currentPage);
 
       // 模拟ajax请求
-      setTimeout(() => {
-        
-      }, 300);
       updateData();
     }
   });

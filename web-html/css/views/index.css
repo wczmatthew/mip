@@ -76,38 +76,6 @@
   right: 0;
 }
 
-.web-row {
-  overflow: hidden;
-}
-
-.web-row .top-title {
-  font-size: 36px;
-  text-align: center;
-  margin-top: 60px;
-}
-
-.web-row .top-desc {
-  font-size: 18px;
-  color: #666a75;
-  text-align: center;
-  margin-top: 10px;
-}
-
-.web-row .sm-tip {
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 40px;
-}
-
-.web-row .sm-tip a {
-  color: #919191;
-  cursor: pointer;
-}
-
-.web-row .sm-tip a:hover {
-  color: #005bac;
-}
-
 .web-desc {
   background: #e6e9fd;
   background: -webkit-linear-gradient(left top, #cfd4fd, #cbe1fd, #e5e8fc);

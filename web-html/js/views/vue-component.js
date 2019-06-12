@@ -14,11 +14,14 @@ Vue.component('chint-header', {
     onSearch() {
       console.log('show onSearch');
     },
+    toHelp() {
+      window.location.href = 'help.html';
+    },
   },
   props: {
     index: {
       type: Number,
-      default: 0,
+      default: -1,
     },
   },
   template: 
@@ -35,7 +38,7 @@ Vue.component('chint-header', {
   '          中国站'+
   '          <i class="iconfont icon-triangle-down"></i>'+
   '        </li>'+
-  '        <li>'+
+  '        <li @click="toHelp()">'+
   '          帮助'+
   '        </li>'+
   '        <li @click="showLogin()">'+

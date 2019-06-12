@@ -183,75 +183,6 @@ a:active {
   filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
 }
 
-.w-tabbar {
-  height: 88px;
-  border-top: 1px solid #e6e6e6;
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.w-tabbar .item {
-  -webkit-box-flex: 1;
-  -moz-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  color: #999;
-  font-size: 20px;
-  text-align: center;
-  padding: 6px 0;
-  height: 100%;
-}
-
-.w-tabbar .item.txt {
-  line-height: 88px;
-  font-size: 12px;
-  padding: 0;
-}
-
-.w-tabbar .item.actived {
-  color: #005bac;
-}
-
-.w-tabbar .item img,
-.w-tabbar .item .iconfont {
-  height: 20px;
-  display: block;
-  margin: 0 auto;
-  margin-bottom: 4px;
-}
-
-.w-tabbar .item .iconfont {
-  height: 44px;
-  font-size: 22px;
-}
-
-.w-tabbar .item p {
-  text-align: center;
-  margin: 0;
-  height: 30px;
-  line-height: 30px;
-  padding-bottom: 4px;
-}
-
 .block {
   display: block;
 }
@@ -452,70 +383,6 @@ a:active {
 
 .w-progress .w-text.color-black {
   color: #262626;
-}
-.w-row {
-  display: -webkit-box;
-  /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
-  display: -moz-box;
-  /* 老版本语法: Firefox (buggy) */
-  display: -ms-flexbox;
-  /* 混合版本语法: IE 10 */
-  display: -webkit-flex;
-  /* 新版本语法: Chrome 21+ */
-  display: flex;
-  /* 新版本语法: Opera 12.1, Firefox 22+ */
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-}
-
-/* 一行省略号显示 */
-.w-row [class^="w-col-"][class$="-nowrap"] {
-  overflow: hidden;
-  white-space: nowrap;
-  -o-text-overflow: ellipsis;
-  /* for Opera */
-  text-overflow: ellipsis;
-  /* for IE */
-}
-
-/* 换行显示 */
-.w-row {
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-}
-
-.w-row [class^="w-col-"][class$="-break"] {
-  word-wrap: break-word;
-  word-break: break-all;
-}
-
-.w-row [class^="w-col-"] {
-  padding-right: 20px;
-}
-
-.w-row [class^="w-col-5"] {
-  width: 20%;
-}
-
-.w-row [class^="w-col-4"] {
-  width: 25%;
-}
-
-.w-row [class^="w-col-3"] {
-  width: 33.33%;
-}
-
-.w-row [class^="w-col-2"] {
-  width: 50%;
-}
-
-.w-row [class^="w-col-1"] {
-  width: 100%;
 }
 
 .align-left {
@@ -1113,4 +980,73 @@ a:active {
 
 .login-erweima-tip .blue {
   color: #005bac;
+}
+
+/********************** 页面样式共用 **********************/
+.web-row {
+  overflow: hidden;
+}
+
+.web-row .top-title {
+  font-size: 36px;
+  text-align: center;
+  margin-top: 60px;
+}
+
+.web-row .top-desc {
+  font-size: 18px;
+  color: #666a75;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.web-row .sm-tip {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.web-row .sm-tip a {
+  color: #919191;
+  cursor: pointer;
+}
+
+.web-row .sm-tip a:hover {
+  color: #005bac;
+}
+
+.web-banner {
+  width: 100%;
+  position: relative;
+}
+
+.web-banner .banner {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+}
+
+.web-banner img.bg {
+  width: 100%;
+  display: block;
+}
+
+.web-banner .banner .desc .small {
+  font-size: 20px;
+}
+
+.web-banner .banner .desc .big {
+  font-size: 46px;
+}
+
+.web-banner .banner .desc p {
+  color: #fff;
+  font-weight: 700;
+  background-image:-webkit-linear-gradient(top, #fff, #fff, #848ab4); 
+  -webkit-background-clip:text; 
+  -webkit-text-fill-color:transparent; 
+  margin-bottom: 35px;
 }

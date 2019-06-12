@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<!-- 帮助中心 -->
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>帮助中心</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/components/button.css">
+  <link rel="stylesheet" href="../css/hover-min.css">
+  <link rel="stylesheet" href="../css/pagination.css">
+  <link rel="stylesheet" href="../css/views/news.css">
+  <link rel="stylesheet" href="../css/views/help.css">
+</head>
+<body>
+  <div id="chintContainer">
+  
+    <!-- 顶部栏 -->
+    <chint-header></chint-header>
+    <!-- 顶部栏 end -->
+  
+    <!-- 顶部大图 -->
+    <div class="web-banner">
+      <img src="../assets/help/banner.jpg" alt="">
+      <div class="banner">
+        <div class="w-container">
+          <div class="desc">
+            <p class="big">帮助中心</p>
+          </div>
+  
+          <div class="content">
+            <div class="search-view">
+              <input type="text" placeholder="请输入关键字...">
+              <div class="search hvr-icon-grow">
+                <i class="iconfont icon-search hvr-icon"></i>
+              </div>
+            </div>
+            <p class="tip">
+              搜索热门：
+              <a href="">注册帮助</a>
+              <a href="">如何报名</a>
+              <a href="">用户管理</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 顶部大图 -->
+
+    <!-- 正泰集团采购中心 -->
+    <div class="container-bg">
+      <div class="w-container web-row">
+        <p class="top-title">
+          采购平台帮助文档
+        </p>
+        <p class="top-desc">
+          您不知道的，我们来回答
+        </p>
+        <div class="help-container">
+          <!-- 菜单栏 -->
+          <nav class="left">
+            <div class="header">
+              全部文档
+              <div class="lines">
+                <div class="line"></div>
+                <div class="line line2"></div>
+                <div class="line"></div>
+              </div>
+            </div>
+
+            <ul class="help-menu" id="helpMenu">
+              <li data-id="1" class="actived">
+                <span>最新文档</span>
+              </li>
+              <li>
+                <span>
+                  <i class="iconfont icon-arrow"></i>
+                  产品介绍
+                </span>
+                <ul class="sub-menu">
+                  <li data-id="11">
+                    快速入门1
+                  </li>
+                  <li data-id="12">
+                    快速入门2
+                  </li>
+                  <li data-id="13">
+                    快速入门3
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <span>
+                  <i class="iconfont icon-arrow"></i>
+                  快速入门
+                </span>
+                <ul class="sub-menu">
+                  <li data-id="11">
+                    快速入门1
+                  </li>
+                  <li data-id="12">
+                    快速入门2
+                  </li>
+                  <li data-id="13">
+                    快速入门3
+                  </li>
+                </ul>
+              </li>
+              <li>
+                <span>
+                  <i class="iconfont icon-arrow"></i>
+                  用户指南
+                </span>
+              </li>
+              <li>
+                <span>
+                  <i class="iconfont icon-arrow"></i>
+                  成功案例
+                </span>
+              </li>
+
+            </ul>
+          </nav>
+          <!-- 菜单栏 end -->
+
+          <!-- 内容列表 -->
+          <div class="right">
+            <!-- 加载页面 -->
+            <div class="w-loading-mid" style="display: none;">
+              <img src="../assets/common/loading.svg" class="loading-img">
+            </div>
+            <!-- 加载页面 end -->
+            <div id="helpList" class="news-list">
+              <div class="item hvr-sweep-to-right" onclick="toDetail(1)">
+                <div class="left">
+                  <p>2019</p>
+                  <p class="desc">
+                    04-01
+                  </p>
+                </div>
+                <div class="detail">
+                  <p class="title">
+                    2018年度培训年会及培训总结表彰大会
+                  </p>
+                  <p class="desc">
+                    2019年1月17日，正泰电器股份公司“2018年度培训年会及培训总结表彰大会”于温州科技楼三楼报告厅隆重召开。在大会上，颁授并表彰了21位新晋内训师聘书，表彰了“年度十佳内训师”，4位年度优秀培训管理员，4家年度优秀学习单位，6门“金牌课程”。
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <!-- 分页 -->
+            <div class="pagination clearfix">
+              <div class="m-style M-box3"></div>
+            </div>
+            <!-- 分页 end -->
+          </div>
+          <!-- 内容列表 end -->
+
+        </div>
+      </div>
+    </div>
+    <!-- 正泰集团采购中心 end -->
+  
+    <!-- 底部 -->
+    <chint-footer></chint-footer>
+    <!-- 底部 end -->
+  </div>
+
+
+  <script src="../js/jquery-3.4.1.min.js"></script>
+  <script src="../js/jquery.pagination.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layer/layer.js"></script>
+  <script src="../js/views/help.js"></script>
+  <script src="../js/vue.min.js"></script>
+  <script src="../js/views/vue-component.js"></script>
+  <script>
+    new Vue({ el: '#chintContainer' });
+  </script>
+</body>
+</html>

@@ -4,6 +4,8 @@ $(function() {
     pageCount: 50,
     current: 1,
     jump: true,
+    showData: 5,
+    coping: true,
     callback: function (api) {
       // console.log(api);
       var currentPage = api.getCurrent();
