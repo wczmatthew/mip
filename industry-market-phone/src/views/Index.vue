@@ -1,14 +1,17 @@
 <template lang='html'>
-  <w-container>
+  <w-container show-header class="index-container">
     <!-- 正文内容 -->
     <!-- 顶部栏 -->
-    <div class="header">
+    <div class="header" slot="header-mid">
       <div class="city">
+        <i class="iconfont icon-location"></i>
         温州
         <i class="iconfont icon-triangle-down"></i>
       </div>
-      <w-search class="index-search" disabled @input-click="toSearch()" show-scan style="margin-right: .44rem;"></w-search>
-      <!-- <w-msg-icon></w-msg-icon> -->
+      <w-search class="index-search" disabled @input-click="toSearch()"></w-search>
+    </div>
+    <div class="header-right" slot="header-right">
+      <w-scan-icon></w-scan-icon>
     </div>
     <!-- 顶部栏 end -->
 
@@ -43,22 +46,22 @@
 
     <!-- 菜单 -->
     <div class="menu-list">
+      <div class="menu menu-row orange">
+        <p class="txt">
+          新政速递
+        </p>
+      </div>
       <div class="menu menu1 red">
         <p class="txt">
           分享领红包
         </p>
-        <p class="txt">
+        <p class="txt sub-txt">
           抢10元券
         </p>
       </div>
       <div class="menu menu2 blue">
         <p class="txt">
           打卡领积分
-        </p>
-      </div>
-      <div class="menu menu3 orange">
-        <p class="txt">
-          新政速递
         </p>
       </div>
     </div>
@@ -68,8 +71,7 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import banner from '@/assets/home/banner.png';
-import banner2 from '@/assets/home/banner2.jpg';
+import banner from '@/assets/home/banner.jpg';
 import icon1 from '@/assets/home/icon1.png';
 import icon2 from '@/assets/home/icon2.png';
 import icon3 from '@/assets/home/icon3.png';
@@ -78,7 +80,6 @@ import icon5 from '@/assets/home/icon5.png';
 import icon6 from '@/assets/home/icon6.png';
 import icon7 from '@/assets/home/icon7.png';
 import icon8 from '@/assets/home/icon8.png';
-import icon9 from '@/assets/home/icon9.png';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
 
@@ -90,10 +91,6 @@ export default {
           url: banner,
           title: '图片1',
         },
-        {
-          url: banner2,
-          title: '图片2',
-        },
       ],
       caterotyList: [],
     };
@@ -101,15 +98,14 @@ export default {
   created() {},
   mounted() {
     this.caterotyList = [
-      { icon: icon1, title: '商城界面', url: '/mall' },
-      { icon: icon8, title: '工业超市', url: '/market?tab=home' },
-      { icon: icon2, title: '订单管理' },
-      { icon: icon3, title: '客户管理' },
-      { icon: icon4, title: '二维码' },
-      { icon: icon5, title: '待办事项' },
-      { icon: icon6, title: '库存管理' },
-      { icon: icon7, title: '系统设置' },
-      { icon: icon9, title: '帮助文档' },
+      { icon: icon1, title: '电器超市', url: '/mall' },
+      { icon: icon8, title: '阳光采购', url: '/market?tab=home' },
+      { icon: icon2, title: '网上商店' },
+      { icon: icon3, title: '帮助文档' },
+      { icon: icon4, title: '大客户合作' },
+      { icon: icon5, title: '分销专区' },
+      { icon: icon6, title: '供应商合作' },
+      { icon: icon7, title: '待办事项' },
     ];
 
     this.getBanner();
@@ -162,19 +158,14 @@ export default {
 }
 
 .header {
-  position: fixed;
-  top: 0;
-  left: 0;
   width: 100%;
   height: .44rem;
-  z-index: 20;
   display: flex;
-  padding-left: .15rem;
   align-items: center;
+  background: $color-blue;
 
   .city {
-    padding: 0 .1rem;
-    background: rgba($color: #000000, $alpha: 0.6);
+    margin: 0 .1rem;
     height: .25rem;
     border-radius: .25rem;
     display: flex;
@@ -189,15 +180,24 @@ export default {
       margin-left: .03rem;
       font-size: .1rem;
     }
+
+    .icon-location {
+      font-size: .14rem;
+      margin-right: .05rem;
+    }
   }
 }
 
 .banner {
   width: 100%;
-  height: 1.4rem;
   overflow: hidden;
 
   .banner-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    height: 100%;
     img {
       width: 100%;
     }
@@ -205,38 +205,59 @@ export default {
 }
 
 .categorys {
+  width: 90%;
+  margin: 0 auto;
+  margin-top: -.4rem;
+  border: 1px solid $color-line;
+  border-radius: .05rem;
+  overflow: hidden;
+  position: relative;
+  z-index: 10;
+  background: #fff;
+
   .title {
+    height: .25rem;
+    line-height: .25rem;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: .1rem 0;
-    color: #695852;
+    color: $color-blue;
+    font-size: .12rem;
+    font-weight: 700;
 
     .line {
-      background: $color-line;
-      width: .6rem;
-      height: .01rem;
+      background: $color-blue;
+      width: .05rem;
+      height: .02rem;
       margin: 0 .1rem;
     }
   }
 }
 
 .w-grid-list {
-  width: 80%;
-  margin: 0 auto;
-
   .item {
-    width: 16.66%;
+    width: 25%;
     padding: 0;
-    padding-bottom: .1rem;
-    padding-top: .05rem;
+    padding: .08rem 0;
+    border: 1px solid $color-line;
+    border-left: 0;
 
     &:active {
       background: #f5f5f5;
     }
 
+    &:nth-child(4n) {
+      border-right: 0;
+    }
+
+    &:nth-child(n + 5) {
+      border-bottom: 0;
+      border-top: 0;
+    }
+
     img {
-      width: 50%;
+      width: 60%;
       display: block;
       margin: 0 auto;
     }
@@ -244,7 +265,7 @@ export default {
     .sub-title {
       font-size: .1rem;
       font-weight: 700;
-      margin-top: .1rem;
+      margin-top: .05rem;
       text-align: center;
     }
   }
@@ -260,7 +281,10 @@ export default {
   .menu {
     position: relative;
     color: #fff;
-    padding-top: .08rem;
+    padding-top: .12rem;
+    border-radius: .05rem;
+    overflow: hidden;
+    margin-bottom: .1rem;
 
     &::before,
     &::after {
@@ -275,20 +299,29 @@ export default {
     }
 
     &::before {
-      width: 30%;
-      height: 60%;
+      width: .3rem;
+      height: .3rem;
     }
 
     &::after {
-      width: 26%;
-      height: 50%;
+      width: .2rem;
+      height: .2rem;
+      bottom: .05rem;
+      right: .05rem;
+      border-bottom-right-radius: .05rem;
     }
 
     .txt {
-      width: 45%;
+      width: 100%;
       font-weight: 700;
-      margin-top: .1rem;
-      text-align: right;
+      text-align: left;
+      padding: 0 .1rem;
+      font-size: .18rem;
+    }
+
+    .sub-txt {
+      font-size: .15rem;
+      margin-top: .05rem;
     }
 
     &.red {
@@ -304,63 +337,35 @@ export default {
     }
   }
 
+  .menu-row {
+    width: 100%;
+    height: .7rem;
+  }
+
   .menu1 {
-    width: 49%;
-    height: .9rem;
-    margin-right: 1%;
+    width: 58%;
+    height: .7rem;
+    margin-right: 2%;
+    margin-bottom: 0;
   }
 
   .menu2 {
-    width: 24.5%;
-    height: .9rem;
-    margin-right: 1%;
-
-    &::before {
-      width: 33%;
-      height: 40%;
-    }
-
-    &::after {
-      width: 26%;
-      height: 30%;
-    }
-
-    .txt {
-      width: 100%;
-      text-align: left;
-      padding-left: 10%;
-    }
-  }
-
-  .menu3 {
-    width: 24.5%;
-    height: .9rem;
-
-    &::before {
-      width: 33%;
-      height: 40%;
-    }
-
-    &::after {
-      width: 26%;
-      height: 30%;
-    }
-
-    .txt {
-      width: 100%;
-      text-align: left;
-      padding-left: 10%;
-    }
+    width: 40%;
+    height: .7rem;
+    margin-bottom: 0;
   }
 }
 </style>
 <style lang="scss">
-.index-search {
-  flex: 1;
-  margin-left: .1rem;
+.index-container .header-right {
+  position: static;
+  background: #005bac;
+}
 
-  .icon-scan {
-    color: #fff;
-  }
+.index-container .w-header::after {
+  display: none;
+}
+.w-header-mid .index-search {
+  flex: 1;
 }
 </style>

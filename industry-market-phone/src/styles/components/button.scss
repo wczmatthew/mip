@@ -1,0 +1,133 @@
+@charset 'UTF-8';
+@import '../variable.scss';
+
+/* 样式中 -btn 结尾的 active的样式 */
+[class$="-btn"]:active,
+[class$="-btn"]:hover {
+  opacity: .8;
+  -webkit-opacity: 0.5;
+  -moz-opacity: 0.5;
+  cursor: pointer;
+}
+
+[class$="-btn"].disabled {
+  -webkit-opacity: 0.5;
+  -moz-opacity: 0.5;
+  opacity: .5;
+}
+
+[class$="-btn"] {
+  color: #fff;
+  font-size: .14rem;
+  width: 90%;
+  height: .4rem;
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+  border: 0;
+  -moz-border-radius: .05rem;
+  -webkit-border-radius: .05rem;
+  border-radius: .05rem;
+}
+
+/* 蓝色 - 实心 */
+.blue-btn {
+  background: $color-blue;
+}
+
+/* 浅蓝色 - 实心 */
+.light-blue-btn {
+  background: $color-blue-light;
+}
+
+/* 渐变色 - 实心 */
+.gradient-btn {
+  @include background-left-gradient($color-gradient1, $color-gradient2);
+}
+
+/* 绿色-实心 */
+.green-btn {
+  background: $color-green;
+}
+
+/* 白色-空心 */
+.plain-white-btn {
+  background-color: transparent;
+  border: 1px solid #fff;
+}
+
+/* 灰色 - 实心 */
+.grey-btn {
+  background: #999;
+}
+
+.plain-grey-btn {
+  background: #fff;
+  color: #999;
+  border: 1px solid #999;
+}
+
+.grey-light-btn {
+  background: #e6e6e6;
+  color: #fff;
+}
+
+/* 绿色 -- 空心 */
+.plain-green-btn {
+  background: #fff;
+  color: $color-green;
+  border: 1px solid $color-green;
+}
+
+/* 蓝色 -- 空心 */
+.plain-blue-btn {
+  background: #fff;
+  color: $color-blue;
+  border: 1px solid $color-blue;
+}
+
+/* 橘色偏红($color-orange)-实心 */
+.orange-btn {
+  background: $color-orange;
+}
+
+/* 橘色偏红($color-orange) -- 空心 */
+.plain-orange-btn {
+  background: #fff;
+  color: $color-orange;
+  border: 1px solid $color-orange;
+}
+
+/* 黑色 -- 空心 */
+.plain-black-btn {
+  background: #fff;
+  color: #333;
+  border: 1px solid #333;
+}
+
+/* 红色 */
+.red-btn {
+  background: $color-red;
+}
+
+.plain-red-btn {
+  background: #fff;
+  color: $color-red;
+  border: 1px solid $color-red;
+}
+
+/* 黄色 */
+.yellow-btn {
+  background: $color-yellow;
+}
+
+.del-btn {
+  color: #999;
+  padding: 0 1.05rem;
+  background: transparent;
+  border-color: transparent;
+  text-decoration: underline;
+  text-align: center;
+  display: block;
+  border: 0;
+}

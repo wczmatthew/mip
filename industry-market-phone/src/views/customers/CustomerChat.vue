@@ -117,22 +117,8 @@ export default {
       // 切换用户
       this.$router.push(`${this.routePath}/customers`);
     },
-    async onToggleEdit() {
-      if (this.isEdit) {
-        // 编辑状态, 需要保持数据
-        const questionList = [];
-        this.dataList.forEach(item => {
-          questionList.push({
-            id: item.id,
-            answer: item.answer,
-          });
-        });
-        const params = {
-          clientId: this.customer.id,
-          questionList: questionList,
-        }
-      }
-      this.isEdit = !this.isEdit;   
+    onToggleEdit() {
+      this.isEdit = !this.isEdit;
 
       if (this.isEdit) {
         this.editList = [...this.dataList];

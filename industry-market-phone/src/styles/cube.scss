@@ -1,0 +1,125 @@
+@charset "UTF-8";
+.cube-toast-tip {
+  font-size: .14rem;
+  line-height: .2rem;
+  max-height: 30vh;
+  word-wrap: break-word;
+  word-break: break-all;
+  max-width: 60vw;
+}
+
+.cube-toast .cube-popup-content {
+  border-radius: .05rem;
+  color: #fff;
+}
+
+.cube-loading-spinners {
+  width: .2rem;
+  height: .2rem;
+}
+
+.cube-pullup-wrapper .before-trigger {
+  padding: .1rem 0;
+  min-height: .1rem;
+  font-size: .12rem;
+  color: #999;
+}
+
+.cube-pulldown-wrapper .after-trigger .cube-pulldown-loaded {
+  font-size: .12rem;
+}
+
+.cube-select_active:after {
+  border: 1px solid #4e9ff0;
+  border-radius: .05rem;
+  box-shadow: 0 0 .05rem #a3cffb;
+}
+
+.select.cube-select::after {
+  border: 0;
+}
+
+.cube-select-placeholder {
+  color: #757575;
+}
+
+// ----------------- picker 样式 -------------------
+.cube-picker-choose {
+  height: .4rem;
+}
+
+.cube-picker-confirm, .cube-picker-cancel {
+  font-size: .12rem;
+  line-height: .4rem;
+}
+
+.cube-picker-title {
+  font-size: .14rem;
+}
+
+.cube-picker-wheel-wrapper > div {
+  font-size: .14rem;
+}
+
+.cube-picker-wheel-item {
+  height: .3rem;
+}
+
+.cube-picker-panel {
+  height: 2.3rem;
+  font-size: .12rem;
+}
+
+.cube-picker-subtitle {
+  margin-top: 2px;
+  line-height: 16px;
+  font-size: .1rem;
+}
+
+.cube-picker-content {
+  top: .2rem;
+}
+.cube-picker-content > i {
+  height: .5rem;
+}
+.cube-picker-wheel-wrapper > div {
+  height: 1.3rem;
+  font-size: .14rem;
+}
+.cube-picker-wheel-scroll {
+  line-height: .3rem;
+  margin-top: .5rem;
+}
+.cube-picker-wheel-item {
+  height: .3rem;
+}
+.cube-picker-footer {
+  height: .2rem;
+}
+// ----------------- picker 样式 end -------------------
+
+// ------------------- dialog 样式 -------------------
+
+.cube-dialog-main {
+  width: 65vw;
+  margin: 0 auto;
+  border-radius: .05rem;
+}
+
+.cube-dialog-title-def {
+  font-size: .16rem;
+  margin: .15rem .08rem 0;
+  line-height: .2rem;
+}
+
+.cube-dialog-content {
+  margin: .16rem 0;
+  font-size: .14rem;
+  line-height: .22rem;
+}
+
+.cube-dialog-btn {
+  padding: .1rem;
+  font-size: .14rem;
+}
+// ------------------- dialog 样式 end -------------------
