@@ -98,8 +98,8 @@ export default {
   created() {},
   mounted() {
     this.caterotyList = [
-      { icon: icon1, title: '电器超市', url: '/mall' },
-      { icon: icon8, title: '阳光采购', url: '/market?tab=home' },
+      { icon: icon1, title: '电器超市', url: '/market?tab=home' },
+      { icon: icon8, title: '阳光采购', url: '' },
       { icon: icon2, title: '网上商店' },
       { icon: icon3, title: '帮助文档' },
       { icon: icon4, title: '大客户合作' },
