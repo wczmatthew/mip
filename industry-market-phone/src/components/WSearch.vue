@@ -78,6 +78,7 @@ export default {
   height: .44rem;
   // background: #fff;
   position: relative;
+  padding-top: .07rem;
 
   .search-content {
     background: #fff;
@@ -87,7 +88,6 @@ export default {
     border-radius: .3rem;
     display: flex;
     transition: all .3s ease;
-    margin-top: .07rem;
   }
 
   .iconfont {

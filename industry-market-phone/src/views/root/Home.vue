@@ -1,11 +1,21 @@
 <!--  -->
 <template lang='html'>
-  <div>
+  <div class="w-container">
     <!-- 顶部栏 -->
-    <div class="header">
-      <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .3rem;"></w-search>
-      <!-- <w-msg-icon></w-msg-icon> -->
-    </div>
+    <header class="w-header">
+      <div class="city">
+        <i class="iconfont icon-location"></i>
+        温州
+        <i class="iconfont icon-triangle-down"></i>
+      </div>
+
+      <div class="w-header-mid">
+        <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .1rem;"></w-search>
+      </div>
+      <div class="header-right" slot="header-right">
+        <w-scan-icon></w-scan-icon>
+      </div>
+    </header>
     <!-- 顶部栏 end -->
 
     <!-- 轮播图 -->
@@ -63,7 +73,7 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import banner from '@/assets/home/banner.jpg';
+import banner from '@/assets/home/banner.png';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
 
@@ -156,20 +166,23 @@ export default {
   background: #fff;
 }
 
-.header {
+.w-header {
+  width: 100%;
+  height: .44rem;
+  display: flex;
+  align-items: center;
+  background: rgba($color: #000000, $alpha: .6);
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: .44rem;
-  z-index: 20;
-  display: flex;
-  padding-left: .15rem;
-  align-items: center;
+  z-index: 10;
+
+  &::after {
+    display: none;
+  }
 
   .city {
-    padding: 0 .1rem;
-    background: rgba($color: #000000, $alpha: 0.6);
+    margin: 0 .1rem;
     height: .25rem;
     border-radius: .25rem;
     display: flex;
@@ -184,19 +197,28 @@ export default {
       margin-left: .03rem;
       font-size: .1rem;
     }
+
+    .icon-location {
+      font-size: .14rem;
+      margin-right: .05rem;
+    }
   }
 
+  .header-right {
+    position: static;
+  }
 }
 
 .banner {
   width: 100%;
-  min-height: 30vh;
-  max-height: 40vh;
+  min-height: 2rem;
   overflow: hidden;
 
   .banner-item {
+    height: 2rem;
+    @include flex-center;
     img {
-      width: 100%;
+      height: 2rem;
     }
   }
 }
@@ -250,14 +272,4 @@ export default {
   }
 }
 
-</style>
-<style lang="scss">
-.home-search {
-  flex: 1;
-  margin-left: .1rem;
-
-  .icon-scan {
-    color: #fff;
-  }
-}
 </style>

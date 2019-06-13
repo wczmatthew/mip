@@ -47,9 +47,9 @@ export default {
     return {
       tablist: [
         { title: '首页', icon: 'icon-index', tab: 'home' },
-        { title: '导购页', icon: 'icon-daogou', tab: 'guide' },
+        // { title: '导购页', icon: 'icon-daogou', tab: 'guide' },
         { title: '客户洽谈', icon: 'icon-customers', tab: 'customer' },
-        { title: '订单管理', icon: 'icon-wenjianguanli', tab: 'order' },
+        // { title: '订单管理', icon: 'icon-wenjianguanli', tab: 'order' },
         { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
