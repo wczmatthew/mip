@@ -11,4 +11,14 @@ export default {
     const params = { clientId };
     return postHttp({ url: '/contentcenter/content/getQuestionList', params });
   },
+  /**
+   * 提交问题和答案
+   * @param clientId 客户id
+   * @param questionList 问题列表及答案
+   * @param otherDesc 其他内容
+   */
+  commitAnswer: ({ clientId, questionList, otherDesc }) => {
+    const params = { clientId, questionList, otherDesc };
+    return postHttp({ url: '/contentcenter/content/commitAnswer', params });
+  },
 };

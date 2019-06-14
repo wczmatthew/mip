@@ -5,6 +5,10 @@
     <div slot="header-mid">
       客户洽谈
     </div>
+    <div class="header-right" slot="header-right">
+      <i class="iconfont icon-edit" v-show="!isEdit" @click="onToggleEdit()"></i>
+      <i class="iconfont icon-save" v-show="isEdit" @click="onToggleEdit()"></i>
+    </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="customer-chat">
@@ -32,8 +36,8 @@
       <div class="chat-content">
         <div class="title">
           洽谈内容
-          <i class="iconfont icon-edit" v-show="!isEdit" @click="onToggleEdit()"></i>
-          <i class="iconfont icon-save" v-show="isEdit" @click="onToggleEdit()"></i>
+          <!-- <i class="iconfont icon-edit" v-show="!isEdit" @click="onToggleEdit()"></i>
+          <i class="iconfont icon-save" v-show="isEdit" @click="onToggleEdit()"></i> -->
         </div>
 
         <div class="content" v-show="!isEdit">
@@ -42,27 +46,49 @@
               {{index + 1}}. {{item.title}}
             </p>
             <p class="answer">
-              {{item.answer}}
+              {{item.answerText}}
             </p>
+            <!-- <cube-select
+              :title="item.title"
+              class="answer"
+              :disabled="!isEdit"
+              v-model="item.answer"
+              :options="item.answerList">
+            </cube-select> -->
           </div>
+
+          <p class="question">
+            {{dataList.length + 1}}. 其他
+          </p>
+          <p class="answer">
+            {{desc}}
+            <!-- <cube-textarea v-model="desc" :maxlength="500" placeholder="请输入内容..." :auto-expand="true"></cube-textarea> -->
+          </p>
         </div>
 
         <div class="content" v-show="isEdit">
-          <div v-for="(item, index) in editList" :key="index">
+          <div v-for="(item, index) in dataList" :key="index">
             <p class="question">
               {{index + 1}}. {{item.title}}
             </p>
             <p class="answer edit-answer">
               <!-- <input type="text" v-model="item.answer"> -->
-              <cube-textarea v-model="item.answer" :maxlength="500" placeholder="请输入内容..." :auto-expand="true"></cube-textarea>
+              <!-- <cube-textarea v-model="item.answer" :maxlength="500" placeholder="请输入内容..." :auto-expand="true"></cube-textarea> -->
+              <cube-select
+                :title="item.title"
+                :disabled="!isEdit"
+                v-model="item.answer"
+                style="width: 100%;"
+                :options="item.answerList">
+              </cube-select>
             </p>
           </div>
-          <!-- <p class="question">
-            {{editList.length + 1}}. 其他
+          <p class="question">
+            {{dataList.length + 1}}. 其他
           </p>
           <p class="answer edit-answer">
             <cube-textarea v-model="desc" :maxlength="500" placeholder="请输入内容..." :auto-expand="true"></cube-textarea>
-          </p> -->
+          </p>
         </div>
       </div>
       <!-- 交谈内容 end -->
@@ -81,18 +107,11 @@ export default {
       dataList: [],
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'chat' }), // 获取当前路由
       isEdit: false,
-      editList: [],
       desc: '',
     };
   },
   created() {},
   mounted() {
-    // for (let i = 0; i < 3; i++) {
-    //   this.dataList.push({
-    //     question: `客户洽谈问题${(Math.random() * 100).toFixed(0)}`,
-    //     answer: `客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案客户洽谈答案${(Math.random() * 100).toFixed(0)}`,
-    //   });
-    // }
     if (!this.customer.id) return;
     this.getData();
   },
@@ -118,32 +137,79 @@ export default {
       this.$router.push(`${this.routePath}/customers`);
     },
     async onToggleEdit() {
+      if (!this.customer || !this.customer.id) {
+        Utils.showToast('请先选择需要洽谈的客户');
+        return;
+      }
       if (this.isEdit) {
         // 编辑状态, 需要保持数据
+        // 判断是否已经全部选择
         const questionList = [];
-        this.dataList.forEach(item => {
+        let isOk = true;
+        for (let i = 0; i < this.dataList.length; i++) {
+          const item = this.dataList[i];
           questionList.push({
-            id: item.id,
-            answer: item.answer,
+            qid: item.id,
+            aid: item.answer,
           });
-        });
+          if (!item.answer) {
+            isOk = false;
+            Utils.showToast(`请先选择${item.title}`);
+            break;
+          }
+        }
+        if (!isOk) return;
         const params = {
           clientId: this.customer.id,
-          questionList: questionList,
-        }
+          questionList: JSON.stringify(questionList),
+          otherDesc: this.desc,
+        };
+        Utils.showLoading();
+        const result = await service.commitAnswer(params);
+        if (!result) return;
+        Utils.hideLoading();
+        Utils.showToast('更新洽谈内容成功');
+        // 更新数据
+        this.dataList.forEach((item) => {
+          item.answerList.forEach((answer) => {
+            if (answer.value === item.answer) {
+              item.answerText = answer.text;
+            }
+          });
+        });
       }
-      this.isEdit = !this.isEdit;   
-
-      if (this.isEdit) {
-        this.editList = [...this.dataList];
-      }
+      this.isEdit = !this.isEdit;
     },
     async getData() {
       Utils.showLoading();
       const result = await service.getQuestionList({ clientId: this.customer.id });
       Utils.hideLoading();
       if (!result) return;
-      this.dataList = result;
+      // 处理问题列表
+      this.desc = result.otherDesc || '';
+      this.dataList = [];
+      result.questionList.forEach((item) => {
+        const answerList = [];
+        let answerValue = '';
+        let answerText = '';
+        item.answerList.forEach((answer) => {
+          answerList.push({
+            value: answer.id,
+            text: answer.title,
+          });
+          if (parseInt(answer.selected, 10) === 1) {
+            answerValue = answer.id;
+            answerText = answer.title;
+          }
+        });
+        this.dataList.push({
+          title: item.title,
+          id: item.id,
+          answer: answerValue,
+          answerText: answerText,
+          answerList,
+        });
+      });
     },
   },
 };
@@ -157,6 +223,27 @@ export default {
   height: 100%;
   width: 100%;
 }
+
+.header-right {
+  .iconfont {
+    width: .4rem;
+    height: .4rem;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 10;
+    font-size: .2rem;
+
+    &:active {
+      background: #f5f5f5;
+    }
+  }
+
+  .icon-save {
+    color: $color-green;
+  }
+}
+
 
 .customre-item {
   display: flex;
@@ -219,30 +306,11 @@ export default {
     font-size: .16rem;
     color: $color-blue;
     border-bottom: 1px solid $color-line;
-
-    .iconfont {
-      width: .4rem;
-      height: .4rem;
-      position: absolute;
-      top: 0;
-      right: 0;
-      z-index: 10;
-      font-size: .18rem;
-
-      &:active {
-        background: #f5f5f5;
-      }
-    }
-
-    .icon-save {
-      color: $color-green;
-    }
   } // end title
 
   .content {
-    flex: 1;
-    overflow-y: auto;
-    overflow-x: hidden;
+    // overflow-y: auto;
+    // overflow-x: hidden;
     @include break-word;
     padding-top: .15rem;
 
@@ -267,9 +335,10 @@ export default {
       color: $color-grey;
       margin-bottom: .05rem;
       @include break-word;
-      text-indent: .15rem;
       line-height: .18rem;
+      width: 100%;
       margin-bottom: .1rem;
+      text-indent: .15rem;
     } // end answer
 
     .edit-answer {
@@ -297,7 +366,6 @@ export default {
     display: flex;
     border: 1px solid #e2e2e2;
     border-radius: .05rem;
-    margin-left: .17rem;
     font-size: .14rem;
     line-height: .18rem;
     height: .3rem;
@@ -310,7 +378,7 @@ export default {
   }
 
   .cube-textarea_expanded {
-    height: .8rem;
+    height: 1.2rem;
   }
 }
 </style>

@@ -87,7 +87,9 @@ export default {
   },
   watch: {
     '$route'(to) {
-      if (to.path === '/market' && parseInt(to.query.tab, 10) === 0) {
+      // console.log('home route: ', to.path);
+      if (to.path === '/market' && to.query.tab === 'home') {
+        this.getBanner();
         this.autoplay = true;
       } else {
         // this.autoplay = false;
@@ -98,6 +100,8 @@ export default {
   },
   created() {},
   mounted() {
+    // console.log('mounted');
+    Utils.showLoading();
     this.getBanner();
   },
   components: {
@@ -131,7 +135,6 @@ export default {
     },
     // 获取首页轮播图
     async getBanner() {
-      Utils.showLoading();
       const result = await indexService.getBanner(5);
       Utils.hideLoading();
       if (!result) return;
