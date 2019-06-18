@@ -57,7 +57,7 @@ export default {
   props: {
     placeholder: { // input 的空提示文字
       type: String,
-      default: '搜索',
+      default: '输入您想搜索的产品',
     },
     disabled: { // input 是否是 disabled 状态
       type: Boolean,

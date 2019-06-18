@@ -134,7 +134,7 @@ export default {
         this.pageNum += 1;
       }
       this.$nextTick(() => {
-        this.$refs.scroll.forceUpdate(true);
+        this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
       });
 
       // this.$nextTick(() => {

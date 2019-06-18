@@ -12,8 +12,8 @@
 
         <no-data v-if="noData"></no-data>
         <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
-          <div class="radio" @click="onToggleChecked(item, index)">
-            <i class="iconfont" :class="[allChecked || item.checked ? 'icon-radio-checked': 'icon-radio']"></i>
+          <div class="radio" @click="onToggleChecked(item)">
+            <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
           </div>
           <div class="detail">
             <p class="title">
@@ -203,6 +203,7 @@ export default {
       pageNum: 1,
       pageSize: 5,
       productList: [],
+      selectProducts: {}, // 选择的产品
       noData: true,
       hasNext: true,
       allChecked: false,
@@ -246,7 +247,8 @@ export default {
     onToggleAllChecked() {
       this.allChecked = !this.allChecked;
       this.productList = this.productList.map((item) => {
-        item.checked = this.allChecked;
+        // item.checked = this.allChecked;
+        this.selectProducts[item.id] = this.allChecked;
         return item;
       });
 
@@ -260,16 +262,16 @@ export default {
       this.calcPrice();
     },
     // 选择或者取消选择产品
-    onToggleChecked(item, index) {
-      item.checked = !item.checked;
+    onToggleChecked(item) {
+      this.selectProducts[item.id] = !this.selectProducts[item.id];
+      // item.checked = !item.checked;
+      // this.$set(this.productList, index, item);
 
-      this.$set(this.productList, index, item);
-
-      if (!item.checked && this.allChecked) {
+      if (!this.selectProducts[item.id] && this.allChecked) {
         this.allChecked = false;
       }
 
-      if (item.checked) {
+      if (this.selectProducts[item.id]) {
         // 判断是否全部都已经选择
         const list = this.productList.filter(product => !product.checked);
         this.allChecked = !!(!list || !list.length);
@@ -285,7 +287,7 @@ export default {
     calcPrice() {
       let total = 0;
       this.productList.forEach((item) => {
-        if (item.checked) {
+        if (this.selectProducts[item.id]) {
           total += parseFloat(item.price) * parseInt(item.qty, 10);
         }
       });
@@ -314,7 +316,7 @@ export default {
       // 判断是否选中
       if (this.allChecked) {
         result.rows = result.rows.map((item) => {
-          item.checked = true;
+          this.selectProducts[item.id] = true;
           return item;
         });
       }
@@ -370,7 +372,7 @@ export default {
     },
     // 从购物车中删除
     async onDelete() {
-      const delList = this.productList.filter(item => item.checked);
+      const delList = this.productList.filter(item => this.selectProducts[item.id]);
       if (!delList || !delList.length) {
         Utils.showToast('请先选择需要删除的产品');
         return;
@@ -387,7 +389,7 @@ export default {
       this.loading = false;
       Utils.hideLoading();
       if (!result) return;
-      this.productList = this.productList.filter(item => !item.checked);
+      this.productList = this.productList.filter(item => this.selectProducts[item.id]);
       // this.productList.splice(index, 1);
       Utils.showToast('删除成功');
       // 计算选择产品的金额
@@ -395,7 +397,7 @@ export default {
     },
     // 付款
     onPay() {
-      const list = this.productList.filter(item => item.checked);
+      const list = this.productList.filter(item => this.selectProducts[item.id]);
       if (!list || !list.length) {
         Utils.showToast('请先选择结算的产品');
         return;
@@ -479,7 +481,7 @@ export default {
         showBtns: false,
         callback: () => {
           // 将已经付款的产品移除购物车中
-          this.productList = this.productList.filter(item => !item.checked);
+          this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
         },
       });
     },

@@ -6,7 +6,7 @@
     <!-- 首页 end -->
 
     <!-- 导购页面 -->
-    <guide v-show="active == 'guide'"></guide>
+    <!-- <guide v-show="active == 'guide'"></guide> -->
     <!-- 导购页面 end -->
 
     <!-- 购物车 -->
@@ -18,7 +18,7 @@
     <!-- 客户洽谈 end -->
 
     <!-- 订单管理 -->
-    <order-list-tab v-show="active == 'order'" ref="order" current-path="/market"></order-list-tab>
+    <!-- <order-list-tab v-show="active == 'order'" ref="order" current-path="/market"></order-list-tab> -->
     <!-- 订单管理 end -->
 
     <!-- 个人中心 -->
@@ -36,21 +36,21 @@
 </template>
 <script>
 import Home from './Home.vue';
-import Guide from './Guide.vue';
+// import Guide from './Guide.vue';
 import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
-import OrderListTab from '../order/OrderListTab.vue';
+// import OrderListTab from '../order/OrderListTab.vue';
 import My from '../my/My.vue';
 
 export default {
   data() {
     return {
       tablist: [
-        { title: '首页', icon: 'icon-index', tab: 'home' },
+        { title: '首页', icon: 'icon-shouye', tab: 'home' },
         // { title: '导购页', icon: 'icon-daogou', tab: 'guide' },
+        { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '客户洽谈', icon: 'icon-customers', tab: 'customer' },
         // { title: '订单管理', icon: 'icon-wenjianguanli', tab: 'order' },
-        { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
       active: 'home',
@@ -68,11 +68,11 @@ export default {
     this.initTabActive();
   },
   components: {
-    Guide,
+    // Guide,
     Home,
     CartTab,
     CustomerTab,
-    OrderListTab,
+    // OrderListTab,
     My,
   },
   methods: {

@@ -3,7 +3,8 @@
   <cube-scroll
     ref="cubescroll"
     class="scroll-view"
-    :scroll-events="['scroll']"
+    :scroll-events="scrollEvents"
+    @scroll="scrollHandler"
     :options="options"
     @pulling-down="onPullingDown"
     @pulling-up="onPullingUp">
@@ -33,9 +34,15 @@ export default {
   mounted() {},
   components: {},
   methods: {
+    scrollHandler({ y }) {
+      this.$emit('scroll', { y });
+    },
     // 下拉刷新
     onPullingDown() {
       this.$emit('pulling-down');
+    },
+    scrollTop() {
+      this.$refs.cubescroll.scrollTo(0, 0, 300, 'ease');
     },
     // 上拉加载
     onPullingUp() {
@@ -43,6 +50,12 @@ export default {
     },
     forceUpdate(data) {
       this.$refs.cubescroll.forceUpdate(data);
+    },
+  },
+  props: {
+    scrollEvents: {
+      type: Array,
+      default: () => ['scroll'],
     },
   },
 };

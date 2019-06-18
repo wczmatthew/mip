@@ -1,6 +1,6 @@
 <!--  -->
 <template lang='html'>
-  <div class="w-container">
+  <div>
     <!-- 顶部栏 -->
     <header class="w-header">
       <div class="city">
@@ -29,46 +29,94 @@
     <!-- 轮播图 end -->
 
     <!-- 常用功能 -->
-    <div class="w-grid-list">
-      <!-- <div class="item" @click="toGuide()">
-        <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
-        <div class="detail">
-          <p>店内模式</p>
-          <p>Store</p>
-          <p class="underline">Mode</p>
-        </div>
+    <div class="w-grid-list home-category">
+      <div class="item">
+        <img src="~@/assets/home/index-icon1.png" alt="">
+        <p class="sub-title">
+          产品分类
+        </p>
       </div>
 
-      <div class="item" @click="toProductList()">
-        <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
-        <div class="detail">
-          <p>传统模式</p>
-          <p>Traditional</p>
-          <p class="underline">Mode</p>
-        </div>
-      </div> -->
-
-      <!-- <div class="item">
-        <img src="~@/assets/home/mode-bg3.png" alt="" class="bg">
-        <div class="detail">
-          <p>优惠信息</p>
-          <p>Preferential</p>
-          <p class="underline">Information</p>
-        </div>
+      <div class="item">
+        <img src="~@/assets/home/index-icon2.png" alt="">
+        <p class="sub-title">
+          洽谈
+        </p>
       </div>
 
-      <div class="item" @click="toCustomers()">
-        <img src="~@/assets/home/mode-bg4.png" alt="" class="bg">
-        <div class="detail">
-          <p>客户洽谈</p>
-          <p>Customer</p>
-          <p class="underline">Negotiation</p>
-        </div>
-      </div> -->
+      <div class="item">
+        <img src="~@/assets/home/index-icon3.png" alt="">
+        <p class="sub-title">
+          在线设计
+        </p>
+      </div>
 
+      <div class="item">
+        <img src="~@/assets/home/index-icon4.png" alt="">
+        <p class="sub-title">
+          解决方案
+        </p>
+      </div>
     </div>
     <!-- 常用功能 end -->
 
+    <!-- 限时抢购 -->
+    <div class="home-row">
+      <div class="title">
+        限时抢购
+        <span class="time">{{hour}}</span>
+        <span class="time">{{minute}}</span>
+        <span class="time">{{second}}</span>
+      </div>
+
+      <div class="w-grid-list product-grid">
+        <div class="item" v-for="(item, index) in productList" :key="index">
+          <div class="img">
+            <img src="~@/assets/home/banner.jpg" alt="">
+          </div>
+          <div class="detail">
+            <p class="product-title">
+              {{item.title}}
+            </p>
+            <p class="desc">
+              质量好，价格优惠
+            </p>
+            <p class="price">
+              ￥ 9.33
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 限时抢购 end -->
+
+    <!-- 正泰精品 -->
+    <div class="home-row">
+      <div class="title">
+        正泰精品
+        <span class="icon">hot !</span>
+      </div>
+
+      <div class="w-grid-list product-grid">
+        <div class="item" v-for="(item, index) in productList" :key="'hot' + index">
+          <div class="img">
+            <img src="~@/assets/home/banner.jpg" alt="">
+          </div>
+          <div class="detail">
+            <p class="product-title">
+              {{item.title}}
+            </p>
+            <p class="desc">
+              质量好，价格优惠
+            </p>
+            <p class="price">
+              ￥ 9.33
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- 正泰精品 end -->
   </div>
 </template>
 <script>
@@ -88,12 +136,22 @@ export default {
       ],
       caterotyList: [],
       autoplay: true,
+      productList: [],
+      hour: 0,
+      minute: 0,
+      second: 0,
+      endDate: '2019-6-17 20:00:00',
+      timer: null,
     };
   },
   watch: {
     '$route'(to) {
-      if (to.path === '/market' && parseInt(to.query.tab, 10) === 0) {
+      this.timer && clearInterval(this.timer);
+      if (to.path === '/market' && to.query.tab === 'home') {
         this.autoplay = true;
+        this.timer = setInterval(() => {
+          this.calcTime();
+        }, 1000);
       } else {
         // this.autoplay = false;
       }
@@ -103,12 +161,60 @@ export default {
   },
   created() {},
   mounted() {
-    this.getBanner();
+    // this.getBanner();
+    console.log('home mounted');
+
+    this.productList = [
+      { title: '家用漏保断路器NBE7LE1P+N' },
+      { title: '家用漏保断路器NBE7LE1P+N' },
+      { title: '家用漏保断路器NBE7LE1P+N' },
+      { title: '家用漏保断路器NBE7LE1P+N' },
+    ];
+
+    // this.calcTime();
+    this.timer && clearInterval(this.timer);
+    console.log('timer: ', this.timer);
+    this.timer = setInterval(this.calcTime, 1000);
   },
   components: {
     WSearch,
   },
   methods: {
+    // 计算结束时间
+    calcTime() {
+      if (!this.endDate) return;
+      // eslint-disable-next-line
+      this.endDate = this.endDate.replace(/\-/g, '/');
+
+      const endDate = new Date(this.endDate).getTime();
+      const timeDiff = endDate - new Date().getTime();
+
+      // 计算出小时数
+      const leave1 = timeDiff % (24 * 3600 * 1000);
+      this.hour = Math.floor(timeDiff / (3600 * 1000));
+      // 计算相差分钟数
+      const leave2 = leave1 % (3600 * 1000);
+      this.minute = Math.floor(leave2 / (60 * 1000));
+      // 计算相差秒数
+      const leave3 = leave2 % (60 * 1000);
+      this.second = Math.floor(leave3 / 1000);
+
+      if (this.hour <= 0 && this.minute <= 0 && this.second <= 0) {
+        this.timer && clearInterval(this.timer);
+      }
+      // 格式化时间
+      this.minute = this.formatTime(this.minute);
+      this.hour = this.formatTime(this.hour);
+      this.second = this.formatTime(this.second);
+    },
+    formatTime(time) {
+      if (time <= 0) {
+        time = '00';
+      } else if (time < 10) {
+        time = `0${time}`;
+      }
+      return time;
+    },
     toSearch() {
       this.$router.push('/market/search');
     },
@@ -162,9 +268,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
-.w-container {
-  background: #fff;
-}
 
 .w-header {
   width: 100%;
@@ -223,53 +326,153 @@ export default {
   }
 }
 
-.w-grid-list {
-  width: 95%;
-  margin: 0 auto;
+.home-category {
+  margin: 0 .15rem;
   justify-content: space-around;
   margin-top: .1rem;
+  border: 1px solid $color-line;
+  border-radius: .05rem;
+  background: #fff;
 
   .item {
-    width: 45%;
+    width: 25%;
     padding: 0;
-    padding-bottom: .1rem;
-    padding-top: .05rem;
+    padding-bottom: .08rem;
     position: relative;
     overflow: hidden;
+    border-right: 1px solid $color-line;
 
-    &:active {
-      opacity: 0.8;
+    &:last-child {
+      border: 0;
     }
 
-    img.bg {
+    img {
       width: 100%;
       display: block;
+      margin: 0 auto;
     }
 
-    .detail {
-      position: absolute;
-      top: 30%;
-      left: 15%;
-      z-index: 10;
-      width: 50%;
-
-      p {
-        color: #fff;
-        font-size: .16rem;
-        margin-bottom: .02rem;
-
-        &.underline::after {
-          display: block;
-          content: ' ';
-          width: 20%;
-          height: .02rem;
-          background-color: #fff;
-          margin-top: .05rem;
-          margin-left: .02rem;
-        }
-      }
+    .sub-title {
+      font-size: .1rem;
+      font-weight: 700;
+      margin-top: -.1rem;
+      text-align: center;
     }
   }
 }
+
+.home-row {
+  margin: .15rem .15rem .2rem;
+  .title {
+    display: flex;
+    align-items: center;
+    font-size: .18rem;
+    font-weight: 700;
+    margin-bottom: .1rem;
+
+    .time {
+      background: $color-red;
+      color: #fff;
+      font-size: .14rem;
+      border-radius: .05rem;
+      width: .2rem;
+      height: .2rem;
+      line-height: .2rem;
+      text-align: center;
+      margin-right: .08rem;
+      position: relative;
+      &::after {
+        content: ":";
+        position: absolute;
+        right: -.06rem;
+        top: 0;
+        color: $color-red;
+        font-weight: 700;
+      }
+
+      &:first-child {
+        margin-left: .1rem;
+      }
+
+      &:last-child::after {
+        display: none;
+      }
+    } // end title
+
+    .icon {
+      background: $color-red;
+      height: .2rem;
+      line-height: .2rem;
+      font-size: .14rem;
+      border-radius: .05rem;
+      padding: 0 .08rem;
+      margin-left: .1rem;
+      color: #fff;
+    }
+  } // end title
+
+  .product-grid {
+    background: #fff;
+    border: 1px solid $color-line;
+    overflow: hidden;
+    border-radius: .05rem;
+
+    .item {
+      width: 50%;
+      padding: .1rem .05rem .1rem .1rem;
+      border-right: 1px solid $color-line;
+      border-bottom: 1px solid $color-line;
+      display: flex;
+      align-items: center;
+
+      &:nth-child(2n) {
+        border-right: 0;
+      }
+
+      &:nth-last-child(1),
+      &:nth-last-child(2) {
+        border-bottom: 0;
+      }
+
+      .img {
+        width: .57rem;
+        height: .57rem;
+        border: 1px solid #f3f3f3;
+        @include flex-center;
+        margin-right: .05rem;
+        overflow: hidden;
+        flex-shrink: 0;
+
+        img {
+          width: 100%;
+        }
+      }
+
+      .detail {
+        flex: 1;
+        overflow: hidden;
+        font-size: .1rem;
+
+        .product-title {
+          @include text-overflow-muli(2);
+          @include break-word;
+        }
+
+        .desc {
+          color: $color-orange;
+          margin-top: .05rem;
+        }
+
+        .price {
+          font-size: .15rem;
+          font-weight: 700;
+          color: $color-red;
+          @include text-ellipsis;
+          margin-top: .05rem;
+        }
+      } // end detail
+    } // end item
+  } // end product-grid
+} // end home-row
 
 </style>

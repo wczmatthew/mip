@@ -1,9 +1,8 @@
 <!-- 消息图标 -->
 <template lang='html'>
   <div class="w-icon" @click.stop="toScan()">
-    <i class="iconfont icon-scan" :class="[color]">
-      <!-- <i class="point"></i> -->
-    </i>
+    <i class="iconfont icon-scan" :class="[color]"></i>
+    <p>扫一扫</p>
   </div>
 </template>
 <script>
@@ -51,6 +50,7 @@ export default {
   position: relative;
   color: #fff;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: .23rem;
@@ -79,6 +79,12 @@ export default {
     &.blue {
       color: $color-blue;
     }
+  }
+
+  p {
+    font-size: .1rem;
+    text-align: center;
+    margin-top: .05rem;
   }
 }
 </style>

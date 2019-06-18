@@ -45,9 +45,9 @@
             </p>
             <div class="row">
               <span>手机：{{item.phone}}</span>
-              <p class="price">
+              <!-- <p class="price">
                 已消费￥{{item.orderAmount || '0'}}
-              </p>
+              </p> -->
             </div>
             <p class="row">
               地址：{{item.address}}
