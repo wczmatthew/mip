@@ -42,13 +42,14 @@
             </p>
             <p class="row">
               <span>职务：{{item.deptName || '--'}}</span>
+              <span>手机：{{item.phone}}</span>
             </p>
-            <div class="row">
+            <!-- <div class="row">
               <span>手机：{{item.phone}}</span>
               <p class="price">
                 已消费￥{{item.orderAmount || '0'}}
               </p>
-            </div>
+            </div> -->
             <p class="row">
               地址：{{item.address}}
             </p>
@@ -322,6 +323,7 @@ export default {
         line-height: .16rem;
         display: flex;
         justify-content: space-between;
+        width: 85%;
         // align-items: center;
 
         span {

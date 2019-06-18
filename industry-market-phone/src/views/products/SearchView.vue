@@ -134,6 +134,7 @@ export default {
     },
     // 产品选型
     onSelectProduct() {
+      this.$router.push(`${this.routePath}/category`);
     },
     // 下拉刷新
     onPullingDown() {
