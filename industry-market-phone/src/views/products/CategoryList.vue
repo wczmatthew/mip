@@ -2,13 +2,7 @@
 <template lang='html'>
   <w-container show-header show-back>
     <!-- 顶部栏 -->
-    <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" show-scan disabled @input-click="toSearch()"></w-search>
-    <div class="header-right" slot="header-right">
-      <!-- <w-msg-icon color="blue"></w-msg-icon> -->
-      <!-- <i class="iconfont icon-cart"></i> -->
-      <w-cart-icon :currentPath="routePath" color="blue"></w-cart-icon>
-    </div>
+    <div slot="header-mid">产品选型</div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="menu-list">
@@ -16,40 +10,30 @@
         <div class="menu" @click.stop="toggleMenu(item, index)"
         :class="{'actived': item.isOpen}">
           <span>{{ item.name }}</span>
-          <i class="iconfont icon-arrow-down"></i>
-        </div>
-        <div v-show="item.isOpen" class="sub-list">
-          <div class="sub-item" v-for="(subItem, subIndex) in item.childList" :key="index + subIndex" :class="{'actived': selectShelf.id == subItem.id}" @click.stop="onChangeShelf(subItem)">
-            {{ subItem.name }}
-          </div>
         </div>
       </div>
     </div>
     <div class="scroll-view">
-
       <no-data v-if="noData"></no-data>
       <w-loading-row v-show="firstLoading"></w-loading-row>
-      <div class="row" v-for="(item, index) in dataList" :key="index">
-
-        <!-- 货架商品列表 -->
+      <div class="category-list" v-for="(item, index) in dataList" :key="index">
+        <p class="title">
+          正泰昆仑系列
+        </p>
+        <!-- 商品列表 -->
+        <div class="sub-title">
+          万能式断路器
+          <span>
+            展开
+            <i class="iconfont icon-arrow-down"></i>
+          </span>
+        </div>
         <div class="product-list">
-          <div class="item" v-for="(product, productIndex) in item" :key="productIndex + index">
-            <w-img :src="product.imgPath" v-if="product.xhgg" @click.native.stop="toDetail(product)"></w-img>
-            <no-data v-else style="margin-top: -.3rem;" desc="补货中"></no-data>
+          <div class="item" v-for="(product, productIndex) in item" :key="productIndex + index" @click="toDetail(product)">
+            {{product.xhgg}}
           </div>
         </div>
-        <!-- 货架商品列表 end -->
-
-        <!-- 货架 -->
-        <div class="row-bottom">
-          <img src="~@/assets/common/shelf-top.png" alt="" class="top">
-          <div class="mid">
-            <div class="col" v-for="(product, productIndex) in item" :key="productIndex + 'prorow'">
-              {{ product.xhgg || product.name }}
-            </div>
-          </div>
-        </div>
-        <!-- 货架 end -->
+        <!-- 商品列表 end -->
 
       </div>
 
@@ -58,7 +42,6 @@
   </w-container>
 </template>
 <script>
-import WSearch from '@/components/WSearch.vue';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 
@@ -82,7 +65,6 @@ export default {
     this.getShelfData();
   },
   components: {
-    WSearch,
   },
   methods: {
     toSearch() {
@@ -162,131 +144,94 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
-.search {
-  padding-left: .44rem;
-}
-
-.header-right {
-  position: static;
-}
-
 .menu-list {
   float: left;
   width: 25%;
   height: 100%;
   overflow: auto;
-  background: $color-blue;
-  color: #fff;
+  background: #fff;
   padding-top: .1rem;
   overflow-x: hidden;
 
   .menu {
     height: .4rem;
-    line-height: .4rem;
     text-align: center;
     display: flex;
     align-items: center;
-    transition: all .3s ease;
+    justify-content: center;
 
     span {
-      flex: 1;
-      font-weight: 700;
-    }
-
-    .iconfont {
-      width: .3rem;
-      font-weight: 700;
-      transform: rotate(180deg);
-      transition: all .3s ease;
+      font-size: .15rem;
+      line-height: .22rem;
     }
 
     &.actived {
-      background: #277bc5;
+      color: #277bc5;
 
-      .iconfont {
-        transform: rotate(0deg);
+      span {
+        border-bottom: .02rem solid $color-blue;
       }
     }
   } // end menu
-
-  .sub-list {
-    background: #fff;
-    overflow: hidden;
-  }
-
-  .sub-item {
-    height: .4rem;
-    line-height: .4rem;
-    padding: 0 .1rem;
-    text-align: center;
-    background: #fff;
-    color: $color-blue;
-    font-weight: 700;
-
-    &.actived {
-      background: #4d97da;
-      color: #fff;
-    }
-  } // end sub-item
 } // end menu-list
-
-.row {
-  padding: 0 .08rem;
-  .row-bottom {
-    width: 100%;
-
-    img {
-      display: block;
-      width: 100%;
-      height: .06rem;
-    }
-
-    .mid {
-      width: 100%;
-      height: .35rem;
-      background: $color-blue;
-      display: flex;
-      align-items: center;
-      .col {
-        width: 30%;
-        height: .25rem;
-        line-height: .25rem;
-        color: #fff;
-        font-size: .1rem;
-        text-align: center;
-        box-shadow: inset 0 -0.02rem 0.01rem #80add6;
-        border-top: .01rem solid #00182f;
-        border-radius: .05rem;
-        margin-left: 2.5%;
-      }
-    } // end mid
-  } // end row-bottom
-
-  .product-list {
-    width: 95%;
-    margin: .1rem auto .03rem;
-    border-radius: .05rem;
-    overflow: hidden;
-    background: #fff;
-    display: flex;
-    box-shadow: 0 0 .05rem #ccc;
-
-    .item {
-      width: 33.3%;
-      height: .9rem;
-      padding: .1rem .05rem;
-      overflow: hidden;
-      img {
-        height: 100%;
-        display: block;
-        margin: 0 auto;
-      }
-    }
-  }
-}
 
 .scroll-view {
   height: 100%;
   overflow: auto;
 }
+
+.category-list {
+  padding: 0 .1rem;
+
+  .title {
+    width: 100%;
+    height: .4rem;
+    line-height: .4rem;
+    background: #fff;
+    font-size: .18rem;
+    text-align: center;
+  }
+
+  .sub-title {
+    height: .4rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: .15rem;
+
+    span {
+      color: $color-grey;
+      @include flex-center;
+      font-size: .13rem;
+
+      .iconfont {
+        margin-left: .05rem;
+        display: block;
+        transition: all .3s ease;
+      }
+
+      &.open {
+        .iconfont {
+          transform: rotate(180deg);
+        }
+      }
+    }
+  }
+
+  .product-list {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .item {
+      max-width: 100%;
+      height: .4rem;
+      background: #fff;
+      text-align: center;
+      line-height: .4rem;
+      font-size: .12rem;
+      margin-bottom: .1rem;
+      padding: 0 .1rem;
+    }
+  } // end product-list
+} // end category-list
 </style>

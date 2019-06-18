@@ -280,6 +280,7 @@ a {
   position: relative;
 }
 
+/*************************** 顶部栏 **************************/
 .w-header {
   width: 100%;
   font-size: .16rem;
@@ -366,6 +367,66 @@ a {
   left: 0;
   z-index: 10;
 }
+
+.w-gradient-left-bg {
+  background: -webkit-linear-gradient(left, #4194f4, #00fdaf); 
+  background: -o-linear-gradient(right, #4194f4, #00fdaf); 
+  background: -moz-linear-gradient(right, #4194f4, #00fdaf); 
+  background: linear-gradient(to right, #4194f4 , #00fdaf);
+  width: 100%;
+  position: relative;
+  color: #fff;
+}
+
+/* .w-gradient-left-bg .w-header-mid {
+  color: #fff;
+} */
+
+.w-edit-header .header-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: .6rem;
+  height: .44rem;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-box-align: center;
+  -webkit-align-items: center;
+  -ms-flex-align: center;
+  align-items: center;
+  -webkit-justify-content: center;
+  -moz-justify-content: center;
+  -ms-justify-content: center;
+  -o-justify-content: center;
+  justify-content: center;
+  overflow: hidden;
+  white-space: nowrap;
+  -o-text-overflow: ellipsis; /* for Opera */
+  text-overflow: ellipsis; /* for IE */
+  font-size: .12rem;
+  -webkit-flex-direction: column;
+  -moz-flex-direction: column;
+  -ms-flex-direction: column;
+  -o-flex-direction: column;
+  flex-direction: column;
+  line-height: .18rem;
+  padding-top: .05rem;
+}
+
+.w-edit-header .header-right .iconfont {
+  color: #158BE0;
+  font-size: .2rem;
+}
+
+.w-edit-header .header-right p {
+  color: #158BE0;
+  font-size: .12rem;
+}
+
+/*************************** 顶部栏样式 end **************************/
 
 .w-footer {
   width: 100%;
@@ -1132,59 +1193,6 @@ ul.w-menu li:last-child {
     background: #e6e6e6;
     -webkit-transform: scaleY(0.5);
     transform: scaleY(0.5);
-}
-
-.w-gradient-left-bg {
-  background: -webkit-linear-gradient(left, #4194f4, #00fdaf); 
-  background: -o-linear-gradient(right, #4194f4, #00fdaf); 
-  background: -moz-linear-gradient(right, #4194f4, #00fdaf); 
-  background: linear-gradient(to right, #4194f4 , #00fdaf);
-  width: 100%;
-  position: relative;
-}
-
-.w-edit-header .header-right {
-  position: absolute;
-  top: 0;
-  right: 0;
-  width: .6rem;
-  height: .44rem;
-  display: -webkit-box;
-  display: -moz-box;
-  display: -ms-flexbox;
-  display: -webkit-flex;
-  display: flex;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  align-items: center;
-  -webkit-justify-content: center;
-  -moz-justify-content: center;
-  -ms-justify-content: center;
-  -o-justify-content: center;
-  justify-content: center;
-  overflow: hidden;
-  white-space: nowrap;
-  -o-text-overflow: ellipsis; /* for Opera */
-  text-overflow: ellipsis; /* for IE */
-  font-size: .12rem;
-  -webkit-flex-direction: column;
-  -moz-flex-direction: column;
-  -ms-flex-direction: column;
-  -o-flex-direction: column;
-  flex-direction: column;
-  line-height: .18rem;
-  padding-top: .05rem;
-}
-
-.w-edit-header .header-right .iconfont {
-  color: #158BE0;
-  font-size: .2rem;
-}
-
-.w-edit-header .header-right p {
-  color: #158BE0;
-  font-size: .12rem;
 }
 
 .opacity-link {
