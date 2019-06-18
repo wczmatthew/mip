@@ -30,7 +30,7 @@ Vue.component('chint-header', {
   '    <div class="w-container">'+
   '      <div class="left">'+
   '        <i class="iconfont icon-category"></i>'+
-  '        <b>采购云平台</b>'+
+  '        采购云平台'+
   '      </div>'+
 
   '      <ul class="right">'+
@@ -55,7 +55,7 @@ Vue.component('chint-header', {
   '      <img src="../assets/common/logo.jpg" alt="" class="logo">'+
   '      <nav class="mid">'+
   '        <a href="index.html" class="item" :class="{actived: index == 0}">'+
-  '          采购云首页'+
+  '          首页'+
   '        </a>'+
   '        <a href="inviteBids.html" class="item" :class="{actived: index == 1}">'+
   '          采购中心'+
