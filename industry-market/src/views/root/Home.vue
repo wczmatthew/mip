@@ -120,7 +120,7 @@ export default {
           // eslint-disable-next-line
           native_listen('goToUrl', { url: item.goUrl });
         } catch (error) {
-          console.log('error: ', error);
+          // console.log('error: ', error);
         }
         return;
       }

@@ -1,150 +1,181 @@
-<!--  -->
+<!-- 购物车组件 -->
 <template lang='html'>
-  <!-- 正文内容 -->
   <div class="cart-container">
-    <!-- 购物车信息 -->
-    <div class="product-list">
-      <w-scroll
-        ref="scroll"
-        class="scroll-view"
-        @pulling-down="onPullingDown"
-        @pulling-up="onPullingUp">
+    <!-- 购物车内容 -->
+    <div class="cart-content">
+      <!-- 购物车信息 -->
+      <div class="product-list">
+        <w-scroll
+          ref="scroll"
+          class="scroll-view"
+          @pulling-down="onPullingDown"
+          @pulling-up="onPullingUp">
 
-        <no-data v-if="noData"></no-data>
-        <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
-          <div class="radio" @click="onToggleChecked(item, index)">
-            <i class="iconfont" :class="[allChecked || item.checked ? 'icon-radio-checked': 'icon-radio']"></i>
+          <no-data v-if="noData"></no-data>
+          <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
+            <div class="radio" @click="onToggleChecked(item, index)">
+              <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
+            </div>
+            <div class="detail">
+              <p class="title">
+                {{item.spec || '暂无'}}
+              </p>
+              <p class="price">
+                ￥{{item.price || '--'}}
+              </p>
+            </div>
+            <div class="right">
+              <div class="nums">
+                <i class="iconfont icon-circle-reduce" @click.stop="onReduce(item)"></i>
+                <input type="number" v-model="item.qty" @blur="onChangeNum(item)">
+                <i class="iconfont icon-circle-add" @click.stop="onAdd(item)"></i>
+              </div>
+            </div>
           </div>
-          <div class="detail">
+
+        </w-scroll>
+
+        <!-- <div class="bottom">
+          <div class="w-underline height-1"></div>
+
+          <div class="row">
+            <div class="radio" @click="onToggleAllChecked()">
+              <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>
+              <p>全选</p>
+            </div>
+
+            <div class="right">
+              <p class="bold">合计: {{totalPrice.toFixed(2)}}</p>
+              <p class="red small">
+                优惠: {{discountPrice.toFixed(2)}}
+              </p>
+              <p class="red bold">实付: {{(totalPrice - discountPrice).toFixed(2)}}</p>
+            </div>
+          </div>
+
+          <button type="button" class="blue-btn" v-show="!isEdit" @click="onPay()">
+            结账({{selectNum}})
+          </button>
+          <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
+            删除
+          </button>
+        </div> -->
+      </div>
+      <!-- 购物车信息 -->
+
+      <!-- 付款信息 -->
+      <div class="customer-container">
+        <!-- 客户信息 -->
+        <div class="customre-item w-underline" @click.stop="onChangeCustomer()">
+          <i class="iconfont icon-kehu"></i>
+          <div class="detail" v-if="!customer || !customer.id">
+            请先选择客户
+          </div>
+          <div class="detail" v-else>
             <p class="title">
-              {{item.spec || '暂无'}}
+              {{customer.name}}&nbsp;&nbsp;
+              <span>{{customer.phone}}</span>
             </p>
-            <p class="price">
-              ￥{{item.price || '--'}}
-            </p>
+            <div class="location">
+              <i class="iconfont icon-location"></i>
+              {{customer.address}}
+            </div>
           </div>
-          <div class="right">
-            <div class="nums">
-              <i class="iconfont icon-circle-reduce" @click.stop="onReduce(item)"></i>
-              <input type="number" v-model="item.qty" @blur="onChangeNum(item)">
-              <i class="iconfont icon-circle-add" @click.stop="onAdd(item)"></i>
+          <i class="iconfont icon-arrow-right"></i>
+        </div>
+        <!-- 客户信息 end -->
+
+        <!-- 其他信息 -->
+        <div class="pay-msg">
+          <div class="title">
+            支付方式:
+          </div>
+          <div class="radios">
+            <div class="item" @click="payWay = 1">
+              <i class="iconfont" :class="[payWay == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
+              在线支付
+            </div>
+            <div class="item" @click="payWay = 2">
+              <i class="iconfont" :class="[payWay == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
+              现金/刷卡
             </div>
           </div>
         </div>
-
-      </w-scroll>
-
-      <div class="bottom">
-        <div class="w-underline height-1"></div>
-
-        <div class="row">
-          <div class="radio" @click="onToggleAllChecked()">
-            <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>
-            <p>全选</p>
+        <div class="pay-msg">
+          <div class="title">
+            配送方式:
           </div>
-
-          <div class="right">
-            <p class="bold">合计: {{totalPrice.toFixed(2)}}</p>
-            <p class="red small">
-              优惠: {{discountPrice.toFixed(2)}}
-            </p>
-            <p class="red bold">实付: {{(totalPrice - discountPrice).toFixed(2)}}</p>
+          <div class="radios">
+            <div class="item" @click="sendType = 1">
+              <i class="iconfont" :class="[sendType == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
+              送货上门
+            </div>
+            <div class="item" @click="sendType = 2">
+              <i class="iconfont" :class="[sendType == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
+              门店自提
+            </div>
           </div>
         </div>
+        <!-- <div class="pay-msg">
+          <div class="title">
+            相关文件:
+          </div>
+          <div class="radios">
+            <div class="item" @click="fileMsg = 1">
+              <i class="iconfont" :class="[fileMsg == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
+              资质证书
+            </div>
+            <div class="item" @click="fileMsg = 2">
+              <i class="iconfont" :class="[fileMsg == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
+              发票
+            </div>
+            <div class="item" @click="fileMsg = 3">
+              <i class="iconfont" :class="[fileMsg == 3 ? 'icon-radio2-checked' : 'icon-radio']"></i>
+              出库单
+            </div>
+          </div>
+        </div> -->
 
-        <button type="button" class="blue-btn" v-show="!isEdit" @click="onPay()">
-          结账({{selectNum}})
-        </button>
-        <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
-          删除
-        </button>
+        <div class="pay-msg">
+          <div class="title">
+            备<i class="opacity-0">占位</i>注:
+          </div>
+          <cube-textarea placeholder="请输入..." v-model="tips" :indicator="true" :maxlength="200" class="textarea"></cube-textarea>
+        </div>
+        <!-- 其他信息 end -->
+
       </div>
-    </div>
-    <!-- 购物车信息 -->
+      <!-- 付款信息 end -->
 
-    <!-- 付款信息 -->
-    <div class="customer-container">
-      <!-- 客户信息 -->
-      <div class="customre-item w-underline" @click.stop="onChangeCustomer()">
-        <i class="iconfont icon-kehu"></i>
-        <div class="detail" v-if="!customer || !customer.id">
-          请先选择客户
-        </div>
-        <div class="detail" v-else>
-          <p class="title">
-            {{customer.name}}&nbsp;&nbsp;
-            <span>{{customer.phone}}</span>
+    </div>
+    <!-- 购物车内容 end -->
+
+    <!-- 底部价格 -->
+    <div class="cart-bottom">
+      <div class="radio" @click="onToggleAllChecked()">
+        <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>全选
+      </div>
+
+
+      <div class="detail">
+        <p class="red bold">
+          <span>实付: </span>{{(totalPrice - discountPrice).toFixed(2)}}
+        </p>
+        <div class="msg">
+          <p class="bold grey">合计: {{totalPrice.toFixed(2)}}</p>
+          <p class="red small">
+            优惠: {{discountPrice.toFixed(2)}}
           </p>
-          <div class="location">
-            <i class="iconfont icon-location"></i>
-            {{customer.address}}
-          </div>
-        </div>
-        <i class="iconfont icon-arrow-right"></i>
-      </div>
-      <!-- 客户信息 end -->
-
-      <!-- 其他信息 -->
-      <div class="pay-msg">
-        <div class="title">
-          支付方式:
-        </div>
-        <div class="radios">
-          <div class="item" @click="payWay = 1">
-            <i class="iconfont" :class="[payWay == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            在线支付
-          </div>
-          <div class="item" @click="payWay = 2">
-            <i class="iconfont" :class="[payWay == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            现金/刷卡
-          </div>
         </div>
       </div>
-      <div class="pay-msg">
-        <div class="title">
-          配送方式:
-        </div>
-        <div class="radios">
-          <div class="item" @click="sendType = 1">
-            <i class="iconfont" :class="[sendType == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            送货上门
-          </div>
-          <div class="item" @click="sendType = 2">
-            <i class="iconfont" :class="[sendType == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            门店自提
-          </div>
-        </div>
-      </div>
-      <!-- <div class="pay-msg">
-        <div class="title">
-          相关文件:
-        </div>
-        <div class="radios">
-          <div class="item" @click="fileMsg = 1">
-            <i class="iconfont" :class="[fileMsg == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            资质证书
-          </div>
-          <div class="item" @click="fileMsg = 2">
-            <i class="iconfont" :class="[fileMsg == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            发票
-          </div>
-          <div class="item" @click="fileMsg = 3">
-            <i class="iconfont" :class="[fileMsg == 3 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            出库单
-          </div>
-        </div>
-      </div> -->
-
-      <div class="pay-msg">
-        <div class="title">
-          备<i class="opacity-0">占位</i>注:
-        </div>
-        <cube-textarea placeholder="请输入..." v-model="tips" :indicator="true" :maxlength="200" class="textarea"></cube-textarea>
-      </div>
-      <!-- 其他信息 end -->
-
+      <button type="button" class="blue-btn" v-show="!isEdit" @click="onPay()">
+        结账({{selectNum}})
+      </button>
+      <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
+        删除
+      </button>
     </div>
-    <!-- 付款信息 end -->
+    <!-- 底部价格 end-->
 
     <!-- 弹窗内容 -->
     <w-modal ref="onlinePayModal">
@@ -188,6 +219,7 @@
       </div>
     </w-modal>
     <!-- 弹窗内容 end -->
+
   </div>
   <!-- 正文内容 end -->
 </template>
@@ -203,6 +235,7 @@ export default {
       pageNum: 1,
       pageSize: 5,
       productList: [],
+      selectProducts: {}, // 选择的产品列表
       noData: true,
       hasNext: true,
       allChecked: false,
@@ -244,9 +277,10 @@ export default {
     },
     // 全选或者取消全选
     onToggleAllChecked() {
+      if (!this.productList.length) return;
       this.allChecked = !this.allChecked;
       this.productList = this.productList.map((item) => {
-        item.checked = this.allChecked;
+        this.selectProducts[item.id] = this.allChecked;
         return item;
       });
 
@@ -261,15 +295,15 @@ export default {
     },
     // 选择或者取消选择产品
     onToggleChecked(item, index) {
-      item.checked = !item.checked;
+      this.selectProducts[item.id] = !this.selectProducts[item.id];
 
       this.$set(this.productList, index, item);
 
-      if (!item.checked && this.allChecked) {
+      if (!this.selectProducts[item.id] && this.allChecked) {
         this.allChecked = false;
       }
 
-      if (item.checked) {
+      if (this.selectProducts[item.id]) {
         // 判断是否全部都已经选择
         const list = this.productList.filter(product => !product.checked);
         this.allChecked = !!(!list || !list.length);
@@ -285,7 +319,7 @@ export default {
     calcPrice() {
       let total = 0;
       this.productList.forEach((item) => {
-        if (item.checked) {
+        if (this.selectProducts[item.id]) {
           total += parseFloat(item.price) * parseInt(item.qty, 10);
         }
       });
@@ -307,14 +341,13 @@ export default {
     },
     // 获取购物车数据
     async getData() {
-      console.log(Utils.getUserId(this));
       const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
       if (!result) return;
 
       // 判断是否选中
       if (this.allChecked) {
         result.rows = result.rows.map((item) => {
-          item.checked = true;
+          this.selectProducts[item.id] = true;
           return item;
         });
       }
@@ -370,7 +403,7 @@ export default {
     },
     // 从购物车中删除
     async onDelete() {
-      const delList = this.productList.filter(item => item.checked);
+      const delList = this.productList.filter(item => this.selectProducts[item.id]);
       if (!delList || !delList.length) {
         Utils.showToast('请先选择需要删除的产品');
         return;
@@ -387,7 +420,7 @@ export default {
       this.loading = false;
       Utils.hideLoading();
       if (!result) return;
-      this.productList = this.productList.filter(item => !item.checked);
+      this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
       // this.productList.splice(index, 1);
       Utils.showToast('删除成功');
       // 计算选择产品的金额
@@ -395,7 +428,7 @@ export default {
     },
     // 付款
     onPay() {
-      const list = this.productList.filter(item => item.checked);
+      const list = this.productList.filter(item => this.selectProducts[item.id]);
       if (!list || !list.length) {
         Utils.showToast('请先选择结算的产品');
         return;
@@ -479,7 +512,7 @@ export default {
         showBtns: false,
         callback: () => {
           // 将已经付款的产品移除购物车中
-          this.productList = this.productList.filter(item => !item.checked);
+          this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
         },
       });
     },

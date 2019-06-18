@@ -4,13 +4,21 @@
 }
 
 .cart-container {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  flex-direction: column;
+}
+
+.cart-content {
   padding-top: .1rem;
   padding-left: .12rem;
   padding-right: .12rem;
-  height: 100%;
+  // height: 100%;
   width: 100%;
   display: flex;
   justify-content: space-between;
+  flex: 1;
 }
 
 .price {
@@ -24,7 +32,7 @@
   height: 100%;
   border-top-right-radius: .05rem;
   border-top-left-radius: .05rem;
-  width: 40%;
+  width: 50%;
   display: flex;
   flex-direction: column;
 
@@ -95,68 +103,11 @@
       }
     }
   } // end cart-item
-
-  .bottom {
-    width: 95%;
-    margin: 0 auto;
-    height: 30%;
-    flex-shrink: 0;
-
-    .row {
-      display: flex;
-
-      .radio {
-        height: .4rem;
-        flex-direction: column;
-
-        p {
-          font-size: .1rem;
-          margin-top: .02rem;
-          color: $color-grey;
-        }
-      }
-
-      .right {
-        flex: 1;
-        padding-left: .1rem;
-        text-align: right;
-        font-size: .12rem;
-        padding-top: .1rem;
-
-        p {
-          @include text-ellipsis;
-          margin-bottom: .05rem;
-        }
-
-        .bold {
-          font-weight: 700;
-        }
-
-        .small {
-          font-size: .1rem;
-        }
-
-        .red {
-          color: $color-red;
-        }
-      }
-
-    } // end row
-
-    .blue-btn,
-    .red-btn {
-      height: .25rem;
-      border-radius: .25rem;
-      font-size: .14rem;
-      width: 55%;
-      margin-top: .05rem;
-    }
-  }
 }
 
 .customer-container {
   background: #fff;
-  width: 57%;
+  width: 48%;
   height: 100%;
   border-top-right-radius: .05rem;
   border-top-left-radius: .05rem;
@@ -244,6 +195,93 @@
       overflow: hidden;
     }
   } // end pay-msg
+}
+
+.cart-bottom {
+  width: 100%;
+  height: .4rem;
+  border-top: 1px solid $color-line;
+  background: #fff;
+  display: flex;
+  padding-left: .1rem;
+  padding-right: .1rem;
+
+  .radio {
+    min-width: .4rem;
+    height: 100%;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    font-size: .12rem;
+    color: $color-grey;
+
+    .iconfont {
+      margin-right: .05rem;
+      font-size: .14rem;
+    }
+
+    .icon-radio-checked {
+      color: $color-blue;
+    }
+  }
+
+
+  .detail {
+    flex: 1;
+    text-align: right;
+    font-size: .12rem;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding-right: .1rem;
+
+    .msg {
+      display: flex;
+      justify-content: flex-end;
+      font-size: .1rem;
+
+      p {
+        margin-bottom: 0;
+        margin-left: .1rem;
+      }
+    }
+
+    p {
+      @include text-ellipsis;
+      margin-bottom: .05rem;
+
+      span {
+        color: $color-black;
+        font-weight: 700;
+      }
+    }
+
+    .grey {
+      color: $color-grey-6;
+    }
+
+    .bold {
+      font-weight: 700;
+    }
+
+    .small {
+      font-size: .1rem;
+    }
+
+    .red {
+      color: $color-red;
+    }
+  }
+
+  .blue-btn,
+  .red-btn {
+    height: .25rem;
+    border-radius: .25rem;
+    font-size: .14rem;
+    width: 1.5rem;
+    margin-top: .05rem;
+  }
 }
 
 .pay-success {
