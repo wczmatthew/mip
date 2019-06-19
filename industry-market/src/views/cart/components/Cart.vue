@@ -49,7 +49,7 @@
               <p class="red small">
                 优惠: {{discountPrice.toFixed(2)}}
               </p>
-              <p class="red bold">实付: {{(totalPrice - discountPrice).toFixed(2)}}</p>
+              <p class="red bold">实付: {{(totalPrice - discountPrice - reducePrice).toFixed(2)}}</p>
             </div>
           </div>
 
@@ -76,10 +76,10 @@
               {{customer.name}}&nbsp;&nbsp;
               <span>{{customer.phone}}</span>
             </p>
-            <div class="location">
+            <!-- <div class="location">
               <i class="iconfont icon-location"></i>
               {{customer.address}}
-            </div>
+            </div> -->
           </div>
           <i class="iconfont icon-arrow-right"></i>
         </div>
@@ -156,10 +156,14 @@
         <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>全选
       </div>
 
+      <div class="mid">
+        抹零: <input type="number" v-model="reducePrice">
+      </div>
+
 
       <div class="detail">
         <p class="red bold">
-          <span>实付: </span>{{(totalPrice - discountPrice).toFixed(2)}}
+          <span>实付: </span>{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
         </p>
         <div class="msg">
           <p class="bold grey">合计: {{totalPrice.toFixed(2)}}</p>
@@ -181,7 +185,7 @@
     <w-modal ref="onlinePayModal">
       <div class="online-pay">
         <p class="price">
-          ￥{{(totalPrice - discountPrice).toFixed(2)}}
+          ￥{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
         </p>
         <div class="code-list">
           <div class="code-img">
@@ -195,7 +199,7 @@
     </w-modal>
 
     <w-modal ref="offlinePayModal">
-      实付金额为<span class="price">￥{{(totalPrice - discountPrice).toFixed(2)}}</span>, 请前往柜台完成付款
+      实付金额为<span class="price">￥{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}</span>, 请前往柜台完成付款
     </w-modal>
 
     <w-modal ref="resultModal">
@@ -249,6 +253,7 @@ export default {
       fileMsg: -1, // 相关文件
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
       orderDetail: {},
+      reducePrice: 0, // 抹零价格
     };
   },
   created() {},

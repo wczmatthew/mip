@@ -20,7 +20,8 @@ if (process.env.NODE_ENV === 'production') {
   httpHost = '';
 } else if (process.env.NODE_ENV === 'test-dev' || process.env.NODE_ENV === 'development') {
   // httpHost = '/app/mboa';
-  httpHost = '/local';
+  // httpHost = '/local';
+  httpHost = '/test';
 }
 // console.log('http env: ', process.env.NODE_ENV)
 
