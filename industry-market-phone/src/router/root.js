@@ -10,6 +10,7 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 导购
 // const Guide = () => import('@/views/root/Guide.vue');
 const customerChat = () => import('@/views/customers/CustomerChat.vue');
+const productCategory = () => import('@/views/products/ProductCategory.vue');
 
 export default [
   {
@@ -26,6 +27,12 @@ export default [
         component: customerChat,
         children: [
           ...customer,
+        ],
+      },
+      {
+        path: 'productCategory',
+        component: productCategory,
+        children: [
         ],
       },
     ],

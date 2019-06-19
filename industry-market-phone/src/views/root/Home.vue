@@ -30,7 +30,7 @@
 
     <!-- 常用功能 -->
     <div class="w-grid-list home-category">
-      <div class="item">
+      <div class="item" @click="toCategory()">
         <img src="~@/assets/home/index-icon1.png" alt="">
         <p class="sub-title">
           产品分类
@@ -251,17 +251,8 @@ export default {
         this.$refs.slide && this.$refs.slide.refresh();
       });
     },
-    // 传统模式, 产品列表
-    toProductList() {
-      this.$router.push('/market/productList');
-    },
-    // 店内模式
-    toGuide() {
-      this.$router.push('/market?tab=guide');
-    },
-    // 客户洽谈
-    toCustomers() {
-      this.$router.push('/market?tab=customer');
+    toCategory() {
+      this.$router.push('/market/productCategory');
     },
   },
 };
