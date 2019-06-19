@@ -257,10 +257,11 @@
   font-size: 14px;
 }
 
-.web-desc .card-row .card .bottom .blue-btn {
+.web-desc .card-row .card .bottom .yellow-btn {
   width: 90px;
   height: 30px;
   margin: 0;
+  background: #f29c2d;
 }
 
 .web-desc .card-row2 {

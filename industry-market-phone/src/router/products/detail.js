@@ -5,7 +5,7 @@ const ProductDetail = () => import('@/views/products/ProductDetail.vue');
 
 export default [
   {
-    path: 'detail',
+    path: 'productDetail',
     component: ProductDetail,
     children: [
       ...cart,

@@ -102,8 +102,14 @@
     <footer slot="w-footer" class="footer">
       <div class="left">
         <div class="icon" @click="toIndex()">
-          <i class="iconfont icon-store"></i>
+          <i class="iconfont icon-shouye"></i>
           <p>首页</p>
+        </div>
+        <div class="icon">
+          <i class="iconfont icon-gouwuche">
+            <i class="num">10</i>
+          </i>
+          <p>购物车</p>
         </div>
         <div class="icon" @click="onToggleCollect()" style="min-width: .5rem;">
           <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
@@ -112,19 +118,15 @@
             {{product.isCollect ? '取消收藏' : '收藏'}}
           </p>
         </div>
-        <div class="icon">
-          <i class="iconfont icon-kefu"></i>
-          <p>技术支持</p>
-        </div>
       </div>
 
       <div class="btns">
         <button class="light-blue-btn" @click="onAddCart()">
           加入购物车
         </button>
-        <!-- <button class="blue-btn">
+        <button class="blue-btn">
           立即购买
-        </button> -->
+        </button>
       </div>
     </footer>
     <!-- 底部栏 end -->
@@ -328,7 +330,6 @@ export default {
     height: 100%;
     justify-content: space-between;
     align-items: center;
-    padding-right: .12rem;
     background: #fff;
     border-top: 1px solid $color-line;
 
@@ -347,6 +348,20 @@ export default {
           display: block;
           margin-bottom: .02rem;
           font-size: .22rem;
+          position: relative;
+
+          .num {
+            position: absolute;
+            top: -.04rem;
+            right: -.05rem;
+            background: $color-red;
+            color: #fff;
+            font-size: .1rem;
+            min-width: .15rem;
+            height: .15rem;
+            line-height: .15rem;
+            border-radius: .15rem;
+          }
         }
 
         .icon-collect {
@@ -361,10 +376,9 @@ export default {
     }
 
     .btns {
-      width: 40%;
-      height: .3rem;
+      flex: 1;
+      height: 100%;
       display: flex;
-      border-radius: .3rem;
       overflow: hidden;
       button {
         flex: 1;

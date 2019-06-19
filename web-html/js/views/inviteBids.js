@@ -79,7 +79,7 @@ function updateData() {
           '            '+ data.time +
           '          </span>'+
           '        </div>'+
-          '        <button class="blue-btn" onclick="onApply(\''+data.id+'\')">立即报名</button>' +
+          '        <button class="yellow-btn" onclick="onApply(\''+data.id+'\')">立即报名</button>' +
           '      </div>'+
           '    </div>'+
           '  </div>'+

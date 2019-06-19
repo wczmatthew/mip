@@ -1,5 +1,5 @@
 import productList from './productList';
-// import productDetail from './detail';
+import productDetail from './detail';
 // import cart from '../order/cart';
 
 const searchView = () => import('@/views/products/SearchView.vue');
@@ -19,6 +19,9 @@ export default [
           {
             path: 'detail',
             component: CategoryDetail,
+            children: [
+              ...productDetail,
+            ],
           },
         ],
       },

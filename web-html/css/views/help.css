@@ -8,6 +8,10 @@
   padding-bottom: 40px;
 }
 
+.web-banner img.bg {
+  height: 198px;
+}
+
 .web-banner .w-container {
   display: -webkit-box;
   display: -moz-box;

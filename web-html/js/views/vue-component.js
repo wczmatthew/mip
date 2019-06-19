@@ -30,7 +30,7 @@ Vue.component('chint-header', {
   '    <div class="w-container">'+
   '      <div class="left">'+
   '        <i class="iconfont icon-category"></i>'+
-  '        采购云平台'+
+  '        采购云'+
   '      </div>'+
 
   '      <ul class="right">'+
@@ -63,9 +63,12 @@ Vue.component('chint-header', {
   '        <a href="news.html" class="item" :class="{actived: index == 2}">'+
   '          采购动态'+
   '        </a>'+
-  '        <a href="service" class="item" :class="{actived: index == 3}">'+
-  '          服务监督'+
+  '        <a href="help.html" class="item" :class="{actived: index == 3}">'+
+  '          帮助中心'+
   '        </a>'+
+  // '        <a href="service" class="item" :class="{actived: index == 3}">'+
+  // '          服务监督'+
+  // '        </a>'+
   '      </nav>'+
 
   '      <div class="search">'+
