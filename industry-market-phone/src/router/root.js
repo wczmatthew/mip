@@ -33,6 +33,7 @@ export default [
         path: 'productCategory',
         component: productCategory,
         children: [
+          ...productList,
         ],
       },
     ],

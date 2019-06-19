@@ -79,6 +79,7 @@ export default {
   // background: #fff;
   position: relative;
   padding-top: .07rem;
+  color: #333;
 
   .search-content {
     background: #fff;

@@ -56,7 +56,7 @@ export default {
       selectShelf: {},
       dataList: [],
       shelfDataList: [],
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' }), // 获取当前路由
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productCategory' }), // 获取当前路由
     };
   },
   created() {},
@@ -71,7 +71,7 @@ export default {
     },
     toDetail(item) {
       if (!item.bm) return;
-      this.$router.push(`${this.routePath}/detail?bm=${item.bm}`);
+      this.$router.push(`${this.routePath}/productList?bm=${item.bm}`);
     },
     // 获取货架信息
     async getShelfData() {

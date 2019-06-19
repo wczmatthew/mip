@@ -2,9 +2,7 @@
 import detail from './detail';
 import cart from '../order/cart';
 
-// const ProductList = () => import('@/views/products/ProductList.vue');
-const ProductList = () => import('@/views/products/ProductList.vue');
-
+const ProductList = () => import('@/views/products/ProductListView.vue');
 
 export default [
   {

@@ -4,14 +4,16 @@
     <!-- 顶部栏 -->
     <w-search class="search" ref="search" slot="header-mid" show-scan @search="onSearch"></w-search>
     <div class="header-right" slot="header-right">
-      <!-- <w-msg-icon color="blue"></w-msg-icon> -->
-      <!-- <i class="iconfont icon-cart"></i> -->
-      <w-cart-icon :current-path="routePath" color="blue"></w-cart-icon>
+      <!-- <w-cart-icon :current-path="routePath" color="blue"></w-cart-icon> -->
     </div>
     <!-- 顶部栏 end -->
 
     <!-- 菜单页面 -->
-    <mall-tab :tab-list="tabList" @select="onSelectTab" slot="w-header-other"></mall-tab>
+    <div class="product-header" slot="w-header-other">
+      <p class="title">开关</p>
+      <search-sort></search-sort>
+      <!-- <mall-tab :tab-list="tabList" @select="onSelectTab"></mall-tab> -->
+    </div>
     <!-- 菜单页面 end -->
 
     <cube-scroll
@@ -23,7 +25,7 @@
 
       <!-- 商品列表 -->
       <no-data v-if="noProduct"></no-data>
-      <product-grid-list ref="productList" routePath="productList" v-else></product-grid-list>
+      <product-list ref="productList" routePath="productList" v-else></product-list>
       <!-- 商品列表 end -->
 
     </cube-scroll>
@@ -31,11 +33,11 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import MallTab from './components/MallTab.vue';
 import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
-import ProductGridList from './components/ProductGridList.vue';
+import ProductList from './components/ProductList.vue';
+import SearchSort from './components/SearchSort.vue';
 
 export default {
   data() {
@@ -80,8 +82,8 @@ export default {
   },
   components: {
     WSearch,
-    MallTab,
-    ProductGridList,
+    SearchSort,
+    ProductList,
   },
   methods: {
     onSearch({ keywords }) {
@@ -161,6 +163,23 @@ export default {
   }
   .icon-cart {
     color: $default-color;
+  }
+}
+
+.product-header {
+  background: #fff;
+  border-bottom: 1px solid #f1f1f1;
+
+  .title {
+    height: .3rem;
+    line-height: .3rem;
+    text-align: center;
+    font-size: .18rem;
+    border-bottom: 1px solid #f1f1f1;
+  }
+
+  .w-sort-area {
+    background: #fff;
   }
 }
 

@@ -12,6 +12,7 @@ export default [
     component: searchView,
     children: [
       ...productList,
+      ...productDetail,
       {
         path: 'category',
         component: CategoryList,

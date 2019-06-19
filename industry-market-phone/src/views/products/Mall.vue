@@ -33,7 +33,7 @@
 
         <!-- 商品列表 -->
         <no-data v-if="noProduct"></no-data>
-        <product-grid-list ref="productList" routePath="mall" v-else></product-grid-list>
+        <product-list ref="productList" routePath="mall" v-else></product-list>
         <!-- <div class="w-grid-list" v-else>
           <div class="item" v-for="(item, index) in productList" :key="'product' + index">
             <div class="product">
@@ -98,7 +98,7 @@ import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
-import ProductGridList from './components/ProductGridList.vue';
+import ProductList from './components/ProductList.vue';
 
 export default {
   data() {
@@ -136,7 +136,7 @@ export default {
   components: {
     WSearch,
     // MallTab,
-    ProductGridList,
+    ProductList,
   },
   methods: {
     toSearch() {

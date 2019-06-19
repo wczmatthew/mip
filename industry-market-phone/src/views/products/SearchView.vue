@@ -41,30 +41,7 @@
         <div class="product-list">
           <w-loading-row v-show="showLoading"></w-loading-row>
           <no-data v-show="!showLoading && noProduct"></no-data>
-          <div v-for="(item, index) in productList" :key="index" class="item">
-            <div class="img">
-              <w-img :src="item.imgPath"></w-img>
-            </div>
-            <div class="detail">
-              <p class="product-title">
-                {{item.XHGG}}
-              </p>
-              <p class="desc">
-                质量好，价格优惠，统一保证
-              </p>
-              <p class="price">
-                ￥{{item.DJJ || '0'}}
-              </p>
-              <div class="bottom">
-                <div class="num">
-                  <i class="iconfont icon-jian"></i>
-                  <input type="number">
-                  <i class="iconfont icon-jia"></i>
-                </div>
-                <button class="blue-btn">加入购物车</button>
-              </div>
-            </div>
-          </div>
+          <product-list ref="productList" routePath="search"></product-list>
         </div>
         <!-- 产品列表 end -->
       </w-scroll>
@@ -79,6 +56,7 @@ import WSearch from '@/components/WSearch.vue';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import SearchSort from './components/SearchSort.vue';
+import ProductList from './components/ProductList.vue';
 
 export default {
   data() {
@@ -112,6 +90,7 @@ export default {
   components: {
     WSearch,
     SearchSort,
+    ProductList,
   },
   methods: {
     scrollHandler({ y }) {
@@ -242,92 +221,4 @@ export default {
   }
 }
 
-.product-list {
-  position: relative;
-  .item {
-    width: 100%;
-    padding: .05rem .15rem;
-    border-bottom: 1px solid $color-line;
-    display: flex;
-    align-items: center;
-    margin-bottom: .05rem;
-    background: #fff;
-
-    .img {
-      width: 1rem;
-      height: 1rem;
-      border: 1px solid #f3f3f3;
-      @include flex-center;
-      margin-right: .05rem;
-      overflow: hidden;
-      flex-shrink: 0;
-
-      img {
-        height: 100%;
-      }
-    }
-
-    .detail {
-      flex: 1;
-      overflow: hidden;
-      font-size: .12rem;
-
-      .product-title {
-        @include text-overflow-muli(2);
-        @include break-word;
-        font-weight: 700;
-      }
-
-      .desc {
-        color: $color-orange;
-        margin-top: .05rem;
-        font-size: .1rem;
-      }
-
-      .price {
-        font-size: .18rem;
-        font-weight: 700;
-        color: $color-red;
-        @include text-ellipsis;
-        margin: .1rem 0;
-      }
-
-      .bottom {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        .num {
-          border: 1px solid $color-line;
-          width: .9rem;
-          height: .25rem;
-          display: flex;
-
-          .iconfont {
-            width: .25rem;
-            height: .25rem;
-            text-align: center;
-            line-height: .25rem;
-          }
-
-          input {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            border: 0;
-            border-left: 1px solid $color-line;
-            border-right: 1px solid $color-line;
-          }
-        }
-
-        .blue-btn {
-          margin: 0;
-          font-size: .1rem;
-          width: .8rem;
-          height: .25rem;
-        }
-      }
-
-    } // end detail
-  } // end item
-}
 </style>
