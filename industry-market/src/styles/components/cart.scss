@@ -27,6 +27,15 @@
   @include text-ellipsis;
 }
 
+.price.grey {
+  font-size: .1rem;
+  color: $color-grey;
+}
+
+.price.grey.line-through {
+  text-decoration: line-through;
+}
+
 .product-list {
   background: #fff;
   height: 100%;

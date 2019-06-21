@@ -2,7 +2,7 @@
 <template lang='html'>
   <div class="w-container">
     <!-- 顶部栏 -->
-    <w-header>
+    <w-header class="w-gradient-left-bg">
       <div slot="header-mid">
         购物车({{totalNum}})
       </div>
@@ -61,8 +61,7 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
 .header-right {
-  font-size: .12rem;
-  color: $color-grey;
+  font-size: .14rem;
 }
 
 .color-blue {

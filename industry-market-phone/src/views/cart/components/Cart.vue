@@ -11,140 +11,88 @@
         @pulling-up="onPullingUp">
 
         <no-data v-if="noData"></no-data>
-        <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
+        <div v-for="(item, index) in productList" :key="index" class="item" @click="toDetail(item)">
+          <div class="radio" @click="onToggleChecked(item)">
+            <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
+          </div>
+          <div class="img">
+            <w-img :src="item.imgPath"></w-img>
+          </div>
+          <div class="detail">
+            <p class="product-title">
+              {{item.spec}}
+            </p>
+            <p class="desc">
+              质量好，价格优惠，统一保证
+            </p>
+            <div class="bottom">
+              <p class="price">
+                ￥{{item.price || '0'}}
+              </p>
+              <div class="num">
+                <i class="iconfont icon-jian"  @click.stop="onReduce(item)"></i>
+                <input type="number" v-model="item.qty" @blur="onChangeNum(item)">
+                <i class="iconfont icon-jia" @click.stop="onAdd(item)"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
           <div class="radio" @click="onToggleChecked(item)">
             <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
           </div>
           <div class="detail">
+            <div class="img">
+              <w-img src="~@/assets/home/banner.jpg"/>
+            </div>
             <p class="title">
               {{item.spec || '暂无'}}
             </p>
             <p class="price">
               ￥{{item.price || '--'}}
             </p>
-          </div>
-          <div class="right">
+          </div> -->
+          <!-- <div class="right">
             <div class="nums">
               <i class="iconfont icon-circle-reduce" @click.stop="onReduce(item)"></i>
               <input type="number" v-model="item.qty" @blur="onChangeNum(item)">
               <i class="iconfont icon-circle-add" @click.stop="onAdd(item)"></i>
             </div>
-          </div>
-        </div>
+          </div> -->
+        <!-- </div> -->
 
       </w-scroll>
-
-      <div class="bottom">
-        <div class="w-underline height-1"></div>
-
-        <div class="row">
-          <div class="radio" @click="onToggleAllChecked()">
-            <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>
-            <p>全选</p>
-          </div>
-
-          <div class="right">
-            <p class="bold">合计: {{totalPrice.toFixed(2)}}</p>
-            <p class="red small">
-              优惠: {{discountPrice.toFixed(2)}}
-            </p>
-            <p class="red bold">实付: {{(totalPrice - discountPrice).toFixed(2)}}</p>
-          </div>
-        </div>
-
-        <button type="button" class="blue-btn" v-show="!isEdit" @click="onPay()">
-          结账({{selectNum}})
-        </button>
-        <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
-          删除
-        </button>
-      </div>
     </div>
-    <!-- 购物车信息 -->
+    <!-- 购物车信息 end -->
 
-    <!-- 付款信息 -->
-    <div class="customer-container">
-      <!-- 客户信息 -->
-      <div class="customre-item w-underline" @click.stop="onChangeCustomer()">
-        <i class="iconfont icon-kehu"></i>
-        <div class="detail" v-if="!customer || !customer.id">
-          请先选择客户
-        </div>
-        <div class="detail" v-else>
-          <p class="title">
-            {{customer.name}}&nbsp;&nbsp;
-            <span>{{customer.phone}}</span>
+    <!-- 底部价格 -->
+    <div class="cart-bottom">
+      <div class="radio" @click="onToggleAllChecked()">
+        <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>全选
+      </div>
+
+      <div class="detail">
+        <p class="red bold">
+          <span>实付: </span>{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
+        </p>
+        <div class="msg">
+          <p class="bold grey">合计: {{totalPrice.toFixed(2)}}</p>
+          <p class="red small">
+            优惠: {{discountPrice.toFixed(2)}}
           </p>
-          <div class="location">
-            <i class="iconfont icon-location"></i>
-            {{customer.address}}
-          </div>
         </div>
-        <i class="iconfont icon-arrow-right"></i>
+        <!-- <div class="mid">
+          抹零: <input type="number" v-model="reducePrice">
+        </div> -->
       </div>
-      <!-- 客户信息 end -->
-
-      <!-- 其他信息 -->
-      <div class="pay-msg">
-        <div class="title">
-          支付方式:
-        </div>
-        <div class="radios">
-          <div class="item" @click="payWay = 1">
-            <i class="iconfont" :class="[payWay == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            在线支付
-          </div>
-          <div class="item" @click="payWay = 2">
-            <i class="iconfont" :class="[payWay == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            现金/刷卡
-          </div>
-        </div>
-      </div>
-      <div class="pay-msg">
-        <div class="title">
-          配送方式:
-        </div>
-        <div class="radios">
-          <div class="item" @click="sendType = 1">
-            <i class="iconfont" :class="[sendType == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            送货上门
-          </div>
-          <div class="item" @click="sendType = 2">
-            <i class="iconfont" :class="[sendType == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            门店自提
-          </div>
-        </div>
-      </div>
-      <!-- <div class="pay-msg">
-        <div class="title">
-          相关文件:
-        </div>
-        <div class="radios">
-          <div class="item" @click="fileMsg = 1">
-            <i class="iconfont" :class="[fileMsg == 1 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            资质证书
-          </div>
-          <div class="item" @click="fileMsg = 2">
-            <i class="iconfont" :class="[fileMsg == 2 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            发票
-          </div>
-          <div class="item" @click="fileMsg = 3">
-            <i class="iconfont" :class="[fileMsg == 3 ? 'icon-radio2-checked' : 'icon-radio']"></i>
-            出库单
-          </div>
-        </div>
-      </div> -->
-
-      <div class="pay-msg">
-        <div class="title">
-          备<i class="opacity-0">占位</i>注:
-        </div>
-        <cube-textarea placeholder="请输入..." v-model="tips" :indicator="true" :maxlength="200" class="textarea"></cube-textarea>
-      </div>
-      <!-- 其他信息 end -->
-
+      <button type="button" class="blue-btn" v-show="!isEdit" @click="onPay()">
+        结账({{selectNum}})
+      </button>
+      <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
+        删除
+      </button>
     </div>
-    <!-- 付款信息 end -->
+    <!-- 底部价格 end-->
 
     <!-- 弹窗内容 -->
     <w-modal ref="onlinePayModal">
@@ -217,6 +165,7 @@ export default {
       fileMsg: -1, // 相关文件
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
       orderDetail: {},
+      reducePrice: 0, // 抹零价格
     };
   },
   created() {},
@@ -278,8 +227,12 @@ export default {
       }
 
       // 判断选择的数量
-      const list = this.productList.filter(product => product.checked);
-      this.selectNum = list && list.length ? list.length : 0;
+      this.selectNum = 0;
+      for (const key in this.selectProducts) {
+        if (this.selectProducts[key]) {
+          this.selectNum += 1;
+        }
+      }
 
       this.calcPrice();
     },

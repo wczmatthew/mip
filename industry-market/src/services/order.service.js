@@ -176,11 +176,21 @@ export default {
   /**
    * 获取订单相关统计数据
    * @param userid 用户id
-   * @param orderId 订单号
    */
   getOrderStatisticInfo: ({ userid }) => {
     if (!userid) return '';
     const params = { userid };
     return postHttp({ url: '/ordercenter/order/getOrderStatisticInfo', params });
+  },
+  /**
+   * 获取优惠率
+   * @param userid 用户id
+   * @param clientid 客户id
+   * @param prodId 产品编码
+   */
+  getRate: ({ userid, clientid, prodId }) => {
+    if (!userid) return '';
+    const params = { userid, clientid, prodId };
+    return postHttp({ url: '/ordercenter/order/getRate', params });
   },
 };

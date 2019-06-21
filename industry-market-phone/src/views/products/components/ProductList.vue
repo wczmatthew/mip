@@ -157,6 +157,7 @@ export default {
             border: 0;
             border-left: 1px solid $color-line;
             border-right: 1px solid $color-line;
+            text-align: center;
           }
         }
 

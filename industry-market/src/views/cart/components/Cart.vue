@@ -23,6 +23,10 @@
               <p class="price">
                 ￥{{item.price || '--'}}
               </p>
+              <p class="price grey" :class="{'line-through': !item.loading}" v-show="item.rate">
+                获取优惠价格中...
+                <!-- ￥{{item.price || '--'}} -->
+              </p>
             </div>
             <div class="right">
               <div class="nums">
@@ -237,7 +241,7 @@ export default {
     return {
       totalNum: 0,
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 10,
       productList: [],
       selectProducts: {}, // 选择的产品列表
       noData: true,
@@ -254,6 +258,7 @@ export default {
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
       orderDetail: {},
       reducePrice: 0, // 抹零价格
+      beforeCustomerId: '',
     };
   },
   created() {},
@@ -300,9 +305,16 @@ export default {
     },
     // 选择或者取消选择产品
     onToggleChecked(item, index) {
+      if (!this.customer.id) {
+        Utils.showToast('请先选择客户');
+        return;
+      }
       this.selectProducts[item.id] = !this.selectProducts[item.id];
 
-      this.$set(this.productList, index, item);
+      if (this.selectProducts[item.id]) {
+        // 勾选产品后, 获取优惠价
+        this.getCustomerPrice(item, index);
+      }
 
       if (!this.selectProducts[item.id] && this.allChecked) {
         this.allChecked = false;
@@ -319,6 +331,17 @@ export default {
       this.selectNum = list && list.length ? list.length : 0;
 
       this.calcPrice();
+    },
+    // 获取客户的优惠价格
+    async getCustomerPrice(item, index) {
+      item.loading = true;
+      this.$set(this.productList, index, item);
+
+      const result = await service.getRate({ userid: Utils.getUserId(this), clientid: this.customer.id, prodId: item.id });
+      if (!result) return;
+      item.rate = parseFloat(result);
+      item.loading = false;
+      this.$set(this.productList, index, item);
     },
     // 计算总金额
     calcPrice() {
@@ -348,6 +371,13 @@ export default {
     async getData() {
       const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
       if (!result) return;
+
+      if (this.pageNum === 1 && this.beforeCustomerId !== this.customer.id) {
+        // 第一个页, 并且切换了一个客户, 需要重新更新选择数据
+        for (const key in this.selectProducts) {
+          this.selectProducts[key] = false;
+        }
+      }
 
       // 判断是否选中
       if (this.allChecked) {
@@ -524,6 +554,7 @@ export default {
     // 切换用户
     onChangeCustomer() {
       // 切换用户
+      this.beforeCustomerId = this.customer.id || '';
       if (!this.currentPath) {
         this.$router.push(`${this.routePath}/customers`);
         return;
