@@ -126,20 +126,14 @@ export default {
    * 创建订单
    * @param userid 用户id
    * @param clientId 客户id
-   * @param carIds 购物车id,复数用逗号隔开
+   * @param itemList 购物车列表（包含优惠信息）
    * @param payType 付款方式（1 线上付款，2 现金刷卡）
    * @param postType 配送方式（1送货上门，2门店自提）
    * @param certType 相关文件（1资质证书，2发票，3出库单）
    * @param memo 备注
+   * @param oddment 抹零金额
    */
-  createOrder: ({
-    clientId, userid, carIds,
-    payType, memo, postType, certType,
-  }) => {
-    if (!userid) return '';
-    const params = { userid, clientId, carIds, payType, memo, postType, certType };
-    return postHttp({ url: '/ordercenter/order/createOrder', params });
-  },
+  createOrder: params => postHttp({ url: '/ordercenter/order/createOrder', params }),
   /**
    * 获取订单列表
    * @param userid 用户id

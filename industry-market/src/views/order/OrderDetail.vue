@@ -262,8 +262,8 @@ export default {
     async getData() {
       Utils.showLoading();
       const result = await service.getOrderDetail({ userid: Utils.getUserId(this), orderId: this.$route.query.id });
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.orderDetail = result;
       this.productList = [...result.itemList];
       this.customer = result.client;

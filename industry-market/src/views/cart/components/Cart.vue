@@ -20,7 +20,7 @@
               <p class="title">
                 {{item.spec || '暂无'}}
               </p>
-              <p class="price">
+              <p class="price price-row">
                 <span v-if="item.discountPrice != undefined">
                   ￥{{item.discountPrice || '--'}}
                 </span>
@@ -480,8 +480,8 @@ export default {
       Utils.showLoading();
       const result = await service.deleteShopCar({ userid: Utils.getUserId(this), bm: bm.toString() });
       this.loading = false;
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
       // this.productList.splice(index, 1);
       Utils.showToast('删除成功');
@@ -508,6 +508,22 @@ export default {
 
       if (this.sendType === -1) {
         Utils.showToast('请先选择配送方式');
+        return;
+      }
+
+      let isGetPrice = true;
+      let productName = '';
+      for (let i = 0; i < list.length; i++) {
+        const item = list[i];
+        if (!item.discountPrice) {
+          isGetPrice = false;
+          productName = item.spec;
+          break;
+        }
+      }
+
+      if (!isGetPrice) {
+        Utils.showToast(`请先等待获取${productName}的优惠价格`);
         return;
       }
 
@@ -564,7 +580,7 @@ export default {
       const params = {
         clientId: this.customer.id,
         userid: Utils.getUserId(this),
-        itemList: cartList,
+        itemList: JSON.stringify(cartList),
         oddment: this.oddment,
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）
         // certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
@@ -574,8 +590,8 @@ export default {
       Utils.showLoading();
       const result = await service.createOrder(params);
       this.loading = false;
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.orderDetail = result;
       this.$refs.resultModal.show({
         showBtns: false,

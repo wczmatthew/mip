@@ -169,11 +169,11 @@ export default {
       this.firstLoading = true;
       Utils.showLoading();
       const result = await service.getProductDetail({ bm: this.$route.query.bm });
-      Utils.hideLoading();
       if (!result) {
         this.firstLoading = false;
         return;
       }
+      Utils.hideLoading();
       this.product = result;
       this.product.isCollect = !!this.product.isCollect;
       this.firstLoading = false;

@@ -189,9 +189,9 @@ export default {
       this.loading = true;
       Utils.showLoading();
       const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 1 });
-      Utils.hideLoading();
       this.loading = false;
       if (!result) return;
+      Utils.hideLoading();
       Utils.showToast('确认付款成功');
       if (this.tabValue === -1) {
         // 全部
@@ -208,9 +208,9 @@ export default {
       this.loading = true;
       Utils.showLoading();
       const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 3 });
-      Utils.hideLoading();
       this.loading = false;
       if (!result) return;
+      Utils.hideLoading();
       Utils.showToast('确认收货成功');
       if (this.tabValue === -1) {
         // 全部
@@ -227,9 +227,9 @@ export default {
       this.loading = true;
       Utils.showLoading();
       const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 5 });
-      Utils.hideLoading();
       this.loading = false;
       if (!result) return;
+      Utils.hideLoading();
       Utils.showToast('关闭订单成功');
       if (this.tabValue === -1) {
         // 全部

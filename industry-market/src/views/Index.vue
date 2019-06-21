@@ -148,8 +148,8 @@ export default {
     async getBanner() {
       Utils.showLoading();
       const result = await indexService.getBanner(3);
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.banners = [...result];
     },
   },

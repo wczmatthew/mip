@@ -183,8 +183,8 @@ export default {
     async getData() {
       Utils.showLoading();
       const result = await service.getQuestionList({ clientId: this.customer.id });
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       // 处理问题列表
       this.desc = result.otherDesc || '';
       this.dataList = [];

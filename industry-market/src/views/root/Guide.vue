@@ -64,8 +64,8 @@ export default {
     async getData() {
       Utils.showLoading();
       const result = await service.getTopShelfList({ userid: Utils.getUserId(this) });
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.list = [...result];
     },
     toCategory(item) {

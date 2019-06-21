@@ -194,11 +194,11 @@ export default {
     async getData() {
       Utils.showLoading();
       const result = await service.getTopProducts();
-      Utils.hideLoading();
       if (!result) {
         this.noProduct = true;
         return;
       }
+      Utils.hideLoading();
       this.productList = result.rows || [];
       this.noProduct = !this.productList.length;
       this.$refs.productList && this.$refs.productList.updateList(this.productList);

@@ -158,8 +158,8 @@ export default {
     async deleteCustomer(customer, index) {
       Utils.showLoading();
       const result = await service.deleteClient({ userid: Utils.getUserId(this), clientId: customer.id });
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.dataList.splice(index, 1);
       Utils.showToast('删除成功');
     },

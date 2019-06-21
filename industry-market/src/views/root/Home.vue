@@ -136,8 +136,8 @@ export default {
     // 获取首页轮播图
     async getBanner() {
       const result = await indexService.getBanner(5);
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.banners = [...result];
       this.$nextTick(() => {
         this.$refs.slide && this.$refs.slide.refresh();

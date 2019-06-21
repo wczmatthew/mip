@@ -50,8 +50,8 @@ export default {
       const customer = this.$refs.customerForm.getFormData();
       Utils.showLoading();
       const result = await service.editClient(customer);
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       Utils.showToast('编辑客户信息成功');
       this.$store.commit('customer/updateCustomer', result);
       this.$router.back();

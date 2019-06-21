@@ -96,8 +96,8 @@ export default {
     async getShelfData() {
       Utils.showLoading();
       const result = await service.getShelfList({ userid: Utils.getUserId(this) });
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.menuList = [...result];
 
       if (!this.menuList.length) return;
