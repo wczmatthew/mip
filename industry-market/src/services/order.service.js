@@ -188,9 +188,9 @@ export default {
    * @param clientid 客户id
    * @param prodId 产品编码
    */
-  getRate: ({ userid, clientid, prodId }) => {
+  getRate: ({ userid, clientId, prodId }) => {
     if (!userid) return '';
-    const params = { userid, clientid, prodId };
+    const params = { userid, clientId, prodId };
     return postHttp({ url: '/ordercenter/order/getRate', params });
   },
 };

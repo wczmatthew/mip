@@ -356,20 +356,22 @@ export default {
         return;
       }
 
-      if (!this.customer || !this.customer.id) {
-        Utils.showToast('请先选择客户');
-        return;
-      }
+      this.$router.push(`${this.currentPath || this.routePath}/confirmOrder`);
 
-      if (this.payWay === -1) {
-        Utils.showToast('请先选择付款方式');
-        return;
-      }
+      // if (!this.customer || !this.customer.id) {
+      //   Utils.showToast('请先选择客户');
+      //   return;
+      // }
 
-      if (this.sendType === -1) {
-        Utils.showToast('请先选择配送方式');
-        return;
-      }
+      // if (this.payWay === -1) {
+      //   Utils.showToast('请先选择付款方式');
+      //   return;
+      // }
+
+      // if (this.sendType === -1) {
+      //   Utils.showToast('请先选择配送方式');
+      //   return;
+      // }
 
       // if (this.fileMsg === -1) {
       //   Utils.showToast('请先选择资质文件类型');
@@ -377,33 +379,33 @@ export default {
       // }
       // console.log('start pay');
 
-      if (this.payWay === 1) {
-        // 在线支付
-        this.$refs.onlinePayModal.show({
-          title: '扫描二维码进行付款',
-          confirmTxt: '完成付款',
-          cancleTxt: '取消付款',
-          callback: (res) => {
-            if (res !== 'confirm') return;
-            // 点击完成付款, 生成订单信息
-            this.updateOrder(list);
-          },
-        });
-        return;
-      }
+      // if (this.payWay === 1) {
+      //   // 在线支付
+      //   this.$refs.onlinePayModal.show({
+      //     title: '扫描二维码进行付款',
+      //     confirmTxt: '完成付款',
+      //     cancleTxt: '取消付款',
+      //     callback: (res) => {
+      //       if (res !== 'confirm') return;
+      //       // 点击完成付款, 生成订单信息
+      //       this.updateOrder(list);
+      //     },
+      //   });
+      //   return;
+      // }
 
-      // 柜台付款
-      this.$refs.offlinePayModal.show({
-        title: '现金刷卡',
-        content: '',
-        confirmTxt: '完成付款',
-        cancleTxt: '取消付款',
-        callback: (res) => {
-          if (res !== 'confirm') return;
-          // 点击完成付款, 生成订单信息
-          this.updateOrder(list);
-        },
-      });
+      // // 柜台付款
+      // this.$refs.offlinePayModal.show({
+      //   title: '现金刷卡',
+      //   content: '',
+      //   confirmTxt: '完成付款',
+      //   cancleTxt: '取消付款',
+      //   callback: (res) => {
+      //     if (res !== 'confirm') return;
+      //     // 点击完成付款, 生成订单信息
+      //     this.updateOrder(list);
+      //   },
+      // });
     },
     // 生成订单
     async updateOrder(list) {

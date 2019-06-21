@@ -165,6 +165,24 @@
   flex-shrink: 0;
 }
 
+.bid-right .item:nth-child(3) .num {
+  color: #fff;
+  background: #ff7802;
+  border-color: #d64e02;
+}
+
+.bid-right .item:nth-child(4) .num {
+  color: #fff;
+  background: #32845e;
+  border-color: #255c45;
+}
+
+.bid-right .item:nth-child(5) .num {
+  color: #fff;
+  background: #32845e;
+  border-color: #255c45;
+}
+
 .bid-right .item .num.one {
   color: #fff;
   background: #ff7802;

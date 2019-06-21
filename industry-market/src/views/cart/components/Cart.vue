@@ -21,12 +21,19 @@
                 {{item.spec || '暂无'}}
               </p>
               <p class="price">
-                ￥{{item.price || '--'}}
+                <span v-if="item.discountPrice != undefined">
+                  ￥{{item.discountPrice || '--'}}
+                </span>
+                <span :class="{'grey line-through': item.discountPrice != undefined}">
+                  ￥{{item.price || '--'}}
+                </span>
               </p>
-              <p class="price grey" :class="{'line-through': !item.loading}" v-show="item.rate">
+              <p class="price grey" v-show="item.loading">
                 获取优惠价格中...
-                <!-- ￥{{item.price || '--'}} -->
               </p>
+              <!-- <p class="price grey line-through" v-show="!item.loading && item.discountPrice != undefined">
+                ￥{{item.discountPrice || '--'}}
+              </p> -->
             </div>
             <div class="right">
               <div class="nums">
@@ -53,7 +60,7 @@
               <p class="red small">
                 优惠: {{discountPrice.toFixed(2)}}
               </p>
-              <p class="red bold">实付: {{(totalPrice - discountPrice - reducePrice).toFixed(2)}}</p>
+              <p class="red bold">实付: {{(totalPrice - discountPrice - oddment).toFixed(2)}}</p>
             </div>
           </div>
 
@@ -161,13 +168,13 @@
       </div>
 
       <div class="mid">
-        抹零: <input type="number" v-model="reducePrice">
+        抹零: <input type="number" v-model="oddment">
       </div>
 
 
       <div class="detail">
         <p class="red bold">
-          <span>实付: </span>{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
+          <span>实付: </span>{{(totalPrice - discountPrice - oddment).toFixed(2)}}
         </p>
         <div class="msg">
           <p class="bold grey">合计: {{totalPrice.toFixed(2)}}</p>
@@ -189,7 +196,7 @@
     <w-modal ref="onlinePayModal">
       <div class="online-pay">
         <p class="price">
-          ￥{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
+          ￥{{(totalPrice - discountPrice - oddment).toFixed(2)}}
         </p>
         <div class="code-list">
           <div class="code-img">
@@ -203,7 +210,7 @@
     </w-modal>
 
     <w-modal ref="offlinePayModal">
-      实付金额为<span class="price">￥{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}</span>, 请前往柜台完成付款
+      实付金额为<span class="price">￥{{(totalPrice - discountPrice - oddment).toFixed(2)}}</span>, 请前往柜台完成付款
     </w-modal>
 
     <w-modal ref="resultModal">
@@ -257,7 +264,7 @@ export default {
       fileMsg: -1, // 相关文件
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
       orderDetail: {},
-      reducePrice: 0, // 抹零价格
+      oddment: 0, // 抹零价格
       beforeCustomerId: '',
     };
   },
@@ -329,26 +336,32 @@ export default {
       // 判断选择的数量
       const list = this.productList.filter(product => product.checked);
       this.selectNum = list && list.length ? list.length : 0;
-
-      this.calcPrice();
     },
     // 获取客户的优惠价格
     async getCustomerPrice(item, index) {
       item.loading = true;
       this.$set(this.productList, index, item);
 
-      const result = await service.getRate({ userid: Utils.getUserId(this), clientid: this.customer.id, prodId: item.id });
-      if (!result) return;
-      item.rate = parseFloat(result);
+      const result = await service.getRate({ userid: Utils.getUserId(this), clientId: this.customer.id, prodId: item.prodId });
+      if (!result) {
+        item.loading = false;
+        return;
+      }
+      const rate = Math.max(100 - parseFloat(result), 0) / 100;
+      item.discountRate = result;
+      item.discountPrice = (item.price * rate).toFixed(2);
       item.loading = false;
       this.$set(this.productList, index, item);
+
+      // 计算总价格
+      this.calcPrice();
     },
     // 计算总金额
     calcPrice() {
       let total = 0;
       this.productList.forEach((item) => {
         if (this.selectProducts[item.id]) {
-          total += parseFloat(item.price) * parseInt(item.qty, 10);
+          total += parseFloat(item.discountPrice) * parseInt(item.qty, 10);
         }
       });
       this.totalPrice = total;
@@ -409,6 +422,14 @@ export default {
       }
       this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
     },
+    // 直接调整价格
+    async onChangeNum(item) {
+      const num = item.qty;
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num });
+      if (!result) return;
+      // 计算总价格
+      this.calcPrice();
+    },
     // 数量减少1
     async onReduce(item) {
       if (parseInt(item.qty, 10) === 1) return;
@@ -418,10 +439,13 @@ export default {
       }
       item.loading = true;
       const num = item.qty;
-      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.BM, qty: num - 1 });
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num - 1 });
       item.loading = false;
       if (!result) return;
       item.qty = num - 1;
+
+      // 计算总价格
+      this.calcPrice();
     },
     // 数量增加1
     async onAdd(item) {
@@ -435,6 +459,9 @@ export default {
       item.loading = false;
       if (!result) return;
       item.qty = num + 1;
+
+      // 计算总价格
+      this.calcPrice();
     },
     // 从购物车中删除
     async onDelete() {
@@ -523,15 +550,22 @@ export default {
       if (this.loading) return;
       this.loading = true;
 
-      const cardIds = [];
+      const cartList = [];
       list.forEach((item) => {
-        cardIds.push(item.id);
+        cartList.push({
+          prodId: item.prodId,
+          qty: item.qty,
+          discountRate: item.discountRate,
+          discountSum: item.discountPrice * item.qty,
+          discountPrice: item.discountPrice,
+        });
       });
 
       const params = {
         clientId: this.customer.id,
         userid: Utils.getUserId(this),
-        carIds: cardIds.toString(),
+        itemList: cartList,
+        oddment: this.oddment,
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）
         // certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
         payType: this.payWay,

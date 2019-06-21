@@ -3,6 +3,7 @@ import customer from './customer';
 import search from './products/search';
 import detail from './order/detail';
 import order from './order';
+import confirmOrder from './order/confirmOrder';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -22,6 +23,7 @@ export default [
       ...search,
       ...detail,
       ...order,
+      ...confirmOrder,
       {
         path: 'chat',
         component: customerChat,

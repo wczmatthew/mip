@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>详情</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/components/button.css">
+  <link rel="stylesheet" href="../css/hover-min.css">
+  <link rel="stylesheet" href="../css/pagination.css">
+  <link rel="stylesheet" href="../css/views/detail.css">
+</head>
+<body>
+  <div id="chintNews">
+  
+    <!-- 顶部栏 -->
+    <chint-header></chint-header>
+    <!-- 顶部栏 end -->
+    
+    <!-- 详情内容 -->
+    <div class="detail-container">
+      <div class="w-container">
+        <h2 class="title">
+          告别传统，人性化产品引领智能新体验
+        </h2>
+        <p class="sub-title">
+          <span>阅读量：274</span>
+          <span class="time">2019-06-18</span>
+        </p>
+
+        <div class="detail-content"></div>
+      </div>
+    </div>
+    <!-- 详情内容 end -->
+  
+    <!-- 底部 -->
+    <chint-footer></chint-footer>
+    <!-- 底部 end -->
+  </div>
+
+
+  <script src="../js/jquery-3.4.1.min.js"></script>
+  <script src="../js/jquery.pagination.js"></script>
+  <script src="../js/utils.js"></script>
+  <script src="../js/layer/layer.js"></script>
+  <script src="../js/views/news.js"></script>
+  <script src="../js/vue.min.js"></script>
+  <script src="../js/views/vue-component.js"></script>
+  <script>
+    new Vue({ el: '#chintNews' });
+  </script>
+</body>
+</html>

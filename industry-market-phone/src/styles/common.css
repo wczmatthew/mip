@@ -594,16 +594,17 @@ a {
   line-height: .4rem;
 }
 
-.w-tableview .cell .icon-arrow-right {
+.w-tableview .cell .icon-arrow-right,
+.w-tableview .cell .icon-arrow-down {
   color: #999;
   font-size: .14rem;
   margin-left: .1rem;
 }
 
-.w-tableview .cell:hover,
+/* .w-tableview .cell:hover,
 .w-tableview .cell:active {
   background: #f5f5f5;
-}
+} */
 
 .btn-bottom .green-btn,
 .btn-bottom .blue-btn {
