@@ -96,7 +96,10 @@ export default {
     async getShelfData() {
       Utils.showLoading();
       const result = await service.getShelfList({ userid: Utils.getUserId(this) });
-      if (!result) return;
+      if (!result) {
+        this.firstLoading = false;
+        return;
+      }
       Utils.hideLoading();
       this.menuList = [...result];
 
@@ -123,9 +126,10 @@ export default {
         this.getProductData();
       }
     },
-    toggleMenu(item) {
-      // item.isOpen = !item.isOpen;
-      this.$set(item, 'isOpen', !item.isOpen);
+    toggleMenu(item, index) {
+      item.isOpen = !item.isOpen;
+      this.$set(this.menuList, index, item);
+      // this.$set(item, 'isOpen', !item.isOpen);
     },
     onChangeShelf(item) {
       this.selectShelf = { ...item };
@@ -172,17 +176,17 @@ export default {
 
 .menu-list {
   float: left;
-  width: 25%;
+  width: 18%;
   height: 100%;
   overflow: auto;
   background: $color-blue;
   color: #fff;
-  padding-top: .1rem;
+  padding-top: .05rem;
   overflow-x: hidden;
 
   .menu {
-    height: .4rem;
-    line-height: .4rem;
+    height: .3rem;
+    line-height: .3rem;
     text-align: center;
     display: flex;
     align-items: center;
@@ -215,8 +219,8 @@ export default {
   }
 
   .sub-item {
-    height: .4rem;
-    line-height: .4rem;
+    height: .3rem;
+    line-height: .3rem;
     padding: 0 .1rem;
     text-align: center;
     background: #fff;
@@ -243,16 +247,16 @@ export default {
 
     .mid {
       width: 100%;
-      height: .35rem;
+      height: .22rem;
       background: $color-blue;
       display: flex;
       align-items: center;
       .col {
         width: 30%;
-        height: .25rem;
-        line-height: .25rem;
+        height: .15rem;
+        line-height: .15rem;
         color: #fff;
-        font-size: .1rem;
+        font-size: 10px;
         text-align: center;
         box-shadow: inset 0 -0.02rem 0.01rem #80add6;
         border-top: .01rem solid #00182f;
@@ -273,7 +277,7 @@ export default {
 
     .item {
       width: 33.3%;
-      height: .9rem;
+      height: .6rem;
       padding: .1rem .05rem;
       overflow: hidden;
       img {

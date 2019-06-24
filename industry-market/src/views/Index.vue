@@ -175,19 +175,19 @@ export default {
   .city {
     padding: 0 .1rem;
     background: rgba($color: #000000, $alpha: 0.6);
-    height: .25rem;
-    border-radius: .25rem;
+    height: .2rem;
+    border-radius: .2rem;
     display: flex;
     align-items: center;
     justify-content: center;
     max-width: 30%;
     color: #fff;
     flex-shrink: 0;
-    font-size: .12rem;
+    font-size: 12px;
 
     .iconfont {
       margin-left: .03rem;
-      font-size: .1rem;
+      font-size: 10px;
     }
   }
 }
@@ -236,15 +236,15 @@ export default {
     }
 
     img {
-      width: 50%;
+      width: 40%;
       display: block;
       margin: 0 auto;
     }
 
     .sub-title {
-      font-size: .1rem;
+      font-size: 14px;
       font-weight: 700;
-      margin-top: .1rem;
+      margin-top: .05rem;
       text-align: center;
     }
   }
@@ -285,7 +285,7 @@ export default {
     }
 
     .txt {
-      width: 45%;
+      width: 35%;
       font-weight: 700;
       margin-top: .1rem;
       text-align: right;
@@ -306,13 +306,13 @@ export default {
 
   .menu1 {
     width: 49%;
-    height: .9rem;
+    height: .7rem;
     margin-right: 1%;
   }
 
   .menu2 {
     width: 24.5%;
-    height: .9rem;
+    height: .7rem;
     margin-right: 1%;
 
     &::before {
@@ -334,7 +334,7 @@ export default {
 
   .menu3 {
     width: 24.5%;
-    height: .9rem;
+    height: .7rem;
 
     &::before {
       width: 33%;

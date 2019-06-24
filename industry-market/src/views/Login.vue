@@ -173,7 +173,7 @@ export default {
     border-radius: .4rem;
     width: 65%;
     height: 10vh;
-    font-size: .14rem;
+    font-size: 14px;
     max-height: .35rem;
     min-height: .2rem;
   }

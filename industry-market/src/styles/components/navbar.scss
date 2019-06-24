@@ -21,14 +21,14 @@
       flex-shrink: 0;
       height: 100%;
       color: $color-grey-6;
-      font-size: .14rem;
+      font-size: 14px;
       min-width: 25vw;
       transition: all .3s ease;
       overflow: hidden;
   
       &.active {
         color: $color-black;
-        font-size: .16rem;
+        font-size: 16px;
       }
     }
 

@@ -34,7 +34,7 @@
   border-radius: .05rem;
   min-height: .8rem;
   position: relative;
-  font-size: .14rem;
+  font-size: 14px;
   line-height: .2rem;
   overflow: hidden;
 }
@@ -53,7 +53,7 @@
 .modal .content .top-title .title {
   margin: 0;
   text-align: center;
-  font-size: .16rem;
+  font-size: 16px;
 }
 
 .modal .content .top-title .close {
@@ -74,7 +74,7 @@
   word-break: break-all;
   margin-bottom: .2rem;
   overflow: hidden;
-  font-size: .14rem;
+  font-size: 14px;
 }
 
 .modal .content .details {
@@ -87,7 +87,7 @@
 }
 
 .modal .content .details .title {
-  font-size: .14rem;
+  font-size: 14px;
   padding-left: .2rem;
   height: .3rem;
   margin: 0;
@@ -118,7 +118,7 @@
 
 .modal .content .details .grid-list .item {
   padding: .01rem .1rem;
-  font-size: .14rem;
+  font-size: 14px;
   color: #999;
   margin-right: .2rem;
   margin-bottom: .1rem;
@@ -156,7 +156,7 @@
 
 .modal .bottom .price {
   color: #e9555b;
-  font-size: .18rem;
+  font-size: 18px;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
   -webkit-flex: 1;
@@ -171,7 +171,7 @@
 
 .modal .bottom .price small {
   color: #333;
-  font-size: .12rem;
+  font-size: 12px;
 }
 
 .modal .bottom .num-area {
@@ -258,6 +258,6 @@
 
 .modal .btns-bottom .plain-blue-btn {
   border: 0;
-  font-size: .14rem;
+  font-size: 14px;
   height: .4rem;
 }

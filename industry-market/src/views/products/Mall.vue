@@ -151,7 +151,7 @@ export default {
           // eslint-disable-next-line
           native_listen('goToUrl', { url: item.goUrl });
         } catch (error) {
-          console.log('error: ', error);
+          // console.log('error: ', error);
         }
         return;
       }
@@ -161,9 +161,9 @@ export default {
     scrollHandler(e) {
       this.scrollY = e.currentTarget.scrollTop;
     },
-    onSelectTab(data) {
-      console.log(data);
-    },
+    // onSelectTab(data) {
+    //   // console.log(data);
+    // },
     // 图片加载失败
     imgErr(item) {
       item.imgPath = notFoundImg;
@@ -293,7 +293,7 @@ export default {
     .price {
       color: $color-red;
       text-align: right;
-      font-size: .12rem;
+      font-size: 12px;
       @include text-ellipsis;
       width: 100%;
       padding: .1rem;
@@ -307,7 +307,7 @@ export default {
   .title {
     color: $default-color;
     padding-left: .12rem;
-    font-size: .16rem;
+    font-size: 16px;
     font-weight: 700;
     margin: .15rem 0;
   }
@@ -346,14 +346,14 @@ export default {
         padding: .15rem .1rem;
 
         .sub-title {
-          font-size: .16rem;
+          font-size: 16px;
           @include text-overflow-muli(2);
           margin-bottom: .1rem;
           color: $default-color;
         }
 
         .star {
-          font-size: .1rem;
+          font-size: 10px;
           display: flex;
           align-items: center;
           color: $default-color;
@@ -374,7 +374,7 @@ export default {
             padding: .02rem .05rem;
             border: .01rem solid $default-color;
             border-radius: .05rem;
-            font-size: .1rem;
+            font-size: 10px;
             margin-right: 2%;
             color: $default-color;
             margin-bottom: .05rem;

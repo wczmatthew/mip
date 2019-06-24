@@ -74,7 +74,7 @@ export default {
       const json = JSON.stringify(this.sortList);
       this.list = JSON.parse(json);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   },
   computed: {
@@ -131,6 +131,7 @@ export default {
     // 选择全部
     onSelectAll() {
       if (this.selectItem.value === -1) return;
+      this.hide();
       this.list.forEach((item) => {
         item.selectTab = {
           name: '',
@@ -164,8 +165,7 @@ export default {
 
   .item {
     color: $color-black;
-    line-height: .44rem;
-    font-size: .11rem;
+    font-size: 14px;
     position: relative;
     z-index: 12;
     display: flex;
@@ -176,23 +176,21 @@ export default {
 
     span {
       @include text-ellipsis;
-      flex: 1;
     }
 
     .iconfont {
       width: auto;
       height: auto;
-      font-size: .1rem;
+      font-size: 10px;
       margin: 0;
       margin-left: .05rem;
       flex-shrink: 0;
     }
 
     &.actived {
-      border-radius: .4rem;
+      border-radius: 40px;
       box-shadow: 0 0 .05rem #ccc;
-      height: .3rem;
-      line-height: .3rem;
+      height: 40px;
       color: $color-blue;
     }
 
@@ -213,7 +211,7 @@ export default {
 
 .popup-down {
   position: absolute;
-  top: .48rem;
+  top: 72px;
   left: 1%;
   z-index: 20;
   width: 98%;
@@ -232,7 +230,7 @@ export default {
 
   .popup-item {
     color: $default-color;
-    padding: .1rem .07rem;
+    padding: .07rem .07rem;
     background: #fff;
     border-radius: .05rem;
     margin-right: .1rem;
@@ -250,7 +248,7 @@ export default {
     margin-bottom: .1rem;
 
     .title {
-      font-size: .16rem;
+      font-size: 16px;
       padding: .1rem 0;
     }
 
@@ -261,7 +259,7 @@ export default {
 
     .popup-item {
       color: $default-color;
-      padding: .1rem .07rem;
+      padding: .07rem .07rem;
       background: #fff;
       border-radius: .05rem;
       margin-right: .1rem;

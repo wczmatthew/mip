@@ -90,19 +90,19 @@
         </div>
         <div class="item" @click.stop="toOrders(1)">
           <i class="iconfont icon-daifahuo">
-            <i class="num" v-if="waitGetCount">{{waitGetCount}}</i>
+            <i class="num" v-if="waitPostCount">{{waitPostCount}}</i>
           </i>
           <p class="tip">待发货</p>
         </div>
         <div class="item" @click.stop="toOrders(2)">
           <i class="iconfont icon-daishouhuo">
-            <i class="num" v-if="waitPostCount">{{waitPostCount}}</i>
+            <i class="num" v-if="waitGetCount">{{waitGetCount}}</i>
           </i>
           <p class="tip">待收货</p>
         </div>
         <div class="item" @click.stop="toOrders(3)">
           <i class="iconfont icon-daipingjia">
-            <!-- <i class="num" v-if="finishCount">{{finishCount}}</i> -->
+            <i class="num" v-if="watiGetCount">{{watiGetCount}}</i>
           </i>
           <p class="tip">已完成</p>
         </div>
@@ -166,6 +166,7 @@ export default {
       waitGetCount: 0, // 订单-待收货数量
       waitPayCount: 0, // 订单-待付款数量
       waitPostCount: 0, // 订单-待发货数量
+      returnCount: 0, // 订单-退货数量
       userData: {},
     };
   },
@@ -248,7 +249,6 @@ export default {
 
 .grid-list {
   display: flex;
-  margin-top: .1rem;
 
   .item {
     flex: 1;
@@ -274,12 +274,12 @@ export default {
 
     .top-num {
       text-align: center;
-      font-size: .2rem;
+      font-size: 22px;
     }
 
     .iconfont {
       display: inline-block;
-      font-size: .2rem;
+      font-size: 18px;
       color: $color-blue;
       position: relative;
       .num {
@@ -293,21 +293,21 @@ export default {
         min-width: .15rem;
         text-align: center;
         line-height: .15rem;
-        font-size: .1rem;
+        font-size: 10px;
         padding: 0 .02rem;
       }
     } // end iconfont
 
     .tip {
       color: $color-grey;
-      font-size: .12rem;
+      font-size: 14px;
       margin-top: .05rem;
       display: flex;
       align-items: center;
       justify-content: center;
 
       .iconfont {
-        font-size: .12rem;
+        font-size: 12px;
         margin-right: .05rem;
       }
     }
@@ -318,7 +318,7 @@ export default {
   position: relative;
   .bg {
     @include background-left-gradient($color-gradient1, $color-gradient2);
-    height: 1.45rem;
+    height: 1rem;
   }
 
   .my-card {
@@ -338,9 +338,9 @@ export default {
       align-items: center;
 
       .logo {
-        width: .5rem;
-        height: .5rem;
-        border-radius: .5rem;
+        width: .3rem;
+        height: .3rem;
+        border-radius: .3rem;
         margin-left: 8%;
       }
 
@@ -349,7 +349,7 @@ export default {
         padding: 0 .1rem;
         @include text-ellipsis;
         .desc {
-          font-size: .12rem;
+          font-size: 12px;
           color: $color-grey;
           margin-top: .05rem;
         }
@@ -364,23 +364,23 @@ export default {
   width: 95%;
   margin: 0 auto;
   margin-top: .1rem;
-  padding: .1rem;
+  padding: .03rem .1rem;
 
   .title-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    border-bottom: .01rem solid $color-line;
-    height: .3rem;
+    border-bottom: 1px solid $color-line;
+    height: .25rem;
     .title {
       font-weight: 700;
     }
 
     .desc {
-      font-size: .12rem;
+      font-size: 12px;
       color: $color-grey;
-      height: .3rem;
-      line-height: .3rem;
+      height: .25rem;
+      line-height: .25rem;
       font-weight: 700;
 
       &:active {
@@ -399,15 +399,16 @@ export default {
   }
 
   .grid-list .item .iconfont {
-    font-size: .25rem;
+    font-size: .18rem;
   }
 
   .grid-list .item .iconfont .num {
-    min-width: .15rem;
+    min-width: 15px;
     max-width: .25rem;
-    height: .15rem;
+    height: 18px;
+    line-height: 18px;
     top: -.05rem;
-    font-size: .1rem;
+    font-size: 10px;
   }
 
   .grid-list .item:after {
@@ -426,15 +427,18 @@ export default {
     align-items: center;
   }
   .w-tableview .cell .title .iconfont {
-    font-size: .2rem;
+    font-size: .14rem;
     color: $color-grey;
-    margin-right: .1rem;
+    margin-right: .05rem;
   }
 }
 
 .bottom-btn {
-  margin-top: .2rem;
-  width: 60%;
-  border-radius: .4rem;
+  margin-top: .1rem;
+  margin-bottom: .1rem;
+  width: 40%;
+  border-radius: .25rem;
+  height: .25rem;
+  font-size: 16px;
 }
 </style>

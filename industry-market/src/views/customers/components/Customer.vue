@@ -260,9 +260,9 @@ export default {
     transition: all .3s ease;
 
     .logo {
-      width: .5rem;
-      height: .5rem;
-      border-radius: .5rem;
+      width: .4rem;
+      height: .4rem;
+      border-radius: .4rem;
       background: $color-line;
       border: .03rem solid $color-line;
       flex-shrink: 0;
@@ -291,7 +291,7 @@ export default {
         padding: .05rem 0;
         padding-right: .4rem;
         .name {
-          font-size: .18rem;
+          font-size: 18px;
           color: $color-gold;
           @include text-overflow-muli(2);
         } // end name
@@ -306,8 +306,8 @@ export default {
         .label {
           background: #d1d8ff;
           color: #7989dd;
-          padding: .05rem .08rem;
-          font-size: .1rem;
+          padding: .03rem .08rem;
+          font-size: 10px;
           border-radius: .05rem;
           margin-right: .05rem;
 
@@ -319,7 +319,7 @@ export default {
       } // end row-label
 
       .row {
-        font-size: .1rem;
+        font-size: 10px;
         line-height: .16rem;
         display: flex;
         justify-content: space-between;
@@ -336,7 +336,7 @@ export default {
           text-align: right;
           padding-left: .05rem;
           padding: 0;
-          font-size: .14rem;
+          font-size: 14px;
           padding-bottom: .02rem;
         }
       } // end row
@@ -353,11 +353,11 @@ export default {
       position: absolute;
       right: 0;
       top: 0;
-      width: .4rem;
-      height: .4rem;
+      width: .3rem;
+      height: .3rem;
       text-align: center;
-      line-height: .4rem;
-      font-size: .22rem;
+      line-height: .3rem;
+      font-size: 22px;
       color: $color-blue;
       z-index: 10;
 
@@ -371,7 +371,7 @@ export default {
     }
 
     .right-icon2 {
-      top: .4rem;
+      top: .3rem;
 
       .iconfont {
         color: $color-gold;
@@ -393,7 +393,7 @@ export default {
       right: 0;
       z-index: 10;
       color: $color-blue;
-      font-size: .22rem;
+      font-size: 22px;
     }
   }
 }
@@ -413,16 +413,16 @@ export default {
   margin-left: -1.6rem;
   z-index: 10;
   display: flex;
-  height: .3rem;
+  height: .22rem;
   align-items: center;
   width: 3.2rem;
   justify-content: space-between;
 
   button {
     width: 1.5rem;
-    font-size: .14rem;
-    border-radius: .3rem;
-    height: .3rem;
+    font-size: 16px;
+    border-radius: .22rem;
+    height: .22rem;
   }
 }
 </style>

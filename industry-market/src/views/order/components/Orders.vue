@@ -283,7 +283,7 @@ export default {
   .item {
     background: #fff;
     border-radius: .05rem;
-    padding: .1rem .15rem;
+    padding: 0 .12rem;
     padding-right: 0;
     padding-bottom: 0;
     margin-bottom: .1rem;
@@ -306,18 +306,18 @@ export default {
         }
 
         .icon-store {
-          font-size: .16rem;
+          font-size: 18px;
         }
 
         .icon-arrow-right {
-          font-size: .1rem;
+          font-size: 10px;
           font-weight: 700;
           margin-left: .03rem;
         }
       }
 
       .status {
-        font-size: .16rem;
+        font-size: 16px;
         flex-shrink: 0;
         color: $color-blue;
 
@@ -342,13 +342,13 @@ export default {
     .product-item {
       display: flex;
       padding-right: .15rem;
-      padding-top: .1rem;
+      padding-top: .06rem;
 
       .img {
-        width: .6rem;
-        height: .6rem;
+        width: .5rem;
+        height: .5rem;
         flex-shrink: 0;
-        margin-right: .1rem;
+        margin-right: .05rem;
         overflow: hidden;
         display: flex;
         align-items: center;
@@ -375,7 +375,7 @@ export default {
 
           .desc {
             color: $color-grey;
-            font-size: .12rem;
+            font-size: 14px;
           }
 
           .desc.price {
@@ -389,11 +389,11 @@ export default {
       text-align: right;
       @include text-ellipsis;
       padding-right: .15rem;
-      font-size: .12rem;
+      font-size: 14px;
 
       .price {
         color: $color-red;
-        font-size: .16rem;
+        font-size: 18px;
       }
     } // end order-total
 
@@ -408,7 +408,6 @@ export default {
         padding: .1rem .1rem ;
         color: $color-blue;
         border: 0;
-        font-size: .12rem;
 
         &.grey {
           color: $color-grey-6;

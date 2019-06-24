@@ -321,20 +321,22 @@ export default {
       if (this.selectProducts[item.id]) {
         // 勾选产品后, 获取优惠价
         this.getCustomerPrice(item, index);
+      } else {
+        // 计算总价格
+        this.calcPrice();
       }
 
       if (!this.selectProducts[item.id] && this.allChecked) {
         this.allChecked = false;
       }
 
+      const list = this.productList.filter(product => this.selectProducts[product.id]);
       if (this.selectProducts[item.id]) {
         // 判断是否全部都已经选择
-        const list = this.productList.filter(product => !product.checked);
         this.allChecked = !!(!list || !list.length);
       }
 
       // 判断选择的数量
-      const list = this.productList.filter(product => product.checked);
       this.selectNum = list && list.length ? list.length : 0;
     },
     // 获取客户的优惠价格
@@ -598,6 +600,13 @@ export default {
         callback: () => {
           // 将已经付款的产品移除购物车中
           this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
+
+          for (const key in this.selectProducts) {
+            this.selectProducts[key] = false;
+          }
+
+          // 计算选择产品的金额
+          this.calcPrice();
         },
       });
     },

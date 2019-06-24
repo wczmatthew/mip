@@ -248,7 +248,7 @@ export default {
         border: .01rem solid $color-line;
         border-radius: .05rem;
         padding-left: .08rem;
-        font-size: .14rem;
+        font-size: 14px;
 
         &:focus {
           border-color: #4e9ff0;
@@ -266,7 +266,7 @@ export default {
         background: #fff;
         padding: 0 .1rem;
         height: .25rem;
-        font-size: .12rem;
+        font-size: 12px;
         border-radius: .25rem;
         display: flex;
         align-items: center;

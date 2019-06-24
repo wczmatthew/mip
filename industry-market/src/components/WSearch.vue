@@ -111,6 +111,9 @@ export default {
   background: rgba($color: #fff, $alpha: 0.6);
   width: 100%;
   padding-right: 0;
+  padding-left: .05rem;
+  height: .23rem;
+  line-height: .23rem;
 }
 
 .w-search-bar .search-view .icon-scan {

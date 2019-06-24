@@ -40,7 +40,7 @@ html {
 body {
   padding: 0;
   margin: 0;
-  font-size: .14rem;
+  font-size: 16px;
   overflow: hidden;
   font-family: '微软雅黑';
   color: #333;
@@ -177,7 +177,7 @@ a {
 }
 
 .no-data p {
-  font-size: .14rem;
+  font-size: 14px;
   text-align: center;
   color: #999;
   font-weight: 700;
@@ -230,7 +230,7 @@ a {
   -ms-flex-align: center;
   align-items: center;
   color: #333333;
-  font-size: .1rem;
+  font-size: 10px;
   position: relative;
   z-index: 10;
 }
@@ -282,10 +282,10 @@ a {
 
 .w-header {
   width: 100%;
-  font-size: .16rem;
+  font-size: 16px;
   text-align: center;
-  height: .44rem;
-  line-height: .44rem;
+  height: 66px;
+  line-height: 66px;
   background: #fff;
   position: relative;
   box-shadow: 0 -.03rem .05rem #999;
@@ -328,6 +328,7 @@ a {
   white-space: nowrap;
   -o-text-overflow: ellipsis; /* for Opera */
   text-overflow: ellipsis; /* for IE */
+  font-size: 18px;
 }
 
 .w-header .header-right {
@@ -351,13 +352,13 @@ a {
   position: absolute;
   top: 0;
   right: 0;
-  font-size: .16rem;
+  font-size: 16px;
 }
 
 .w-header .header-left {
   width: .45rem;
   height: .44rem;
-  font-size: .2rem;
+  font-size: .14rem;
   color: #005bac;
   z-index: 10;
   flex-shrink: 0;
@@ -369,7 +370,7 @@ a {
 
 .w-footer {
   width: 100%;
-  height: .44rem;
+  height: 65px;
   /* background: #ffffff; */
 }
 
@@ -378,7 +379,7 @@ a {
 }
 
 .w-tabbar {
-  height: .44rem;
+  height: 65px;
   border-top: .01rem solid #e6e6e6;
   display: -webkit-box;
   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
@@ -409,15 +410,15 @@ a {
   -ms-flex: 1;
   flex: 1;
   color: #999;
-  font-size: .1rem;
+  font-size: 10px;
   text-align: center;
   padding: .03rem 0;
   height: 100%;
 }
 
 .w-tabbar .item.txt {
-  line-height: .44rem;
-  font-size: .12rem;
+  line-height: 65px;
+  font-size: 14px;
   padding: 0;
 }
 
@@ -430,12 +431,12 @@ a {
   height: .2rem;
   display: block;
   margin: 0 auto;
-  margin-bottom: .02rem;
+  margin-bottom: .03rem;
 }
 
 .w-tabbar .item .iconfont {
-  height: .22rem;
-  font-size: .22rem;
+  height: 22px;
+  font-size: .16rem;
 }
 
 .w-tabbar .item p {
@@ -468,13 +469,13 @@ a {
   -webkit-align-items: center;
   -ms-flex-align: center;
   align-items: center;
-  font-size: .14rem;
+  font-size: 14px;
   -webkit-justify-content: space-between;
   -moz-justify-content: space-between;
   -ms-justify-content: space-between;
   -o-justify-content: space-between;
   justify-content: space-between;
-  height: .4rem;
+  height: 60px;
   margin-left: .12rem;
   padding-right: .12rem;
   position: relative;
@@ -493,7 +494,7 @@ a {
 
 .w-tableview .cell .title {
   max-width: 50%;
-  font-size: .14rem;
+  font-size: 14px;
   margin-right: .1rem;
 }
 
@@ -509,7 +510,7 @@ a {
   /* for Opera */
   text-overflow: ellipsis;
   /* for IE */
-  font-size: .14rem;
+  font-size: 14px;
   color: #999;
   text-align: right;
 }
@@ -535,7 +536,7 @@ a {
 
 .w-tableview .cell .icon-arrow-right {
   color: #999;
-  font-size: .14rem;
+  font-size: 14px;
   margin-left: .1rem;
 }
 
@@ -599,7 +600,7 @@ a {
   -ms-justify-content: center;
   -o-justify-content: center;
   justify-content: center;
-  font-size: .14rem;
+  font-size: 14px;
   color: #333;
   height: .4rem;
   background: #fff;
@@ -665,7 +666,7 @@ a {
 }
 
 .w-sort-area .item .arrow .iconfont {
-  font-size: .12rem;
+  font-size: 12px;
   line-height: 0;
   height: .12rem;
   color: #333;
@@ -804,7 +805,7 @@ ul.w-menu li {
   text-align: center;
   border-bottom: .01rem solid #e6e6e6;
   color: #333;
-  font-size: .14rem;
+  font-size: 14px;
 }
 
 ul.w-menu li a {
@@ -1173,7 +1174,7 @@ ul.w-menu li:last-child {
   white-space: nowrap;
   -o-text-overflow: ellipsis; /* for Opera */
   text-overflow: ellipsis; /* for IE */
-  font-size: .12rem;
+  font-size: 12px;
   -webkit-flex-direction: column;
   -moz-flex-direction: column;
   -ms-flex-direction: column;
@@ -1190,7 +1191,7 @@ ul.w-menu li:last-child {
 
 .w-edit-header .header-right p {
   color: #158BE0;
-  font-size: .12rem;
+  font-size: 12px;
 }
 
 .opacity-link {

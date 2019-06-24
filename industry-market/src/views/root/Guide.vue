@@ -91,20 +91,24 @@ export default {
 .w-grid-list {
   width: 80%;
   margin: 0 auto;
-  justify-content: space-between;
-  padding-top: .4rem;
+  padding-top: 55vh;
 
   .item {
-    width: 45%;
-    height: .6rem;
+    width: 30%;
+    margin-right: 5%;
+    height: .4rem;
     border-radius: .05rem;
     overflow: hidden;
     display: flex;
     align-items: center;
     padding: 0;
     background: $color-blue;
-    margin-bottom: .2rem;
+    margin-bottom: .15rem;
     box-shadow: 0 .02rem .05rem #313131;
+
+    &:nth-child(3n) {
+      margin-right: 0;
+    }
 
     .img {
       width: 50%;
@@ -136,17 +140,17 @@ export default {
   position: fixed;
   z-index: 20;
   right: .1rem;
-  bottom: .5rem;
+  bottom: .4rem;
 
   .icon {
-    width: .4rem;
-    height: .4rem;
-    border-radius: .4rem;
+    width: .3rem;
+    height: .3rem;
+    border-radius: .3rem;
     background: $color-blue;
     color: #fff;
     text-align: center;
-    line-height: .4rem;
-    font-size: .22rem;
+    line-height: .3rem;
+    font-size: 22px;
     margin-bottom: .1rem;
 
     &:active {

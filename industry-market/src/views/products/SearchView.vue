@@ -57,7 +57,7 @@ export default {
 }
 
 .title {
-  font-size: .12rem;
+  font-size: 12px;
   color: $color-grey;
   padding: .2rem .15rem;
 }
@@ -74,7 +74,7 @@ export default {
     box-shadow: 0 0 .05rem #ccc;
     margin-bottom: .1rem;
     margin-right: .1rem;
-    font-size: .12rem;
+    font-size: 12px;
 
     &:active {
       color: $color-blue;

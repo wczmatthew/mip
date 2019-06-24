@@ -25,7 +25,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .icon-no-data {
-  font-size: .5rem;
+  font-size: .4rem;
   text-align: center;
   width: 100%;
   display: block;

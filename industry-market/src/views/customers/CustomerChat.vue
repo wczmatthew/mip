@@ -270,7 +270,7 @@ export default {
       margin-bottom: .05rem;
       span {
         color: $color-grey;
-        font-size: .13rem;
+        font-size: 13px;
       }
     }
 
@@ -303,7 +303,7 @@ export default {
     height: .4rem;
     line-height: .4rem;
     position: relative;
-    font-size: .16rem;
+    font-size: 16px;
     color: $color-blue;
     border-bottom: 1px solid $color-line;
   } // end title
@@ -315,7 +315,7 @@ export default {
     padding-top: .15rem;
 
     .question {
-      font-size: .15rem;
+      font-size: 15px;
       margin-bottom: .05rem;
       @include break-word;
       display: flex;
@@ -366,7 +366,7 @@ export default {
     display: flex;
     border: 1px solid #e2e2e2;
     border-radius: .05rem;
-    font-size: .14rem;
+    font-size: 14px;
     line-height: .18rem;
     height: .3rem;
     color: #333;

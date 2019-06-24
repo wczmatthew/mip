@@ -293,7 +293,7 @@ export default {
 }
 
 .price {
-  font-size: .12rem;
+  font-size: 12px;
   color: $color-red;
   @include text-ellipsis;
 }
@@ -314,14 +314,13 @@ export default {
     color: $color-grey-6;
     @include text-ellipsis;
     height: .3rem;
-    margin-top: .1rem;
 
     .iconfont {
       margin-right: .05rem;
     }
 
     .icon-store {
-      font-size: .16rem;
+      font-size: 18px;
     }
   } // end store
 
@@ -337,8 +336,8 @@ export default {
     padding-top: .1rem;
 
     .img {
-      width: .6rem;
-      height: .6rem;
+      width: .5rem;
+      height: .5rem;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -350,15 +349,15 @@ export default {
     .detail {
       flex: 1;
       overflow: hidden;
-      padding-left: .1rem;
-      font-size: .12rem;
+      padding-left: .05rem;
+      font-size: 14px;
 
       .bottom {
         display: flex;
         align-items: center;
         justify-content: space-between;
         @include text-ellipsis;
-        margin-top: .1rem;
+        margin-top: .06rem;
 
         .nums {
           max-width: 30%;
@@ -369,7 +368,6 @@ export default {
   } // end product-item
 
   .order-bottom {
-    margin-top: .1rem;
     padding-bottom: .1rem;
 
     .w-underline {
@@ -390,7 +388,7 @@ export default {
       }
 
       .price {
-        font-size: .14rem;
+        font-size: 14px;
       }
     }
   } // end order-bottom
@@ -402,7 +400,6 @@ export default {
   height: 100%;
   border-top-right-radius: .05rem;
   border-top-left-radius: .05rem;
-  padding-top: .08rem;
   padding-left: .1rem;
   padding-right: .1rem;
   overflow: auto;
@@ -412,7 +409,6 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: .05rem;
 
     .title {
       display: flex;
@@ -424,7 +420,6 @@ export default {
     }
 
     .status {
-      font-size: .13rem;
       flex-shrink: 0;
       color: $color-blue;
 
@@ -446,7 +441,6 @@ export default {
     display: flex;
     align-items: center;
     padding: 0 .12rem;
-    margin-bottom: .1rem;
 
     .icon-kehu {
       color: $color-blue;
@@ -456,13 +450,13 @@ export default {
     .detail {
       flex: 1;
       overflow: hidden;
-      padding: .1rem;
+      padding: .08rem .1rem;
 
       .title {
-        margin-bottom: .05rem;
+        margin-bottom: .03rem;
         span {
           color: $color-grey;
-          font-size: .13rem;
+          font-size: 13px;
         }
       }
 
@@ -478,15 +472,20 @@ export default {
   } // end customer-item
 
   .w-tableview {
-
+    padding-top: .05rem;
     .cell {
       margin: 0;
-      height: .3rem;
+      height: .2rem;
 
       &::after {
         display: none;
       }
+
+      .desc {
+        font-size: 14px;
+      }
     } // end cell
+
 
     .textarea {
       height: auto;

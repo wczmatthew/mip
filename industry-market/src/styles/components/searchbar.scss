@@ -3,7 +3,7 @@
 
 .w-search-bar {
   width: 100%;
-  height: .44rem;
+  height: 65px;
   // background: #fff;
   position: relative;
   
@@ -20,7 +20,7 @@
 
   .search-view {
     margin: 0 .12rem;
-    height: .44rem;
+    height: 65px;
     overflow: hidden;
     position: relative;
     display: flex;
@@ -40,7 +40,7 @@
 
     .iconfont {
       width: .2rem;
-      font-size: .18rem;
+      font-size: 20px;
       margin-right: .05rem;
     }
 
@@ -49,17 +49,17 @@
       height: .3rem;
       border: 0;
       background: transparent !important;
-      font-size: .13rem;
+      font-size: 13px;
     }
 
     .txt {
       min-width: .4rem;
-      height: .44rem;
+      height: 65px;
       color: $default-color;
       border: 0;
       background: #fff;
       flex-shrink: 0;
-      font-size: .14rem;
+      font-size: 14px;
       padding: 0 .1rem;
     }
 

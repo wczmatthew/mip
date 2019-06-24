@@ -49,7 +49,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: .23rem;
+  font-size: 28px;
   line-height: 1;
 
 

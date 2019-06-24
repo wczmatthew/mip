@@ -109,7 +109,7 @@ export default {
   .modal {
     background: #fff;
     border-radius: .05rem;
-    width: 70%;
+    width: 80%;
     min-height: .3rem;
     position: relative;
 
@@ -130,7 +130,7 @@ export default {
         border-radius: .2rem;
         line-height: .2rem;
         text-align: center;
-        font-size: .12rem;
+        font-size: 16px;
         margin-top: .07rem;
       }
     }
@@ -140,6 +140,7 @@ export default {
       height: .4rem;
       line-height: .4rem;
       color: $color-blue;
+      font-size: 18px;
     }
 
     .modal-content {
@@ -174,12 +175,12 @@ export default {
 
       .confirm {
         color: $color-blue;
-        font-size: .12rem;
+        font-size: 16px;
       }
 
       .cancle {
         color: $color-grey;
-        font-size: .12rem;
+        font-size: 16px;
       }
     } // end modal-bottom
 

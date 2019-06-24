@@ -1,6 +1,6 @@
 <!--  -->
 <template lang='html'>
-  <div>
+  <div class="home-container">
     <!-- 顶部栏 -->
     <div class="header">
       <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .3rem;"></w-search>
@@ -9,13 +9,18 @@
     <!-- 顶部栏 end -->
 
     <!-- 轮播图 -->
-    <div class="banner" v-if="banners && banners.length">
+    <div class="banner">
+      <div class="banner-item">
+        <img src="~@/assets/home/banner-bg.png" alt="">
+      </div>
+    </div>
+    <!-- <div class="banner" v-if="banners && banners.length">
       <cube-slide ref="slide" :data="banners">
-        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item" :auto-play="autoplay">
+        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item" :auto-play="">
           <img :src="item.url">
         </cube-slide-item>
       </cube-slide>
-    </div>
+    </div> -->
     <!-- 轮播图 end -->
 
     <!-- 常用功能 -->
@@ -85,24 +90,23 @@ export default {
       autoplay: true,
     };
   },
-  watch: {
-    '$route'(to) {
-      // console.log('home route: ', to.path);
-      if (to.path === '/market' && to.query.tab === 'home') {
-        this.getBanner();
-        this.autoplay = true;
-      } else {
-        // this.autoplay = false;
-      }
-      // console.log('autoplay: ', this.autoplay);
-      // this.$refs.slide && this.$refs.slide.refresh();
-    },
-  },
+  // watch: {
+  //   '$route'(to) {
+  //     // console.log('home route: ', to.path);
+  //     if (to.path === '/market' && to.query.tab === 'home') {
+  //       this.getBanner();
+  //       this.autoplay = true;
+  //     } else {
+  //       // this.autoplay = false;
+  //     }
+  //     // this.$refs.slide && this.$refs.slide.refresh();
+  //   },
+  // },
   created() {},
   mounted() {
     // console.log('mounted');
-    Utils.showLoading();
-    this.getBanner();
+    // Utils.showLoading();
+    // this.getBanner();
   },
   components: {
     WSearch,
@@ -160,8 +164,9 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
-.w-container {
-  background: #fff;
+.home-container {
+  background: #404e67;
+  min-height: 100%;
 }
 
 .header {
@@ -186,11 +191,11 @@ export default {
     max-width: 30%;
     color: #fff;
     flex-shrink: 0;
-    font-size: .12rem;
+    font-size: 12px;
 
     .iconfont {
       margin-left: .03rem;
-      font-size: .1rem;
+      font-size: 10px;
     }
   }
 
@@ -199,7 +204,7 @@ export default {
 .banner {
   width: 100%;
   min-height: 30vh;
-  max-height: 40vh;
+  // max-height: 40vh;
   overflow: hidden;
 
   .banner-item {
@@ -213,10 +218,10 @@ export default {
   width: 95%;
   margin: 0 auto;
   justify-content: space-around;
-  margin-top: .1rem;
+  margin-top: -.85rem;
 
   .item {
-    width: 45%;
+    width: 30%;
     padding: 0;
     padding-bottom: .1rem;
     padding-top: .05rem;
@@ -241,7 +246,7 @@ export default {
 
       p {
         color: #fff;
-        font-size: .16rem;
+        font-size: .1rem;
         margin-bottom: .02rem;
 
         &.underline::after {

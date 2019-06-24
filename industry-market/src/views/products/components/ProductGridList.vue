@@ -62,7 +62,6 @@ export default {
         return;
       }
       item.loading = true;
-      console.log(this.userId);
       const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: 1 });
       item.loading = false;
       if (!result) return;
@@ -109,9 +108,11 @@ export default {
       color: $default-color;
       @include text-overflow-muli(2);
       margin: .1rem;
-      line-height: .18rem;
+      margin-bottom: 0;
+      line-height: 18px;
       overflow: hidden;
-      height: .35rem;
+      max-height: 38px;
+      font-size: 16px;
     }
 
     .bottom {
@@ -121,7 +122,7 @@ export default {
       .price {
         flex: 1;
         color: $color-red;
-        font-size: .12rem;
+        font-size: 16px;
         @include text-ellipsis;
         width: 100%;
         padding: 0 .12rem;
@@ -132,6 +133,7 @@ export default {
         height: .3rem;
         flex-shrink: 0;
         padding-top: .05rem;
+        font-size: 20px;
         .iconfont {
           width: .2rem;
           height: .2rem;

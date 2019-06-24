@@ -48,7 +48,7 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
 .header-right {
-  font-size: .12rem;
+  font-size: 16px;
   color: $color-grey;
 }
 

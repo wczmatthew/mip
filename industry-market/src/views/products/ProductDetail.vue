@@ -1,100 +1,96 @@
-<!--  -->
+<!-- 产品详情 -->
 <template lang='html'>
-  <w-container show-footer class="product-detail">
+  <w-container show-back show-header show-footer class="product-detail">
     <!-- 顶部栏 -->
-    <header class="header">
-      <div class="back" @click="$router.back();">
-        <i class="iconfont icon-back"></i>
-      </div>
-      <p class="header-mid"></p>
+    <p slot="header-mid">
+      产品详情
+    </p>
 
-      <div class="header-right">
-        <!-- <div class="circle">
-          <w-msg-icon class="msg-icon"></w-msg-icon>
-        </div> -->
-        <div class="circle">
-          <!-- <i class="iconfont icon-cart"></i> -->
-          <w-cart-icon :current-path="routePath" class="msg-icon"></w-cart-icon>
-        </div>
-      </div>
-    </header>
+    <div class="header-right" slot="header-right">
+      <w-cart-icon :current-path="routePath" color="blue" class="msg-icon"></w-cart-icon>
+    </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
 
-    <!-- 产品图片 -->
-    <div class="banner-img">
-      <w-img :src="product.imgPath" v-if="!firstLoading"></w-img>
-    </div>
-    <!-- 产品图片 end -->
-
-    <!-- 产品价格, 名称 -->
-    <div class="price">
-      ￥{{product.DJJ || 0}}
-    </div>
-    <div class="product-title">
-      {{product.XHGG || '暂无'}}
-    </div>
-    <!-- 产品价格, 名称 end -->
-
-    <!-- 规格 -->
-    <!-- <div class="w-tableview">
-      <div class="cell">
-        <div class="title">
-          规格选择
+    <div class="product-container">
+      <!-- 产品图片 -->
+      <div class="product-left">
+        <div class="banner-img">
+          <w-img :src="product.imgPath" v-if="!firstLoading"></w-img>
         </div>
-        <div class="desc">
-          已选“32A”“1P”
-        </div>
-        <i class="iconfont icon-arrow-right"></i>
-      </div>
-    </div> -->
-    <!-- 规格 end -->
-
-    <!-- 产品参数 -->
-    <div class="w-tableview">
-      <div class="cell">
-        <div class="title">
-          产品编码
-        </div>
-        <div class="desc">
-          {{product.BM || '--'}}
-        </div>
-      </div>
-      <div class="cell">
-        <div class="title">
-          单位
-        </div>
-        <div class="desc">
-          {{product.SLDW || '--'}}
-        </div>
-      </div>
-      <div class="cell">
-        <div class="title">
-          单价
-        </div>
-        <div class="desc price" style="padding: 0;">
+        <!-- 产品价格, 名称 -->
+        <div class="price">
           ￥{{product.DJJ || 0}}
         </div>
+        <div class="product-title">
+          {{product.XHGG || '暂无'}}
+        </div>
+        <!-- 产品价格, 名称 end -->
       </div>
-      <div class="cell">
-        <div class="title">
-          装箱数
-        </div>
-        <div class="desc">
-          {{product.ZXS || 0}}
-        </div>
-      </div>
-      <div class="cell">
-        <div class="title">
-          盒装数
-        </div>
-        <div class="desc">
-          {{product.HZS || 0}}
-        </div>
-      </div>
-    </div>
-    <!-- 产品参数 -->
+      <!-- 产品图片 end -->
 
+      <div class="product-content">
+        <!-- 规格 -->
+        <!-- <div class="w-tableview">
+          <div class="cell">
+            <div class="title">
+              规格选择
+            </div>
+            <div class="desc">
+              已选“32A”“1P”
+            </div>
+            <i class="iconfont icon-arrow-right"></i>
+          </div>
+        </div> -->
+        <!-- 规格 end -->
+
+        <!-- 产品参数 -->
+        <div class="w-tableview">
+          <div class="cell">
+            <div class="title">
+              产品编码
+            </div>
+            <div class="desc">
+              {{product.BM || '--'}}
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">
+              单位
+            </div>
+            <div class="desc">
+              {{product.SLDW || '--'}}
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">
+              单价
+            </div>
+            <div class="desc price" style="padding: 0;">
+              ￥{{product.DJJ || 0}}
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">
+              装箱数
+            </div>
+            <div class="desc">
+              {{product.ZXS || 0}}
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">
+              盒装数
+            </div>
+            <div class="desc">
+              {{product.HZS || 0}}
+            </div>
+          </div>
+        </div>
+        <!-- 产品参数 -->
+      </div>
+
+    </div>
 
     <!-- 正文内容 end -->
 
@@ -105,7 +101,7 @@
           <i class="iconfont icon-store"></i>
           <p>首页</p>
         </div>
-        <div class="icon" @click="onToggleCollect()" style="min-width: .5rem;">
+        <div class="icon" @click="onToggleCollect()">
           <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
           'icon-notcollect']"></i>
           <p>
@@ -234,76 +230,39 @@ export default {
 
 .product-detail {
 
-  .header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: .44rem;
+  .product-container {
     display: flex;
+    height: 100%;
+    background: #fff;
+  }
 
-    .back {
-      width: .44rem;
-      height: 100%;
-      @include flex-center;
-
-      .iconfont {
-        width: .25rem;
-        height: .25rem;
-        background: $color-grey;
-        color: #fff;
-        text-align: center;
-        line-height: .25rem;
-        border-radius: .25rem;
-      }
-    } // end back
-
-    .header-mid {
-      flex: 1;
-      text-align: center;
-      line-height: .44rem;
-    }
-
-    .header-right {
+  .product-left {
+    width: 50%;
+    border-right: 1px solid $color-line;
+    padding-top: .2rem;
+    .banner-img {
+      width: 100%;
+      height: 50vh;
       display: flex;
-      padding-right: .1rem;
+      align-items: center;
+      justify-content: center;
+      background: #fff;
 
-      .circle {
-        width: .4rem;
-        height: .44rem;
-        @include flex-center;
-        .iconfont,
-        .msg-icon {
-          width: .25rem;
-          height: .25rem;
-          background: $color-grey;
-          color: #fff;
-          text-align: center;
-          line-height: .25rem;
-          border-radius: .25rem;
-          font-size: .2rem;
-        }
+      img {
+        max-width: 100%;
+        height: 100%;
       }
     }
   }
 
-  .banner-img {
-    width: 100%;
-    height: 50vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
 
-    img {
-      max-width: 100%;
-      height: 100%;
-    }
+  .product-content {
+    width: 50%;
   }
 
   .price {
     color: $color-red;
-    font-size: .18rem;
+    font-size: 18px;
     @include text-ellipsis;
     padding: .05rem .12rem;
     background: #fff;
@@ -314,7 +273,7 @@ export default {
     @include break-word;
     padding: .05rem .12rem .1rem;
     background: #fff;
-    font-size: .18rem;
+    font-size: 18px;
     margin-bottom: .1rem;
   }
 
@@ -346,7 +305,7 @@ export default {
         .iconfont {
           display: block;
           margin-bottom: .02rem;
-          font-size: .22rem;
+          font-size: .16rem;
         }
 
         .icon-collect {
@@ -354,7 +313,7 @@ export default {
         }
 
         p {
-          font-size: .1rem;
+          font-size: 10px;
           text-align: center;
         }
       }
@@ -362,15 +321,15 @@ export default {
 
     .btns {
       width: 40%;
-      height: .3rem;
+      height: 40px;
       display: flex;
-      border-radius: .3rem;
+      border-radius: 40px;
       overflow: hidden;
       button {
         flex: 1;
         border-radius: 0;
         height: 100%;
-        font-size: .14rem;
+        font-size: 16px;
       }
     }
   } // end footer
