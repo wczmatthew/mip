@@ -218,9 +218,9 @@ export default {
 @import '~@/styles/variable.scss';
 
 .customer-chat {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
+  // display: flex;
+  // flex-direction: column;
+  // height: 100%;
   width: 100%;
 }
 
@@ -287,7 +287,7 @@ export default {
 } // end customer-item
 
 .chat-content {
-  flex: 1;
+  // flex: 1;
   background: #fff;
   width: 95%;
   margin: 0 auto;

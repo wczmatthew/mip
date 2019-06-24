@@ -139,7 +139,7 @@ export default {
 .login-container {
   width: 60%;
   margin: 0 auto;
-  margin-top: 12vh;
+  margin-top: 10vh;
   .input-item {
     width: 100%;
     margin-top: .1rem;
@@ -156,6 +156,7 @@ export default {
       text-align: center;
       line-height: .2rem;
       flex-shrink: 0;
+      font-size: .14rem;
     }
 
     input {
@@ -172,8 +173,7 @@ export default {
     margin-top: 5%;
     border-radius: .4rem;
     width: 65%;
-    height: 10vh;
-    font-size: 14px;
+    height: 8vh;
     max-height: .35rem;
     min-height: .2rem;
   }

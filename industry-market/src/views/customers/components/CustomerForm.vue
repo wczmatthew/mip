@@ -243,7 +243,7 @@ export default {
       input,
       .select {
         width: 100%;
-        height: .3rem;
+        height: .25rem;
         display: block;
         border: .01rem solid $color-line;
         border-radius: .05rem;
@@ -265,9 +265,9 @@ export default {
       .label {
         background: #fff;
         padding: 0 .1rem;
-        height: .25rem;
+        height: .2rem;
         font-size: 12px;
-        border-radius: .25rem;
+        border-radius: .2rem;
         display: flex;
         align-items: center;
         box-shadow: .02rem .02rem .05rem #ccc;

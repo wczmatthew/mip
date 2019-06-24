@@ -102,7 +102,7 @@
         </div>
         <div class="item" @click.stop="toOrders(3)">
           <i class="iconfont icon-daipingjia">
-            <i class="num" v-if="watiGetCount">{{watiGetCount}}</i>
+            <i class="num" v-if="finishCount">{{finishCount}}</i>
           </i>
           <p class="tip">已完成</p>
         </div>

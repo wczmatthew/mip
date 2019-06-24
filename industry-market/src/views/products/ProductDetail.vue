@@ -232,7 +232,7 @@ export default {
 
   .product-container {
     display: flex;
-    height: 100%;
+    min-height: 100%;
     background: #fff;
   }
 
@@ -242,7 +242,7 @@ export default {
     padding-top: .2rem;
     .banner-img {
       width: 100%;
-      height: 50vh;
+      height: 40vh;
       display: flex;
       align-items: center;
       justify-content: center;

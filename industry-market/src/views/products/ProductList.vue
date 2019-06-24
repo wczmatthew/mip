@@ -22,8 +22,9 @@
       @pulling-up="onPullingUp">
 
       <!-- 商品列表 -->
-      <no-data v-if="noProduct"></no-data>
-      <product-grid-list ref="productList" routePath="productList" v-else></product-grid-list>
+      <no-data v-show="noProduct"></no-data>
+      <w-loading-row v-show="isFirstLoading"></w-loading-row>
+      <product-grid-list ref="productList" routePath="productList" v-show="!noProduct"></product-grid-list>
       <!-- 商品列表 end -->
 
     </cube-scroll>
@@ -51,6 +52,7 @@ export default {
           txt: { more: '加载完成', noMore: '已加载全部' },
         },
       },
+      isFirstLoading: false,
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' }), // 获取当前路由
       tabList: [
         { title: '综合电器', selectTxt: '' },
@@ -101,6 +103,7 @@ export default {
     // 下拉刷新
     onPullingDown() {
       this.pageNum = 1;
+      this.isFirstLoading = true;
       this.getData();
     },
     // 上拉加载
@@ -115,6 +118,7 @@ export default {
     async getData() {
       // Utils.showLoading();
       const result = await service.getProductList({ pageNum: this.pageNum, pageSize: 9, keyword: this.keywords, bnr: this.bnr });
+      this.isFirstLoading = false;
       if (!result) {
         this.noProduct = !this.productList.length;
         return;
@@ -127,13 +131,13 @@ export default {
         this.productList = this.productList.concat([...result.rows]);
       }
 
-      this.$refs.productList && this.$refs.productList.updateList(this.productList);
       this.noProduct = !this.productList.length;
       this.hasNext = this.productList.length < result.total;
       if (this.hasNext) {
         this.pageNum += 1;
       }
       this.$nextTick(() => {
+        this.$refs.productList && this.$refs.productList.updateList(this.productList);
         this.$refs.scroll.forceUpdate(true);
       });
 

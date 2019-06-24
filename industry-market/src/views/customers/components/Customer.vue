@@ -320,7 +320,7 @@ export default {
 
       .row {
         font-size: 10px;
-        line-height: .16rem;
+        line-height: 20px;
         display: flex;
         justify-content: space-between;
         width: 85%;
@@ -353,10 +353,10 @@ export default {
       position: absolute;
       right: 0;
       top: 0;
-      width: .3rem;
-      height: .3rem;
+      width: .25rem;
+      height: .25rem;
+      line-height: .25rem;
       text-align: center;
-      line-height: .3rem;
       font-size: 22px;
       color: $color-blue;
       z-index: 10;

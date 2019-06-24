@@ -91,7 +91,7 @@ export default {
 .w-grid-list {
   width: 80%;
   margin: 0 auto;
-  padding-top: 55vh;
+  padding-top: 50vh;
 
   .item {
     width: 30%;

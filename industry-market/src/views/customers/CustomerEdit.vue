@@ -64,12 +64,10 @@ export default {
 
 .blue-btn {
   width: 1.5rem;
-  height: .3rem;
-  border-radius: .3rem;
+  border-radius: .25rem;
   position: fixed;
   bottom: .1rem;
   left: 50%;
   margin-left: -.75rem;
-  font-size: 14px;
 }
 </style>
