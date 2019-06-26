@@ -1,23 +1,21 @@
 <!-- 产品列表 一行3列 -->
 <template lang='html'>
   <!-- 商品列表 -->
-  <div class="w-grid-list">
-    <div class="item" v-for="(item, index) in productList" :key="'product' + index">
-      <div class="product" @click="toDetail(item)">
-        <div class="img">
-          <!-- <img :src="item.imgPath" alt="" @error="imgErr(item)"> -->
-          <w-img :src="item.imgPath"></w-img>
+  <div class="w-grid-list grid-5-list">
+    <div class="item product" v-for="(item, index) in productList" :key="'product' + index"  @click="toDetail(item)">
+      <div class="img">
+        <!-- <img :src="item.imgPath" alt="" @error="imgErr(item)"> -->
+        <w-img :src="item.imgPath"></w-img>
+      </div>
+      <div class="title">
+        {{item.XHGG}}
+      </div>
+      <div class="bottom">
+        <div class="price">
+          ￥{{item.DJJ || '0'}}
         </div>
-        <div class="title">
-          {{item.XHGG}}
-        </div>
-        <div class="bottom">
-          <div class="price">
-            ￥{{item.DJJ || '0'}}
-          </div>
-          <div class="cart" @click.stop="onAddCart(item)">
-            <i class="iconfont icon-cart"></i>
-          </div>
+        <div class="cart" @click.stop="onAddCart(item)">
+          <i class="iconfont icon-cart"></i>
         </div>
       </div>
     </div>
@@ -41,10 +39,14 @@ export default {
   mounted() {
     this.path = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: this.routePath });
   },
-  components: {},
+  components: {
+  },
   computed: {
     ...mapGetters('user', {
       userId: 'userId',
+    }),
+    ...mapGetters('customer', {
+      customer: 'selectCustomer',
     }),
   },
   methods: {
@@ -56,16 +58,37 @@ export default {
       this.$router.push(`${this.path}/detail?bm=${item.BM}`);
     },
     // 加入购物车
-    async onAddCart(item) {
+    onAddCart(item) {
+      this.$emit('add-cart', item);
+      // if (!this.customer || !this.customer.id) {
+      //   // 还未选择客户, 提醒导购员先选择用户
+      //   Utils.showConfirm({
+      //     title: '提醒',
+      //     content: '还未选择客户, 是否先选择客户?',
+      //     confirmBtn: '确定',
+      //     cancelBtn: '直接购物',
+      //     maskClosable: false,
+      //     onConfirm: () => {
+      //       this.$router.push(`${this.path}/customers`);
+      //     },
+      //     onCancel: () => {
+      //       // 新增临时客户, 再将产品加入购物车
+      //       this.addProductToCart(item);
+      //     },
+      //   });
+      //   return;
+      // }
+    },
+    async addProductToCart(item, num) {
       if (item.loading) {
-        Utils.showToast('正在加入购物车, 请勿频繁操作');
+        Utils.showToast(`${item.XHGG}正在加入购物车, 请勿频繁操作`);
         return;
       }
       item.loading = true;
-      const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: 1 });
+      const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: num || 1 });
       item.loading = false;
       if (!result) return;
-      Utils.showToast('加入购物车成功');
+      Utils.showToast(`${item.XHGG}加入购物车成功`);
     },
   },
   props: {
@@ -80,19 +103,27 @@ export default {
 @import '~@/styles/variable.scss';
 
 .w-grid-list {
+  padding-top: .1rem;
+  padding-left: 2%;
+
   .product {
-    width: 100%;
-    margin: 0 auto;
+    width: 23%;
     background: #fff;
     box-shadow: 0 .05rem .1rem #e6e6e6;
     border-radius: .05rem;
-    padding-bottom: .05rem;
+    padding: .05rem 0;
     overflow: hidden;
+    margin-right: 2%;
+    margin-bottom: .1rem;
+
+    &:nth-child(4n) {
+      margin-right: 0;
+    }
 
     .img {
       width: 100%;
-      height: 30vh;
-      min-height: .8rem;
+      height: .8rem;
+      padding: .05rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -100,19 +131,22 @@ export default {
 
       img {
         max-width: 100%;
-        max-height: 100%;
+        height: 100%;
       }
     }
 
     .title {
       color: $default-color;
       @include text-overflow-muli(2);
-      margin: .1rem;
+      @include break-word;
+      margin: .05rem .1rem;
       margin-bottom: 0;
       line-height: 18px;
       overflow: hidden;
-      max-height: 38px;
+      height: 38px;
       font-size: 16px;
+      display: flex;
+      align-items: center;
     }
 
     .bottom {
@@ -129,19 +163,19 @@ export default {
       }
 
       .cart {
-        width: .4rem;
-        height: .3rem;
+        width: .3rem;
+        height: .25rem;
         flex-shrink: 0;
         padding-top: .05rem;
         font-size: 20px;
         .iconfont {
-          width: .2rem;
-          height: .2rem;
+          width: .15rem;
+          height: .15rem;
           background: $color-blue;
-          border-radius: .2rem;
+          border-radius: .15rem;
           color: #fff;
           text-align: center;
-          line-height: .2rem;
+          line-height: .15rem;
           display: block;
           margin: 0 auto;
         }
@@ -150,5 +184,26 @@ export default {
     }
 
   }
-}
+} // end w-grid-list
+
+.grid-5-list {
+
+  .product {
+    width: 18%;
+    margin-right: 2%;
+
+    &:nth-child(4n) {
+      margin-right: 2%;
+    }
+
+    &:nth-child(5n) {
+      margin-right: 0;
+    }
+
+    .img {
+      height: .6rem;
+    }
+  } // end product
+
+} // end grid-5-list
 </style>

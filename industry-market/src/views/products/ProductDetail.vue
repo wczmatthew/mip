@@ -19,12 +19,12 @@
           <w-img :src="product.imgPath" v-if="!firstLoading"></w-img>
         </div>
         <!-- 产品价格, 名称 -->
-        <div class="price">
+        <!-- <div class="price">
           ￥{{product.DJJ || 0}}
         </div>
         <div class="product-title">
           {{product.XHGG || '暂无'}}
-        </div>
+        </div> -->
         <!-- 产品价格, 名称 end -->
       </div>
       <!-- 产品图片 end -->
@@ -46,6 +46,33 @@
 
         <!-- 产品参数 -->
         <div class="w-tableview">
+          <div class="product-title">
+            {{product.XHGG || '暂无'}}
+          </div>
+          <div class="cell">
+            <div class="title">
+              单价
+            </div>
+            <div class="desc price" style="padding: 0;">
+              ￥{{product.DJJ || 0}}
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">
+              订货代码
+            </div>
+            <div class="desc blue">
+              {{product.ORDERCODE || '--'}}
+            </div>
+          </div>
+          <div class="cell">
+            <div class="title">
+              类别
+            </div>
+            <div class="desc">
+              {{product.JNR + '-' + product.BNR}}
+            </div>
+          </div>
           <div class="cell">
             <div class="title">
               产品编码
@@ -60,14 +87,6 @@
             </div>
             <div class="desc">
               {{product.SLDW || '--'}}
-            </div>
-          </div>
-          <div class="cell">
-            <div class="title">
-              单价
-            </div>
-            <div class="desc price" style="padding: 0;">
-              ￥{{product.DJJ || 0}}
             </div>
           </div>
           <div class="cell">
@@ -124,12 +143,17 @@
       </div>
     </footer>
     <!-- 底部栏 end -->
+
+    <!-- 数量弹窗 -->
+    <w-num-modal ref="numModal"></w-num-modal>
+    <!-- 数量弹窗 end -->
   </w-container>
 </template>
 <script>
 import Utils from '@/common/Utils';
 import service from '@/services/product.service';
 import orderService from '@/services/order.service';
+import WNumModal from '@/components/WNumModal.vue';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -150,7 +174,9 @@ export default {
       userId: 'userId',
     }),
   },
-  components: {},
+  components: {
+    WNumModal,
+  },
   methods: {
     toIndex() {
       this.$router.push('/market?tab=home');
@@ -175,16 +201,21 @@ export default {
       this.firstLoading = false;
     },
     // 加入购物车
-    async onAddCart() {
-      if (this.loading) {
-        Utils.showToast('正在加入购物车, 请勿频繁操作');
-        return;
-      }
-      this.loading = true;
-      const result = await orderService.addCart({ userid: this.userId, bm: this.$route.query.bm, qty: 1 });
-      this.loading = false;
-      if (!result) return;
-      Utils.showToast('加入购物车成功');
+    onAddCart() {
+      this.$refs.numModal.show({
+        callback: async (type, num) => {
+          if (type !== 'confirm') return;
+          if (this.loading) {
+            Utils.showToast('正在加入购物车, 请勿频繁操作');
+            return;
+          }
+          this.loading = true;
+          const result = await orderService.addCart({ userid: this.userId, bm: this.$route.query.bm, qty: num || 1 });
+          this.loading = false;
+          if (!result) return;
+          Utils.showToast('加入购物车成功');
+        },
+      });
     },
     // 添加收藏或者取消收藏
     onToggleCollect() {
@@ -242,7 +273,7 @@ export default {
     padding-top: .2rem;
     .banner-img {
       width: 100%;
-      height: 40vh;
+      height: 65vh;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -271,14 +302,34 @@ export default {
   .product-title {
     font-weight: 700;
     @include break-word;
-    padding: .05rem .12rem .1rem;
+    padding: .1rem .12rem .05rem;
     background: #fff;
     font-size: 18px;
-    margin-bottom: .1rem;
   }
 
   .w-tableview {
     margin-bottom: .1rem;
+  }
+
+  .w-tableview .cell {
+    height: .2rem;
+    line-height: .2rem;
+  }
+
+  .w-tableview .cell .title {
+    color: $color-grey;
+  }
+
+  .w-tableview .cell:after {
+    display: none;
+  }
+
+  .w-tableview .cell .desc {
+    color: $color-black;
+  }
+
+  .w-tableview .cell .desc.price {
+    color: $color-red;
   }
 
   .footer {

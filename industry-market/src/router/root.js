@@ -1,5 +1,6 @@
 import productList from './products/productList';
 import customer from './customer';
+import chat from './customer/chat';
 import search from './products/search';
 import productDetail from './products/detail';
 import detail from './order/detail';
@@ -12,7 +13,7 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 导购
 // const Guide = () => import('@/views/root/Guide.vue');
 const CategoryList = () => import('@/views/products/CategoryList.vue');
-const customerChat = () => import('@/views/customers/CustomerChat.vue');
+// const customerChat = () => import('@/views/customers/CustomerChat.vue');
 
 export default [
   {
@@ -24,13 +25,7 @@ export default [
       ...search,
       ...detail,
       ...order,
-      {
-        path: 'chat',
-        component: customerChat,
-        children: [
-          ...customer,
-        ],
-      },
+      ...chat,
       {
         path: 'category',
         component: CategoryList,
@@ -38,6 +33,7 @@ export default [
           ...productDetail,
           ...cart,
           ...search,
+          ...customer,
         ],
       },
     ],

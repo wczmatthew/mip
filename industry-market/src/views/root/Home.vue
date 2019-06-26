@@ -166,15 +166,16 @@ export default {
 @import '~@/styles/variable.scss';
 .home-container {
   background: #404e67;
-  min-height: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .header {
   position: fixed;
-  top: 0;
+  top: .05rem;
   left: 0;
   width: 100%;
-  height: .44rem;
+  height: 50px;
   z-index: 20;
   display: flex;
   padding-left: .15rem;
@@ -203,8 +204,7 @@ export default {
 
 .banner {
   width: 100%;
-  min-height: 30vh;
-  // max-height: 40vh;
+  height: 100%;
   overflow: hidden;
 
   .banner-item {
@@ -216,9 +216,10 @@ export default {
 
 .w-grid-list {
   width: 95%;
-  margin: 0 auto;
   justify-content: space-around;
-  margin-top: -.85rem;
+  position: absolute;
+  bottom: 10vh;
+  left: 2.5%;
 
   .item {
     width: 30%;

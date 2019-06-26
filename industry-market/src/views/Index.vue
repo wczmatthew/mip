@@ -163,10 +163,10 @@ export default {
 
 .header {
   position: fixed;
-  top: 0;
+  top: .05rem;
   left: 0;
   width: 100%;
-  height: .44rem;
+  height: 50px;
   z-index: 20;
   display: flex;
   padding-left: .15rem;

@@ -207,7 +207,7 @@ export default {
     border-top-right-radius: .05rem;
     overflow: auto;
     padding: .2rem .1rem .1rem;
-    padding-bottom: .4rem;
+    padding-bottom: .3rem;
 
     .row-1 {
       display: flex;

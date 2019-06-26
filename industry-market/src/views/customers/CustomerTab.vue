@@ -3,7 +3,8 @@
   <div class="w-container">
     <!-- 顶部栏 -->
     <w-header>
-      <div slot="header-mid">
+      <div slot="header-mid" class="header-mid">
+        <i class="iconfont icon-jia" @click.stop="onNew()"></i>
         客户列表
       </div>
       <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
@@ -44,6 +45,9 @@ export default {
       this.isEdit = !this.isEdit;
       this.$refs.customer && this.$refs.customer.onEditList(this.isEdit);
     },
+    onNew() {
+      this.$router.push('/market/customerNew');
+    },
   },
   props: {
     currentPath: {
@@ -56,8 +60,22 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
 .header-right {
-  font-size: 14px;
   color: $color-grey;
+}
+
+.header-mid {
+  position: relative;
+
+  .iconfont {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: .3rem;
+    height: 100%;
+    @include flex-center;
+    font-size: 18px;
+    color: $color-blue;
+  }
 }
 
 .color-blue {

@@ -29,17 +29,14 @@
       </div>
 
       <!-- 按钮区域 -->
-      <div class="icon-list">
-        <!-- <div class="icon">
-          <i class="iconfont icon-store"></i>
-        </div> -->
+      <!-- <div class="icon-list">
         <div class="icon">
           <i class="iconfont icon-daogou" @click="toProductList()"></i>
         </div>
         <div class="icon" @click="toCategory()">
           <i class="iconfont icon-fenlei"></i>
         </div>
-      </div>
+      </div> -->
       <!-- 按钮区域 end -->
     </div>
   </div>
@@ -91,11 +88,11 @@ export default {
 .w-grid-list {
   width: 80%;
   margin: 0 auto;
-  padding-top: 50vh;
+  padding-top: 57vh;
 
   .item {
-    width: 30%;
-    margin-right: 5%;
+    width: 26%;
+    margin-right: 11%;
     height: .4rem;
     border-radius: .05rem;
     overflow: hidden;
@@ -105,6 +102,7 @@ export default {
     background: $color-blue;
     margin-bottom: .15rem;
     box-shadow: 0 .02rem .05rem #313131;
+    opacity: .85;
 
     &:nth-child(3n) {
       margin-right: 0;

@@ -104,7 +104,7 @@ export default {
         { title: '全部', value: -1 },
         // { title: '售后中', value: 4, color: 'grey' },
         { title: '待付款', value: 6, color: 'red' },
-        { title: '待发货', value: 1, color: 'yellow' },
+        { title: '待发货', value: 1, color: 'blue' },
         { title: '待收货', value: 2, color: 'blue' },
         { title: '已完成', value: 3, color: 'green' },
         { title: '已关闭', value: 5, color: 'grey' },
@@ -317,7 +317,7 @@ export default {
       }
 
       .status {
-        font-size: 16px;
+        font-size: 14px;
         flex-shrink: 0;
         color: $color-blue;
 
@@ -345,8 +345,8 @@ export default {
       padding-top: .06rem;
 
       .img {
-        width: .5rem;
-        height: .5rem;
+        width: .3rem;
+        height: .3rem;
         flex-shrink: 0;
         margin-right: .05rem;
         overflow: hidden;
@@ -361,7 +361,7 @@ export default {
       .detail {
         flex: 1;
         overflow: hidden;
-        padding: .15rem 0;
+        padding-top: .05rem;
 
         .row {
           display: flex;
@@ -369,6 +369,10 @@ export default {
           justify-content: space-between;
           @include text-ellipsis;
           margin-bottom: .05rem;
+
+          &:last-child {
+            margin-bottom: 0;
+          }
           .price {
             max-width: 40%;
           }
@@ -390,6 +394,7 @@ export default {
       @include text-ellipsis;
       padding-right: .15rem;
       font-size: 14px;
+      margin-top: .1rem;
 
       .price {
         color: $color-red;
@@ -400,7 +405,6 @@ export default {
     .order-bottom {
       display: flex;
       justify-content: flex-end;
-      margin-top: .1rem;
       padding-right: .05rem;
 
       button {

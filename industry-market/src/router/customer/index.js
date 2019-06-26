@@ -13,17 +13,17 @@ export default [
         component: customerCreate,
       },
       {
-        path: 'edit',
+        path: 'customerEdit',
         component: customerEdit,
       },
     ],
   },
   {
-    path: 'new',
+    path: 'customerNew',
     component: customerCreate,
   },
   {
-    path: 'edit',
+    path: 'customerEdit',
     component: customerEdit,
   },
 ];

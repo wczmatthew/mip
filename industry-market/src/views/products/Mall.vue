@@ -33,7 +33,7 @@
 
         <!-- 商品列表 -->
         <no-data v-if="noProduct"></no-data>
-        <product-grid-list ref="productList" routePath="mall" v-else></product-grid-list>
+        <product-grid-list ref="productList" routePath="mall"  @add-cart="onAddCart" v-else></product-grid-list>
         <!-- <div class="w-grid-list" v-else>
           <div class="item" v-for="(item, index) in productList" :key="'product' + index">
             <div class="product">
@@ -88,6 +88,10 @@
       </template> -->
       <!-- 置顶的菜单栏 -->
     </cube-sticky>
+
+    <!-- 数量弹窗 -->
+    <w-num-modal ref="numModal"></w-num-modal>
+    <!-- 数量弹窗 end -->
   </w-container>
 </template>
 <script>
@@ -99,6 +103,7 @@ import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
 import ProductGridList from './components/ProductGridList.vue';
+import WNumModal from '@/components/WNumModal.vue';
 
 export default {
   data() {
@@ -137,8 +142,18 @@ export default {
     WSearch,
     // MallTab,
     ProductGridList,
+    WNumModal,
   },
   methods: {
+    onAddCart(item) {
+      this.$refs.numModal.show({
+        callback: async (type, num) => {
+          if (type !== 'confirm') return;
+          // 已经选择了客户, 直接将产品加入购物车
+          this.$refs.productList && this.$refs.productList.addProductToCart(item, num);
+        },
+      });
+    },
     toSearch() {
       this.$router.push('/mall/search');
     },

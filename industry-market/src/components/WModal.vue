@@ -1,7 +1,7 @@
 <!-- 模态窗 -->
 <template lang='html'>
   <transition name="bounce">
-    <div class="modal-container" v-show="isShow" @click="onClose()">
+    <div class="modal-container" v-show="isShow" @click="onShadowClose()">
       <!-- 窗体 -->
       <div class="modal" @click.stop="stopProp()">
         <!-- 顶部标题 -->
@@ -79,10 +79,13 @@ export default {
       this.isShow = false;
       this.callback && this.callback('cancle');
     },
-    onClose() {
+    onShadowClose() {
       if (!this.shadowClose) return;
+      this.onClose();
+    },
+    onClose() {
       this.isShow = false;
-      this.callback && this.callback('cancle');
+      this.callback && this.callback('close');
     },
     // 点击确定
     onConfirm() {
@@ -93,115 +96,5 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
-.modal-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 99;
-  background: rgba($color: #000000, $alpha: 0.2);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  .modal {
-    background: #fff;
-    border-radius: .05rem;
-    width: 80%;
-    min-height: .3rem;
-    position: relative;
-
-    .close {
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: .4rem;
-      height: .4rem;
-      z-index: 1;
-      color: $color-grey;
-      display: flex;
-      justify-content: center;
-
-      .icon-close {
-        width: .2rem;
-        height: .2rem;
-        border-radius: .2rem;
-        line-height: .2rem;
-        text-align: center;
-        font-size: 16px;
-        margin-top: .07rem;
-      }
-    }
-
-    .modal-title {
-      text-align: center;
-      height: .4rem;
-      line-height: .4rem;
-      color: $color-blue;
-      font-size: 18px;
-    }
-
-    .modal-content {
-      padding: .15rem .12rem .2rem;
-      @include break-word;
-      text-align: center;
-    }
-
-    .modal-bottom {
-      display: flex;
-
-      button {
-        width: 50%;
-        height: .35rem;
-        border: 0;
-        position: relative;
-
-        &::after {
-          content: ' ';
-          position: absolute;
-          top: 30%;
-          right: 0;
-          width: .01rem;
-          height: 40%;
-          background: $color-line;
-        }
-
-        &:nth-last-child()::after {
-          display: none;
-        }
-      }
-
-      .confirm {
-        color: $color-blue;
-        font-size: 16px;
-      }
-
-      .cancle {
-        color: $color-grey;
-        font-size: 16px;
-      }
-    } // end modal-bottom
-
-  } // end modal
-}
-
-.bounce-enter-active {
-  animation: bounce-in .5s;
-}
-.bounce-leave-active {
-  animation: bounce-in .5s reverse;
-}
-@keyframes bounce-in {
-  0% {
-    transform: scale(0.5);
-  }
-  50% {
-    transform: scale(1.2);
-  }
-  100% {
-    transform: scale(1);
-  }
-}
+@import '~@/styles/components/modal.scss';
 </style>

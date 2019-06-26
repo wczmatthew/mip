@@ -73,13 +73,13 @@
     </w-scroll>
     <!-- 正文内容 end -->
 
-    <div slot="w-footer" class="bottom-btn">
+    <div slot="w-footer" class="bottom-btn" v-if="!isTabbar">
       <button class="blue-btn" @click="onNew()">
         新增客户
       </button>
-      <button class="blue-btn" @click="onChat()" v-if="isTabbar">
+      <!-- <button class="blue-btn" @click="onChat()" v-if="isTabbar">
         开始洽谈
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -167,7 +167,7 @@ export default {
     onEdit(customer, index) {
       this.editIndex = index;
       this.$store.commit('customer/updateCustomer', customer);
-      this.$router.push(`${this.currentPath}/edit?id=${customer.id}`);
+      this.$router.push(`${this.currentPath}/customerEdit?id=${customer.id}`);
     },
     onNew() {
       this.$router.push(`${this.currentPath}/new`);
@@ -260,11 +260,11 @@ export default {
     transition: all .3s ease;
 
     .logo {
-      width: .4rem;
-      height: .4rem;
-      border-radius: .4rem;
+      width: .35rem;
+      height: .35rem;
+      border-radius: .35rem;
       background: $color-line;
-      border: .03rem solid $color-line;
+      border: .02rem solid $color-line;
       flex-shrink: 0;
       margin-right: .1rem;
       overflow: hidden;
@@ -357,7 +357,7 @@ export default {
       height: .25rem;
       line-height: .25rem;
       text-align: center;
-      font-size: 22px;
+      font-size: 26px;
       color: $color-blue;
       z-index: 10;
 

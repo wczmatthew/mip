@@ -162,6 +162,7 @@ export default {
   border: 0;
   position: relative;
   padding: 0 .05rem;
+  height: 50px;
 
   .item {
     color: $color-black;
@@ -188,9 +189,9 @@ export default {
     }
 
     &.actived {
-      border-radius: 40px;
+      border-radius: 50px;
       box-shadow: 0 0 .05rem #ccc;
-      height: 40px;
+      height: 70%;
       color: $color-blue;
     }
 
@@ -204,16 +205,16 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
+  z-index: 99;
   width: 100%;
   height: 100%;
 }
 
 .popup-down {
   position: absolute;
-  top: 72px;
+  top: 60px;
   left: 1%;
-  z-index: 20;
+  z-index: 99;
   width: 98%;
   height: 55vh;
   background: #fff;

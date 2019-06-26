@@ -61,7 +61,7 @@ export default {
    * @param {*} onCancel 点击取消回调
    * @param {*} maskClosable 点击蒙版是否可以关闭
    */
-  showConfirm({ title, content, icon, confirmBtn, cancelBtn, onConfirm, onCancel, maskClosable }) {
+  showConfirm({ title, content, icon, maskClosable, confirmBtn, cancelBtn, onConfirm, onCancel }) {
     Dialog.$create({
       type: 'confirm',
       title, content, icon,
@@ -195,6 +195,14 @@ export default {
    */
   checkPhoneNum: (phone) => {
     return (/^1\d{10}$/.test(phone));
+  },
+  /**
+   * 检查是否是正整数
+   * @param  {[type]} str [需要检查的内容]
+   * @return {[type]}       [true： 格式正确  false：格式错误]
+   */
+  checkNum: (str) => {
+    return (/^[1-9]\d*$/.test(str));
   },
   /**
    * [对Date的扩展，将 Date 转化为指定格式的String]
@@ -445,5 +453,45 @@ export default {
    */
   getScale() {
     return document.body.clientWidth / 320;
+  },
+  //重新绘制图片
+  /**
+   * 压缩图片, 重新绘制图片
+   * @param {*} path 图片地址
+   * @param {*} obj 文件压缩的后宽度，宽度越小，字节越小 { width, height, quality }
+   * @param {*} callback 成功回调
+   */
+  canvasDataURL({ path, obj, callback }){
+    let img = new Image();
+    img.src = path;
+    img.onload = function() {
+      let that = this;
+      // 默认按比例压缩
+      let w = that.width,
+        h = that.height,
+        scale = w / h;
+      w = obj.width || w;
+      h = obj.height || (w / scale);
+      let quality = 0.7;  // 默认图片质量为0.7
+      //生成canvas
+      let canvas = document.createElement('canvas');
+      let ctx = canvas.getContext('2d');
+      // 创建属性节点
+      let anw = document.createAttribute("width");
+      anw.nodeValue = w;
+      let anh = document.createAttribute("height");
+      anh.nodeValue = h;
+      canvas.setAttributeNode(anw);
+      canvas.setAttributeNode(anh);
+      ctx.drawImage(that, 0, 0, w, h);
+      // 图像质量
+      if(obj.quality && obj.quality <= 1 && obj.quality > 0){
+        quality = obj.quality;
+      }
+      // quality值越小，所绘制出的图像越模糊
+      let base64 = canvas.toDataURL('image/jpeg', quality);
+      // 回调函数返回base64的值
+      callback(base64);
+    }
   },
 }

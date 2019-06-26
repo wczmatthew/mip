@@ -24,10 +24,14 @@
       <!-- 商品列表 -->
       <no-data v-show="noProduct"></no-data>
       <w-loading-row v-show="isFirstLoading"></w-loading-row>
-      <product-grid-list ref="productList" routePath="productList" v-show="!noProduct"></product-grid-list>
+      <product-grid-list ref="productList" routePath="productList" v-show="!noProduct" @add-cart="onAddCart"></product-grid-list>
       <!-- 商品列表 end -->
 
     </cube-scroll>
+
+    <!-- 数量弹窗 -->
+    <w-num-modal ref="numModal"></w-num-modal>
+    <!-- 数量弹窗 end -->
   </w-container>
 </template>
 <script>
@@ -36,6 +40,7 @@ import MallTab from './components/MallTab.vue';
 import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
+import WNumModal from '@/components/WNumModal.vue';
 import ProductGridList from './components/ProductGridList.vue';
 
 export default {
@@ -67,6 +72,7 @@ export default {
       productList: [],
       noProduct: false,
       pageNum: 1,
+      pageSize: 20,
       hasNext: true,
       keywords: '',
       bnr: '',
@@ -84,8 +90,18 @@ export default {
     WSearch,
     MallTab,
     ProductGridList,
+    WNumModal,
   },
   methods: {
+    onAddCart(item) {
+      this.$refs.numModal.show({
+        callback: async (type, num) => {
+          if (type !== 'confirm') return;
+          // 已经选择了客户, 直接将产品加入购物车
+          this.$refs.productList && this.$refs.productList.addProductToCart(item, num);
+        },
+      });
+    },
     onSearch({ keywords }) {
       // console.log('keywords: ', keywords);
       this.keywords = keywords;
@@ -117,7 +133,7 @@ export default {
     },
     async getData() {
       // Utils.showLoading();
-      const result = await service.getProductList({ pageNum: this.pageNum, pageSize: 9, keyword: this.keywords, bnr: this.bnr });
+      const result = await service.getProductList({ pageNum: this.pageNum, pageSize: this.pageSize, keyword: this.keywords, bnr: this.bnr });
       this.isFirstLoading = false;
       if (!result) {
         this.noProduct = !this.productList.length;

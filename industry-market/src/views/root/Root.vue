@@ -25,6 +25,50 @@
     <my v-show="active == 'my'" ref="my"></my>
     <!-- 个人中心 end -->
 
+    <!-- 快捷导航悬浮窗 -->
+    <div class="float-nav" v-show="isShowNav">
+      <div class="nav-list" :class="{'open': isOpenNav}">
+        <!-- <div class="nav-icon icon icon1" @click.stop="toChat()">
+          <i class="iconfont icon-chat"></i>
+          <p>洽谈</p>
+        </div> -->
+
+        <div class="nav-icon icon icon1" @click.stop="toChangeCustomer()">
+          <i class="iconfont icon-exchange-user"></i>
+          <p>更换客户</p>
+        </div>
+
+        <div class="nav-icon icon icon2" @click.stop="toIndex()">
+          <i class="iconfont icon-shouye"></i>
+          <p>首页</p>
+        </div>
+
+        <div class="nav-icon icon icon3" @click.stop="toGuide()">
+          <i class="iconfont icon-daogou"></i>
+          <p>展区导购</p>
+        </div>
+
+        <div class="nav-icon icon icon4" @click.stop="toChangeCustomer()">
+          <i class="iconfont icon-fenlei"></i>
+          <p>类别</p>
+        </div>
+
+        <div class="nav-icon icon icon5" @click.stop="toChangeCustomer()">
+          <i class="iconfont icon-search"></i>
+          <p>搜索</p>
+        </div>
+
+        <div class="nav-icon" @click.stop="onToggleNav()">
+          <transition name="fade">
+            <i class="iconfont icon-quick-nav" v-if="!isOpenNav"></i>
+            <i class="iconfont icon-close" v-else></i>
+          </transition>
+          <p>导航</p>
+        </div>
+      </div>
+    </div>
+    <!-- 快捷导航悬浮窗 end -->
+
     <div class="w-tabbar" slot="w-footer">
       <div class="item" v-for="(item, index) in tablist" :key="index"
       :class="{'actived': active == item.tab}" @click="onChangeTab(index, item)">
@@ -35,6 +79,7 @@
   </w-container>
 </template>
 <script>
+import Utils from '@/common/Utils';
 import Home from './Home.vue';
 import Guide from './Guide.vue';
 import CartTab from '../cart/CartTab.vue';
@@ -46,18 +91,30 @@ export default {
   data() {
     return {
       tablist: [
-        { title: '首页', icon: 'icon-index', tab: 'home' },
-        { title: '导购页', icon: 'icon-daogou', tab: 'guide' },
-        { title: '客户洽谈', icon: 'icon-customers', tab: 'customer' },
-        { title: '订单管理', icon: 'icon-wenjianguanli', tab: 'order' },
-        { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
+        { title: '工业超市', icon: 'icon-index', tab: 'home' },
+        { title: '智能设计', icon: 'icon-daogou', tab: 'guide' },
+        { title: '商机记录', icon: 'icon-customers', tab: 'customer' },
+        { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
+        { title: '购物单', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
       active: 'home',
+      isOpenNav: false,
+      isShowNav: true,
     };
   },
   watch: {
     '$route'(to) {
+      if (this.isOpenNav) {
+        this.isOpenNav = false;
+      }
+
+      if (to.path === Utils.getCurrentPath({ fullPath: to.path, currentPath: 'customers' }) || to.path === Utils.getCurrentPath({ fullPath: to.path, currentPath: 'chat' })) {
+        this.isShowNav = false;
+      } else if (!this.isShowNav) {
+        this.isShowNav = true;
+      }
+
       if (to.path === '/market') {
         this.initTabActive();
       }
@@ -76,6 +133,25 @@ export default {
     My,
   },
   methods: {
+    onToggleNav() {
+      this.isOpenNav = !this.isOpenNav;
+    },
+    toIndex() {
+      if (this.$route.path === '/market' && this.$route.query.tab === 'home') return;
+      this.$router.push('/market?tab=home');
+    },
+    // 展区导购
+    toGuide() {
+
+    },
+    // 更换选择的客户
+    toChangeCustomer() {
+      this.$router.push(`${this.$route.path}/customers`);
+    },
+    // 跟客户进行洽谈
+    toChat() {
+      this.$router.push(`${this.$route.path}/chat`);
+    },
     initTabActive() {
       // const path = this.$route.path;
       // const index = this.tablist.findIndex(tab => tab.path.includes(path));
@@ -91,7 +167,113 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~@/styles/variable.scss';
 .w-tabbar {
   background: #fff;
 }
+
+.float-nav {
+  position: fixed;
+  right: .1rem;
+  bottom: 28vh;
+  z-index: 99;
+}
+
+.nav-list {
+  position: relative;
+  width: .25rem;
+  height: .25rem;
+  .nav-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: .3rem;
+    height: .3rem;
+    border-radius: .3rem;
+    @include flex-center;
+    // @include background-left-gradient($color-gradient1, $color-gradient2);
+    background: rgba($color: #000, $alpha: .6);
+    flex-direction: column;
+    color: #fff;
+    overflow: hidden;
+
+    .iconfont {
+      font-size: .15rem;
+    }
+
+    .icon-close {
+      font-size: .14rem;
+      font-weight: 700;
+      transition: all .3s ease;
+      display: block;
+    }
+
+    p {
+      font-size: 10px;
+      margin-top: .02rem;
+    }
+  } // end nav-icon
+
+  .icon {
+    display: none;
+  }
+
+  .icon1 {
+    top: -188%;
+    right: 0;
+    // @include background-left-gradient(#20E2D7, #b3ffab);
+  } // end icon1
+
+  .icon2 {
+    top: -140%;
+    right: .35rem;
+    // @include background-left-gradient(#ed6ea0, #ec8c69);
+  }
+
+  .icon3 {
+    top: 0;
+    right: .5rem;
+    // @include background-left-gradient(#5f72bd, #9b23ea);
+  }
+
+  .icon4 {
+    top: 140%;
+    right: .35rem;
+    // @include background-left-gradient(#209cff, #68e0cf);
+  }
+
+  .icon5 {
+    top: 188%;
+    right: 0;
+    // @include background-left-gradient(#f794a4, #fdd6bd);
+  }
+
+  &.open {
+    .icon {
+      display: flex;
+      animation: scale-animate .5s ease;
+    }
+
+    .icon-close {
+      transform: rotate(-180deg);
+    }
+  }
+
+  @keyframes scale-animate {
+    0% {
+      opacity: 0;
+      transform: scale(.5);
+    }
+
+    60% {
+      opacity: 1;
+      transform: scale(1.2)
+    }
+
+    100% {
+      opacity: 1;
+      transform: scale(1)
+    }
+  }
+} // end nav-list
 </style>
