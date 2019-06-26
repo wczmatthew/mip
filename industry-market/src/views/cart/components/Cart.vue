@@ -1,9 +1,9 @@
-<!-- 购物车组件 -->
+<!-- 购物单组件 -->
 <template lang='html'>
   <div class="cart-container">
-    <!-- 购物车内容 -->
+    <!-- 购物单内容 -->
     <div class="cart-content">
-      <!-- 购物车信息 -->
+      <!-- 购物单信息 -->
       <div class="product-list">
         <w-scroll
           ref="scroll"
@@ -72,7 +72,7 @@
           </button>
         </div> -->
       </div>
-      <!-- 购物车信息 -->
+      <!-- 购物单信息 -->
 
       <!-- 付款信息 -->
       <div class="customer-container">
@@ -159,7 +159,7 @@
       <!-- 付款信息 end -->
 
     </div>
-    <!-- 购物车内容 end -->
+    <!-- 购物单内容 end -->
 
     <!-- 底部价格 -->
     <div class="cart-bottom">
@@ -277,7 +277,7 @@ export default {
   watch: {
     '$route'(to) {
       if (to.path === this.currentPath) {
-        // 重新进入购物车页面
+        // 重新进入购物单页面
         this.hasNext = true;
       }
     },
@@ -382,7 +382,7 @@ export default {
       }
       this.getData();
     },
-    // 获取购物车数据
+    // 获取购物单数据
     async getData() {
       const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
       if (!result) return;
@@ -465,7 +465,7 @@ export default {
       // 计算总价格
       this.calcPrice();
     },
-    // 从购物车中删除
+    // 从购物单中删除
     async onDelete() {
       const delList = this.productList.filter(item => this.selectProducts[item.id]);
       if (!delList || !delList.length) {
@@ -598,7 +598,7 @@ export default {
       this.$refs.resultModal.show({
         showBtns: false,
         callback: () => {
-          // 将已经付款的产品移除购物车中
+          // 将已经付款的产品移除购物单中
           this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
 
           for (const key in this.selectProducts) {

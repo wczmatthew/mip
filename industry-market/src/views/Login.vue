@@ -64,7 +64,8 @@ export default {
         Utils.showToast('请输入6-16位字符的密码');
         return;
       }
-
+      // 关闭键盘
+      Utils.nativeCloseKeyboard();
       if (this.loading) return;
       Utils.showLoading();
       this.loading = true;

@@ -97,6 +97,8 @@ export default {
      * 开始搜索
      */
     startSearch() {
+      // 关闭键盘
+      Utils.nativeCloseKeyboard();
       this.$emit('search', { keywords: this.keywords });
     },
   },

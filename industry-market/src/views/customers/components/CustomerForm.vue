@@ -45,7 +45,7 @@
         </div>
       </div>
 
-      <div class="input-item">
+      <div class="input-item" style="margin-bottom: 0;">
         <p>所属行业</p>
         <div class="row-label">
           <div class="label" v-for="(item, index) in industryOptions"

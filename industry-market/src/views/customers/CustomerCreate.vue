@@ -8,9 +8,14 @@
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <customer-form ref="customerForm">
-      <button class="blue-btn" @click="onCreate()">
-        新增客户
-      </button>
+      <div class="bottom-btns">
+        <button class="blue-btn" @click="onCreate()">
+          新增客户
+        </button>
+        <button class="blue-btn" @click="onChat()">
+          新增并开始洽谈
+        </button>
+      </div>
     </customer-form>
     <!-- 正文内容 end -->
 
@@ -43,10 +48,20 @@ export default {
       Utils.showLoading();
       const result = await service.addClient(customer);
       if (!result) return;
-      Utils.hideLoading();
       Utils.showToast('新增客户成功');
       this.$store.commit('customer/updateCustomer', result);
       this.$router.back();
+    },
+    async onChat() {
+      const isValid = this.$refs.customerForm.validForm();
+      if (!isValid) return;
+
+      const customer = this.$refs.customerForm.getFormData();
+      Utils.showLoading();
+      const result = await service.addClient(customer);
+      if (!result) return;
+      this.$store.commit('customer/updateCustomer', result);
+      this.$router.replace('/market/chat');
     },
   },
 };
@@ -54,13 +69,21 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
 
-.blue-btn {
-  width: 1.5rem;
-  height: .25rem;
-  border-radius: .25rem;
+.bottom-btns {
   position: fixed;
   bottom: .1rem;
+  width: 2.6rem;
+  height: .2rem;
   left: 50%;
-  margin-left: -.75rem;
+  margin-left: -1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.blue-btn {
+  width: 40%;
+  height: .2rem;
+  border-radius: .2rem;
 }
 </style>

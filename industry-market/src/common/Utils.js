@@ -494,4 +494,12 @@ export default {
       callback(base64);
     }
   },
+  nativeCloseKeyboard() {
+    try {
+      // eslint-disable-next-line
+      native_listen('closeKeyBoard');
+    } catch (error) {
+      // console.log('error: ', error);
+    }
+  },
 }

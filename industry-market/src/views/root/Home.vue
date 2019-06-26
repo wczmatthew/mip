@@ -28,18 +28,14 @@
       <div class="item" @click="toGuide()">
         <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
         <div class="detail">
-          <p>店内模式</p>
-          <p>Store</p>
-          <p class="underline">Mode</p>
+          <p>展区导航</p>
         </div>
       </div>
 
       <div class="item" @click="toProductList()">
         <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
         <div class="detail">
-          <p>传统模式</p>
-          <p>Traditional</p>
-          <p class="underline">Mode</p>
+          <p>智能搜索</p>
         </div>
       </div>
 
@@ -218,11 +214,11 @@ export default {
   width: 95%;
   justify-content: space-around;
   position: absolute;
-  bottom: 10vh;
+  bottom: 2vh;
   left: 2.5%;
 
   .item {
-    width: 30%;
+    width: 20%;
     padding: 0;
     padding-bottom: .1rem;
     padding-top: .05rem;
@@ -240,7 +236,7 @@ export default {
 
     .detail {
       position: absolute;
-      top: 30%;
+      top: 42%;
       left: 15%;
       z-index: 10;
       width: 50%;

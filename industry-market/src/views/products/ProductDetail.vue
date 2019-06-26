@@ -272,12 +272,14 @@ export default {
     border-right: 1px solid $color-line;
     padding-top: .2rem;
     .banner-img {
-      width: 100%;
+      width: 90%;
       height: 65vh;
+      margin: 0 auto;
       display: flex;
       align-items: center;
       justify-content: center;
       background: #fff;
+      overflow: hidden;
 
       img {
         max-width: 100%;

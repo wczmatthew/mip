@@ -6,6 +6,10 @@
     <!-- 首页 end -->
 
     <!-- 导购页面 -->
+    <product-category v-show="active == 'category'"></product-category>
+    <!-- 导购页面 end -->
+
+    <!-- 导购页面 -->
     <guide v-show="active == 'guide'"></guide>
     <!-- 导购页面 end -->
 
@@ -48,12 +52,12 @@
           <p>展区导购</p>
         </div>
 
-        <div class="nav-icon icon icon4" @click.stop="toChangeCustomer()">
+        <div class="nav-icon icon icon4" @click.stop="toCategory()">
           <i class="iconfont icon-fenlei"></i>
           <p>类别</p>
         </div>
 
-        <div class="nav-icon icon icon5" @click.stop="toChangeCustomer()">
+        <div class="nav-icon icon icon5" @click.stop="toSearch()">
           <i class="iconfont icon-search"></i>
           <p>搜索</p>
         </div>
@@ -85,6 +89,7 @@ import Guide from './Guide.vue';
 import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
 import OrderListTab from '../order/OrderListTab.vue';
+import ProductCategory from '../products/ProductCategory.vue';
 import My from '../my/My.vue';
 
 export default {
@@ -92,6 +97,7 @@ export default {
     return {
       tablist: [
         { title: '工业超市', icon: 'icon-index', tab: 'home' },
+        { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
         { title: '智能设计', icon: 'icon-daogou', tab: 'guide' },
         { title: '商机记录', icon: 'icon-customers', tab: 'customer' },
         { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
@@ -125,6 +131,7 @@ export default {
     this.initTabActive();
   },
   components: {
+    ProductCategory,
     Guide,
     Home,
     CartTab,
@@ -142,7 +149,8 @@ export default {
     },
     // 展区导购
     toGuide() {
-
+      if (this.$route.path === '/market' && this.$route.query.tab === 'guide') return;
+      this.$router.push('/market?tab=guide');
     },
     // 更换选择的客户
     toChangeCustomer() {
@@ -151,6 +159,59 @@ export default {
     // 跟客户进行洽谈
     toChat() {
       this.$router.push(`${this.$route.path}/chat`);
+    },
+    // 分类
+    toCategory() {
+      const path = this.$route.path;
+      const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' });
+      if (path === searchPath) return;
+
+      const pathList = this.$route.matched;
+      const index = pathList.findIndex(item => item.path === searchPath);
+      if (index >= 0) {
+        // 浏览历史记录有分类界面, 直接返回这一页
+        const goIndex = index - pathList.length + 1;
+        this.$router.go(goIndex);
+        return;
+      }
+
+      // 未进入过分类界面, 直接进入分类界面
+      if (pathList.length > 1) {
+        this.$router.go(-(pathList.length - 1));
+        setTimeout(() => {
+          this.$router.push('/market/category');
+        }, 300);
+        return;
+      }
+
+      this.$router.push('/market/category');
+    },
+    // 产品列表
+    toSearch() {
+      // 产品列表
+      const path = this.$route.path;
+      const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' });
+      if (path === searchPath) return;
+
+      const pathList = this.$route.matched;
+      const index = pathList.findIndex(item => item.path === searchPath);
+      if (index >= 0) {
+        // 浏览历史记录有产品列表界面, 直接返回这一页
+        const goIndex = index - pathList.length + 1;
+        this.$router.go(goIndex);
+        return;
+      }
+
+      // 未进入过产品列表界面, 直接进入产品列表界面
+      if (pathList.length > 1) {
+        this.$router.go(-(pathList.length - 1));
+        setTimeout(() => {
+          this.$router.push('/market/productList');
+        }, 300);
+        return;
+      }
+
+      this.$router.push('/market/productList');
     },
     initTabActive() {
       // const path = this.$route.path;
