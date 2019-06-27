@@ -1,5 +1,5 @@
 @charset "UTF-8";
-@import "./iconfont.css";
+@import "./font/iconfont.css";
 .iconfont {
   font-size: inherit; /* 继承上一级字体大小 */
 }
@@ -546,7 +546,7 @@ a:active {
   display: -webkit-flex;
   display: flex;
   position: relative;
-  width: 320px;
+  width: 300px;
 }
 
 .web-footer .left::after {
@@ -598,7 +598,7 @@ a:active {
 }
 
 .web-footer .right .detail {
-  padding: 0 40px;
+  padding: 0 30px;
 }
 
 .web-footer .right .detail p {

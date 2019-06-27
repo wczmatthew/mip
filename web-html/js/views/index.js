@@ -85,7 +85,7 @@ function exchangeDynamic() {
   }
 
   // 模拟请求
-  setTimeout(() => {
+  setTimeout(function() {
     hideLoading('dynamicList');
   }, 300);
 }

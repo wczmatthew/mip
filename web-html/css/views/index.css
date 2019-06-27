@@ -108,6 +108,7 @@
   width: 20px;
   height: 20px;
   margin-right: 10px;
+  border: 0;
 }
 
 .index-banner .category .link:not(:last-child)::after {
@@ -155,7 +156,7 @@
   border-top-right-radius: 5px;
   background: #fff;
   background: url('../../assets/home/card-bg.jpg') no-repeat;
-  background-size: 100%;
+  background-size: 100% 100%;
   background-position: bottom;
 }
 
@@ -370,6 +371,7 @@
 .dynamic-list .col2 .item .img img {
   height: 100%;
   display: block;
+  border: 0;
 }
 
 .dynamic-list .col1 .detail,
@@ -396,6 +398,7 @@
   -webkit-box-orient:vertical;
   -webkit-line-clamp: 3;
   margin-top: 25px;
+  height: 40px;
 }
 
 .dynamic-list .col2 {

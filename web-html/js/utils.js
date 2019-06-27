@@ -11,7 +11,6 @@ function showLoading(id) {
 function hideLoading(id) {
   $("#" + id).find('.w-loading-mid').remove();
 }
-
 /**
  * [将 Date 转化为指定格式的String]
  * 月(M)、日(d)、小时(h)、分(m)、秒(s)、季度(q) 可以用 1-2 个占位符，
@@ -23,9 +22,16 @@ function hideLoading(id) {
  */
 function dataFormat(dateStr, fmt) {
   // ios 兼容写法
-  dateStr = dateStr.replace(/\-/g, "/");  
-  let date = new Date(dateStr);
-  const o = {
+  var date;
+  if (dateStr instanceof Date) {
+    date = dateStr;
+  } else {
+    // 字符串类型
+    dateStr = dateStr.replace(/\-/g, "/");
+    date = new Date(dateStr);
+  }
+
+  var o = {
     'M+': date.getMonth() + 1, // 月份
     'd+': date.getDate(), // 日
     'h+': date.getHours(), // 小时

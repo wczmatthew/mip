@@ -54,6 +54,17 @@ export default {
     return postHttp({ url: '/productcenter/stock/getShelfProductList', params });
   },
   /**
+   * （新！）获取货位和货架数据
+   * @param userid 用户id
+   * @param shelfId 货位id
+   */
+  getNewShelfProductList: ({ shelfId }) => {
+    const params = {
+      shelfId,
+    };
+    return postHttp({ url: '/productcenter/stock/getNewShelfProductList', params });
+  },
+  /**
    * 获取店内模式区域列表
    * @param userid 用户id
    */

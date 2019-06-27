@@ -4,17 +4,17 @@ Vue.component('chint-header', {
     }
   },
   methods: {
-    showLogin() {
+    showLogin: function() {
       // console.log('show login');
       showLoginModal();
     },
-    showRegist() {
+    showRegist: function() {
       console.log('show regist');
     },
-    onSearch() {
+    onSearch: function() {
       console.log('show onSearch');
     },
-    toHelp() {
+    toHelp: function() {
       window.location.href = 'help.html';
     },
   },
@@ -103,7 +103,7 @@ Vue.component('chint-footer', {
       ]
     }
   },
-  mounted() {
+  mounted: function() {
     /*pc-底部*/
     $('.footer-select').click(function(){
       $(this).find('.icon-triangle-down').removeClass('icon-triangle-down').addClass('icon-triangle-up');
