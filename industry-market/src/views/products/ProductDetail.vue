@@ -173,6 +173,9 @@ export default {
     ...mapGetters('user', {
       userId: 'userId',
     }),
+    ...mapGetters('customer', {
+      customer: 'selectCustomer',
+    }),
   },
   components: {
     WNumModal,
@@ -202,6 +205,41 @@ export default {
     },
     // 加入购物车
     onAddCart() {
+      // 判断是否选择了客户
+      Utils.hideLoading();
+      if (!this.customer || !this.customer.id) {
+        // 还未选择客户, 提醒导购员先选择用户
+        Utils.showConfirm({
+          title: '提醒',
+          content: '还未选择客户, 是否先选择客户?',
+          confirmBtn: '确定',
+          cancelBtn: '直接购物',
+          maskClosable: false,
+          onConfirm: () => {
+            this.$router.push(`${this.routePath}/customers`);
+          },
+          onCancel: () => {
+            // 新增临时客户, 再将产品加入购物车
+            this.addTempCustomer();
+          },
+        });
+        return;
+      }
+
+      this.addProductToCart();
+    },
+    // 添加临时客户
+    async addTempCustomer() {
+      Utils.showLoading();
+      const result = await orderService.addTempClient({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      // 更新选中客户信息
+      this.$store.commit('customer/updateSelectCustomer', result);
+      this.addProductToCart();
+    },
+    // 将产品加入到购物车中
+    addProductToCart() {
       this.$refs.numModal.show({
         callback: async (type, num) => {
           if (type !== 'confirm') return;
@@ -210,7 +248,7 @@ export default {
             return;
           }
           this.loading = true;
-          const result = await orderService.addCart({ userid: this.userId, bm: this.$route.query.bm, qty: num || 1 });
+          const result = await orderService.addToShopCarWithClient({ userid: this.userId, bm: this.$route.query.bm, qty: num || 1, clientId: this.customer.id });
           this.loading = false;
           if (!result) return;
           Utils.showToast('加入购物车成功');

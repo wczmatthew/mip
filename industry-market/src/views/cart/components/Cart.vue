@@ -46,31 +46,6 @@
 
         </w-scroll>
 
-        <!-- <div class="bottom">
-          <div class="w-underline height-1"></div>
-
-          <div class="row">
-            <div class="radio" @click="onToggleAllChecked()">
-              <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>
-              <p>全选</p>
-            </div>
-
-            <div class="right">
-              <p class="bold">合计: {{totalPrice.toFixed(2)}}</p>
-              <p class="red small">
-                优惠: {{discountPrice.toFixed(2)}}
-              </p>
-              <p class="red bold">实付: {{(totalPrice - discountPrice - oddment).toFixed(2)}}</p>
-            </div>
-          </div>
-
-          <button type="button" class="blue-btn" v-show="!isEdit" @click="onPay()">
-            结账({{selectNum}})
-          </button>
-          <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
-            删除
-          </button>
-        </div> -->
       </div>
       <!-- 购物单信息 -->
 
@@ -271,14 +246,14 @@ export default {
   created() {},
   mounted() {
     // 清空选中的客户信息
-    this.$store.commit('customer/resetSelectCustomer');
+    // this.$store.commit('customer/resetSelectCustomer');
     this.onPullingDown();
   },
   watch: {
     '$route'(to) {
-      if (to.path === this.currentPath) {
-        // 重新进入购物单页面
-        this.hasNext = true;
+      if (to.path === this.currentPath && this.beforeCustomerId !== this.customer.id) {
+        // 更换用户后重新进入购物单页面, 重新获取数据
+        this.onPullingDown();
       }
     },
   },
@@ -311,20 +286,23 @@ export default {
       this.calcPrice();
     },
     // 选择或者取消选择产品
-    onToggleChecked(item, index) {
+    onToggleChecked(item) {
       if (!this.customer.id) {
         Utils.showToast('请先选择客户');
         return;
       }
       this.selectProducts[item.id] = !this.selectProducts[item.id];
 
-      if (this.selectProducts[item.id]) {
-        // 勾选产品后, 获取优惠价
-        this.getCustomerPrice(item, index);
-      } else {
-        // 计算总价格
-        this.calcPrice();
-      }
+      // if (this.selectProducts[item.id]) {
+      //   // 勾选产品后, 获取优惠价
+      //   this.getCustomerPrice(item, index);
+      // } else {
+      //   // 计算总价格
+      //   this.calcPrice();
+      // }
+
+      // 计算总价格
+      this.calcPrice();
 
       if (!this.selectProducts[item.id] && this.allChecked) {
         this.allChecked = false;
@@ -339,7 +317,7 @@ export default {
       // 判断选择的数量
       this.selectNum = list && list.length ? list.length : 0;
     },
-    // 获取客户的优惠价格
+    // 获取客户的优惠价格 -- 废弃
     async getCustomerPrice(item, index) {
       item.loading = true;
       this.$set(this.productList, index, item);
@@ -362,8 +340,9 @@ export default {
     calcPrice() {
       let total = 0;
       this.productList.forEach((item) => {
+        const discountPrice = item.discountPrice || item.price;
         if (this.selectProducts[item.id]) {
-          total += parseFloat(item.discountPrice) * parseInt(item.qty, 10);
+          total += parseFloat(discountPrice) * parseInt(item.qty, 10);
         }
       });
       this.totalPrice = total;
@@ -384,7 +363,8 @@ export default {
     },
     // 获取购物单数据
     async getData() {
-      const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
+      if (!this.customer || !this.customer.id) return;
+      const result = await service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, clientId: this.customer.id });
       if (!result) return;
 
       if (this.pageNum === 1 && this.beforeCustomerId !== this.customer.id) {
@@ -484,6 +464,11 @@ export default {
       this.loading = false;
       if (!result) return;
       Utils.hideLoading();
+
+      // 重置全选和选中数量
+      this.allChecked = false;
+      this.selectNum = 0;
+
       this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
       // this.productList.splice(index, 1);
       Utils.showToast('删除成功');

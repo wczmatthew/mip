@@ -26,7 +26,15 @@
                   {{item.name}}
                 </span>
               </div>
-              <div class="row-label">
+              <div class="row-label" v-show="item.isTemp == 1">
+                <span class="label">
+                  {{item.createTime | dateFormat('yyyy-MM-dd')}}
+                </span>
+                <span class="label">
+                  {{item.createTime | dateFormat('HH:mm')}}
+                </span>
+              </div>
+              <div class="row-label" v-show="item.isTemp != 1">
                 <span class="label">
                   {{item.industryName || '--'}}
                 </span>
@@ -36,7 +44,7 @@
               </div>
             </div>
           </div>
-          <div class="detail">
+          <div class="detail" v-show="item.isTemp != 1">
             <p class="row">
               <span>公司：{{item.companyName}}</span>
             </p>
@@ -105,6 +113,9 @@ export default {
   created() {
   },
   mounted() {
+  },
+  filters: {
+    dateFormat: (val, fmt) => Utils.dateFormat(new Date(Number(val)), fmt),
   },
   watch: {
     '$route'(to) {

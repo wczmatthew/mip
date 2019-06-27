@@ -213,11 +213,18 @@ export default {
    * (new Date()).Format('yyyy-M-d h:m:s.S')      ==> 2006-7-2 8:9:4.18
    * @param {[type]} fmt [格式]
    */
-  dateFormat: (t, fmt) => { // author: meizz
+  dateFormat: (dateStr, fmt) => { // author: meizz
     // ios 兼容写法
-    dateStr = dateStr.replace(/\-/g, "/");  
-    let date = new Date(dateStr);
-    const o = {
+    var date;
+    if (dateStr instanceof Date) {
+      date = dateStr;
+    } else {
+      // 字符串类型
+      dateStr = dateStr.replace(/\-/g, "/");
+      date = new Date(dateStr);
+    }
+
+    var o = {
       'M+': date.getMonth() + 1, // 月份
       'd+': date.getDate(), // 日
       'h+': date.getHours(), // 小时

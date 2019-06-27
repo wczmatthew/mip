@@ -57,7 +57,7 @@
               <div class="product-item" v-show="!item.childList || !item.childList.length">
                 <no-data desc="补货中"></no-data>
               </div>
-              <div class="product-item" v-for="(product, index) in item.childList" :key="product.id + index">
+              <div class="product-item" v-for="(product, index) in item.childList" :key="product.id + index" @click.stop="toDetail(product)">
                 <div class="img">
                   <w-img :src="product.imgPath"></w-img>
                 </div>
@@ -114,6 +114,10 @@ export default {
   methods: {
     toSearch() {
       this.$router.push('/market/search');
+    },
+    toDetail(item) {
+      if (!item.bm) return;
+      this.$router.push(`/market/detail?bm=${item.bm}`);
     },
     toggleMenu(item, index) {
       item.isOpen = !item.isOpen;

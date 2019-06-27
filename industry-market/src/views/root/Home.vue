@@ -25,12 +25,18 @@
 
     <!-- 常用功能 -->
     <div class="w-grid-list">
-      <div class="item" @click="toGuide()">
+      <div class="item" @click="onStartGuid()">
+        <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
+        <div class="detail">
+          <p>开始导购</p>
+        </div>
+      </div>
+      <!-- <div class="item" @click="toGuide()">
         <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
         <div class="detail">
           <p>展区导航</p>
         </div>
-      </div>
+      </div> -->
 
       <div class="item" @click="toProductList()">
         <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
@@ -68,6 +74,7 @@ import banner from '@/assets/home/banner.png';
 import banner2 from '@/assets/home/banner2.jpg';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
+import orderService from '@/services/order.service';
 
 export default {
   data() {
@@ -110,6 +117,37 @@ export default {
   methods: {
     toSearch() {
       this.$router.push('/market/search');
+    },
+    // 开始导购
+    onStartGuid() {
+      Utils.showConfirm({
+        title: '提醒',
+        content: '确定开始新的导购?',
+        confirmBtn: '直接开始',
+        cancelBtn: '切换客户导购',
+        maskClosable: false,
+        onConfirm: () => {
+          // 新增临时客户, 开始购物
+          this.addTempCustomer();
+        },
+        onCancel: () => {
+          this.$router.push('/market?tab=guide');
+          setTimeout(() => {
+            this.$router.push('/market/customers');
+          }, 100);
+        },
+      });
+    },
+    // 添加临时客户
+    async addTempCustomer() {
+      Utils.showLoading();
+      const result = await orderService.addTempClient({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      // 更新选中客户信息
+      this.$store.commit('customer/updateSelectCustomer', result);
+      // 切换到智能设计界面
+      this.$router.push('/market?tab=guide');
     },
     // 点击轮播图
     clickHandler(item) {

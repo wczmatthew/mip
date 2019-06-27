@@ -13,6 +13,7 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 导购
 // const Guide = () => import('@/views/root/Guide.vue');
 const CategoryList = () => import('@/views/products/CategoryList.vue');
+// const ProductShelf = () => import('@/views/products/ProductShelf.vue');
 // const customerChat = () => import('@/views/customers/CustomerChat.vue');
 
 export default [
@@ -26,6 +27,7 @@ export default [
       ...detail,
       ...order,
       ...chat,
+      ...productDetail,
       {
         path: 'category',
         component: CategoryList,

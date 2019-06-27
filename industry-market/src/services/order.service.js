@@ -187,4 +187,33 @@ export default {
     const params = { userid, clientId, prodId };
     return postHttp({ url: '/ordercenter/order/getRate', params });
   },
+  /**
+   * 添加临时匿名客户
+   * @param userid 用户id
+   */
+  addTempClient: ({ userid }) => postHttp({ url: '/ordercenter/client/addTempClient', params: { userid } }),
+  /**
+   * 根据客户加入购物车
+   * @param userid 用户id
+   * @param bm 产品编号
+   * @param qty 产品数量
+   * @param clientId 客户id
+   */
+  addToShopCarWithClient: ({ userid, bm, qty, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, bm, qty, clientId };
+    return getHttp({ url: '/ordercenter/shopcar/addToShopCarWithClient', params });
+  },
+  /**
+   * 根据客户获取购物车
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示多少条
+   * @param clientId 客户id
+   */
+  getShopCarListByClient: ({ userid, pageNum, pageSize, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, pageNum, pageSize: pageSize || 20, clientId };
+    return postHttp({ url: '/ordercenter/shopcar/getShopCarListByClient', params });
+  },
 };

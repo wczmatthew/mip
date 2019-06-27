@@ -115,19 +115,24 @@
 }
 
 .cube-dialog-title-def {
-  font-size: 16px;
+  font-size: 18px;
   margin: .15rem .08rem 0;
   line-height: .2rem;
 }
 
 .cube-dialog-content {
   margin: .16rem 0;
-  font-size: 14px;
+  font-size: 16px;
   line-height: .22rem;
 }
 
 .cube-dialog-btn {
   padding: .1rem;
   font-size: 14px;
+  color: #333;
+}
+
+.cube-dialog-btn_highlight {
+  color: #005bac;
 }
 // ------------------- dialog 样式 end -------------------

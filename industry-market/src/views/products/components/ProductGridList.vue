@@ -59,33 +59,46 @@ export default {
     },
     // 加入购物车
     onAddCart(item) {
+      Utils.hideLoading();
+      if (!this.customer || !this.customer.id) {
+        // 还未选择客户, 提醒导购员先选择用户
+        Utils.showConfirm({
+          title: '提醒',
+          content: '还未选择客户, 是否先选择客户?',
+          confirmBtn: '确定',
+          cancelBtn: '直接购物',
+          maskClosable: false,
+          onConfirm: () => {
+            this.$router.push(`${this.path}/customers`);
+          },
+          onCancel: () => {
+            // 新增临时客户, 再将产品加入购物车
+            this.addTempCustomer(item);
+            // this.addProductToCart(item);
+          },
+        });
+        return;
+      }
       this.$emit('add-cart', item);
-      // if (!this.customer || !this.customer.id) {
-      //   // 还未选择客户, 提醒导购员先选择用户
-      //   Utils.showConfirm({
-      //     title: '提醒',
-      //     content: '还未选择客户, 是否先选择客户?',
-      //     confirmBtn: '确定',
-      //     cancelBtn: '直接购物',
-      //     maskClosable: false,
-      //     onConfirm: () => {
-      //       this.$router.push(`${this.path}/customers`);
-      //     },
-      //     onCancel: () => {
-      //       // 新增临时客户, 再将产品加入购物车
-      //       this.addProductToCart(item);
-      //     },
-      //   });
-      //   return;
-      // }
     },
+    // 添加临时客户
+    async addTempCustomer(item) {
+      Utils.showLoading();
+      const result = await service.addTempClient({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      // 更新选中客户信息
+      this.$store.commit('customer/updateSelectCustomer', result);
+      this.$emit('add-cart', item);
+    },
+    // 将产品加入到购物车中
     async addProductToCart(item, num) {
       if (item.loading) {
         Utils.showToast(`${item.XHGG}正在加入购物车, 请勿频繁操作`);
         return;
       }
       item.loading = true;
-      const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: num || 1 });
+      const result = await service.addToShopCarWithClient({ userid: this.userId, bm: item.BM, qty: num || 1, clientId: this.customer.id });
       item.loading = false;
       if (!result) return;
       Utils.showToast(`${item.XHGG}加入购物车成功`);
