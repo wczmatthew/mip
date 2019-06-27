@@ -2,7 +2,7 @@
 <template lang='html'>
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
-    <w-search class="search" ref="search" slot="header-mid" show-scan @search="onSearch"></w-search>
+    <w-search class="search" ref="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
     <div class="header-right" slot="header-right">
       <!-- <w-msg-icon color="blue"></w-msg-icon> -->
       <!-- <i class="iconfont icon-cart"></i> -->
@@ -42,6 +42,7 @@ import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import WNumModal from '@/components/WNumModal.vue';
 import ProductGridList from './components/ProductGridList.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -74,17 +75,30 @@ export default {
       pageNum: 1,
       pageSize: 20,
       hasNext: true,
-      keywords: '',
       bnr: '',
     };
   },
   created() {},
   mounted() {
-    this.keywords = this.$route.query.keywords || '';
     this.$nextTick(() => {
       this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
     });
-    this.getData();
+    this.onPullingDown();
+  },
+  watch: {
+    keywords() {
+      // console.log('keywords change');
+      this.$nextTick(() => {
+        this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
+      });
+      this.onPullingDown();
+      // this.getData();
+    },
+  },
+  computed: {
+    ...mapGetters('product', {
+      keywords: 'keywords',
+    }),
   },
   components: {
     WSearch,
@@ -102,10 +116,21 @@ export default {
         },
       });
     },
-    onSearch({ keywords }) {
-      // console.log('keywords: ', keywords);
-      this.keywords = keywords;
-      this.onPullingDown();
+    toSearch() {
+      // 返回上一页搜索页面
+      const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'search' });
+
+      const pathList = this.$route.matched;
+      const index = pathList.findIndex(item => item.path === searchPath);
+      if (index >= 0) {
+        // 浏览历史记录有分类界面, 直接返回这一页
+        const goIndex = index - pathList.length + 1;
+        this.$router.go(goIndex);
+        return;
+      }
+
+      // 没有历史记录进入查询页面
+      this.$router.push(`${this.routePath}/search`);
     },
     onSelectTab(data) {
       // console.log(data);

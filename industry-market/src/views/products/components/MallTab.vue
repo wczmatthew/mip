@@ -174,6 +174,8 @@ export default {
     justify-content: center;
     overflow: hidden;
     padding: 0 .05rem;
+    position: relative;
+    z-index: 98;
 
     span {
       @include text-ellipsis;
@@ -214,7 +216,7 @@ export default {
   position: absolute;
   top: 60px;
   left: 1%;
-  z-index: 99;
+  z-index: 97;
   width: 98%;
   height: 55vh;
   background: #fff;
@@ -231,12 +233,13 @@ export default {
 
   .popup-item {
     color: $default-color;
-    padding: .07rem .07rem;
+    padding: .05rem .07rem;
     background: #fff;
     border-radius: .05rem;
     margin-right: .1rem;
     margin-bottom: .1rem;
     box-shadow: 0 0 .05rem #ccc;
+    font-size: 14px;
     &.actived {
       color: #fff;
       background: $default-color;

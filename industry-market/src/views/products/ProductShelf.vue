@@ -1,11 +1,13 @@
 <!-- 产品货架页面 -->
 <template lang='html'>
-  <w-container show-header>
+  <div class="w-container">
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
-    <div class="header-right" slot="header-right">
-      <w-cart-icon color="blue"></w-cart-icon>
-    </div>
+    <w-header>
+      <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
+      <div class="header-right" slot="header-right">
+        <w-cart-icon color="blue"></w-cart-icon>
+      </div>
+    </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="product-container">
@@ -70,7 +72,7 @@
       <!-- 产品列表 end -->
     </div>
     <!-- 正文内容 end -->
-  </w-container>
+  </div>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
@@ -202,6 +204,7 @@ export default {
 }
 
 .product-container {
+  position: relative;
   width: 100%;
   height: 100%;
   overflow: hidden;

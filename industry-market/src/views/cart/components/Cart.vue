@@ -245,8 +245,6 @@ export default {
   },
   created() {},
   mounted() {
-    // 清空选中的客户信息
-    // this.$store.commit('customer/resetSelectCustomer');
     this.onPullingDown();
   },
   watch: {
@@ -264,6 +262,30 @@ export default {
   },
   components: {},
   methods: {
+    // 更新购物车的数据
+    async updateCartData() {
+      Utils.showLoading();
+      const requestList = [];
+
+      for (let index = 0; index < this.pageNum; index++) {
+        requestList.push(service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: index + 1, pageSize: this.pageSize, clientId: this.customer.id }));
+      }
+      Utils.showLoading();
+      Promise.all(requestList).then((resList) => {
+        Utils.hideLoading();
+        this.productList = [];
+        const length = resList.length;
+        resList.forEach((result, index) => {
+          this.productList = this.productList.concat([...result.rows]);
+
+          if (index === length - 1) {
+            // 最后一页, 判断页码等数据
+            this.$refs.productList && this.$refs.productList.updateList(this.productList);
+            this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
+          }
+        });
+      });
+    },
     onEdit(isEdit) {
       this.isEdit = isEdit;
     },
@@ -498,21 +520,46 @@ export default {
         return;
       }
 
-      let isGetPrice = true;
-      let productName = '';
-      for (let i = 0; i < list.length; i++) {
-        const item = list[i];
-        if (!item.discountPrice) {
-          isGetPrice = false;
-          productName = item.spec;
-          break;
-        }
-      }
+      // 判断当前客户是否是临时客户
+      if (Number(this.customer.isTemp) === 1) {
+        // 临时客户
+        Utils.hideLoading();
+        Utils.showConfirm({
+          title: '提醒',
+          content: '是否完善客户信息?',
+          confirmBtn: '完善信息',
+          cancelBtn: '直接结算',
+          maskClosable: false,
+          onConfirm: () => {
+            // 完善客户信息, 进入编辑客户界面
+            this.$store.commit('customer/updateCustomer', this.customer);
+            this.$router.push(`${this.currentPath || this.routePath}/customerEdit`);
+          },
+          onCancel: () => {
+            // 不完善信息, 选择客户的角色
 
-      if (!isGetPrice) {
-        Utils.showToast(`请先等待获取${productName}的优惠价格`);
+            // 客户角色选择完毕, 获取优惠率
+            this.updateCartData();
+          },
+        });
         return;
       }
+
+      // let isGetPrice = true;
+      // let productName = '';
+      // for (let i = 0; i < list.length; i++) {
+      //   const item = list[i];
+      //   if (!item.discountPrice) {
+      //     isGetPrice = false;
+      //     productName = item.spec;
+      //     break;
+      //   }
+      // }
+
+      // if (!isGetPrice) {
+      //   Utils.showToast(`请先等待获取${productName}的优惠价格`);
+      //   return;
+      // }
 
       // if (this.fileMsg === -1) {
       //   Utils.showToast('请先选择资质文件类型');
@@ -520,6 +567,7 @@ export default {
       // }
       // console.log('start pay');
 
+      // 老客户
       if (this.payWay === 1) {
         // 在线支付
         this.$refs.onlinePayModal.show({
@@ -600,11 +648,11 @@ export default {
       // 切换用户
       this.beforeCustomerId = this.customer.id || '';
       if (!this.currentPath) {
-        this.$router.push(`${this.routePath}/customers`);
+        this.$router.push(`${this.routePath || this.path}/customers`);
         return;
       }
 
-      this.$router.push(`${this.currentPath}/customers`);
+      this.$router.push(`${this.currentPath || this.path}/customers`);
     },
   },
   props: {

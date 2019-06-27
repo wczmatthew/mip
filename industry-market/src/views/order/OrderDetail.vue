@@ -29,7 +29,7 @@
                 <div class="nums">
                   x {{item.qty}}
                 </div>
-                <p class="price">
+                <p>
                   ￥{{item.normSum || '--'}}
                 </p>
               </div>
@@ -115,6 +115,14 @@
           </div>
           <div class="cell">
             <span class="title">
+              配送方式
+            </span>
+            <span class="desc red">
+              {{ orderDetail.postType == 1 ? '送货上门' : '门店自提'}}
+            </span>
+          </div>
+          <div class="cell">
+            <span class="title">
               相关文件
             </span>
             <span class="desc" v-if="orderDetail.certType == 1">
@@ -138,31 +146,22 @@
               {{orderDetail.totalCount || 0}}
             </span>
           </div>
-          <div class="cell">
+          <!-- <div class="cell">
             <span class="title">
               订单总价
             </span>
             <span class="desc price">
               ￥{{orderDetail.totalPrice || 0}}
             </span>
-          </div>
-          <div class="cell">
-            <span class="title">
-              配送方式
-            </span>
-            <span class="desc">
-              门店自提
-              {{ orderDetail.postType == 1 ? '送货上门' : '门店自提'}}
-            </span>
-          </div>
-          <div class="cell">
+          </div> -->
+          <!-- <div class="cell">
             <span class="title">
               是否缺货
             </span>
             <span class="desc">
               需要订货
             </span>
-          </div>
+          </div> -->
           <div class="cell textarea">
             <span class="title">
               备注信息
@@ -336,8 +335,8 @@ export default {
     padding-top: .1rem;
 
     .img {
-      width: .5rem;
-      height: .5rem;
+      width: .3rem;
+      height: .3rem;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -357,7 +356,7 @@ export default {
         align-items: center;
         justify-content: space-between;
         @include text-ellipsis;
-        margin-top: .06rem;
+        margin-top: .03rem;
 
         .nums {
           max-width: 30%;
@@ -381,7 +380,6 @@ export default {
       @include text-ellipsis;
       height: .2rem;
       padding: 0 .1rem;
-      margin-bottom: .05rem;
 
       .title {
         color: $color-grey-6;
@@ -483,6 +481,14 @@ export default {
 
       .desc {
         font-size: 14px;
+      }
+
+      .red {
+        color: $color-red;
+      }
+
+      .blue {
+        color: $color-blue;
       }
     } // end cell
 

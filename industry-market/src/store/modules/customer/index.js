@@ -8,8 +8,8 @@ const state = {
 
 // getters
 const getters = {
-  selectCustomer: state => state.selectCustomer,
-  customer: state => state.customer,
+  selectCustomer: state => state.selectCustomer, // 选择的客户
+  customer: state => state.customer, // 编辑, 新增的客户信息
 };
 
 // actions -- 接口调用方法

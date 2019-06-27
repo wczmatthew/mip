@@ -173,6 +173,11 @@ export default {
       Utils.hideLoading();
       this.dataList.splice(index, 1);
       Utils.showToast('删除成功');
+
+      if (this.selectCustomer.id === customer.id) {
+        // 删除了选中客户, 需要清空选中的客户信息
+        this.$store.commit('customer/resetSelectCustomer');
+      }
     },
     // 编辑客户信息
     onEdit(customer, index) {
