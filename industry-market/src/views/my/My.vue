@@ -14,19 +14,20 @@
 
     <!-- 个人信息 -->
     <div class="my-msg">
-      <div class="bg"></div>
-      <div class="my-card">
+      <div class="bg">
         <div class="msg">
           <img src="~@/assets/common/user-logo.png" alt="" class="logo">
           <div class="detail">
             <p class="title">
               {{userData.userName || '--'}}
             </p>
-            <p class="desc">
+            <!-- <p class="desc">
               上次登录时间: {{userData.loginTime || '--'}}
-            </p>
+            </p> -->
           </div>
         </div>
+      </div>
+      <div class="my-card">
         <div class="grid-list">
           <!-- <div class="item">
             <i class="iconfont icon-notcollect">
@@ -318,44 +319,51 @@ export default {
   position: relative;
   .bg {
     @include background-left-gradient($color-gradient1, $color-gradient2);
-    height: 1rem;
+    height: .9rem;
+    min-height: 160px;
+    padding-top: 60px;
   }
 
+  .msg {
+    display: flex;
+    align-items: center;
+    color: #fff;
+
+    .logo {
+      width: .25rem;
+      height: .25rem;
+      border-radius: .25rem;
+      margin-left: 8%;
+    }
+
+    .detail {
+      flex: 1;
+      padding: 0 .1rem;
+      @include text-ellipsis;
+      .desc {
+        font-size: 12px;
+        color: $color-grey;
+        margin-top: .05rem;
+      }
+    } // end detail
+  } // end msg
+
   .my-card {
-    width: 70%;
-    padding-top: .1rem;
+    width: 84%;
+    // padding-top: .08rem;
     background: #fff;
     border-radius: .05rem;
     margin: 0 auto;
     box-shadow: 0 .02rem .05rem #ccc;
     position: absolute;
-    bottom: -20%;
-    left: 15%;
+    bottom: -15%;
+    left: 8%;
     z-index: 10;
-
-    .msg {
-      display: flex;
-      align-items: center;
-
-      .logo {
-        width: .3rem;
-        height: .3rem;
-        border-radius: .3rem;
-        margin-left: 8%;
-      }
-
-      .detail {
-        flex: 1;
-        padding: 0 .1rem;
-        @include text-ellipsis;
-        .desc {
-          font-size: 12px;
-          color: $color-grey;
-          margin-top: .05rem;
-        }
-      } // end detail
-    } // end msg
   } // end my-card
+
+  .grid-list .item {
+    padding: .08rem 0;
+  }
 } // my-msg
 
 .card {
@@ -393,6 +401,7 @@ export default {
 .my-order {
   padding-bottom: 0;
   box-shadow: 0 0 .05rem #ccc;
+  margin-top: .25rem;
 
   .grid-list {
     margin-top: 0;
