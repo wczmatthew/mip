@@ -529,6 +529,7 @@ export default {
           content: '是否完善客户信息?',
           confirmBtn: '完善信息',
           cancelBtn: '直接结算',
+          showClose: true,
           maskClosable: false,
           onConfirm: () => {
             // 完善客户信息, 进入编辑客户界面
