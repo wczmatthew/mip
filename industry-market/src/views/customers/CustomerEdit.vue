@@ -64,6 +64,7 @@ export default {
 
 .blue-btn {
   width: 1.5rem;
+  height: .2rem;
   border-radius: .25rem;
   position: fixed;
   bottom: .1rem;

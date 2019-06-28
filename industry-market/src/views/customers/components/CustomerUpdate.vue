@@ -279,15 +279,14 @@ export default {
 .customer-update {
   display: flex;
   height: 100%;
-  overflow: auto;
+  overflow: hidden;
   padding-top: .1rem;
 }
 
 .customer-form {
   flex: 1;
-  min-height: 100%;
   height: 100%;
-  overflow: hidden;
+  overflow: auto;
   margin-left: 2%;
   background: #fff;
   box-shadow: 0 0 .05rem #ccc;
@@ -330,12 +329,14 @@ export default {
     input,
     .select {
       width: 100%;
-      height: .25rem;
+      height: .22rem;
       display: block;
-      border: 1px solid $color-line;
-      border-radius: .05rem;
+      // border: 1px solid $color-line;
+      border-radius: .03rem;
       padding-left: .08rem;
       font-size: 14px;
+      border: 0;
+      background: #f5f5f5;
 
       &:focus {
         border-color: #4e9ff0;
@@ -350,14 +351,14 @@ export default {
     align-items: center;
 
     .label {
-      background: #fff;
+      background: #f5f5f5;
       padding: 0 .1rem;
       height: .17rem;
       font-size: 12px;
       border-radius: .2rem;
       display: flex;
       align-items: center;
-      box-shadow: .02rem .02rem .05rem #ccc;
+      box-shadow: .015rem .015rem .03rem #ccc;
       margin-right: .1rem;
       margin-bottom: .08rem;
 
@@ -387,7 +388,8 @@ export default {
 
 .chat-form {
   flex: 1;
-  min-height: 100%;
+  height: 100%;
+  overflow: auto;
   margin: 0 2%;
   background: #fff;
   box-shadow: 0 0 .05rem #ccc;
@@ -395,6 +397,7 @@ export default {
   border-top-right-radius: .05rem;
   padding: .1rem;
   padding-bottom: .3rem;
+  padding-top: 0;
 }
 
 .chat-content {
@@ -405,11 +408,10 @@ export default {
 
   .title {
     text-align: center;
-    height: .2rem;
-    line-height: .2rem;
+    height: .25rem;
+    line-height: .25rem;
     position: relative;
     font-size: 16px;
-    color: $color-blue;
     border-bottom: 1px solid $color-line;
   } // end title
 
@@ -428,11 +430,13 @@ export default {
 
       input {
         flex: 1;
-        border: 1px solid $color-line;
+        // border: 1px solid $color-line;
         height: .3rem;
         padding: 0 .05rem;
         margin-left: .05rem;
-        border-radius: .05rem;
+        border-radius: .03rem;
+        border: 0;
+        background: #f5f5f5;
       }
     }
 
@@ -458,7 +462,7 @@ export default {
         height: .3rem;
         padding: 0 .05rem;
         margin-left: .17rem;
-        border-radius: .05rem;
+        border-radius: .03rem;
       }
     }
   }
@@ -471,20 +475,35 @@ export default {
     width: 100%;
     display: flex;
     border: 1px solid #e2e2e2;
-    border-radius: .05rem;
+    border-radius: .03rem;
     font-size: 14px;
     line-height: .18rem;
     height: .3rem;
     color: #333;
+    background: #f5f5f5;
+    border: 0;
 
     textarea {
       flex: 1;
       color: #333;
+      background: #f5f5f5;
+      border: 0;
+      border-radius: .03rem;
     }
   }
 
   .cube-textarea_expanded {
     height: .8rem;
+  }
+
+  .cube-select {
+    background: #f5f5f5;
+    border: 0;
+    border-radius: .03rem;
+
+    &::after {
+      display: none;
+    }
   }
 }
 </style>

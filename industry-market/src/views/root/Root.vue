@@ -109,6 +109,7 @@ export default {
       active: 'home',
       isOpenNav: false,
       isShowNav: true,
+      notShowNavPath: [], // 不需要显示的快捷导航的页面路径
     };
   },
   watch: {
@@ -117,7 +118,16 @@ export default {
         this.isOpenNav = false;
       }
 
-      if (to.path === Utils.getCurrentPath({ fullPath: to.path, currentPath: 'customers' }) || to.path === Utils.getCurrentPath({ fullPath: to.path, currentPath: 'chat' })) {
+      this.notShowNavPath = [ // 不需要显示的快捷导航的页面路径
+        Utils.getCurrentPath({ fullPath: to.path, currentPath: 'customerNew' }),
+        Utils.getCurrentPath({ fullPath: to.path, currentPath: 'customerEdit' }),
+        Utils.getCurrentPath({ fullPath: to.path, currentPath: 'chat' }),
+        Utils.getCurrentPath({ fullPath: to.path, currentPath: 'customers' }),
+      ];
+
+      const index = this.notShowNavPath.findIndex(item => item === to.path);
+
+      if (index > -1) {
         this.isShowNav = false;
       } else if (!this.isShowNav) {
         this.isShowNav = true;
@@ -166,34 +176,35 @@ export default {
     // 分类
     toCategory() {
       const path = this.$route.path;
-      const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' });
-      if (path === searchPath) return;
+      const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'market' });
+      if (path === searchPath && this.$route.query.tab === 'guide') return;
 
       const pathList = this.$route.matched;
-      const index = pathList.findIndex(item => item.path === searchPath);
-      if (index >= 0) {
-        // 浏览历史记录有分类界面, 直接返回这一页
-        const goIndex = index - pathList.length + 1;
-        this.$router.go(goIndex);
-        return;
-      }
+      // const index = pathList.findIndex(item => item.path === searchPath);
+      // if (index >= 0) {
+      //   // 浏览历史记录有分类界面, 直接返回这一页
+      //   const goIndex = index - pathList.length + 1;
+      //   this.$router.go(goIndex);
+      //   return;
+      // }
 
       // 未进入过分类界面, 直接进入分类界面
       if (pathList.length > 1) {
         this.$router.go(-(pathList.length - 1));
         setTimeout(() => {
-          this.$router.push('/market/category');
+          if (this.$route.query.tab === 'guide') return;
+          this.$router.push('/market?tab=guide');
         }, 300);
         return;
       }
 
-      this.$router.push('/market/category');
+      this.$router.push('/market?tab=guide');
     },
     // 产品列表
     toSearch() {
       // 产品列表
       const path = this.$route.path;
-      const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' });
+      const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'search' });
       if (path === searchPath) return;
 
       const pathList = this.$route.matched;
@@ -207,14 +218,16 @@ export default {
 
       // 未进入过产品列表界面, 直接进入产品列表界面
       if (pathList.length > 1) {
+        // this.$router.push(`${this.$route.path}/search`);
         this.$router.go(-(pathList.length - 1));
         setTimeout(() => {
-          this.$router.push('/market/productList');
+          this.$router.push('/market/search');
         }, 300);
         return;
       }
 
-      this.$router.push('/market/productList');
+      this.$router.push(`${this.$route.path}/search`);
+      // this.$router.push('/market/search');
     },
     initTabActive() {
       // const path = this.$route.path;
