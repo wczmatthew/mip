@@ -5,7 +5,15 @@
     <w-header>
       <div slot="header-mid" class="header-mid">
         <i class="iconfont icon-jia" @click.stop="onNew()"></i>
-        客户列表
+
+        <div class="header-btns">
+          <button :class="[customerType == 'odd' ? 'blue-btn': 'plain-white-btn']" @click.stop="onChangeCustomer('odd')">
+            老客户
+          </button>
+          <button :class="[customerType == 'new' ? 'blue-btn': 'plain-white-btn']" @click.stop="onChangeCustomer('new')">
+            临时客户
+          </button>
+        </div>
       </div>
       <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
         {{ isEdit ? '完成' : '管理' }}
@@ -28,13 +36,29 @@ export default {
   data() {
     return {
       isEdit: false,
+      customerType: 'odd',
+      isRequest: false,
     };
   },
   created() {
   },
+  watch: {
+    '$route'(to) {
+      if (to.path === '/market' && to.query.tab === 'customer' && !this.isRequest) {
+        this.$nextTick(() => {
+          this.$refs.customer && this.$refs.customer.onPullingDown();
+        });
+      }
+    },
+  },
   mounted() {
     this.$nextTick(() => {
+      this.isRequest = true;
       this.$refs.customer && this.$refs.customer.onPullingDown();
+
+      setTimeout(() => {
+        this.isRequest = false;
+      }, 300);
     });
   },
   components: {
@@ -48,6 +72,10 @@ export default {
     onNew() {
       this.$router.push('/market/customerNew');
     },
+    onChangeCustomer(type) {
+      this.customerType = type;
+      this.$refs.customer && this.$refs.customer.onChangeCustomer(type);
+    },
   },
   props: {
     currentPath: {
@@ -58,7 +86,29 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+@import '~@/styles/components/button.scss';
+
+.header-btns {
+  width: 40%;
+  height: 40px;
+  border-radius: 40px;
+  display: flex;
+  margin: 7.5px auto;
+  overflow: hidden;
+  border: 1px solid $color-blue;
+
+  button {
+    width: 50%;
+    border-radius: 0;
+    height: 40px;
+    border: 0;
+
+    &:active {
+      opacity: 1;
+    }
+  }
+}
+
 .header-right {
   color: $color-grey;
 }

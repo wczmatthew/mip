@@ -76,6 +76,17 @@ export default {
     return postHttp({ url: '/ordercenter/client/getClientList', params });
   },
   /**
+   * 获取临时客户列表（根据创建时间排序）
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示多少条
+   */
+  getTempClientList: ({ userid, pageNum, pageSize }) => {
+    if (!userid) return '';
+    const params = { userid, pageNum, pageSize: pageSize || 20 };
+    return postHttp({ url: '/ordercenter/client/getTempClientList', params });
+  },
+  /**
    * 获取客户销售区域列表
    * @param userid 用户id
    */
@@ -103,6 +114,11 @@ export default {
     return postHttp({ url: '/ordercenter/client/getIndustryList', params });
   },
   /**
+   * 添加客户带洽谈
+   * @param data 客户信息
+   */
+  addClientWithQA: data => postHttp({ url: '/ordercenter/client/addClientWithQA', params: data }),
+  /**
    * 添加客户
    * @param data 客户信息
    */
@@ -122,6 +138,11 @@ export default {
    * @param data 客户信息
    */
   editClient: data => postHttp({ url: '/ordercenter/client/editClient', params: data }),
+  /**
+   * 编辑客户带洽谈
+   * @param data 客户信息
+   */
+  editClientWithQA: data => postHttp({ url: '/ordercenter/client/editClientWithQA', params: data }),
   /**
    * 创建订单
    * @param userid 用户id

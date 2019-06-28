@@ -33,6 +33,9 @@ export default {
   mounted() {},
   components: {},
   methods: {
+    scrollTo(x, y, time, ease) {
+      this.$refs.cubescroll.scrollTo(x, y, time, ease);
+    },
     // 下拉刷新
     onPullingDown() {
       this.$emit('pulling-down');

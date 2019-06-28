@@ -2,8 +2,7 @@
 @import '../variable.scss';
 
 /* 样式中 -btn 结尾的 active的样式 */
-[class$="-btn"]:active,
-[class$="-btn"]:hover {
+[class$="-btn"]:active {
   opacity: .8;
   -webkit-opacity: 0.5;
   -moz-opacity: 0.5;
@@ -54,6 +53,7 @@
 .plain-white-btn {
   background-color: transparent;
   border: 1px solid #fff;
+  color: $color-black;
 }
 
 /* 灰色 - 实心 */

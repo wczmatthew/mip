@@ -61,7 +61,7 @@ export default {
    * @param {*} onCancel 点击取消回调
    * @param {*} maskClosable 点击蒙版是否可以关闭
    */
-  showConfirm({ title, content, icon, maskClosable, confirmBtn, cancelBtn, onConfirm, onCancel }) {
+  showConfirm({ title, content, icon, maskClosable, confirmBtn, cancelBtn, onConfirm, onCancel, showClose, onClose }) {
     Dialog.$create({
       type: 'confirm',
       title, content, icon,
@@ -69,6 +69,8 @@ export default {
       cancelBtn: cancelBtn || '取消',
       onConfirm,
       onCancel,
+      onClose,
+      showClose: showClose || false,
       maskClosable: maskClosable || false,
     }).show();
   },

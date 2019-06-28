@@ -9,7 +9,7 @@
       @pulling-up="onPullingUp">
       <div class="customer-list">
         <no-data v-if="noData"></no-data>
-        <w-loading-row v-if="firstLoading"></w-loading-row>
+        <w-loading-row v-show="firstLoading"></w-loading-row>
         <div class="item" v-for="(item, index) in dataList" :key="index" :class="{'actived': !isTabbar && item.id == selectCustomer.id}" @click.stop="onSelect(item)">
           <!-- 选中图标 -->
           <i class="iconfont icon-bottom-select"></i>
@@ -85,9 +85,9 @@
       <button class="blue-btn" @click="onNew()">
         新增客户
       </button>
-      <!-- <button class="blue-btn" @click="onChat()" v-if="isTabbar">
-        开始洽谈
-      </button> -->
+      <button class="blue-btn" @click="onNewTemp()">
+        新增临时客户
+      </button>
     </div>
   </div>
 </template>
@@ -105,9 +105,9 @@ export default {
       pageNum: 1,
       pageSize: 10,
       hasNext: true,
-      loading: false,
       isEdit: false,
       editIndex: -1,
+      customerType: 'odd',
     };
   },
   created() {
@@ -188,6 +188,17 @@ export default {
     onNew() {
       this.$router.push(`${this.currentPath}/new`);
     },
+    // 新增临时客户
+    async onNewTemp() {
+      Utils.showLoading();
+      const result = await service.addTempClient({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.showToast('新增临时客户成功, 并切换当前客户为新增的客户');
+      // 更新选中客户信息
+      this.$store.commit('customer/updateSelectCustomer', result);
+      // 切换到智能设计界面
+      this.$router.back();
+    },
     // 开始洽谈
     onChat(item) {
       this.$store.commit('customer/updateSelectCustomer', item);
@@ -200,10 +211,19 @@ export default {
       this.$store.commit('customer/updateSelectCustomer', customer);
       this.$router.back();
     },
+    // 切换客户类型
+    onChangeCustomer(type) {
+      this.customerType = type;
+      this.firstLoading = true;
+      this.onPullingDown();
+    },
     // 下拉刷新
     onPullingDown() {
       // if (this.loading) return;
       // this.loading = true;
+      this.$nextTick(() => {
+        this.$refs.scroll && this.$refs.scroll.scrollTo(0, 0, 300);
+      });
       this.pageNum = 1;
       this.getData();
     },
@@ -217,9 +237,19 @@ export default {
       this.getData();
     },
     async getData() {
-      const result = await service.getCustomerList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
+      let result;
 
-      this.loading = false;
+      if (this.customerType === 'odd') {
+        // 获取老客户
+        result = await service.getCustomerList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
+      } else {
+        // 获取临时客户
+        result = await service.getTempClientList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
+      }
+
+      setTimeout(() => {
+        this.firstLoading = false;
+      }, 300);
 
       if (!result) return;
 
@@ -235,10 +265,6 @@ export default {
         this.pageNum += 1;
       }
       this.$refs.scroll.forceUpdate(true);
-
-      if (this.firstLoading) {
-        this.firstLoading = false;
-      }
     },
   },
   props: {

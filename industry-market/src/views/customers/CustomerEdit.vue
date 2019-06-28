@@ -7,11 +7,11 @@
     </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <customer-form ref="customerForm">
+    <customer-update ref="customerForm">
       <button class="blue-btn" @click="onEdit()">
         完成
       </button>
-    </customer-form>
+    </customer-update>
     <!-- 正文内容 end -->
   </w-container>
 </template>
@@ -19,7 +19,7 @@
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
-import CustomerForm from './components/CustomerForm.vue';
+import CustomerUpdate from './components/CustomerUpdate.vue';
 
 export default {
   data() {
@@ -41,7 +41,7 @@ export default {
     }),
   },
   components: {
-    CustomerForm,
+    CustomerUpdate,
   },
   methods: {
     async onEdit() {
@@ -49,7 +49,7 @@ export default {
       if (!isValid) return;
       const customer = this.$refs.customerForm.getFormData();
       Utils.showLoading();
-      const result = await service.editClient(customer);
+      const result = await service.editClientWithQA(customer);
       if (!result) return;
       Utils.hideLoading();
       Utils.showToast('编辑客户信息成功');

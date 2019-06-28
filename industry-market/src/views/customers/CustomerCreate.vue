@@ -7,22 +7,22 @@
     </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <customer-form ref="customerForm">
+    <customer-update ref="customerForm">
       <div class="bottom-btns">
         <button class="blue-btn" @click="onCreate()">
           新增客户
         </button>
-        <button class="blue-btn" @click="onChat()">
+        <!-- <button class="blue-btn" @click="onChat()">
           新增并开始洽谈
-        </button>
+        </button> -->
       </div>
-    </customer-form>
+    </customer-update>
     <!-- 正文内容 end -->
 
   </w-container>
 </template>
 <script>
-import CustomerForm from './components/CustomerForm.vue';
+import CustomerUpdate from './components/CustomerUpdate.vue';
 import service from '@/services/order.service';
 import Utils from '@/common/Utils';
 
@@ -35,9 +35,10 @@ export default {
   mounted() {
     // 清空上次的数据
     this.$store.commit('customer/updateCustomer');
+    this.$refs.customerForm && this.$refs.customerForm.getQuestions();
   },
   components: {
-    CustomerForm,
+    CustomerUpdate,
   },
   methods: {
     async onCreate() {
@@ -46,7 +47,7 @@ export default {
 
       const customer = this.$refs.customerForm.getFormData();
       Utils.showLoading();
-      const result = await service.addClient(customer);
+      const result = await service.addClientWithQA(customer);
       if (!result) return;
       Utils.showToast('新增客户成功');
       this.$store.commit('customer/updateCustomer', result);

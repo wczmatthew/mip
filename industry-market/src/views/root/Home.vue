@@ -123,14 +123,16 @@ export default {
       Utils.showConfirm({
         title: '提醒',
         content: '确定开始新的导购?',
-        confirmBtn: '直接开始',
+        confirmBtn: '开启新的导购',
         cancelBtn: '切换客户导购',
+        showClose: true,
         maskClosable: false,
         onConfirm: () => {
           // 新增临时客户, 开始购物
           this.addTempCustomer();
         },
         onCancel: () => {
+          // console.log('on cancel');
           this.$router.push('/market?tab=guide');
           setTimeout(() => {
             this.$router.push('/market/customers');

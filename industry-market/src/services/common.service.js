@@ -12,6 +12,10 @@ export default {
     return postHttp({ url: '/contentcenter/content/getQuestionList', params });
   },
   /**
+   * 获取问题和答案列表
+   */
+  getQuestionListNoAnswer: () => postHttp({ url: '/contentcenter/content/getQuestionListNoAnswer' }),
+  /**
    * 提交问题和答案
    * @param clientId 客户id
    * @param questionList 问题列表及答案
