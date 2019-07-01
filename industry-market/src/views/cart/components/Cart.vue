@@ -12,6 +12,7 @@
           @pulling-up="onPullingUp">
 
           <no-data v-if="noData"></no-data>
+          <w-loading-row v-show="cartLoading" desc="正在获取购物单产品~~"></w-loading-row>
           <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
             <div class="radio" @click="onToggleChecked(item, index)">
               <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
@@ -22,10 +23,10 @@
               </p>
               <p class="price price-row">
                 <span v-if="item.discountPrice != undefined">
-                  ￥{{item.discountPrice || '--'}}
+                  ￥{{item.discountPrice || 0}}
                 </span>
                 <span :class="{'grey line-through': item.discountPrice != undefined}">
-                  ￥{{item.price || '--'}}
+                  ￥{{item.price || 0}}
                 </span>
               </p>
               <p class="price grey" v-show="item.loading">
@@ -203,7 +204,7 @@
           </div>
           <div class="desc">
             <span class="sub-title">已付款：</span>
-            <span class="price">￥{{orderDetail.totalPrice || '--'}}</span>
+            <span class="price">￥{{orderDetail.discountPrice || '--'}}</span>
           </div>
         </div>
       </div>
@@ -237,16 +238,18 @@ export default {
       payWay: -1, // 支付方式
       sendType: -1, // 配送方式
       fileMsg: -1, // 相关文件
+      oddment: 0, // 抹零价格
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
       orderDetail: {},
-      oddment: 0, // 抹零价格
       beforeCustomerId: '',
       beforeCustomerTemp: 0,
+      cartLoading: false,
     };
   },
   created() {},
   mounted() {
     this.beforeCustomerId = this.customer ? this.customer.id : '';
+    this.cartLoading = true;
     this.onPullingDown();
   },
   watch: {
@@ -254,7 +257,9 @@ export default {
       if (to.path === this.currentPath && this.beforeCustomerId !== this.customer.id) {
         // 更换用户后重新进入购物单页面, 重新获取数据
         this.$store.commit('customer/updateSelectRateCustomer');
+        this.cartLoading = true;
         this.onPullingDown();
+        this.resetData();
       }
     },
     rateCustomer() {
@@ -342,13 +347,16 @@ export default {
         this.allChecked = false;
       }
 
-      const list = this.productList.filter(product => this.selectProducts[product.id]);
-      if (this.selectProducts[item.id]) {
-        // 判断是否全部都已经选择
-        this.allChecked = !!(!list || !list.length);
+      if (this.totalNum === this.productList.length) {
+        const list = this.productList.filter(product => !this.selectProducts[product.id]);
+        if (this.selectProducts[item.id]) {
+          // 最后一页, 判断是否已经全部选择
+          this.allChecked = !!(!list || !list.length);
+        }
       }
 
       // 判断选择的数量
+      const list = this.productList.filter(product => this.selectProducts[product.id]);
       this.selectNum = list && list.length ? list.length : 0;
     },
     // 获取客户的优惠价格 -- 废弃
@@ -397,8 +405,12 @@ export default {
     },
     // 获取购物单数据
     async getData() {
-      if (!this.customer || !this.customer.id) return;
+      if (!this.customer || !this.customer.id) {
+        this.cartLoading = false;
+        return;
+      }
       const result = await service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, clientId: this.customer.id });
+      this.cartLoading = false;
       if (!result) return;
 
       if (this.pageNum === 1 && this.beforeCustomerId !== this.customer.id) {
@@ -441,7 +453,7 @@ export default {
     // 直接调整价格
     async onChangeNum(item) {
       const num = item.qty;
-      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num });
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num, clientId: this.customer.id });
       if (!result) return;
       // 计算总价格
       this.calcPrice();
@@ -455,7 +467,7 @@ export default {
       }
       item.loading = true;
       const num = item.qty;
-      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num - 1 });
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num - 1, clientId: this.customer.id });
       item.loading = false;
       if (!result) return;
       item.qty = num - 1;
@@ -471,7 +483,7 @@ export default {
       }
       item.loading = true;
       const num = item.qty;
-      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num + 1 });
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num + 1, clientId: this.customer.id });
       item.loading = false;
       if (!result) return;
       item.qty = num + 1;
@@ -562,7 +574,7 @@ export default {
         return;
       }
 
-      this.startPay(list);
+      this.updateOrder(list);
     },
     // 显示是否绑定优惠率客户弹窗
     showRateCustomerModal(list) {
@@ -579,12 +591,12 @@ export default {
         },
         onCancel: () => {
           // 直接结算
-          this.startPay(list);
+          this.updateOrder(list);
         },
       });
     },
     // 开始付款
-    startPay(list) {
+    startPay() {
       // 老客户
       if (this.payWay === 1) {
         // 在线支付
@@ -593,9 +605,12 @@ export default {
           confirmTxt: '完成付款',
           cancleTxt: '取消付款',
           callback: (res) => {
+            // 订单已生成, 移除产品
+            this.removeCartProduct();
+            this.resetData();
             if (res !== 'confirm') return;
             // 点击完成付款, 生成订单信息
-            this.updateOrder(list);
+            this.payOrder();
           },
         });
         return;
@@ -608,9 +623,43 @@ export default {
         confirmTxt: '完成付款',
         cancleTxt: '取消付款',
         callback: (res) => {
+          // 订单已生成, 移除产品
+          this.removeCartProduct();
+          this.resetData();
+
           if (res !== 'confirm') return;
           // 点击完成付款, 生成订单信息
-          this.updateOrder(list);
+          this.payOrder();
+        },
+      });
+    },
+    removeCartProduct() {
+      // 将已经付款的产品移除购物单中
+      this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
+
+      for (const key in this.selectProducts) {
+        this.selectProducts[key] = false;
+      }
+    },
+    // 订单付款
+    async payOrder() {
+      Utils.showLoading();
+      const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: this.orderDetail.billId, type: 1 });
+      this.loading = false;
+      if (!result) return;
+      Utils.hideLoading();
+
+      this.$refs.resultModal.show({
+        showBtns: false,
+        callback: () => {
+          // // 将已经付款的产品移除购物单中
+          // this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
+
+          // for (const key in this.selectProducts) {
+          //   this.selectProducts[key] = false;
+          // }
+
+          this.resetData();
         },
       });
     },
@@ -647,20 +696,38 @@ export default {
       if (!result) return;
       Utils.hideLoading();
       this.orderDetail = result;
-      this.$refs.resultModal.show({
-        showBtns: false,
-        callback: () => {
-          // 将已经付款的产品移除购物单中
-          this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
+      // 判断是否付款
+      this.startPay();
+      // this.$refs.resultModal.show({
+      //   showBtns: false,
+      //   callback: () => {
+      //     // 将已经付款的产品移除购物单中
+      //     this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
 
-          for (const key in this.selectProducts) {
-            this.selectProducts[key] = false;
-          }
+      //     for (const key in this.selectProducts) {
+      //       this.selectProducts[key] = false;
+      //     }
 
-          // 计算选择产品的金额
-          this.calcPrice();
-        },
-      });
+      //     // 计算选择产品的金额
+      //     this.calcPrice();
+
+      //     this.resetData();
+      //   },
+      // });
+    },
+    // 重置选项数据
+    resetData() {
+      this.payWay = -1; // 支付方式
+      this.sendType = -1; // 配送方式
+      this.fileMsg = -1; // 相关文件
+      this.oddment = 0; // 抹零价格
+      this.selectNum = 0;
+
+      this.totalNum = this.productList.length || 0;
+      this.$emit('getTotal', this.totalNum);
+
+      // 计算选择产品的金额
+      this.calcPrice();
     },
     // 切换用户
     onChangeCustomer() {
@@ -684,4 +751,5 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/cart.scss';
+@import '~@/styles/components/order-modal.scss';
 </style>

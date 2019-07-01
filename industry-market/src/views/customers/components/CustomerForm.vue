@@ -136,40 +136,40 @@ export default {
         return false;
       }
 
-      if (!this.address) {
-        Utils.showToast('请输入通讯地址');
-        return false;
-      }
+      // if (!this.address) {
+      //   Utils.showToast('请输入通讯地址');
+      //   return false;
+      // }
 
-      if (this.address.length > 50) {
+      if (this.address && this.address.length > 50) {
         Utils.showToast('通讯地址最大为50字');
         return false;
       }
 
-      if (!this.company) {
-        Utils.showToast('请输入客户所属公司');
-        return false;
-      }
+      // if (!this.company) {
+      //   Utils.showToast('请输入客户所属公司');
+      //   return false;
+      // }
 
-      if (this.company.length > 50) {
+      if (this.company && this.company.length > 50) {
         Utils.showToast('所属公司最大为5字');
         return false;
       }
 
-      if (!this.duty) {
-        Utils.showToast('请输入客户担任职务');
-        return false;
-      }
+      // if (!this.duty) {
+      //   Utils.showToast('请输入客户担任职务');
+      //   return false;
+      // }
 
-      if (!this.area) {
-        Utils.showToast('请输入客户销售区域');
-        return false;
-      }
+      // if (!this.area) {
+      //   Utils.showToast('请输入客户销售区域');
+      //   return false;
+      // }
 
-      if (!this.selectIndustry.value) {
-        Utils.showToast('请输入客户所属行业');
-        return false;
-      }
+      // if (!this.selectIndustry.value) {
+      //   Utils.showToast('请输入客户所属行业');
+      //   return false;
+      // }
       return true;
     },
     // 获取表单数据

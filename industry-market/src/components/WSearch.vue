@@ -25,6 +25,7 @@ export default {
       keywords: '',
       inputWidth: 0,
       inputTransition: 'none',
+      isLoading: false,
     };
   },
   created() {
@@ -97,9 +98,15 @@ export default {
      * 开始搜索
      */
     startSearch() {
+      // 防止重复点击页面刷新
+      if (this.isLoading) return;
+      this.isLoading = true;
       // 关闭键盘
       Utils.nativeCloseKeyboard();
       this.$emit('search', { keywords: this.keywords });
+      setTimeout(() => {
+        this.isLoading = false;
+      }, 500);
     },
   },
   props: {

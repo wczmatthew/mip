@@ -77,7 +77,17 @@ export default {
   },
   created() {},
   mounted() {
+    this.$store.commit('product/updateKeywords', '');
     this.getSortList();
+  },
+  watch: {
+    '$route'(to) {
+      // console.log('home route: ', to.path);
+      if (to.path === this.routePath) {
+        // 返回到当前界面
+        this.$store.commit('product/updateKeywords', '');
+      }
+    },
   },
   computed: {
     ...mapGetters('category', {

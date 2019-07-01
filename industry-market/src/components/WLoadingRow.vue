@@ -3,7 +3,7 @@
   <!-- 加载中 -->
   <div class="w-loading-row">
     <img src="~@/assets/loading-sm.gif" alt="">
-    加载中~~
+    {{desc || '加载中~~'}}
   </div>
   <!-- 加载中 end -->
 </template>
@@ -17,6 +17,12 @@ export default {
   mounted() {},
   components: {},
   methods: {},
+  props: {
+    desc: {
+      type: String,
+      default: '加载中~~',
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

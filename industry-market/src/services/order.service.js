@@ -48,11 +48,12 @@ export default {
    * @param userid 用户id
    * @param bm 产品编号
    * @param qty 产品数量
+   * @param clientId 客户id
    */
-  editCartNum: ({ userid, bm, qty }) => {
+  editCartNum: ({ userid, bm, qty, clientId }) => {
     if (!userid) return '';
-    const params = { userid, bm, qty };
-    return postHttp({ url: '/ordercenter/shopcar/editShopCar', params });
+    const params = { userid, bm, qty, clientId };
+    return postHttp({ url: '/ordercenter/shopcar/editShopCarWithClient', params });
   },
   /**
    * 从购物车删除

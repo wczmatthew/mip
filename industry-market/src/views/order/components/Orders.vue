@@ -83,6 +83,49 @@
       </w-scroll>
       <!-- 正文内容 end -->
     </div>
+
+    <!-- 弹窗内容 -->
+    <w-modal ref="onlinePayModal">
+      <div class="online-pay">
+        <p class="price">
+          ￥{{orderPrice.toFixed(2)}}
+        </p>
+        <div class="code-list">
+          <div class="code-img">
+            <img src="~@/assets/common/code.png" alt="">
+          </div>
+          <div class="code-img">
+            <img src="~@/assets/common/code.png" alt="">
+          </div>
+        </div>
+      </div>
+    </w-modal>
+
+    <w-modal ref="offlinePayModal">
+      实付金额为<span class="price">￥{{orderPrice.toFixed(2)}}</span>, 请前往柜台完成付款
+    </w-modal>
+
+    <w-modal ref="resultModal">
+      <div class="pay-success">
+        <div class="icon">
+          <img src="~@/assets/common/order-success.png" alt="">
+        </div>
+        <div class="detail">
+          <p class="title">
+            订单支付成功！
+          </p>
+          <div class="desc">
+            <span class="sub-title">订单号：</span>
+            <span class="black">{{orderDetail.billNo || '--'}}</span>
+          </div>
+          <div class="desc">
+            <span class="sub-title">已付款：</span>
+            <span class="price">￥{{orderDetail.totalPrice || 0}}</span>
+          </div>
+        </div>
+      </div>
+    </w-modal>
+    <!-- 弹窗内容 end -->
   </div>
 </template>
 <script>
@@ -112,6 +155,8 @@ export default {
       lineWidth: 100 / 5,
       dataList: [],
       customer: {},
+      orderPrice: 0,
+      orderDetail: {},
     };
   },
   created() {},
@@ -140,6 +185,9 @@ export default {
     },
     onChangeTab(item, index) {
       if (this.tabValue === item.value) return;
+      this.$nextTick(() => {
+        this.$refs.scroll && this.$refs.scroll.scrollTo(0, 0, 300);
+      });
       this.tabValue = item.value;
       this.tabIndex = index;
       this.firstLoading = true;
@@ -184,7 +232,39 @@ export default {
       this.$router.push(`${this.currentPath}/orderDetail?id=${item.billNo}`);
     },
     // 确认付款, 付款成功
-    async onConfirmPay(item, index) {
+    onConfirmPay(item, index) {
+      this.orderDetail = item;
+      this.orderPrice = Number(item.totalPrice);
+      // 老客户
+      if (Number(item.payType) === 1) {
+        // 在线支付
+        this.$refs.onlinePayModal.show({
+          title: '扫描二维码进行付款',
+          confirmTxt: '完成付款',
+          cancleTxt: '取消付款',
+          callback: (res) => {
+            if (res !== 'confirm') return;
+            // 点击完成付款, 生成订单信息
+            this.payOrder(item, index);
+          },
+        });
+        return;
+      }
+
+      // 柜台付款
+      this.$refs.offlinePayModal.show({
+        title: '现金刷卡',
+        content: '',
+        confirmTxt: '完成付款',
+        cancleTxt: '取消付款',
+        callback: (res) => {
+          if (res !== 'confirm') return;
+          // 点击完成付款, 生成订单信息
+          this.payOrder(item, index);
+        },
+      });
+    },
+    async payOrder(item, index) {
       if (this.loading) return;
       this.loading = true;
       Utils.showLoading();
@@ -192,15 +272,19 @@ export default {
       this.loading = false;
       if (!result) return;
       Utils.hideLoading();
-      Utils.showToast('确认付款成功');
-      if (this.tabValue === -1) {
-        // 全部
-        item.billType = 1;
-        return;
-      }
+      this.$refs.resultModal.show({
+        showBtns: false,
+        callback: () => {
+          if (this.tabValue === -1) {
+            // 全部
+            item.billType = 1;
+            return;
+          }
 
-      // 待收货状态
-      this.dataList.splice(index, 1);
+          // 待收货状态
+          this.dataList.splice(index, 1);
+        },
+      });
     },
     // 确认收货
     async onConfirmReceive(item, index) {
@@ -222,23 +306,32 @@ export default {
       this.dataList.splice(index, 1);
     },
     // 关闭订单
-    async onCloseOrder(item, index) {
-      if (this.loading) return;
-      this.loading = true;
-      Utils.showLoading();
-      const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 5 });
-      this.loading = false;
-      if (!result) return;
-      Utils.hideLoading();
-      Utils.showToast('关闭订单成功');
-      if (this.tabValue === -1) {
-        // 全部
-        item.billType = 5;
-        return;
-      }
+    onCloseOrder(item, index) {
+      Utils.showConfirm({
+        title: '提醒',
+        content: '确定关闭此订单?',
+        confirmBtn: '确定',
+        cancelBtn: '取消',
+        maskClosable: true,
+        onConfirm: async() => {
+          if (this.loading) return;
+          this.loading = true;
+          Utils.showLoading();
+          const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 5 });
+          this.loading = false;
+          if (!result) return;
+          Utils.hideLoading();
+          Utils.showToast('关闭订单成功');
+          if (this.tabValue === -1) {
+            // 全部
+            item.billType = 5;
+            return;
+          }
 
-      // 对应状态
-      this.dataList.splice(index, 1);
+          // 对应状态
+          this.dataList.splice(index, 1);
+        },
+      });
     },
   },
   props: {
@@ -251,6 +344,23 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
+@import '~@/styles/components/order-modal.scss';
+.price {
+  font-size: 16px;
+  color: $color-red;
+  @include text-ellipsis;
+
+  .grey {
+    font-size: 10px;
+    color: $color-grey;
+    margin-left: .05rem;
+  }
+
+  .line-through {
+    text-decoration: line-through;
+  }
+}
+
 .w-tabbar {
   background: #fff;
   border-top: 0;

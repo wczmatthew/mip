@@ -345,6 +345,7 @@ export default {
           font-size: 18px;
           color: $color-gold;
           @include text-overflow-muli(2);
+          min-height: 20px;
         } // end name
 
       } // end row-1

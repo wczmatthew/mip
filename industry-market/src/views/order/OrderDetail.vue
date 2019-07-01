@@ -473,7 +473,8 @@ export default {
     padding-top: .05rem;
     .cell {
       margin: 0;
-      height: .2rem;
+      min-height: .2rem;
+      height: auto;
 
       &::after {
         display: none;
