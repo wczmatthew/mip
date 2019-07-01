@@ -11,7 +11,7 @@
     <!-- 顶部栏 end -->
 
     <!-- 菜单页面 -->
-    <mall-tab :tab-list="tabList" @select="onSelectTab" slot="w-header-other"></mall-tab>
+    <!-- <mall-tab :tab-list="tabList" @select="onSelectTab" slot="w-header-other"></mall-tab> -->
     <!-- 菜单页面 end -->
 
     <cube-scroll
@@ -36,7 +36,7 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import MallTab from './components/MallTab.vue';
+// import MallTab from './components/MallTab.vue';
 import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
@@ -75,11 +75,12 @@ export default {
       pageNum: 1,
       pageSize: 20,
       hasNext: true,
-      bnr: '',
+      seriesId: '',
     };
   },
   created() {},
   mounted() {
+    this.seriesId = this.$route.query.seriesId || '';
     this.$nextTick(() => {
       this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
     });
@@ -102,7 +103,7 @@ export default {
   },
   components: {
     WSearch,
-    MallTab,
+    // MallTab,
     ProductGridList,
     WNumModal,
   },
@@ -158,7 +159,7 @@ export default {
     },
     async getData() {
       // Utils.showLoading();
-      const result = await service.getProductList({ pageNum: this.pageNum, pageSize: this.pageSize, keyword: this.keywords, bnr: this.bnr });
+      const result = await service.getNewProductList({ pageNum: this.pageNum, pageSize: this.pageSize, keyword: this.keywords, seriesId: this.seriesId });
       this.isFirstLoading = false;
       if (!result) {
         this.noProduct = !this.productList.length;

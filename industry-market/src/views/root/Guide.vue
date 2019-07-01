@@ -73,7 +73,8 @@ export default {
       this.$router.push('/market/category');
     },
     toProductList() {
-      this.$router.push('/market/productList');
+      this.$router.push('/market/productCategory');
+      // this.$router.push('/market/productList');
     },
   },
 };

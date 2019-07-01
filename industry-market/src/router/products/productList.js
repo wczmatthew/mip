@@ -13,6 +13,36 @@ export default [
   {
     path: 'productCategory',
     component: ProductCategory,
+    children: [
+      {
+        path: 'search',
+        component: searchView,
+        children: [
+          {
+            path: 'productList',
+            component: ProductList,
+            children: [
+              ...detail,
+              ...cart,
+              ...customer,
+            ],
+          },
+        ],
+      },
+      {
+        path: 'productList',
+        component: ProductList,
+        children: [
+          ...detail,
+          ...cart,
+          ...customer,
+          {
+            path: 'search',
+            component: searchView,
+          },
+        ],
+      },
+    ],
   },
   {
     path: 'productList',

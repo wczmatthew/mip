@@ -3,6 +3,8 @@ import { postHttp } from '@/http';
 export default {
   // 获取产品类型
   getSortList: () => postHttp({ url: '/productcenter/product/getSortList' }),
+  // 获取自定义产品类型
+  getNewSortList: () => postHttp({ url: '/productcenter/product/getNewSortList' }),
   /**
    * 获取问题和答案列表
    * @param clientId 客户id

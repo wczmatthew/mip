@@ -43,7 +43,6 @@ export default {
   },
   methods: {
     toSearch({ keywords }) {
-      // this.$router.push(`${this.routePath}/productList?keywords=${keywords}`);
       this.toProductList(keywords);
     },
     toAll() {
@@ -53,7 +52,6 @@ export default {
       this.keywords = keywords;
       this.$refs.search.updateKeywords(keywords);
       this.toProductList(keywords);
-      // this.$router.push(`${this.routePath}/productList?keywords=${keywords}`);
     },
     toProductList(keywords) {
       // 返回上一页搜索页面

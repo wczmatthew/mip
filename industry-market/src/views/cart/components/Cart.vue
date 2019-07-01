@@ -246,6 +246,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.beforeCustomerId = this.customer ? this.customer.id : '';
     this.onPullingDown();
   },
   watch: {
@@ -257,7 +258,7 @@ export default {
       }
     },
     rateCustomer() {
-      console.log('change rate customer');
+      // console.log('change rate customer');
       if (this.rateCustomer && this.rateCustomer.id) {
         // 重新获取购物车信息
         this.updateCartData();

@@ -1,11 +1,13 @@
 <!-- 产品货架页面 -->
 <template lang='html'>
-  <w-container show-header show-back>
+  <div class="w-container">
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
-    <div class="header-right" slot="header-right">
-      <w-cart-icon color="blue"></w-cart-icon>
-    </div>
+    <w-header>
+      <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
+      <div class="header-right" slot="header-right">
+        <w-cart-icon color="blue"></w-cart-icon>
+      </div>
+    </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="product-container">
@@ -14,9 +16,23 @@
         <div class="menu-item" v-for="(item, index) in menuList" :key="index">
           <div class="menu" @click.stop="onChangeShelf(item)" :class="{'actived': selectMenu.sid == item.sid}">
             <span>{{ item.bname }}</span>
+            <!-- <i class="iconfont icon-arrow-down"></i> -->
           </div>
+          <!-- <div v-show="item.isOpen" class="sub-list">
+            <div class="sub-item" v-for="(subItem, subIndex) in item.childList" :key="index + subIndex" :class="{'actived': selectMenu.sid == subItem.sid}" @click.stop="onChangeShelf(subItem)">
+              {{ subItem.bname }}
+            </div>
+          </div> -->
         </div>
       </div>
+      <!-- <div class="category-list">
+        <div class="item" v-for="(item, index) in menuList" :key="index" @click="onChangeMainMenu(item, index)"
+        :class="{'actived': menuIndex == index}">
+          <span>
+            {{item.sname}}
+          </span>
+        </div>
+      </div> -->
       <!-- 左侧类目 end -->
 
       <!-- 产品列表 -->
@@ -52,7 +68,7 @@
       <!-- 产品列表 end -->
     </div>
     <!-- 正文内容 end -->
-  </w-container>
+  </div>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
@@ -72,12 +88,19 @@ export default {
       bnr: '',
       selectMenu: {},
       loadingShelf: false,
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productCategory' }), // 获取当前路由
     };
   },
   created() {},
   mounted() {
     this.getSortList();
+    // 深层数据进行深拷贝
+    // try {
+    //   const json = JSON.stringify(this.sortList);
+    //   this.menuList = JSON.parse(json);
+    // } catch (error) {
+    //   // console.log(error);
+    // }
+    // this.onChangeMainMenu({}, 0);
   },
   computed: {
     ...mapGetters('category', {
@@ -89,12 +112,11 @@ export default {
   },
   methods: {
     toSearch() {
-      this.$router.push(`${this.routePath}/search`);
+      this.$router.push('/market/search');
     },
     toDetail(item) {
-      this.$router.push(`${this.routePath}/productList?seriesId=${item.sid}`);
-      // if (!item.bm) return;
-      // this.$router.push(`/market/detail?bm=${item.bm}`);
+      if (!item.bm) return;
+      this.$router.push(`/market/detail?bm=${item.bm}`);
     },
     async getSortList() {
       Utils.showLoading();

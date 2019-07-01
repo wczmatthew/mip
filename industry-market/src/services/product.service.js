@@ -18,6 +18,24 @@ export default {
     return postHttp({ url: '/productcenter/product/search', params });
   },
   /**
+   * 获取产品列表
+   * @param pageNum 页码
+   * @param pageSize 一页多少条
+   * @param keyword 型号规格（模糊查询）
+   * @param seriesId 系列id
+   * @param bm 产品编码
+   */
+  getNewProductList: ({ pageNum, pageSize, keyword, seriesId, bm }) => {
+    const params = {
+      pageNum,
+      pageSize: pageSize || 10,
+      bm: bm || '',
+      seriesId: seriesId || '',
+      keyword: keyword || '',
+    };
+    return postHttp({ url: '/productcenter/product/newSearch', params });
+  },
+  /**
    * 获取前几个产品列表
    */
   getTopProducts: () => getHttp({ url: '/productcenter/product/getTopProduct' }),

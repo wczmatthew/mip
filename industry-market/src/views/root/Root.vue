@@ -5,9 +5,9 @@
     <home v-show="active == 'home'"></home>
     <!-- 首页 end -->
 
-    <!-- 导购页面 -->
+    <!-- 智能搜索 -->
     <!-- <product-category v-show="active == 'category'"></product-category> -->
-    <!-- 导购页面 end -->
+    <!-- 智能搜索 end -->
 
     <!-- 智能设计 -->
     <product-shelf v-show="active == 'guide'"></product-shelf>
@@ -23,7 +23,7 @@
     <!-- 客户洽谈 end -->
 
     <!-- 订单管理 -->
-    <order-list-tab v-show="active == 'order'" ref="order" current-path="/market"></order-list-tab>
+    <!-- <order-list-tab v-show="active == 'order'" ref="order" current-path="/market"></order-list-tab> -->
     <!-- 订单管理 end -->
 
     <!-- 个人中心 -->
@@ -89,7 +89,7 @@ import Home from './Home.vue';
 // import Guide from './Guide.vue';
 import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
-import OrderListTab from '../order/OrderListTab.vue';
+// import OrderListTab from '../order/OrderListTab.vue';
 // import ProductCategory from '../products/ProductCategory.vue';
 import ProductShelf from '../products/ProductShelf.vue';
 import My from '../my/My.vue';
@@ -102,7 +102,7 @@ export default {
         // { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
         { title: '智能设计', icon: 'icon-daogou', tab: 'guide' },
         { title: '商机记录', icon: 'icon-customers', tab: 'customer' },
-        { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
+        // { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
         { title: '购物单', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
@@ -148,7 +148,7 @@ export default {
     Home,
     CartTab,
     CustomerTab,
-    OrderListTab,
+    // OrderListTab,
     My,
     ProductShelf,
   },
