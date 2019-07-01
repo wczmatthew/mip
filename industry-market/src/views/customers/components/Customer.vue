@@ -208,7 +208,12 @@ export default {
     onSelect(customer) {
       if (this.isTabbar) return;
       // this.selectCustomer = customer;
-      this.$store.commit('customer/updateSelectCustomer', customer);
+      if (this.isRate) {
+        // 选择优惠率客户
+        this.$store.commit('customer/updateSelectRateCustomer', customer);
+      } else {
+        this.$store.commit('customer/updateSelectCustomer', customer);
+      }
       this.$router.back();
     },
     // 切换客户类型
@@ -275,6 +280,10 @@ export default {
     currentPath: {
       type: String,
       default: '',
+    },
+    isRate: { // 是否为选择优惠率客户
+      type: Boolean,
+      default: false,
     },
   },
 };

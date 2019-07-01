@@ -241,6 +241,7 @@ export default {
       orderDetail: {},
       oddment: 0, // 抹零价格
       beforeCustomerId: '',
+      beforeCustomerTemp: 0,
     };
   },
   created() {},
@@ -251,13 +252,22 @@ export default {
     '$route'(to) {
       if (to.path === this.currentPath && this.beforeCustomerId !== this.customer.id) {
         // 更换用户后重新进入购物单页面, 重新获取数据
+        this.$store.commit('customer/updateSelectRateCustomer');
         this.onPullingDown();
+      }
+    },
+    rateCustomer() {
+      console.log('change rate customer');
+      if (this.rateCustomer && this.rateCustomer.id) {
+        // 重新获取购物车信息
+        this.updateCartData();
       }
     },
   },
   computed: {
     ...mapGetters('customer', {
       customer: 'selectCustomer',
+      rateCustomer: 'rateCustomer',
     }),
   },
   components: {},
@@ -282,6 +292,7 @@ export default {
             // 最后一页, 判断页码等数据
             this.$refs.productList && this.$refs.productList.updateList(this.productList);
             this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
+            Utils.showToast('优惠价已更新');
           }
         });
       });
@@ -521,9 +532,14 @@ export default {
       }
 
       // 判断当前客户是否是临时客户
-      if (Number(this.customer.isTemp) === 1) {
+      if (this.beforeCustomerTemp === 1 && this.customer.isTemp === 0) {
+        // 临时客户完善了客户信息, 需要提醒客户是否关联优惠率客户
+        this.showRateCustomerModal(list);
+        return;
+      }
+
+      if (Number(this.customer.isTemp) === 1 && (!this.rateCustomer || !this.rateCustomer.id)) {
         // 临时客户
-        Utils.hideLoading();
         Utils.showConfirm({
           title: '提醒',
           content: '是否完善客户信息?',
@@ -534,40 +550,40 @@ export default {
           onConfirm: () => {
             // 完善客户信息, 进入编辑客户界面
             this.$store.commit('customer/updateCustomer', this.customer);
-            this.$router.push(`${this.currentPath || this.routePath}/customerEdit`);
+            this.beforeCustomerTemp = this.customer.isTemp;
+            this.$router.push(`${this.currentPath || this.routePath}/customerEdit?isUpdateTemp=1`);
           },
           onCancel: () => {
             // 不完善信息, 选择客户的角色
-
-            // 客户角色选择完毕, 获取优惠率
-            this.updateCartData();
+            this.showRateCustomerModal(list);
           },
         });
         return;
       }
 
-      // let isGetPrice = true;
-      // let productName = '';
-      // for (let i = 0; i < list.length; i++) {
-      //   const item = list[i];
-      //   if (!item.discountPrice) {
-      //     isGetPrice = false;
-      //     productName = item.spec;
-      //     break;
-      //   }
-      // }
-
-      // if (!isGetPrice) {
-      //   Utils.showToast(`请先等待获取${productName}的优惠价格`);
-      //   return;
-      // }
-
-      // if (this.fileMsg === -1) {
-      //   Utils.showToast('请先选择资质文件类型');
-      //   return;
-      // }
-      // console.log('start pay');
-
+      this.startPay(list);
+    },
+    // 显示是否绑定优惠率客户弹窗
+    showRateCustomerModal(list) {
+      Utils.showConfirm({
+        title: '提醒',
+        content: '当前客户无优惠率，是否参照其他客户优惠率结算?',
+        confirmBtn: '是',
+        cancelBtn: '直接结算',
+        showClose: true,
+        maskClosable: false,
+        onConfirm: () => {
+          // 选择关联客户
+          this.$router.push(`${this.currentPath || this.routePath}/selectRateCustomer`);
+        },
+        onCancel: () => {
+          // 直接结算
+          this.startPay(list);
+        },
+      });
+    },
+    // 开始付款
+    startPay(list) {
       // 老客户
       if (this.payWay === 1) {
         // 在线支付
@@ -622,6 +638,7 @@ export default {
         // certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
         payType: this.payWay,
         memo: this.tips || '',
+        rateClientId: this.rateCustomer ? (this.rateCustomer.id || '') : '',
       };
       Utils.showLoading();
       const result = await service.createOrder(params);
@@ -649,11 +666,11 @@ export default {
       // 切换用户
       this.beforeCustomerId = this.customer.id || '';
       if (!this.currentPath) {
-        this.$router.push(`${this.routePath || this.path}/customers`);
+        this.$router.push(`${this.routePath || this.routePath}/customers`);
         return;
       }
 
-      this.$router.push(`${this.currentPath || this.path}/customers`);
+      this.$router.push(`${this.currentPath || this.routePath}/customers`);
     },
   },
   props: {

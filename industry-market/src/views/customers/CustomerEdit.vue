@@ -53,7 +53,12 @@ export default {
       if (!result) return;
       Utils.hideLoading();
       Utils.showToast('编辑客户信息成功');
-      this.$store.commit('customer/updateCustomer', result);
+      if (parseInt(this.$route.query.isUpdateTemp, 10) === 1) {
+        // 更新临时客户信息
+        this.$store.commit('customer/updateSelectCustomer', result);
+      } else {
+        this.$store.commit('customer/updateCustomer', result);
+      }
       this.$router.back();
     },
   },
