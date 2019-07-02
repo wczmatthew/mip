@@ -12,8 +12,8 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // const Home = () => import('@/views/root/Home.vue');
 // 导购
 // const Guide = () => import('@/views/root/Guide.vue');
-const CategoryList = () => import('@/views/products/CategoryList.vue');
-// const ProductShelf = () => import('@/views/products/ProductShelf.vue');
+// const CategoryList = () => import('@/views/products/CategoryList.vue');
+const ProductShelf = () => import('@/views/products/ProductShelf.vue');
 // const customerChat = () => import('@/views/customers/CustomerChat.vue');
 
 export default [
@@ -28,9 +28,10 @@ export default [
       ...order,
       ...chat,
       ...productDetail,
+      ...cart,
       {
         path: 'category',
-        component: CategoryList,
+        component: ProductShelf,
         children: [
           ...productDetail,
           ...cart,

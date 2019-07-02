@@ -66,6 +66,17 @@ export default {
     return postHttp({ url: '/ordercenter/shopcar/deleteShopCar', params });
   },
   /**
+   * 从购物车删除
+   * @param userid 用户id
+   * @param bm 产品编号
+   * @param clientId 客户id
+   */
+  deleteShopCarWithClient: ({ userid, bm, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, bm, clientId };
+    return postHttp({ url: '/ordercenter/shopcar/deleteShopCarWithClient', params });
+  },
+  /**
    * 获取客户列表
    * @param userid 用户id
    * @param pageNum 页码

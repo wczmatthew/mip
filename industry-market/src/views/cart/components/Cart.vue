@@ -506,7 +506,7 @@ export default {
         bm.push(item.prodId);
       });
       Utils.showLoading();
-      const result = await service.deleteShopCar({ userid: Utils.getUserId(this), bm: bm.toString() });
+      const result = await service.deleteShopCarWithClient({ userid: Utils.getUserId(this), bm: bm.toString(), clientId: this.customer.id });
       this.loading = false;
       if (!result) return;
       Utils.hideLoading();

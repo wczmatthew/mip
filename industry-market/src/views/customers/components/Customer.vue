@@ -72,9 +72,9 @@
           </div>
           <!-- 编辑按钮 end -->
           <!-- 洽谈按钮 -->
-          <div class="right-icon right-icon2" @click.stop="onChat(item)"  v-show="isTabbar && !isEdit">
+          <!-- <div class="right-icon right-icon2" @click.stop="onChat(item)"  v-show="isTabbar && !isEdit">
             <i class="iconfont icon-chat"></i>
-          </div>
+          </div> -->
           <!-- 洽谈按钮 end -->
         </div>
       </div>

@@ -2,10 +2,10 @@
 <template lang='html'>
   <div class="w-container">
     <!-- 顶部栏 -->
-    <w-header>
+    <w-header :show-back="false">
       <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
       <div class="header-right" slot="header-right">
-        <w-cart-icon color="blue"></w-cart-icon>
+        <w-cart-icon color="blue" currentPath="market"></w-cart-icon>
       </div>
     </w-header>
     <!-- 顶部栏 end -->
@@ -16,23 +16,9 @@
         <div class="menu-item" v-for="(item, index) in menuList" :key="index">
           <div class="menu" @click.stop="onChangeShelf(item)" :class="{'actived': selectMenu.sid == item.sid}">
             <span>{{ item.bname }}</span>
-            <!-- <i class="iconfont icon-arrow-down"></i> -->
           </div>
-          <!-- <div v-show="item.isOpen" class="sub-list">
-            <div class="sub-item" v-for="(subItem, subIndex) in item.childList" :key="index + subIndex" :class="{'actived': selectMenu.sid == subItem.sid}" @click.stop="onChangeShelf(subItem)">
-              {{ subItem.bname }}
-            </div>
-          </div> -->
         </div>
       </div>
-      <!-- <div class="category-list">
-        <div class="item" v-for="(item, index) in menuList" :key="index" @click="onChangeMainMenu(item, index)"
-        :class="{'actived': menuIndex == index}">
-          <span>
-            {{item.sname}}
-          </span>
-        </div>
-      </div> -->
       <!-- 左侧类目 end -->
 
       <!-- 产品列表 -->
@@ -72,7 +58,7 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import { mapGetters } from 'vuex';
+// import { mapGetters } from 'vuex';
 // import service from '@/services/product.service';
 import commonService from '@/services/common.service';
 import Utils from '@/common/Utils';
@@ -88,35 +74,33 @@ export default {
       bnr: '',
       selectMenu: {},
       loadingShelf: false,
+      routePath: '/market', // 获取当前路由
     };
   },
   created() {},
   mounted() {
+    this.$store.commit('product/updateKeywords', '');
     this.getSortList();
-    // 深层数据进行深拷贝
-    // try {
-    //   const json = JSON.stringify(this.sortList);
-    //   this.menuList = JSON.parse(json);
-    // } catch (error) {
-    //   // console.log(error);
-    // }
-    // this.onChangeMainMenu({}, 0);
   },
-  computed: {
-    ...mapGetters('category', {
-      sortList: 'sortList',
-    }),
+  watch: {
+    '$route'(to) {
+      if (to.path === 'market' && to.query.tab === 'category') {
+        // 返回到当前界面
+        this.$store.commit('product/updateKeywords', '');
+      }
+    },
   },
   components: {
     WSearch,
   },
   methods: {
     toSearch() {
-      this.$router.push('/market/search');
+      this.$router.push(`${this.routePath}/search`);
     },
     toDetail(item) {
-      if (!item.bm) return;
-      this.$router.push(`/market/detail?bm=${item.bm}`);
+      this.$router.push(`${this.routePath}/productList?seriesId=${item.sid}`);
+      // if (!item.bm) return;
+      // this.$router.push(`/market/detail?bm=${item.bm}`);
     },
     async getSortList() {
       Utils.showLoading();
@@ -240,12 +224,12 @@ export default {
     .product-item {
       width: 15%;
       min-width: .6rem;
-      // padding: .05rem;
+      padding: .05rem;
       margin-right: 1.5%;
       margin-bottom: .1rem;
-      // background: #fff;
+      background: #fff;
       border-radius: .02rem;
-      // box-shadow: 0 0 .03rem #e6e6e6;
+      box-shadow: 0 0 .03rem #e6e6e6;
       overflow: hidden;
 
       .no-data {

@@ -6,12 +6,12 @@
     <!-- 首页 end -->
 
     <!-- 智能搜索 -->
-    <!-- <product-category v-show="active == 'category'"></product-category> -->
+    <product-category-tab v-show="active == 'category'"></product-category-tab>
     <!-- 智能搜索 end -->
 
     <!-- 智能设计 -->
-    <product-shelf v-show="active == 'guide'"></product-shelf>
-    <!-- <guide v-show="active == 'guide'"></guide> -->
+    <!-- <product-shelf v-show="active == 'guide'"></product-shelf> -->
+    <guide v-show="active == 'guide'"></guide>
     <!-- 智能设计 end -->
 
     <!-- 购物车 -->
@@ -86,20 +86,20 @@
 <script>
 import Utils from '@/common/Utils';
 import Home from './Home.vue';
-// import Guide from './Guide.vue';
+import Guide from './Guide.vue';
 import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
 // import OrderListTab from '../order/OrderListTab.vue';
-// import ProductCategory from '../products/ProductCategory.vue';
-import ProductShelf from '../products/ProductShelf.vue';
+import ProductCategoryTab from '../products/ProductCategoryTab.vue';
+// import ProductShelf from '../products/ProductShelf.vue';
 import My from '../my/My.vue';
 
 export default {
   data() {
     return {
       tablist: [
-        { title: '工业超市', icon: 'icon-index', tab: 'home' },
-        // { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
+        { title: '首页', icon: 'icon-index', tab: 'home' },
+        { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
         { title: '智能设计', icon: 'icon-daogou', tab: 'guide' },
         { title: '商机记录', icon: 'icon-customers', tab: 'customer' },
         // { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
@@ -143,14 +143,14 @@ export default {
     this.initTabActive();
   },
   components: {
-    // ProductCategory,
-    // Guide,
+    ProductCategoryTab,
+    Guide,
     Home,
     CartTab,
     CustomerTab,
     // OrderListTab,
     My,
-    ProductShelf,
+    // ProductShelf,
   },
   methods: {
     onToggleNav() {
@@ -177,7 +177,7 @@ export default {
     toCategory() {
       const path = this.$route.path;
       const searchPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'market' });
-      if (path === searchPath && this.$route.query.tab === 'guide') return;
+      if (path === searchPath && this.$route.query.tab === 'category') return;
 
       const pathList = this.$route.matched;
       // const index = pathList.findIndex(item => item.path === searchPath);
@@ -192,13 +192,13 @@ export default {
       if (pathList.length > 1) {
         this.$router.go(-(pathList.length - 1));
         setTimeout(() => {
-          if (this.$route.query.tab === 'guide') return;
-          this.$router.push('/market?tab=guide');
+          if (this.$route.query.tab === 'category') return;
+          this.$router.push('/market?tab=category');
         }, 300);
         return;
       }
 
-      this.$router.push('/market?tab=guide');
+      this.$router.push('/market?tab=category');
     },
     // 产品列表
     toSearch() {

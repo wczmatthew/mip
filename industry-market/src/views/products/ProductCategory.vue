@@ -56,7 +56,7 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import { mapGetters } from 'vuex';
+// import { mapGetters } from 'vuex';
 // import service from '@/services/product.service';
 import commonService from '@/services/common.service';
 import Utils from '@/common/Utils';
@@ -88,11 +88,6 @@ export default {
         this.$store.commit('product/updateKeywords', '');
       }
     },
-  },
-  computed: {
-    ...mapGetters('category', {
-      sortList: 'sortList',
-    }),
   },
   components: {
     WSearch,

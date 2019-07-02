@@ -38,10 +38,17 @@
         </div>
       </div> -->
 
-      <div class="item" @click="toProductList()">
+      <!-- <div class="item" @click="toProductList()">
         <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
         <div class="detail">
           <p>智能搜索</p>
+        </div>
+      </div> -->
+
+      <div class="item" @click="toCustomerChat()">
+        <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
+        <div class="detail">
+          <p>客户洽谈</p>
         </div>
       </div>
 
@@ -66,15 +73,23 @@
     </div>
     <!-- 常用功能 end -->
 
+    <!-- 弹窗 -->
+    <w-modal-three-btn ref="guidModal"></w-modal-three-btn>
+
+    <w-modal-three-btn ref="chatModal"></w-modal-three-btn>
+    <!-- 弹窗 end -->
+
   </div>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
+import WModalThreeBtn from '@/components/WModalThreeBtn.vue';
 import banner from '@/assets/home/banner.png';
 import banner2 from '@/assets/home/banner2.jpg';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
 import orderService from '@/services/order.service';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -111,34 +126,109 @@ export default {
     // Utils.showLoading();
     // this.getBanner();
   },
+  computed: {
+    ...mapGetters('customer', {
+      selectCustomer: 'selectCustomer',
+    }),
+  },
   components: {
     WSearch,
+    WModalThreeBtn,
   },
   methods: {
     toSearch() {
       this.$router.push('/market/search');
     },
-    // 开始导购
-    onStartGuid() {
-      Utils.showConfirm({
+    // 客户洽谈
+    toCustomerChat() {
+      if (!this.$refs.chatModal) return;
+
+      let content = '是否进行客户洽谈';
+      let btn3 = '';
+      if (this.selectCustomer && this.selectCustomer.id) {
+        content = `当前客户为${this.selectCustomer.name}, 是否进行客户洽谈?`;
+        btn3 = '继续洽谈';
+      }
+
+      this.$refs.chatModal.show({
         title: '提醒',
-        content: '确定开始新的导购?',
-        confirmBtn: '开启新的导购',
-        cancelBtn: '切换客户导购',
-        showClose: true,
-        maskClosable: false,
-        onConfirm: () => {
-          // 新增临时客户, 开始购物
-          this.addTempCustomer();
-        },
-        onCancel: () => {
-          // console.log('on cancel');
-          this.$router.push('/market?tab=guide');
-          setTimeout(() => {
-            this.$router.push('/market/customers');
-          }, 100);
+        content,
+        btn1Txt: '切换客户并洽谈',
+        btn2Txt: '新增客户并洽谈',
+        btn3Txt: btn3,
+        shadowClose: true,
+        callback: (type) => {
+          if (type === 'btn1') {
+            // 切换客户
+            this.$router.push('/market?tab=guide');
+            setTimeout(() => {
+              this.$router.push('/market/customers');
+            }, 100);
+          } else if (type === 'btn2') {
+            // 新增客户并洽谈
+            // 新增临时客户, 开始购物
+            this.addTempCustomer();
+          } else if (type === 'btn3') {
+            // 继续当前客户购物
+            this.$router.push('/market?tab=guide');
+          }
         },
       });
+    },
+    // 开始导购
+    onStartGuid() {
+      if (!this.$refs.guidModal) return;
+
+      let content = '是否开启新的购物';
+      let btn3 = '';
+      if (this.selectCustomer && this.selectCustomer.id) {
+        content = `当前客户为${this.selectCustomer.name}, 确定进行新的导购?`;
+        btn3 = '继续导购';
+      }
+
+      this.$refs.guidModal.show({
+        title: '提醒',
+        content,
+        btn1Txt: '切换客户',
+        btn2Txt: '新的导购',
+        btn3Txt: btn3,
+        shadowClose: true,
+        callback: (type) => {
+          if (type === 'btn1') {
+            // 切换客户
+            this.$router.push('/market?tab=guide');
+            setTimeout(() => {
+              this.$router.push('/market/customers');
+            }, 100);
+          } else if (type === 'btn2') {
+            // 新的导购
+            // 新增临时客户, 开始购物
+            this.addTempCustomer();
+          } else if (type === 'btn3') {
+            // 继续当前客户购物
+            this.$router.push('/market?tab=guide');
+          }
+        },
+      });
+      // Utils.showConfirm({
+      //   title: '提醒',
+      //   content: '确定开始新的导购?',
+      //   confirmBtn: '开启新的导购',
+      //   cancelBtn: '切换客户导购',
+      //   showClose: true,
+      //   maskClosable: false,
+      //   onConfirm: () => {
+      //     // 新增临时客户, 开始购物
+      //     this.addTempCustomer();
+      //   },
+      //   onCancel: () => {
+      //     // console.log('on cancel');
+      //     this.$router.push('/market?tab=guide');
+      //     setTimeout(() => {
+      //       this.$router.push('/market/customers');
+      //     }, 100);
+      //   },
+      // });
     },
     // 添加临时客户
     async addTempCustomer() {

@@ -1,13 +1,11 @@
 <!-- 产品货架页面 -->
 <template lang='html'>
-  <div class="w-container">
+  <w-container show-header show-back>
     <!-- 顶部栏 -->
-    <w-header>
-      <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
-      <div class="header-right" slot="header-right">
-        <w-cart-icon color="blue"></w-cart-icon>
-      </div>
-    </w-header>
+    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
+    <div class="header-right" slot="header-right">
+      <w-cart-icon color="blue" :current-path="routePath"></w-cart-icon>
+    </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="product-container">
@@ -72,7 +70,7 @@
       <!-- 产品列表 end -->
     </div>
     <!-- 正文内容 end -->
-  </div>
+  </w-container>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
@@ -91,6 +89,7 @@ export default {
       bnr: '',
       selectShelf: {},
       loadingShelf: false,
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' }), // 获取当前路由
     };
   },
   created() {},
@@ -115,11 +114,11 @@ export default {
   },
   methods: {
     toSearch() {
-      this.$router.push('/market/search');
+      this.$router.push(`${this.routePath}/search`);
     },
     toDetail(item) {
       if (!item.bm) return;
-      this.$router.push(`/market/detail?bm=${item.bm}`);
+      this.$router.push(`${this.routePath}/detail?bm=${item.bm}`);
     },
     toggleMenu(item, index) {
       item.isOpen = !item.isOpen;

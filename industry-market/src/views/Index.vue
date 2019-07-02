@@ -24,11 +24,11 @@
 
     <!-- 常用功能 -->
     <div class="categorys">
-      <div class="title">
+      <!-- <div class="title">
         <div class="line"></div>
         常用功能
         <div class="line"></div>
-      </div>
+      </div> -->
 
       <div class="w-grid-list">
         <div class="item" v-for="(item, index) in caterotyList" :key="index" @click="onCategoryClick(item)">
