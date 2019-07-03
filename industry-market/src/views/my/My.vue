@@ -36,7 +36,7 @@
             <p class="tip">我的收藏</p>
           </div> -->
           <div class="item">
-            <p class="top-num">
+            <p class="top-num color-red">
               {{totalCount}}
             </p>
             <p class="tip">
@@ -45,7 +45,7 @@
             </p>
           </div>
           <div class="item">
-            <p class="top-num">
+            <p class="top-num color-red">
               {{todayPrice}}
             </p>
             <p class="tip">
@@ -54,7 +54,7 @@
             </p>
           </div>
           <div class="item">
-            <p class="top-num">
+            <p class="top-num color-red">
               {{totalPrice}}
             </p>
             <!-- <i class="iconfont icon-qian">
