@@ -39,7 +39,7 @@ export default {
     //   e.stopPropagation();
     //   // e.preventDefault();
     // }, false);
-    this.$store.dispatch('category/getSortList');
+    // this.$store.dispatch('category/getSortList');
   },
   components: {},
   methods: {},
@@ -50,6 +50,11 @@ export default {
 @import '~@/styles/font/iconfont.css';
 @import '~@/styles/common.css';
 @import '~@/styles/cube.scss';
+@import '~@/styles/variable.scss';
+
+b {
+  font-weight: 700;
+}
 
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;

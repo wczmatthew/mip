@@ -18,7 +18,7 @@
 
         <!-- 显示内容 -->
         <div class="modal-content">
-          {{content}}
+          <div v-html="content"></div>
           <slot></slot>
         </div>
         <!-- 显示内容 end -->
@@ -108,4 +108,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/modal.scss';
+.blue {
+  color: $color-blue;
+}
 </style>

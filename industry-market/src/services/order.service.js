@@ -243,10 +243,11 @@ export default {
    * @param pageNum 页码
    * @param pageSize 一页显示多少条
    * @param clientId 客户id
+   * @param rateClientId 关联的客户id
    */
-  getShopCarListByClient: ({ userid, pageNum, pageSize, clientId }) => {
+  getShopCarListByClient: ({ userid, pageNum, pageSize, clientId, rateClientId }) => {
     if (!userid) return '';
-    const params = { userid, pageNum, pageSize: pageSize || 20, clientId };
+    const params = { userid, pageNum, pageSize: pageSize || 20, clientId, rateClientId };
     return postHttp({ url: '/ordercenter/shopcar/getShopCarListByClient', params });
   },
 };

@@ -10,7 +10,7 @@
     </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <cart :current-path="routePath" ref="cart" @getTotal="getTotalNum"></cart>
+    <cart :current-path="routePath" ref="cart" @getTotal="getTotalNum"  @changeEdit="onChangeEdit"></cart>
     <!-- 正文内容 end -->
   </w-container>
 </template>
@@ -40,6 +40,9 @@ export default {
     onEdit() {
       this.isEdit = !this.isEdit;
       this.$refs.cart.onEdit(this.isEdit);
+    },
+    onChangeEdit(edit) {
+      this.isEdit = edit;
     },
   },
   props: {},

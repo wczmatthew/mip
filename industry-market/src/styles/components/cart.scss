@@ -76,6 +76,10 @@
     .iconfont {
       color: $color-blue;
     }
+
+    .icon-radio-disabled {
+      color: $color-line;
+    }
   }
 
   .cart-item {
@@ -87,7 +91,7 @@
     .detail {
       flex: 1;
       overflow: hidden;
-      padding: .1rem 0;
+      padding: .1rem 0 .07rem;
 
       .title {
         color: $color-black;
@@ -95,6 +99,12 @@
         margin-bottom: .05rem;
         font-size: 14px;
         font-weight: 700;
+      }
+
+      .desc {
+        color: $color-grey;
+        font-size: 12px;
+        margin-top: .03rem;
       }
     }
 

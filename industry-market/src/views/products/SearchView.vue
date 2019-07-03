@@ -32,6 +32,7 @@ export default {
       keywords: '',
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'search' }), // 获取当前路由
       keywordsList: ['接触器', '断路器', '高压电流互感器', '变压器', '浴霸产品', '电工产品'],
+      loading: false,
     };
   },
   created() {},
@@ -43,12 +44,19 @@ export default {
   },
   methods: {
     toSearch({ keywords }) {
+      if (this.loading) return;
+      this.loading = true;
+
       this.toProductList(keywords);
     },
     toAll() {
+      if (this.loading) return;
+      this.loading = true;
       this.toProductList('');
     },
     onPickKeyword(keywords) {
+      if (this.loading) return;
+      this.loading = true;
       this.keywords = keywords;
       this.$refs.search.updateKeywords(keywords);
       this.toProductList(keywords);
@@ -57,6 +65,10 @@ export default {
       // 返回上一页搜索页面
       this.$store.commit('product/updateKeywords', keywords);
       const productPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' });
+
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
 
       const pathList = this.$route.matched;
       const index = pathList.findIndex(item => item.path === productPath);

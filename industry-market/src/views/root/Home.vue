@@ -11,7 +11,7 @@
     <!-- 轮播图 -->
     <div class="banner">
       <div class="banner-item">
-        <img src="~@/assets/home/banner-bg.png" alt="">
+        <img src="~@/assets/home/banner-bg.jpg" alt="">
       </div>
     </div>
     <!-- <div class="banner" v-if="banners && banners.length">
@@ -26,7 +26,7 @@
     <!-- 常用功能 -->
     <div class="w-grid-list">
       <div class="item" @click="onStartGuid()">
-        <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
+        <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
         <div class="detail">
           <p>开始导购</p>
         </div>
@@ -46,7 +46,7 @@
       </div> -->
 
       <div class="item" @click="toCustomerChat()">
-        <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
+        <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
         <div class="detail">
           <p>客户洽谈</p>
         </div>
@@ -106,20 +106,23 @@ export default {
       ],
       caterotyList: [],
       autoplay: true,
+      isToChat: false,
     };
   },
-  // watch: {
-  //   '$route'(to) {
-  //     // console.log('home route: ', to.path);
-  //     if (to.path === '/market' && to.query.tab === 'home') {
-  //       this.getBanner();
-  //       this.autoplay = true;
-  //     } else {
-  //       // this.autoplay = false;
-  //     }
-  //     // this.$refs.slide && this.$refs.slide.refresh();
-  //   },
-  // },
+  watch: {
+    '$route'(to) {
+      // console.log('home route: ', to.path);
+      if (to.path === '/market' && to.query.tab === 'home' && this.isToChat && this.selectCustomer && this.selectCustomer.id) {
+        // 需要跳转到客户洽谈
+        this.$store.commit('customer/updateCustomer', this.selectCustomer);
+        this.$router.push('/market/customerEdit?isUpdateTemp=1');
+      }
+
+      if (to.path === '/market' && to.query.tab === 'home') {
+        this.isToChat = false;
+      }
+    },
+  },
   created() {},
   mounted() {
     // console.log('mounted');
@@ -146,9 +149,12 @@ export default {
       let content = '是否进行客户洽谈';
       let btn3 = '';
       if (this.selectCustomer && this.selectCustomer.id) {
-        content = `当前客户为${this.selectCustomer.name}, 是否进行客户洽谈?`;
+        content = `当前客户为<span class="color-blue"><b>${this.selectCustomer.name}</b></span>, 是否进行客户洽谈?`;
         btn3 = '继续洽谈';
       }
+
+      // 隐藏toast
+      Utils.hideLoading();
 
       this.$refs.chatModal.show({
         title: '提醒',
@@ -160,17 +166,16 @@ export default {
         callback: (type) => {
           if (type === 'btn1') {
             // 切换客户
-            this.$router.push('/market?tab=guide');
-            setTimeout(() => {
-              this.$router.push('/market/customers');
-            }, 100);
+            this.isToChat = true;
+            this.$router.push('/market/customers');
           } else if (type === 'btn2') {
             // 新增客户并洽谈
-            // 新增临时客户, 开始购物
-            this.addTempCustomer();
+            // 新增临时客户, 开始洽谈
+            this.addTempCustomer('chat');
           } else if (type === 'btn3') {
-            // 继续当前客户购物
-            this.$router.push('/market?tab=guide');
+            // 继续当前客户
+            this.$store.commit('customer/updateCustomer', this.selectCustomer);
+            this.$router.push('/market/customerEdit?isUpdateTemp=1');
           }
         },
       });
@@ -182,9 +187,12 @@ export default {
       let content = '是否开启新的购物';
       let btn3 = '';
       if (this.selectCustomer && this.selectCustomer.id) {
-        content = `当前客户为${this.selectCustomer.name}, 确定进行新的导购?`;
+        content = `当前客户为<span class="color-blue"><b>${this.selectCustomer.name}</b></span>, 确定进行新的导购?`;
         btn3 = '继续导购';
       }
+
+      // 隐藏toast
+      Utils.hideLoading();
 
       this.$refs.guidModal.show({
         title: '提醒',
@@ -196,7 +204,7 @@ export default {
         callback: (type) => {
           if (type === 'btn1') {
             // 切换客户
-            this.$router.push('/market?tab=guide');
+            this.$router.push('/market?tab=category');
             setTimeout(() => {
               this.$router.push('/market/customers');
             }, 100);
@@ -206,40 +214,29 @@ export default {
             this.addTempCustomer();
           } else if (type === 'btn3') {
             // 继续当前客户购物
-            this.$router.push('/market?tab=guide');
+            this.$router.push('/market?tab=category');
           }
         },
       });
-      // Utils.showConfirm({
-      //   title: '提醒',
-      //   content: '确定开始新的导购?',
-      //   confirmBtn: '开启新的导购',
-      //   cancelBtn: '切换客户导购',
-      //   showClose: true,
-      //   maskClosable: false,
-      //   onConfirm: () => {
-      //     // 新增临时客户, 开始购物
-      //     this.addTempCustomer();
-      //   },
-      //   onCancel: () => {
-      //     // console.log('on cancel');
-      //     this.$router.push('/market?tab=guide');
-      //     setTimeout(() => {
-      //       this.$router.push('/market/customers');
-      //     }, 100);
-      //   },
-      // });
     },
     // 添加临时客户
-    async addTempCustomer() {
+    async addTempCustomer(type) {
       Utils.showLoading();
       const result = await orderService.addTempClient({ userid: Utils.getUserId(this) });
       if (!result) return;
       Utils.hideLoading();
       // 更新选中客户信息
       this.$store.commit('customer/updateSelectCustomer', result);
-      // 切换到智能设计界面
-      this.$router.push('/market?tab=guide');
+
+      // 切换到洽谈界面
+      if (type === 'chat') {
+        this.$store.commit('customer/updateCustomer', this.selectCustomer);
+        this.$router.push('/market/customerEdit?isUpdateTemp=1');
+        return;
+      }
+
+      // 切换到分类界面
+      this.$router.push('/market?tab=category');
     },
     // 点击轮播图
     clickHandler(item) {

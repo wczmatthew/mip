@@ -15,7 +15,8 @@
           <w-loading-row v-show="cartLoading" desc="正在获取购物单产品~~"></w-loading-row>
           <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
             <div class="radio" @click="onToggleChecked(item, index)">
-              <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
+              <i class="iconfont icon-radio-disabled" v-if="!isEdit && Number(item.store) <= 0"></i>
+              <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']" v-else></i>
             </div>
             <div class="detail">
               <p class="title">
@@ -29,12 +30,9 @@
                   ￥{{item.price || 0}}
                 </span>
               </p>
-              <p class="price grey" v-show="item.loading">
-                获取优惠价格中...
+              <p class="desc">
+                库存: {{item.store || 0}}
               </p>
-              <!-- <p class="price grey line-through" v-show="!item.loading && item.discountPrice != undefined">
-                ￥{{item.discountPrice || '--'}}
-              </p> -->
             </div>
             <div class="right">
               <div class="nums">
@@ -254,12 +252,15 @@ export default {
   },
   watch: {
     '$route'(to) {
-      if (to.path === this.currentPath && this.beforeCustomerId !== this.customer.id) {
+      const isEnterCartTab = this.currentPath === '/market' && to.query.tab === 'cart';
+      const isEnterCart = this.currentPath !== '/market' && to.path === this.currentPath && this.beforeCustomerId !== this.customer.id;
+
+      if (isEnterCartTab || isEnterCart) {
         // 更换用户后重新进入购物单页面, 重新获取数据
         this.$store.commit('customer/updateSelectRateCustomer');
         this.cartLoading = true;
-        this.onPullingDown();
         this.resetData();
+        this.onPullingDown();
       }
     },
     rateCustomer() {
@@ -284,7 +285,7 @@ export default {
       const requestList = [];
 
       for (let index = 0; index < this.pageNum; index++) {
-        requestList.push(service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: index + 1, pageSize: this.pageSize, clientId: this.customer.id }));
+        requestList.push(service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: index + 1, pageSize: this.pageSize, clientId: this.customer.id, rateClientId: this.rateCustomer && this.rateCustomer.id ? this.rateCustomer.id : '' }));
       }
       Utils.showLoading();
       Promise.all(requestList).then((resList) => {
@@ -305,17 +306,35 @@ export default {
     },
     onEdit(isEdit) {
       this.isEdit = isEdit;
+      if (!this.isEdit) {
+        // 非编辑状态, 将库存小于等于0的选中产品去除
+        this.selectNum = 0;
+        this.productList.forEach((item) => {
+          if (Number(item.store) <= 0) {
+            this.selectProducts[item.id] = false;
+          }
+
+          if (Number(item.store) > 0 && this.selectProducts[item.id]) {
+            this.selectNum += 1;
+          }
+        });
+        this.calcPrice();
+
+        this.allChecked = this.selectNum === this.totalNum;
+      }
     },
     // 全选或者取消全选
     onToggleAllChecked() {
       if (!this.productList.length) return;
       this.allChecked = !this.allChecked;
-      this.productList = this.productList.map((item) => {
-        this.selectProducts[item.id] = this.allChecked;
-        return item;
-      });
 
-      this.selectNum = this.allChecked ? this.productList.length : 0;
+      this.selectNum = 0;
+      this.productList.forEach((item) => {
+        if (this.isEdit || Number(item.store) > 0) {
+          this.selectProducts[item.id] = this.allChecked;
+          this.selectNum += 1;
+        }
+      });
 
       if (!this.allChecked) {
         this.totalPrice = 0;
@@ -330,15 +349,11 @@ export default {
         Utils.showToast('请先选择客户');
         return;
       }
-      this.selectProducts[item.id] = !this.selectProducts[item.id];
 
-      // if (this.selectProducts[item.id]) {
-      //   // 勾选产品后, 获取优惠价
-      //   this.getCustomerPrice(item, index);
-      // } else {
-      //   // 计算总价格
-      //   this.calcPrice();
-      // }
+      // 没有库存不可选中结算
+      if (!this.isEdit && Number(item.store) <= 0) return;
+
+      this.selectProducts[item.id] = !this.selectProducts[item.id];
 
       // 计算总价格
       this.calcPrice();
@@ -409,7 +424,7 @@ export default {
         this.cartLoading = false;
         return;
       }
-      const result = await service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, clientId: this.customer.id });
+      const result = await service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, clientId: this.customer.id, rateClientId: this.rateCustomer && this.rateCustomer.id ? this.rateCustomer.id : '' });
       this.cartLoading = false;
       if (!result) return;
 
@@ -722,6 +737,12 @@ export default {
       this.fileMsg = -1; // 相关文件
       this.oddment = 0; // 抹零价格
       this.selectNum = 0;
+      this.allChecked = false;
+      this.selectProducts = {};
+      this.selectNum = 0;
+      // 重置编辑状态
+      this.isEdit = false;
+      this.$emit('changeEdit', false);
 
       this.totalNum = this.productList.length || 0;
       this.$emit('getTotal', this.totalNum);

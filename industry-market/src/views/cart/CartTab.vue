@@ -12,7 +12,7 @@
     </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <cart class="w-content" :current-path="currentPath" ref="cart" @getTotal="getTotalNum"></cart>
+    <cart class="w-content" current-path="/market" ref="cart" @getTotal="getTotalNum" @changeEdit="onChangeEdit"></cart>
     <!-- 正文内容 end -->
   </div>
 </template>
@@ -34,12 +34,12 @@ export default {
     Cart,
   },
   watch: {
-    '$route'(to) {
-      if (to.path === '/market' && to.query.tab === 'cart') {
-        // 重新进入页面
-        this.$refs.cart && this.$refs.cart.onPullingDown();
-      }
-    },
+    // '$route'(to) {
+    //   if (to.path === '/market' && to.query.tab === 'cart') {
+    //     // 重新进入页面
+    //     this.$refs.cart && this.$refs.cart.onPullingDown();
+    //   }
+    // },
   },
   methods: {
     getTotalNum(totalNum) {
@@ -49,11 +49,8 @@ export default {
       this.isEdit = !this.isEdit;
       this.$refs.cart.onEdit(this.isEdit);
     },
-  },
-  props: {
-    currentPath: {
-      type: String,
-      default: '',
+    onChangeEdit(edit) {
+      this.isEdit = edit;
     },
   },
 };
