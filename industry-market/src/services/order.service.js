@@ -88,6 +88,17 @@ export default {
     return postHttp({ url: '/ordercenter/client/getClientList', params });
   },
   /**
+   * 获取今日客户
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示多少条
+   */
+  getTodayClientList: ({ userid, pageNum, pageSize }) => {
+    if (!userid) return '';
+    const params = { userid, pageNum, pageSize: pageSize || 20 };
+    return postHttp({ url: '/ordercenter/client/getTodayClientList', params });
+  },
+  /**
    * 获取临时客户列表（根据创建时间排序）
    * @param userid 用户id
    * @param pageNum 页码
@@ -249,5 +260,17 @@ export default {
     if (!userid) return '';
     const params = { userid, pageNum, pageSize: pageSize || 20, clientId, rateClientId };
     return postHttp({ url: '/ordercenter/shopcar/getShopCarListByClient', params });
+  },
+  /**
+   * 查询客户
+   * @param userid 用户id
+   * @param name 客户名称
+   * @param phone 电话号码
+   * @param isTemp 是否临时客户 0 不是，1是, '' 全部
+   */
+  searchClient: ({ userid, name, phone, isTemp }) => {
+    if (!userid) return '';
+    const params = { userid, name, phone, isTemp };
+    return postHttp({ url: '/ordercenter/client/searchClient', params });
   },
 };

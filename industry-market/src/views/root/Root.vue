@@ -93,14 +93,15 @@ import CustomerTab from '../customers/CustomerTab.vue';
 import ProductCategoryTab from '../products/ProductCategoryTab.vue';
 // import ProductShelf from '../products/ProductShelf.vue';
 import My from '../my/My.vue';
+import { setTimeout } from 'timers';
 
 export default {
   data() {
     return {
       tablist: [
         { title: '首页', icon: 'icon-index', tab: 'home' },
-        { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
         { title: '智能设计', icon: 'icon-daogou', tab: 'guide' },
+        { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
         { title: '商机记录', icon: 'icon-customers', tab: 'customer' },
         // { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
         { title: '购物单', icon: 'icon-gouwuche', tab: 'cart' },
@@ -167,6 +168,15 @@ export default {
     },
     // 更换选择的客户
     toChangeCustomer() {
+      const path = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'market/customerSearch' }); // 获取当前路由
+      if (this.$route.path === path) {
+        // 客户搜索界面
+        this.$router.back();
+        setTimeout(() => {
+          this.$router.push(`${this.$route.path}/customers`);
+        }, 100);
+        return;
+      }
       this.$router.push(`${this.$route.path}/customers`);
     },
     // 跟客户进行洽谈

@@ -1,5 +1,6 @@
 import productList from './products/productList';
 import customer from './customer';
+import customerSearch from './customer/search';
 import chat from './customer/chat';
 import search from './products/search';
 import productDetail from './products/detail';
@@ -29,6 +30,7 @@ export default [
       ...chat,
       ...productDetail,
       ...cart,
+      ...customerSearch,
       {
         path: 'category',
         component: ProductShelf,

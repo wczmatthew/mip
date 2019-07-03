@@ -406,6 +406,9 @@ export default {
     },
     // 下拉刷新
     onPullingDown() {
+      this.$nextTick(() => {
+        this.$refs.scroll && this.$refs.scroll.scrollTo(0, 0, 300);
+      });
       this.pageNum = 1;
       this.getData();
     },
@@ -665,16 +668,16 @@ export default {
       Utils.hideLoading();
 
       this.$refs.resultModal.show({
-        showBtns: false,
-        callback: () => {
-          // // 将已经付款的产品移除购物单中
-          // this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
-
-          // for (const key in this.selectProducts) {
-          //   this.selectProducts[key] = false;
-          // }
-
+        showBtns: true,
+        confirmTxt: '查看订单',
+        cancleTxt: '继续购物',
+        callback: (res) => {
           this.resetData();
+
+          if (res === 'confirm') {
+            // 查看订单详情
+            this.$router.push(`${this.currentPath || this.routePath}/orderDetail?id=${this.orderDetail.billId}`);
+          }
         },
       });
     },
@@ -755,7 +758,7 @@ export default {
       // 切换用户
       this.beforeCustomerId = this.customer.id || '';
       if (!this.currentPath) {
-        this.$router.push(`${this.routePath || this.routePath}/customers`);
+        this.$router.push(`${this.currentPath || this.routePath}/customers`);
         return;
       }
 

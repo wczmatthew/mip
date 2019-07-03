@@ -158,8 +158,6 @@ export default {
       overflow: hidden;
       height: 38px;
       font-size: 16px;
-      display: flex;
-      align-items: center;
     }
 
     .bottom {

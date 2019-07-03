@@ -26,7 +26,7 @@
             <div class="store">
               <span class="msg">
                 <i class="iconfont icon-store"></i>
-                {{item.companyName}}
+                {{item.name || item.companyName}}
                 <!-- <i class="iconfont icon-arrow-right"></i> -->
               </span>
               <span class="status" :class="[getOrderColor(item)]">
@@ -72,7 +72,7 @@
                 确认付款
               </button>
               <button class="grey" @click.stop="toDetail(item)">查看详情</button>
-              <button class="grey" v-if="item.billType == 1" @click.stop="onCloseOrder(item, index)">
+              <button class="grey" v-if="item.billType == 1 || item.billType == 6" @click.stop="onCloseOrder(item, index)">
                 关闭订单
               </button>
             </div>
@@ -273,8 +273,10 @@ export default {
       if (!result) return;
       Utils.hideLoading();
       this.$refs.resultModal.show({
-        showBtns: false,
-        callback: () => {
+        showBtns: true,
+        confirmTxt: '查看订单',
+        cancleTxt: '继续操作',
+        callback: (res) => {
           if (this.tabValue === -1) {
             // 全部
             item.billType = 1;
@@ -283,6 +285,11 @@ export default {
 
           // 待收货状态
           this.dataList.splice(index, 1);
+
+          if (res === 'confirm') {
+            // 查看订单详情
+            this.$router.push(`${this.currentPath || this.routePath}/orderDetail?id=${item.billNo}`);
+          }
         },
       });
     },

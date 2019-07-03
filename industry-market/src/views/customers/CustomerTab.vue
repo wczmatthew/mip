@@ -2,21 +2,27 @@
 <template lang='html'>
   <div class="w-container">
     <!-- 顶部栏 -->
-    <w-header>
+    <w-header class="customer-header">
       <div slot="header-mid" class="header-mid">
         <i class="iconfont icon-jia" @click.stop="onNew()"></i>
 
         <div class="header-btns">
-          <button :class="[customerType == 'odd' ? 'blue-btn': 'plain-white-btn']" @click.stop="onChangeCustomer('odd')">
-            老客户
+          <button :class="[customerType == 'today' ? 'blue-btn': 'plain-white-btn']" @click.stop="onChangeCustomer('today')">
+            今日客户
           </button>
           <button :class="[customerType == 'new' ? 'blue-btn': 'plain-white-btn']" @click.stop="onChangeCustomer('new')">
             临时客户
           </button>
+          <button :class="[customerType == 'odd' ? 'blue-btn': 'plain-white-btn']" @click.stop="onChangeCustomer('odd')">
+            老客户
+          </button>
         </div>
       </div>
-      <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
-        {{ isEdit ? '完成' : '管理' }}
+      <div slot="header-right" class="header-right" >
+        <i class="iconfont icon-search" @click="toSearch()"></i>
+        <div class="right" :class="{'color-blue': isEdit }" @click="onEdit()">
+          {{ isEdit ? '完成' : '管理' }}
+        </div>
       </div>
       <!-- <div class="header-right" slot="header-right">
         <w-msg-icon color="blue"></w-msg-icon>
@@ -25,7 +31,7 @@
     </w-header>
     <!-- 顶部栏 end -->
 
-    <customer class="w-content" :is-tabbar="true" :current-path="currentPath" ref="customer"></customer>
+    <customer class="w-content" :is-tabbar="true" current-path="/market" ref="customer"></customer>
   </div>
 </template>
 <script>
@@ -36,7 +42,7 @@ export default {
   data() {
     return {
       isEdit: false,
-      customerType: 'odd',
+      customerType: 'today',
       isRequest: false,
     };
   },
@@ -46,7 +52,7 @@ export default {
     '$route'(to) {
       if (to.path === '/market' && to.query.tab === 'customer' && !this.isRequest) {
         this.$nextTick(() => {
-          this.$refs.customer && this.$refs.customer.onPullingDown();
+          this.$refs.customer && this.$refs.customer.onChangeCustomer(this.customerType);
         });
       }
     },
@@ -54,7 +60,7 @@ export default {
   mounted() {
     this.$nextTick(() => {
       this.isRequest = true;
-      this.$refs.customer && this.$refs.customer.onPullingDown();
+      this.$refs.customer && this.$refs.customer.onChangeCustomer(this.customerType);
 
       setTimeout(() => {
         this.isRequest = false;
@@ -65,6 +71,9 @@ export default {
     Customer,
   },
   methods: {
+    toSearch() {
+      this.$router.push('/market/customerSearch?isTab=1');
+    },
     onEdit() {
       this.isEdit = !this.isEdit;
       this.$refs.customer && this.$refs.customer.onEditList(this.isEdit);
@@ -77,23 +86,18 @@ export default {
       this.$refs.customer && this.$refs.customer.onChangeCustomer(type);
     },
   },
-  props: {
-    currentPath: {
-      type: String,
-      default: '',
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
+
 
 .header-btns {
   width: 40%;
   height: 40px;
   border-radius: 40px;
   display: flex;
-  margin: 7.5px auto;
+  margin: 0 auto;
   overflow: hidden;
   border: 1px solid $color-blue;
 
@@ -111,10 +115,23 @@ export default {
 
 .header-right {
   color: $color-grey;
+
+  .iconfont {
+    color: $color-blue;
+    font-weight: 700;
+    font-size: 18px;
+  }
+
+  .right {
+    width: .4rem;
+  }
 }
 
 .header-mid {
   position: relative;
+  width: 100%;
+  height: 100%;
+  padding-top: 7px;
 
   .iconfont {
     position: absolute;

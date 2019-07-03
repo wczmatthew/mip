@@ -17,7 +17,7 @@
       <form autocomplete="off">
         <div class="input-item">
           <i class="iconfont icon-my"></i>
-          <input type="text" placeholder="请输入您的账号" v-model="username">
+          <input type="text" placeholder="请输入手机号/账号" v-model="username">
         </div>
 
         <div class="input-item">

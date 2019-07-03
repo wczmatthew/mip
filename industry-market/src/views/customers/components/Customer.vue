@@ -1,6 +1,11 @@
 <!-- 客户列表 -->
 <template lang='html'>
   <div class="w-customer">
+
+    <!-- 搜索 -->
+    <!-- <w-search class="header-search" disabled @input-click="toSearch" v-if="!isSearch"></w-search> -->
+    <!-- 搜索 end -->
+
     <!-- 正文内容 -->
     <w-scroll
       ref="scroll"
@@ -81,7 +86,7 @@
     </w-scroll>
     <!-- 正文内容 end -->
 
-    <div slot="w-footer" class="bottom-btn" v-if="!isTabbar">
+    <div slot="w-footer" class="bottom-btn" v-if="!isTabbar && !isSearch">
       <button class="blue-btn" @click="onNew()">
         新增客户
       </button>
@@ -107,7 +112,8 @@ export default {
       hasNext: true,
       isEdit: false,
       editIndex: -1,
-      customerType: 'odd',
+      customerType: 'new',
+      keywords: '',
     };
   },
   created() {
@@ -149,8 +155,12 @@ export default {
       selectCustomer: 'selectCustomer',
     }),
   },
-  components: {},
+  components: {
+  },
   methods: {
+    toSearch() {
+      this.$router.push(`${this.currentPath}/customerSearch`);
+    },
     onEditList(isEdit) {
       this.isEdit = isEdit;
     },
@@ -214,6 +224,11 @@ export default {
       } else {
         this.$store.commit('customer/updateSelectCustomer', customer);
       }
+
+      if (this.isSearch) {
+        this.$router.go(-2);
+        return;
+      }
       this.$router.back();
     },
     // 切换客户类型
@@ -221,6 +236,18 @@ export default {
       this.customerType = type;
       this.firstLoading = true;
       this.onPullingDown();
+    },
+    async searchCustomer(keywords) {
+      this.keywords = keywords || this.keywords;
+      this.firstLoading = true;
+      const result = await service.searchClient({ userid: Utils.getUserId(this), name: this.keywords, phone: this.keywords });
+      setTimeout(() => {
+        this.firstLoading = false;
+      }, 300);
+      if (!result) return;
+      this.hasNext = false;
+      this.dataList = [...result];
+      this.noData = !this.dataList.length;
     },
     // 下拉刷新
     onPullingDown() {
@@ -230,6 +257,10 @@ export default {
         this.$refs.scroll && this.$refs.scroll.scrollTo(0, 0, 300);
       });
       this.pageNum = 1;
+      if (this.isSearch) {
+        this.searchCustomer();
+        return;
+      }
       this.getData();
     },
     // 上拉加载
@@ -244,7 +275,10 @@ export default {
     async getData() {
       let result;
 
-      if (this.customerType === 'odd') {
+      if (this.customerType === 'today') {
+        // 获取老客户
+        result = await service.getTodayClientList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
+      } else if (this.customerType === 'odd') {
         // 获取老客户
         result = await service.getCustomerList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
       } else {
@@ -282,6 +316,10 @@ export default {
       default: '',
     },
     isRate: { // 是否为选择优惠率客户
+      type: Boolean,
+      default: false,
+    },
+    isSearch: { // 是否为搜索结果页面
       type: Boolean,
       default: false,
     },
@@ -358,10 +396,13 @@ export default {
         .label {
           background: #d1d8ff;
           color: #7989dd;
-          padding: .03rem .08rem;
+          padding: 0 .08rem;
+          height: 20px;
+          line-height: 20px;
           font-size: 10px;
-          border-radius: .05rem;
+          border-radius: .03rem;
           margin-right: .05rem;
+          display: block;
 
           &:nth-child(2n) {
             background: #ffe9d7;
@@ -452,6 +493,20 @@ export default {
 
 .w-customer {
   height: 100%;
+
+  .header-search {
+    position: absolute;
+    top: 0;
+    left: 10%;
+    height: .3rem;
+    width: 80%;
+    margin: 0 auto;
+    z-index: 20;
+
+    .search-content {
+      background: #fff;
+    }
+  }
 }
 
 .scroll-view {
@@ -475,6 +530,16 @@ export default {
     font-size: 16px;
     border-radius: .22rem;
     height: .22rem;
+  }
+}
+</style>
+
+<style lang="scss">
+.w-customer {
+  .header-search {
+    .search-content {
+      background: #fff;
+    }
   }
 }
 </style>

@@ -1,4 +1,5 @@
 import customer from '../customer';
+import detail from './detail';
 
 const Cart = () => import('@/views/cart/Cart.vue');
 
@@ -8,6 +9,7 @@ export default [
     component: Cart,
     children: [
       ...customer,
+      ...detail,
     ],
   },
 ];

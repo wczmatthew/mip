@@ -204,7 +204,7 @@ export default {
         callback: (type) => {
           if (type === 'btn1') {
             // 切换客户
-            this.$router.push('/market?tab=category');
+            this.$router.push('/market?tab=guide');
             setTimeout(() => {
               this.$router.push('/market/customers');
             }, 100);
@@ -214,7 +214,7 @@ export default {
             this.addTempCustomer();
           } else if (type === 'btn3') {
             // 继续当前客户购物
-            this.$router.push('/market?tab=category');
+            this.$router.push('/market?tab=guide');
           }
         },
       });
@@ -235,8 +235,8 @@ export default {
         return;
       }
 
-      // 切换到分类界面
-      this.$router.push('/market?tab=category');
+      // 切换到导购界面
+      this.$router.push('/market?tab=guide');
     },
     // 点击轮播图
     clickHandler(item) {

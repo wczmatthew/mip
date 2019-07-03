@@ -1,4 +1,6 @@
 // 客户列表
+import search from './search';
+
 const customer = () => import('@/views/customers/CustomerList.vue');
 const RateCustomerList = () => import('@/views/customers/RateCustomerList.vue');
 const customerCreate = () => import('@/views/customers/CustomerCreate.vue');
@@ -17,11 +19,15 @@ export default [
         path: 'customerEdit',
         component: customerEdit,
       },
+      ...search,
     ],
   },
   {
     path: 'selectRateCustomer',
     component: RateCustomerList,
+    children: [
+      ...search,
+    ],
   },
   {
     path: 'customerNew',
