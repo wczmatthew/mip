@@ -135,6 +135,40 @@ export default {
 
       this.selectIndustry = item;
     },
+    // 更新客户名片上的内容
+    updateCustomerCardMsg(resultList) {
+      if (!resultList || !resultList.length) return;
+      this.name = '';
+      this.phone = '';
+      this.address = '';
+      this.company = '';
+      resultList.forEach((res) => {
+        if (res.item.indexOf('姓名') > -1) {
+          this.name = res.value;
+        }
+
+        if (res.item.indexOf('手机') > -1) {
+          this.phone = res.value;
+        }
+
+        if (res.item.indexOf('地址') > -1) {
+          this.address = res.value;
+        }
+
+        if (!this.company && res.item.indexOf('公司') > -1) {
+          this.company = res.value;
+        }
+      });
+
+      if (!this.phone) {
+        // 没有获取到手机, 查找是否有电话
+        resultList.forEach((res) => {
+          if (res.item === '电话') {
+            this.phone = res.value;
+          }
+        });
+      }
+    },
     // 更新客户信息
     updateCustomer(customer) {
       if (!customer) return;

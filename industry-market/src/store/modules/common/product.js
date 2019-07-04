@@ -16,7 +16,7 @@ const actions = {
 
 // mutations -- 数据更新/存储方法
 const mutations = {
-  // 更新销售区域数据
+  // 更新关键字
   updateKeywords(state, data) {
     state.keywords = data;
   },

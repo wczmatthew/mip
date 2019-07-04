@@ -471,6 +471,7 @@ export default {
    * @param {*} callback 成功回调
    */
   canvasDataURL({ path, obj, callback }){
+    obj = obj || {};
     let img = new Image();
     img.src = path;
     img.onload = function() {

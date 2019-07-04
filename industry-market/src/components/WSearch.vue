@@ -7,9 +7,8 @@
         <input type="search" :disabled="disabled" v-model="keywords"
           :placeholder="placeholder" @keyup.enter="startSearch()">
         <slot name="right-icon"></slot>
-        <div class="scan" @click.stop="stopProp()" v-if="showScan">
+        <div class="scan" @click.stop="onScan()" v-if="showScan">
           <i class="iconfont icon-scan"></i>
-          <input type="file" accept="image/*" @change="chagneFile">
         </div>
       </div>
     </div>
@@ -46,36 +45,18 @@ export default {
   components: {},
   methods: {
     stopProp() {}, // 阻止事件冒泡
-    chagneFile(e) {
-      try {
-        Utils.showLoading();
-        const file = e.target.files[0];
-        const reader = new FileReader();
-        reader.readAsDataURL(file); // 读出 base64
-        reader.onloadend = () => {
-          // 图片的 base64 格式, 可以直接当成 img 的 src 属性值
-          // const dataURL = reader.result;
-          // 下面逻辑处理
-          // Utils.canvasDataURL({
-          //   path: dataURL,
-          //   callback: (res) => {
-          //     this.startUploadFile(res);
-          //   }
-          // });
-        };
-      } catch (error) {
-        Utils.showToast('解析图片出错');
-      }
-    },
-    // async startUploadFile(res) {
-    //   Utils.showLoading();
-    //   const result = await service.getBanner({ userid: Utils.getUserId(this) });
-    //   if (!result) return;
-    //   Utils.hideLoading();
-    // },
     onInputClick() {
       if (!this.disabled) return;
       this.$emit('input-click');
+    },
+    onScan() {
+      try {
+        // eslint-disable-next-line
+        native_listen('scan');
+      } catch (error) {
+        Utils.showToast('扫描异常, 请联系管理员');
+        // console.log('error: ', error);
+      }
     },
     inputFocus() {
       // this.btnRight = '0';

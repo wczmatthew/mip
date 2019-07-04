@@ -5,6 +5,9 @@
     <div slot="header-mid">
       新增客户信息
     </div>
+    <div slot="header-right" class="header-right">
+      <w-scan-card-icon @upload="onUpload"></w-scan-card-icon>
+    </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <customer-update ref="customerForm">
@@ -25,6 +28,7 @@
 import CustomerUpdate from './components/CustomerUpdate.vue';
 import service from '@/services/order.service';
 import Utils from '@/common/Utils';
+import WScanCardIcon from '@/components/WScanCardIcon.vue';
 
 export default {
   data() {
@@ -39,8 +43,14 @@ export default {
   },
   components: {
     CustomerUpdate,
+    WScanCardIcon,
   },
   methods: {
+    onUpload({ type, data }) {
+      if (type !== 'success') return;
+      // 更新客户信息
+      this.$refs.customerForm && this.$refs.customerForm.updateCustomerCardMsg(data);
+    },
     async onCreate() {
       const isValid = this.$refs.customerForm.validForm();
       if (!isValid) return;

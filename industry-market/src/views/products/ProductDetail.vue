@@ -163,10 +163,12 @@ export default {
       loading: false,
       firstLoading: true,
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'detail' }), // 获取当前路由
+      bm: '',
     };
   },
   created() {},
   mounted() {
+    this.bm = this.$route.query.bm;
     this.getData();
   },
   computed: {
@@ -185,7 +187,7 @@ export default {
       this.$router.push('/market?tab=home');
     },
     async getData() {
-      if (!this.$route.query.bm) {
+      if (!this.bm) {
         Utils.showToast('无法获取改产品详情');
         this.$router.back();
         return;
@@ -193,7 +195,7 @@ export default {
 
       this.firstLoading = true;
       Utils.showLoading();
-      const result = await service.getProductDetail({ bm: this.$route.query.bm });
+      const result = await service.getProductDetail({ bm: this.bm });
       if (!result) {
         this.firstLoading = false;
         return;

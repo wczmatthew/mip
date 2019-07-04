@@ -97,6 +97,7 @@ export default {
       this.$router.push(`${this.routePath}/search`);
     },
     toDetail(item) {
+      this.$store.commit('product/updateKeywords', '');
       this.$router.push(`${this.routePath}/productList?seriesId=${item.sid}`);
       // if (!item.bm) return;
       // this.$router.push(`/market/detail?bm=${item.bm}`);

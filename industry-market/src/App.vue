@@ -8,12 +8,13 @@
 </template>
 
 <script>
-// import Utils from '@/common/Utils';
+import Utils from '@/common/Utils';
 
 export default {
   data() {
     return {
       transitionName: '',
+      loading: false,
     };
   },
   // watch $route 决定使用哪种过渡
@@ -30,19 +31,67 @@ export default {
   },
   created() {},
   mounted() {
-    // Utils.hideLoading();
-    // document.getElementById('app').addEventListener('touchstart', (e) => {
-    //   e.stopPropagation();
-    // });
-
-    // document.getElementById('app').addEventListener('touchmove', (e) => {
-    //   e.stopPropagation();
-    //   // e.preventDefault();
-    // }, false);
+    window.marketingCallback = (type, data) => {
+      // eslint-disable-next-line
+      // alert('callback: ' + type);
+      if (type === 'barcode') {
+        // 条码
+        this.toProductList(data);
+      } else if (type === 'barcodeDetail') {
+        // 产品详情页
+        this.toDetail(data);
+      } else if (type === 'businessCard') {
+        // 名片
+      }
+    };
     // this.$store.dispatch('category/getSortList');
   },
   components: {},
-  methods: {},
+  methods: {
+    // 产品详情界面
+    toDetail(bm) {
+      // const productPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'detail' });
+
+      // if (productPath && this.$route.path === productPath) {
+      //   // 在产品列表页面, 扫描完成后重新搜索
+      //   this.$store.commit('product/updateProductDetail', { isUpdate: true, bm });
+      //   return;
+      // }
+
+      // const pathList = this.$route.matched;
+      // const index = pathList.findIndex(item => item.path === productPath);
+      // if (index >= 0) {
+      //   // 浏览历史记录有该界面, 直接返回这一页
+      //   const goIndex = index - pathList.length + 1;
+      //   this.$router.go(goIndex);
+      //   this.$store.commit('product/updateProductDetail', { isUpdate: true, bm });
+      //   return;
+      // }
+      this.$router.push(`${this.$route.path}/detail?bm=${bm}`);
+    },
+    // 进入产品列表
+    toProductList(keywords) {
+      this.$store.commit('product/updateKeywords', keywords);
+      const productPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' });
+
+      if (productPath && this.$route.path === productPath) {
+        // 在产品列表页面, 扫描完成后重新搜索
+        return;
+      }
+
+      const pathList = this.$route.matched;
+      const index = pathList.findIndex(item => item.path === productPath);
+      if (index >= 0) {
+        // 浏览历史记录有该界面, 直接返回这一页
+        const goIndex = index - pathList.length + 1;
+        this.$router.go(goIndex);
+        return;
+      }
+
+      // 没有历史记录进入查询页面
+      this.$router.push(`${this.$route.path}/productList`);
+    },
+  },
 };
 </script>
 

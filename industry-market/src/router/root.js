@@ -39,6 +39,7 @@ export default [
           ...cart,
           ...search,
           ...customer,
+          ...productList,
         ],
       },
     ],
