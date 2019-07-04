@@ -92,10 +92,12 @@
         </p>
         <div class="code-list">
           <div class="code-img">
-            <img src="~@/assets/common/code.png" alt="">
+            <img src="~@/assets/common/zhifubao.png" alt="">
+            <p>支付宝付款</p>
           </div>
           <div class="code-img">
-            <img src="~@/assets/common/code.png" alt="">
+            <img src="~@/assets/common/weixin.png" alt="">
+            <p>微信付款</p>
           </div>
         </div>
       </div>
