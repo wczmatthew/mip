@@ -1,6 +1,6 @@
 <!-- 订单详情 -->
 <template lang='html'>
-  <w-container show-header show-back>
+  <w-container show-header :show-back="!isScan">
     <!-- 顶部栏 -->
     <div slot="header-mid">
       订单详情
@@ -201,10 +201,13 @@ export default {
       tips: '',
       orderDetail: {},
       customer: {},
+      isScan: false,
     };
   },
   created() {},
   mounted() {
+    this.isScan = Number(this.$route.query.isScan) === 1;
+    // console.log('isScan: ', this.isScan);
     this.getData();
   },
   components: {},

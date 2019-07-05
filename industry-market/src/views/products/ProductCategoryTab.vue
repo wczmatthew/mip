@@ -12,7 +12,7 @@
     <!-- 正文内容 -->
     <div class="product-container">
       <!-- 左侧类目 -->
-      <div class="category-list">
+      <div class="category-list" v-if="menuList && menuList.length">
         <div class="menu-item" v-for="(item, index) in menuList" :key="index">
           <div class="menu" @click.stop="onChangeShelf(item)" :class="{'actived': selectMenu.sid == item.sid}">
             <span>{{ item.bname }}</span>

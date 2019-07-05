@@ -2,10 +2,9 @@
 <template lang='html'>
   <div class="home-container">
     <!-- 顶部栏 -->
-    <div class="header">
+    <!-- <div class="header">
       <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .3rem;"></w-search>
-      <!-- <w-msg-icon></w-msg-icon> -->
-    </div>
+    </div> -->
     <!-- 顶部栏 end -->
 
     <!-- 轮播图 -->
@@ -82,7 +81,7 @@
   </div>
 </template>
 <script>
-import WSearch from '@/components/WSearch.vue';
+// import WSearch from '@/components/WSearch.vue';
 import WModalThreeBtn from '@/components/WModalThreeBtn.vue';
 import banner from '@/assets/home/banner.png';
 import banner2 from '@/assets/home/banner2.jpg';
@@ -135,7 +134,7 @@ export default {
     }),
   },
   components: {
-    WSearch,
+    // WSearch,
     WModalThreeBtn,
   },
   methods: {
@@ -365,7 +364,7 @@ export default {
     .detail {
       position: absolute;
       top: 42%;
-      left: 15%;
+      left: 7%;
       z-index: 10;
       width: 50%;
 

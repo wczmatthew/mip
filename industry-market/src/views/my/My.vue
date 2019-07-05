@@ -118,7 +118,7 @@
     <!-- 我的订单 end -->
 
     <!-- 管理中心 -->
-    <div class="card my-manage">
+    <!-- <div class="card my-manage">
       <div class="title-row">
         <div class="title">
           管理中心
@@ -133,17 +133,8 @@
           </span>
           <i class="iconfont icon-arrow-right"></i>
         </div>
-
-        <!-- <div class="cell">
-          <span class="title">
-            <i class="iconfont icon-kehu"></i>
-            我的客户
-          </span>
-          <i class="iconfont icon-arrow-right"></i>
-        </div> -->
-
       </div>
-    </div>
+    </div> -->
     <!-- 管理中心 end -->
 
     <button class="blue-btn bottom-btn" @click="onLogout()">
@@ -193,6 +184,7 @@ export default {
       this.$router.push('/login');
     },
     async getUserData() {
+      if (!Utils.getUserId(this)) return;
       const result = await userService.getUserInfo({ userid: Utils.getUserId(this) });
       if (!result) return;
       this.userData = { ...result };

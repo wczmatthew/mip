@@ -5,7 +5,7 @@
       <div class="row">
         <div class="input-item col">
           <p>姓名</p>
-          <input type="text" placeholder="请输入姓名" v-model="name" maxlength="20">
+          <input type="text" placeholder="请输入姓名" v-model="name" maxlength="20" @focus="onFocusName()" @blur="onBlurName()">
         </div>
         <div class="input-item col">
           <p>手机号</p>
@@ -75,6 +75,8 @@ export default {
       company: '', // 所属公司
       duty: '', // 职务
       area: '', // 销售区域
+      tempName: '', // 临时客户名称
+      isTemp: 0,
       selectIndustry: { text: '', value: '' },
     };
   },
@@ -93,6 +95,18 @@ export default {
   },
   components: {},
   methods: {
+    onFocusName() {
+      if (this.isTemp !== 1) return;
+      // 临时客户, 判断是否有填写过内容
+      if (this.name !== this.tempName) return;
+      this.name = '';
+    },
+    onBlurName() {
+      if (this.isTemp !== 1) return;
+      // 临时客户, 判断是否有填写过内容
+      if (this.name) return;
+      this.name = this.tempName;
+    },
     onSelectIndustry(item) {
       if (item.value === this.selectIndustry.value) {
         this.selectIndustry = { text: '', value: '' };
@@ -113,6 +127,11 @@ export default {
       this.company = customer.companyName;
       this.selectIndustry = { text: customer.industryName, value: parseInt(customer.industryId, 10) || 0 };
       this.customerId = customer.id;
+      this.isTemp = Number(this.customer.isTemp);
+      if (this.isTemp === 1) {
+        // 临时客户
+        this.tempName = this.name;
+      }
     },
     // 校验form表单
     validForm() {

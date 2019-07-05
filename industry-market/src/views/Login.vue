@@ -80,7 +80,7 @@ export default {
       // 更新用户id
       this.$store.commit('user/updateUserId', result.userid);
       Utils.showToast('登录成功');
-      this.$router.push('/index');
+      this.$router.push('/market?tab=home');
 
       // setTimeout(() => {
       //   Utils.hideLoading();

@@ -5,7 +5,10 @@
       <div class="row">
         <div class="input-item col">
           <p>姓名</p>
-          <input type="text" placeholder="请输入姓名" v-model="name" maxlength="20">
+          <div class="input">
+            <input type="text" placeholder="请输入姓名" v-model="name" maxlength="20" @focus="onFocusName()" @blur="onBlurName()" ref="nameInput">
+            <i class="iconfont icon-circle-add" v-show="isShowClear" @click.stop="onClearName()"></i>
+          </div>
         </div>
         <div class="input-item col">
           <p>手机号</p>
@@ -110,6 +113,9 @@ export default {
       selectIndustry: { text: '', value: '' },
       questionList: [],
       desc: '',
+      tempName: '', // 临时客户名称
+      isTemp: 0,
+      isShowClear: false,
     };
   },
   created() {},
@@ -127,6 +133,29 @@ export default {
   },
   components: {},
   methods: {
+    onClearName() {
+      if (!this.name) return;
+      this.name = '';
+      this.$refs.nameInput && this.$refs.nameInput.focus();
+    },
+    onFocusName() {
+      setTimeout(() => {
+        this.isShowClear = true;
+      }, 100);
+      if (this.isTemp !== 1) return;
+      // 临时客户, 判断是否有填写过内容
+      if (this.name !== this.tempName) return;
+      this.name = '';
+    },
+    onBlurName() {
+      setTimeout(() => {
+        this.isShowClear = false;
+      }, 100);
+      if (this.isTemp !== 1) return;
+      // 临时客户, 判断是否有填写过内容
+      if (this.name) return;
+      this.name = this.tempName;
+    },
     onSelectIndustry(item) {
       if (item.value === this.selectIndustry.value) {
         this.selectIndustry = { text: '', value: '' };
@@ -182,6 +211,11 @@ export default {
       this.selectIndustry = { text: customer.industryName, value: parseInt(customer.industryId, 10) || 0 };
       this.customerId = customer.id;
       this.getQuestions();
+      this.isTemp = Number(customer.isTemp);
+      if (this.isTemp === 1) {
+        // 临时客户
+        this.tempName = this.name;
+      }
     },
     // 校验form表单
     validForm() {
@@ -375,6 +409,39 @@ export default {
       &:focus {
         border-color: #4e9ff0;
         box-shadow: 0 0 .02rem #a3cffb;
+      }
+    }
+
+    .input {
+      display: flex;
+      height: .22rem;
+      border-radius: .03rem;
+      font-size: 14px;
+      border: 0;
+      background: #f5f5f5;
+      position: relative;
+
+      input {
+        width: 100%;
+        display: block;
+        padding-right: .2rem;
+      }
+
+      .iconfont {
+        width: .15rem;
+        line-height: .22rem;
+        height: 100%;
+        position: absolute;
+        top: 0;
+        right: 0;
+        font-size: 16px;
+        @include flex-center;
+        overflow: hidden;
+
+        &::before {
+          transform: rotate(45deg);
+          display: block;
+        }
       }
     }
   } // end input-item
