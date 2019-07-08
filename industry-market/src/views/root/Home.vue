@@ -271,8 +271,7 @@ export default {
     },
     // 传统模式, 产品列表
     toProductList() {
-      this.$router.push('/market/productCategory');
-      // this.$router.push('/market/productList');
+      this.$router.push('/market/productList');
     },
     // 店内模式
     toGuide() {

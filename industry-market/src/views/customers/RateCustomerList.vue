@@ -20,7 +20,7 @@ import Customer from './components/Customer.vue';
 export default {
   data() {
     return {
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'customers' }),
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'selectRateCustomer' }),
       isEdit: false,
       customerType: 'odd',
     };

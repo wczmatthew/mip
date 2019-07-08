@@ -206,9 +206,8 @@ export default {
    * @param userid 用户id
    * @param orderId 订单号
    */
-  getOrderDetail: ({ userid, orderId }) => {
-    if (!userid) return '';
-    const params = { userid, orderId };
+  getOrderDetail: ({ orderId }) => {
+    const params = { orderId };
     return postHttp({ url: '/ordercenter/order/getOrderDetail', params });
   },
   /**

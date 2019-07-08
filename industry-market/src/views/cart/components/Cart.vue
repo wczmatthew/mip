@@ -7,6 +7,7 @@
       <div class="product-list">
         <w-scroll
           ref="scroll"
+          bg-color="white"
           class="scroll-view"
           @pulling-down="onPullingDown"
           @pulling-up="onPullingUp">
@@ -448,7 +449,8 @@ export default {
         });
       }
       if (this.pageNum === 1) {
-        this.productList = [...result.rows];
+        this.$refs.productList && this.$refs.productList.updateList([]);
+        this.productList = result.rows;
       } else {
         this.productList = this.productList.concat([...result.rows]);
       }
@@ -660,6 +662,8 @@ export default {
       for (const key in this.selectProducts) {
         this.selectProducts[key] = false;
       }
+
+      this.noData = !this.productList.length;
     },
     // 订单付款
     async payOrder() {

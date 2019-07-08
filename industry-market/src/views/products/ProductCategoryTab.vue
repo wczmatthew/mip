@@ -13,9 +13,11 @@
     <div class="product-container">
       <!-- 左侧类目 -->
       <div class="category-list" v-if="menuList && menuList.length">
-        <div class="menu-item" v-for="(item, index) in menuList" :key="index">
-          <div class="menu" @click.stop="onChangeShelf(item)" :class="{'actived': selectMenu.sid == item.sid}">
-            <span>{{ item.bname }}</span>
+        <div class="right-line">
+          <div class="menu-item" v-for="(item, index) in menuList" :key="index">
+            <div class="menu" @click.stop="onChangeShelf(item)" :class="{'actived': selectMenu.sid == item.sid}">
+              <span>{{ item.bname }}</span>
+            </div>
           </div>
         </div>
       </div>
@@ -130,185 +132,18 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
-
 .search {
   padding-left: .44rem;
   padding-right: .44rem;
 }
 
-.product-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  background: #fff;
-
-  .category-list {
-    width: .6rem;
-    height: 100%;
-    flex-shrink: 0;
-    background: #fff;
-    padding-top: .05rem;
-    overflow: auto;
-    position: relative;
-
-    &::after {
-      content: ' ';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-      background: #e6e6e6;
-      transform: scaleX(0.5);
-    }
-
-    .menu {
-      height: .3rem;
-      line-height: .3rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all .3s ease;
-      padding-left: .05rem;
-      position: relative;
-
-      span {
-        font-weight: 700;
-      }
-
-      .iconfont {
-        font-weight: 700;
-        margin-left: .05rem;
-        transform: rotate(180deg);
-        transition: all .3s ease;
-      }
-
-      &.actived {
-        color: $color-blue;
-
-        &::after {
-          content: ' ';
-          position: absolute;
-          right: 0;
-          top: 50%;
-          margin-top: -.05rem;
-          width: .01rem;
-          height: .1rem;
-          background: $color-blue;
-        }
-      }
-    } // end menu
-
-  } // end category-list
-
-  .product-scroll {
-    flex: 1;
-
-    .title {
-      height: .3rem;
-      line-height: .3rem;
-      text-align: center;
-    }
-  }
-
-  .product-list {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: 2%;
-    padding-top: .05rem;
-
-    .product-item {
-      width: 15%;
-      min-width: .6rem;
-      padding: .05rem;
-      margin-right: 1.5%;
-      margin-bottom: .1rem;
-      background: #fff;
-      border-radius: .02rem;
-      box-shadow: 0 0 .03rem #e6e6e6;
-      overflow: hidden;
-
-      .no-data {
-        padding: 0;
-      }
-
-      .img {
-        width: .5rem;
-        height: .5rem;
-        margin: 0 auto;
-        @include flex-center;
-        overflow: hidden;
-        // background: #fff;
-        padding: .02rem;
-        border-radius: .05rem;
-
-        img {
-          height: 100%;
-        }
-      } // end img
-
-      p {
-        font-size: 12px;
-        margin-top: .05rem;
-        @include break-word;
-        text-align: center;
-        line-height: 16px
-      }
-    }
-  } // end product-list
-} // end product-container
-
 </style>
 <style lang="scss">
+@import '~@/styles/components/productMenu.scss';
 .product-container {
-
-  .cube-scroll-wrapper .cube-sticky-fixed {
-    display: none;
-  }
 
   .cube-scroll-nav-bar-item {
     padding: 15px 10px;
-  }
-  .cube-scroll-content {
-    min-height: 100%;
-  }
-
-  // 标题有bug, 故隐藏掉
-  .cube-scroll-nav-panel .cube-sticky-ele {
-    height: 1px !important;
-    opacity: 0;
-  }
-
-  .cube-scroll-nav-panels {
-    background: #f5f5f5;
-  }
-  // .cube-scroll-content,
-  // .cube-scroll-list-wrapper {
-  //   height: 100%;
-  // }
-
-  .cube-scroll-nav-panel-title {
-    height: .3rem;
-    line-height: .3rem;
-    text-align: center;
-  }
-
-  .cube-scroll-nav-bar-items {
-    &::after {
-      content: ' ';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-      background: #e6e6e6;
-      transform: scaleX(0.5);
-    }
   }
 }
 </style>

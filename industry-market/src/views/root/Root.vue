@@ -28,6 +28,7 @@
 
     <!-- 个人中心 -->
     <my v-show="active == 'my'" ref="my"></my>
+    <!-- <analyze v-show="active == 'my'"></analyze> -->
     <!-- 个人中心 end -->
 
     <!-- 快捷导航悬浮窗 -->
@@ -93,6 +94,7 @@ import CustomerTab from '../customers/CustomerTab.vue';
 import ProductCategoryTab from '../products/ProductCategoryTab.vue';
 // import ProductShelf from '../products/ProductShelf.vue';
 import My from '../my/My.vue';
+// import Analyze from '../my/Analyze.vue';
 import { setTimeout } from 'timers';
 
 export default {
@@ -100,7 +102,7 @@ export default {
     return {
       tablist: [
         { title: '首页', icon: 'icon-index', tab: 'home' },
-        { title: '智能设计', icon: 'icon-daogou', tab: 'guide' },
+        { title: '展厅导购', icon: 'icon-daogou', tab: 'guide' },
         { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
         { title: '商机记录', icon: 'icon-customers', tab: 'customer' },
         // { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
@@ -152,6 +154,7 @@ export default {
     CustomerTab,
     // OrderListTab,
     My,
+    // Analyze,
     // ProductShelf,
   },
   methods: {

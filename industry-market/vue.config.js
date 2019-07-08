@@ -28,7 +28,7 @@ module.exports = {
         },
       },
       '/local': {
-        target: 'http://10.1.110.26:8709',
+        target: 'http://10.1.110.26:8715',
         changeOrigin: true,
         //路径重写
         pathRewrite: {

@@ -37,32 +37,41 @@
           </div> -->
           <div class="item">
             <p class="top-num color-red">
-              {{totalCount}}
+              {{orderCount}}
             </p>
             <p class="tip">
               <i class="iconfont icon-shuliang"></i>
-              产品销售数量
+              导购单数
+            </p>
+          </div>
+          <div class="item">
+            <p class="top-num color-red">
+              {{finishOrderCount}}
+            </p>
+            <p class="tip">
+              <i class="iconfont icon-shuliang"></i>
+              成交单数
             </p>
           </div>
           <div class="item">
             <p class="top-num color-red">
               {{todayPrice}}
             </p>
-            <p class="tip">
-              <i class="iconfont icon-shuliang"></i>
-              今日销售额
-            </p>
-          </div>
-          <div class="item">
-            <p class="top-num color-red">
-              {{totalPrice}}
-            </p>
             <!-- <i class="iconfont icon-qian">
               <i class="num">222222</i>
             </i> -->
             <p class="tip">
               <i class="iconfont icon-qian"></i>
-              现金收入
+              今日销售额
+            </p>
+          </div>
+          <div class="item" @click.stop="toAnalyze()">
+            <p class="top-num">
+              <i class="iconfont icon-more" style="font-size: 26px;"></i>
+            </p>
+            <p class="tip">
+              <i class="iconfont icon-fenxi"></i>
+              大数据分析
             </p>
           </div>
         </div>
@@ -159,6 +168,8 @@ export default {
       waitPayCount: 0, // 订单-待付款数量
       waitPostCount: 0, // 订单-待发货数量
       returnCount: 0, // 订单-退货数量
+      orderCount: 0, // 导购单数
+      finishOrderCount: 0, // 成交单数
       userData: {},
     };
   },
@@ -178,6 +189,9 @@ export default {
   },
   components: {},
   methods: {
+    toAnalyze() {
+      this.$router.push('/market/analyze');
+    },
     // 退出登录
     onLogout() {
       this.$store.commit('user/updateUserId', '');
@@ -200,6 +214,8 @@ export default {
       this.waitGetCount = result.waitGetCount || 0;
       this.waitPayCount = result.waitPayCount || 0;
       this.waitPostCount = result.waitPostCount || 0;
+      this.orderCount = result.orderCount || 0;
+      this.finishOrderCount = result.finishOrderCount || 0;
 
       // if (this.finishCount > 99) this.finishCount = '99+';
       if (this.waitGetCount > 99) this.waitGetCount = '99+';

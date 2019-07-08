@@ -10,16 +10,18 @@
     <!-- 正文内容 -->
     <div class="product-container">
       <!-- 左侧类目 -->
-      <div class="category-list">
-        <div class="menu-item" v-for="(item, index) in menuList" :key="index">
-          <div class="menu" @click.stop="toggleMenu(item, index)"
-          :class="{'actived': item.isOpen}">
-            <span>{{ item.name }}</span>
-            <i class="iconfont icon-arrow-down"></i>
-          </div>
-          <div v-show="item.isOpen" class="sub-list">
-            <div class="sub-item" v-for="(subItem, subIndex) in item.childList" :key="index + subIndex" :class="{'actived': selectShelf.id == subItem.id}" @click.stop="onChangeShelf(subItem)">
-              {{ subItem.name }}
+      <div class="category-list" ref="menuList">
+        <div class="right-line">
+          <div class="menu-item" :id="'menu' + index" v-for="(item, index) in menuList" :key="'menuItem' + index">
+            <div class="menu" @click.stop="toggleMenu(item, index)"
+            :class="{'actived': item.isOpen}">
+              <span>{{ item.name }}</span>
+              <i class="iconfont icon-arrow-down"></i>
+            </div>
+            <div v-show="item.isOpen" class="sub-list">
+              <div class="sub-item" v-for="(subItem, subIndex) in item.childList" :key="'subMenu' + subItem.id + subIndex" :class="{'actived': selectShelf.id == subItem.id}" @click.stop="onChangeShelf(subItem)">
+                {{ subItem.name }}
+              </div>
             </div>
           </div>
         </div>
@@ -57,7 +59,7 @@
               <div class="product-item" v-show="!item.childList || !item.childList.length">
                 <no-data desc="补货中"></no-data>
               </div>
-              <div class="product-item" v-for="(product, index) in item.childList" :key="product.id + index" @click.stop="toDetail(product)">
+              <div class="product-item" v-for="(product, index) in item.childList" :key="'pro' + product.id + index" @click.stop="toDetail(product)">
                 <div class="img">
                   <w-img :src="product.imgPath"></w-img>
                 </div>
@@ -148,6 +150,11 @@ export default {
           this.firstLoading = true;
           this.getProductData();
         }
+
+        // 菜单栏滚动到对应位置
+        this.$nextTick(() => {
+          document.getElementById(`menu${index}`).scrollIntoView();
+        });
         return;
       }
 
@@ -195,224 +202,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
-
 .search {
   padding-left: .44rem;
   padding-right: .44rem;
 }
-
-.product-container {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  display: flex;
-  background: #fff;
-
-  .category-list {
-    width: .6rem;
-    height: 100%;
-    flex-shrink: 0;
-    background: #fff;
-    padding-top: .05rem;
-    overflow: auto;
-    position: relative;
-
-    &::after {
-      content: ' ';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-      background: #e6e6e6;
-      transform: scaleX(0.5);
-    }
-
-    .item {
-      font-size: 12px;
-      text-align: center;
-      height: .24rem;
-      line-height: .24rem;
-      padding: 0 .05rem;
-      @include break-word;
-      position: relative;
-
-      &.actived {
-        color: $color-blue;
-
-        &::after {
-          content: ' ';
-          position: absolute;
-          right: 0;
-          top: .07rem;
-          width: .01rem;
-          height: .1rem;
-          background: $color-blue;
-        }
-      }
-    } // end item
-
-    .menu {
-      height: .3rem;
-      line-height: .3rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all .3s ease;
-      padding-left: .05rem;
-
-      span {
-        font-weight: 700;
-      }
-
-      .iconfont {
-        font-weight: 700;
-        margin-left: .05rem;
-        transform: rotate(180deg);
-        transition: all .3s ease;
-      }
-
-      &.actived {
-        color: $color-blue;
-        .iconfont {
-          transform: rotate(0deg);
-        }
-      }
-    } // end menu
-
-    .sub-list {
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .sub-item {
-      height: .24rem;
-      line-height: .24rem;
-      padding: 0 .1rem;
-      text-align: center;
-      background: #fff;
-      font-weight: 700;
-      position: relative;
-
-      &.actived {
-        color: $color-blue;
-
-        &::after {
-          content: ' ';
-          position: absolute;
-          right: 0;
-          top: .07rem;
-          width: .01rem;
-          height: .1rem;
-          background: $color-blue;
-        }
-      }
-    } // end sub-item
-  } // end category-list
-
-  .product-scroll {
-    flex: 1;
-
-    .title {
-      height: .3rem;
-      line-height: .3rem;
-      text-align: center;
-    }
-  }
-
-  .product-list {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: .1rem;
-    padding-top: .05rem;
-    border-bottom: 5px solid #e6e6e6;
-    box-shadow: 0 3px 2px #ccc;
-
-    .product-item {
-      width: .63rem;
-      padding: .05rem;
-      margin-right: .06rem;
-      margin-bottom: .06rem;
-      background: #fff;
-      border-radius: .02rem;
-      box-shadow: 0 0 .03rem #e6e6e6;
-      overflow: hidden;
-
-      .no-data {
-        padding: 0;
-      }
-
-      .img {
-        width: .5rem;
-        height: .5rem;
-        margin: 0 auto;
-        @include flex-center;
-        overflow: hidden;
-        background: #fff;
-        padding: .02rem;
-
-        img {
-          height: 100%;
-        }
-      } // end img
-
-      p {
-        font-size: 12px;
-        margin-top: .03rem;
-        @include break-word;
-        text-align: center;
-        line-height: 16px
-      }
-    }
-  } // end product-list
-} // end product-container
-
 </style>
 <style lang="scss">
-.product-container {
-
-  .cube-scroll-wrapper .cube-sticky-fixed {
-    display: none;
-  }
-  .cube-scroll-content {
-    min-height: 100%;
-  }
-
-  // 标题有bug, 故隐藏掉
-  .cube-scroll-nav-panel .cube-sticky-ele {
-    height: 1px !important;
-    opacity: 0;
-  }
-
-  .cube-scroll-nav-panels {
-    background: #f5f5f5;
-  }
-  // .cube-scroll-content,
-  // .cube-scroll-list-wrapper {
-  //   height: 100%;
-  // }
-
-  .cube-scroll-nav-panel-title {
-    height: .3rem;
-    line-height: .3rem;
-    text-align: center;
-  }
-
-  .cube-scroll-nav-bar-items {
-    &::after {
-      content: ' ';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-      background: #e6e6e6;
-      transform: scaleX(0.5);
-    }
-  }
-}
+@import '~@/styles/components/productMenu.scss';
 </style>

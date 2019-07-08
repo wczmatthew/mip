@@ -9,6 +9,7 @@ import order from './order';
 import cart from './order/cart';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
+const Analyze = () => import('@/views/my/Analyze.vue');
 // 首页
 // const Home = () => import('@/views/root/Home.vue');
 // 导购
@@ -41,6 +42,10 @@ export default [
           ...customer,
           ...productList,
         ],
+      },
+      {
+        path: 'analyze',
+        component: Analyze,
       },
     ],
   },

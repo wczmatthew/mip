@@ -1,4 +1,6 @@
 
+@import '~@/styles/variable.scss';
+
 .pay-success {
   display: flex;
   align-items: center;
@@ -83,3 +85,18 @@
     }
   }
 } // end online-pay
+
+.img-modal {
+  .modal {
+    width: 40% !important;
+  }
+  .img-container {
+    width: 80%;
+    margin: 0 auto;
+    padding-top: .1rem;
+  
+    img {
+      width: 100%;
+    }
+  }
+}

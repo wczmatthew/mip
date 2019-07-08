@@ -2,7 +2,7 @@
  * 用户相关数据存储区域
  */
 const state = {
-  // userId: '100001581',
+  // userId: '',
   userId: process.env.NODE_ENV === 'production' ? '' : '100001581',
 };
 

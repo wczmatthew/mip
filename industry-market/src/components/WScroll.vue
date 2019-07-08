@@ -3,6 +3,7 @@
   <cube-scroll
     ref="cubescroll"
     class="scroll-view"
+    :class="{'scroll-white-bg': bgColor === 'white'}"
     :scroll-events="['scroll']"
     :options="options"
     @pulling-down="onPullingDown"
@@ -48,7 +49,16 @@ export default {
       this.$refs.cubescroll.forceUpdate(data);
     },
   },
+  props: {
+    bgColor: {
+      type: String,
+      default: '',
+    },
+  },
 };
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
+.scroll-white-bg .cube-scroll-list-wrapper {
+  background: #fff;
+}
 </style>

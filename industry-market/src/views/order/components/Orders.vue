@@ -50,7 +50,7 @@
                 <div class="row">
                   <span class="desc">X{{product.qty || 0}}</span>
                   <span class="desc price">
-                    ￥{{product.normSum}}
+                    ￥{{product.discountSum || product.normSum}}
                   </span>
                 </div>
               </div>
@@ -59,19 +59,24 @@
 
             <!-- 订单总计 -->
             <div class="order-total">
-              共{{item.totalCount || 0}}件商品 合计: <span class="price">￥{{item.totalPrice}}</span>
+              共{{item.totalCount || 0}}件商品 合计: <span class="price">￥{{item.totalDiscountPrice || item.totalPrice}}</span>
             </div>
             <!-- 订单总计 end -->
 
             <!-- 按钮区域 -->
             <div class="order-bottom">
+              <button class="grey" @click.stop="showCode(item)">
+                查看二维码
+              </button>
               <button v-if="item.billType == 2" @click.stop="onConfirmReceive(item, index)">
                 确认收货
               </button>
               <button v-if="item.billType == 6" @click.stop="onConfirmPay(item, index)">
                 确认付款
               </button>
-              <button class="grey" @click.stop="toDetail(item)">查看详情</button>
+              <button class="grey" @click.stop="toDetail(item)">
+                查看详情
+              </button>
               <button class="grey" v-if="item.billType == 1 || item.billType == 6" @click.stop="onCloseOrder(item, index)">
                 关闭订单
               </button>
@@ -122,9 +127,15 @@
           </div>
           <div class="desc">
             <span class="sub-title">已付款：</span>
-            <span class="price">￥{{orderDetail.totalPrice || 0}}</span>
+            <span class="price">￥{{orderDetail.totalDiscountPrice || orderDetail.totalPrice || 0}}</span>
           </div>
         </div>
+      </div>
+    </w-modal>
+
+    <w-modal ref="imgModal" class="img-modal">
+      <div class="img-container">
+        <img :src="codeImg" alt="">
       </div>
     </w-modal>
     <!-- 弹窗内容 end -->
@@ -159,6 +170,7 @@ export default {
       customer: {},
       orderPrice: 0,
       orderDetail: {},
+      codeImg: '',
     };
   },
   created() {},
@@ -233,10 +245,17 @@ export default {
     toDetail(item) {
       this.$router.push(`${this.currentPath}/orderDetail?id=${item.billNo}`);
     },
+    // 查看二维码图片
+    showCode(item) {
+      this.codeImg = item.qrCodeStr;
+      this.$refs.imgModal.show({
+        showBtns: false,
+      });
+    },
     // 确认付款, 付款成功
     onConfirmPay(item, index) {
       this.orderDetail = item;
-      this.orderPrice = Number(item.totalPrice);
+      this.orderPrice = Number(item.totalDiscountPrice || item.totalPrice);
       // 老客户
       if (Number(item.payType) === 1) {
         // 在线支付
@@ -352,7 +371,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
 @import '~@/styles/components/order-modal.scss';
 .price {
   font-size: 16px;
@@ -543,4 +561,7 @@ export default {
     } // end order-button
   } // end item
 }// end order-list
+</style>
+<style lang="scss">
+@import '~@/styles/components/order-modal.scss';
 </style>

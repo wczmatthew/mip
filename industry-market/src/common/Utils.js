@@ -196,7 +196,7 @@ export default {
    * @return {[type]}       [true： 格式正确  false：格式错误]
    */
   checkPhoneNum: (phone) => {
-    return (/^1\d{10}$/.test(phone));
+    return (/^((\+\d{2})|\(\d{2}\))?1\d{10}$/.test(phone));
   },
   /**
    * 检查是否是正整数

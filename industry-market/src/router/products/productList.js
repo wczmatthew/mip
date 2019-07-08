@@ -5,45 +5,10 @@ import customer from '../customer';
 
 // const ProductList = () => import('@/views/products/ProductList.vue');
 const ProductList = () => import('@/views/products/ProductList.vue');
-const ProductCategory = () => import('@/views/products/ProductCategory.vue');
 const searchView = () => import('@/views/products/SearchView.vue');
 
 
 export default [
-  {
-    path: 'productCategory',
-    component: ProductCategory,
-    children: [
-      {
-        path: 'search',
-        component: searchView,
-        children: [
-          {
-            path: 'productList',
-            component: ProductList,
-            children: [
-              ...detail,
-              ...cart,
-              ...customer,
-            ],
-          },
-        ],
-      },
-      {
-        path: 'productList',
-        component: ProductList,
-        children: [
-          ...detail,
-          ...cart,
-          ...customer,
-          {
-            path: 'search',
-            component: searchView,
-          },
-        ],
-      },
-    ],
-  },
   {
     path: 'productList',
     component: ProductList,

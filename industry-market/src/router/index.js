@@ -8,6 +8,7 @@ import productDetail from './products/detail';
 
 const Login = () => import('@/views/Login.vue'); // 登录
 const Index = () => import('@/views/Index.vue'); // 首页
+const orderDetail = () => import('@/views/order/OrderDetail.vue');
 
 Vue.use(Router);
 
@@ -25,6 +26,10 @@ export default new Router({
         ...productList,
         ...productDetail,
       ],
+    },
+    {
+      path: '/orderDetail',
+      component: orderDetail,
     },
     ...root,
     ...mall,

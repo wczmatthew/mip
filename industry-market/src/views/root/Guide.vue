@@ -27,17 +27,6 @@
           </div>
         </div>
       </div>
-
-      <!-- 按钮区域 -->
-      <!-- <div class="icon-list">
-        <div class="icon">
-          <i class="iconfont icon-daogou" @click="toProductList()"></i>
-        </div>
-        <div class="icon" @click="toCategory()">
-          <i class="iconfont icon-fenlei"></i>
-        </div>
-      </div> -->
-      <!-- 按钮区域 end -->
     </div>
   </div>
 </template>
@@ -71,10 +60,6 @@ export default {
         return;
       }
       this.$router.push('/market/category');
-    },
-    toProductList() {
-      this.$router.push('/market/productCategory');
-      // this.$router.push('/market/productList');
     },
   },
 };

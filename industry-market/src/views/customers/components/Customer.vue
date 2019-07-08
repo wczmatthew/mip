@@ -330,6 +330,7 @@ export default {
 @import '~@/styles/components/button.scss';
 
 .customer-list {
+  min-height: 100%;
   display: flex;
   // align-items: center;
   justify-content: space-between;
@@ -540,6 +541,10 @@ export default {
     .search-content {
       background: #fff;
     }
+  }
+
+  .cube-scroll-list-wrapper {
+    background: #f8f8f8;
   }
 }
 </style>

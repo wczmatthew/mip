@@ -28,10 +28,10 @@
 
       <div class="row">
         <div class="input-item col">
-          <p>担任职务</p>
+          <p>客户类别</p>
           <cube-select
             class="select"
-            placeholder="请选择担任职务"
+            placeholder="请选择客户类别"
             v-model="duty"
             :options="dutyOptions">
           </cube-select>
@@ -108,7 +108,7 @@ export default {
       phone: '', // 客户手机
       address: '', // 客户地址
       company: '', // 所属公司
-      duty: '', // 职务
+      duty: '', // 职务/客户类别
       area: '', // 销售区域
       selectIndustry: { text: '', value: '' },
       questionList: [],
@@ -260,7 +260,7 @@ export default {
       }
 
       if (!this.duty) {
-        Utils.showToast('请输入客户担任职务');
+        Utils.showToast('请输入客户类别');
         return false;
       }
 

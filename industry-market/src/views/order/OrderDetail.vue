@@ -231,6 +231,9 @@ export default {
         case 5:
           color = 'grey';
           break;
+        case 6:
+          color = 'red';
+          break;
         default:
           break;
       }
@@ -255,6 +258,9 @@ export default {
         case 5:
           txt = '已关闭';
           break;
+        case 6:
+          txt = '待付款';
+          break;
         default:
           break;
       }
@@ -263,7 +269,7 @@ export default {
     // 获取购物车数据
     async getData() {
       Utils.showLoading();
-      const result = await service.getOrderDetail({ userid: Utils.getUserId(this), orderId: this.$route.query.id });
+      const result = await service.getOrderDetail({ orderId: this.$route.query.id });
       if (!result) return;
       Utils.hideLoading();
       this.orderDetail = result;

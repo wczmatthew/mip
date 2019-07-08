@@ -8,7 +8,7 @@
         <w-img :src="item.imgPath"></w-img>
       </div>
       <div class="title">
-        {{item.XHGG}}
+        {{item.XHGG || item.name}}
       </div>
       <div class="bottom">
         <div class="price">

@@ -27,6 +27,14 @@ export default [
     component: RateCustomerList,
     children: [
       ...search,
+      {
+        path: 'new',
+        component: customerCreate,
+      },
+      {
+        path: 'customerEdit',
+        component: customerEdit,
+      },
     ],
   },
   {

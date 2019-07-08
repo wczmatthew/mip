@@ -58,7 +58,8 @@
       display: flex;
 
       button {
-        width: 50%;
+        // width: 50%;
+        flex: 1;
         height: .35rem;
         border: 0;
         position: relative;
