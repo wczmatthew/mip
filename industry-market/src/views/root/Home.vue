@@ -27,7 +27,7 @@
       <div class="item" @click="onStartGuid()">
         <img src="~@/assets/home/mode-bg2.png" alt="" class="bg">
         <div class="detail">
-          <p>开始导购</p>
+          <p>导购</p>
         </div>
       </div>
       <!-- <div class="item" @click="toGuide()">
@@ -47,7 +47,7 @@
       <div class="item" @click="toCustomerChat()">
         <img src="~@/assets/home/mode-bg1.png" alt="" class="bg">
         <div class="detail">
-          <p>客户洽谈</p>
+          <p>洽谈</p>
         </div>
       </div>
 
@@ -371,6 +371,7 @@ export default {
         color: #fff;
         font-size: .1rem;
         margin-bottom: .02rem;
+        text-align: center;
 
         &.underline::after {
           display: block;

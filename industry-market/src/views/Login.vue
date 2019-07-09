@@ -39,8 +39,8 @@ import service from '@/services/login.service';
 export default {
   data() {
     return {
-      username: '',
-      pwd: '',
+      username: 'chint',
+      pwd: 'zt777777',
       loading: false,
     };
   },

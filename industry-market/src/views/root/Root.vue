@@ -127,6 +127,7 @@ export default {
         Utils.getCurrentPath({ fullPath: to.path, currentPath: 'chat' }),
         Utils.getCurrentPath({ fullPath: to.path, currentPath: 'customers' }),
         Utils.getCurrentPath({ fullPath: to.path, currentPath: 'customerSearch' }),
+        Utils.getCurrentPath({ fullPath: to.path, currentPath: 'analyze' }),
       ];
 
       const index = this.notShowNavPath.findIndex(item => item === to.path);
