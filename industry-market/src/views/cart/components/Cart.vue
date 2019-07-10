@@ -255,15 +255,21 @@ export default {
   },
   watch: {
     '$route'(to) {
+      // 底部栏的cart
       const isEnterCartTab = this.currentPath === '/market' && to.query.tab === 'cart';
-      const isEnterCart = this.currentPath !== '/market' && to.path === this.currentPath && this.beforeCustomerId !== this.customer.id;
+      // 购物车页面
+      const isEnterCart = this.currentPath !== '/market' && to.path === this.currentPath;
 
       if (isEnterCartTab || isEnterCart) {
-        // 更换用户后重新进入购物单页面, 重新获取数据
-        this.$store.commit('customer/updateSelectRateCustomer');
         this.cartLoading = true;
-        this.resetData();
         this.onPullingDown();
+
+        const isChangeCustomer = this.beforeCustomerId !== this.customer.id;
+        if (isChangeCustomer) {
+          // 更换用户后重新进入购物单页面, 重置关联用户和选中数据
+          this.$store.commit('customer/updateSelectRateCustomer');
+          this.resetData();
+        }
       }
     },
     rateCustomer() {
@@ -609,6 +615,7 @@ export default {
         maskClosable: false,
         onConfirm: () => {
           // 选择关联客户
+          this.beforeCustomerId = this.customer.id || '';
           this.$router.push(`${this.currentPath || this.routePath}/selectRateCustomer`);
         },
         onCancel: () => {
