@@ -8,7 +8,7 @@
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <!-- 正文内容 -->
-    <div class="order-container">
+    <div class="order-container" :class="{'order-mobile': showMobileClass}">
       <!-- 购物车信息 -->
       <div class="left">
         <div class="store">
@@ -171,19 +171,48 @@
             </span>
           </div>
         </div>
-
-        <!-- <div class="pay-msg">
-          <div class="title">
-            备<i class="opacity-0">占位</i>注:
-          </div>
-          <cube-textarea placeholder="请输入..." v-model="tips" :indicator="true" :maxlength="200" class="textarea"></cube-textarea>
-        </div> -->
         <!-- 其他信息 end -->
 
-    </div>
-    <!-- 付款信息 end -->
+        <div class="w-tableview">
+          <div class="cell">
+            <span class="title">
+              订单流程
+            </span>
+          </div>
+        </div>
 
-  </div>
+        <!-- 订单流程 -->
+        <div class="progress-list">
+          <div class="progress" v-for="(item, index) in progressList" :key="'pro'+index" :class="{'no-line': index == progressList.length - 1, 'green': index == 0}">
+            <div class="content">{{item.title}}</div>
+            <div class="time">{{item.time}}</div>
+          </div>
+          <!-- <div class="progress">
+            <div class="content">出库</div>
+            <div class="time">2019-07-09 09:50</div>
+          </div>
+          <div class="progress">
+            <div class="content">拣配</div>
+            <div class="time">2019-07-09 09:35</div>
+          </div>
+          <div class="progress">
+            <div class="content">打单</div>
+            <div class="time">2019-07-09 09:31</div>
+          </div>
+          <div class="progress">
+            <div class="content">付款</div>
+            <div class="time">2019-07-09 09:30</div>
+          </div>
+          <div class="progress no-line">
+            <div class="content">结算</div>
+            <div class="time">2019-07-09 09:28</div>
+          </div> -->
+        </div>
+        <!-- 订单流程 end -->
+      </div>
+      <!-- 付款信息 end -->
+
+    </div>
     <!-- 正文内容 end -->
   </w-container>
 </template>
@@ -202,10 +231,16 @@ export default {
       orderDetail: {},
       customer: {},
       isScan: false,
+      showMobileClass: false,
+      progressList: [],
     };
   },
   created() {},
   mounted() {
+    const width = document.body.clientWidth;
+    if (width < 650) {
+      this.showMobileClass = true;
+    }
     this.isScan = Number(this.$route.query.isScan) === 1;
     // console.log('isScan: ', this.isScan);
     this.getData();
@@ -276,6 +311,67 @@ export default {
       this.productList = [...result.itemList];
       this.customer = result.client;
       this.totalNum = result.total;
+
+      switch (this.orderDetail.billType) {
+        case 1:
+          // txt = '待发货';
+          this.progressList = [
+            { title: '付款', time: '2019-07-09 09:30' },
+            { title: '结算', time: '2019-07-09 09:28' },
+          ];
+          break;
+        case 2:
+          // txt = '待收货';
+          this.progressList = [
+            { title: '出库', time: '2019-07-09 09:50' },
+            { title: '拣配', time: '2019-07-09 09:35' },
+            { title: '打单', time: '2019-07-09 09:31' },
+            { title: '付款', time: '2019-07-09 09:30' },
+            { title: '结算', time: '2019-07-09 09:28' },
+          ];
+          break;
+        case 3:
+          // txt = '已完成';
+          this.progressList = [
+            { title: '交付', time: '2019-07-09 09:55' },
+            { title: '出库', time: '2019-07-09 09:50' },
+            { title: '拣配', time: '2019-07-09 09:35' },
+            { title: '打单', time: '2019-07-09 09:31' },
+            { title: '付款', time: '2019-07-09 09:30' },
+            { title: '结算', time: '2019-07-09 09:28' },
+          ];
+          break;
+        case 4:
+          // txt = '售后中';
+          this.progressList = [
+            { title: '交付', time: '2019-07-09 09:55' },
+            { title: '出库', time: '2019-07-09 09:50' },
+            { title: '拣配', time: '2019-07-09 09:35' },
+            { title: '打单', time: '2019-07-09 09:31' },
+            { title: '付款', time: '2019-07-09 09:30' },
+            { title: '结算', time: '2019-07-09 09:28' },
+          ];
+          break;
+        case 5:
+          // txt = '已关闭';
+          this.progressList = [
+            { title: '交付', time: '2019-07-09 09:55' },
+            { title: '出库', time: '2019-07-09 09:50' },
+            { title: '拣配', time: '2019-07-09 09:35' },
+            { title: '打单', time: '2019-07-09 09:31' },
+            { title: '付款', time: '2019-07-09 09:30' },
+            { title: '结算', time: '2019-07-09 09:28' },
+          ];
+          break;
+        case 6:
+          // txt = '待付款';
+          this.progressList = [
+            { title: '结算', time: '2019-07-09 09:28' },
+          ];
+          break;
+        default:
+          break;
+      }
     },
   },
 };
@@ -513,5 +609,78 @@ export default {
     }
 
   } // end w-tableview
+}
+
+// 屏幕小的样式
+.order-mobile {
+  display: block;
+
+  .left {
+    width: 95%;
+    margin: 0 auto;
+    border-radius: .05rem;
+    height: auto;
+  }
+
+  .right {
+    width: 95%;
+    margin: .1rem auto;
+    border-radius: .05rem;
+    height: auto;
+  }
+}
+
+.progress-list {
+  display: block;
+
+  .progress {
+    position: relative;
+    padding-left: 60px;
+    padding-bottom: .2rem;
+
+    .time {
+      color: $color-grey;
+      padding-top: .1rem;
+    }
+
+    .content {
+      width: 35px;
+      height: 35px;
+      border-radius: 35px;
+      line-height: 35px;
+      background: $color-blue;
+      content: ' ';
+      display: block;
+      position: absolute;
+      top: .02rem;
+      left: 15px;
+      z-index: 10;
+      color: #fff;
+      text-align: center;
+    }
+
+    &::after {
+      width: 1px;
+      height: 100%;
+      background: $color-line;
+      content: ' ';
+      display: block;
+      position: absolute;
+      top: .02rem;
+      left: 32px;
+    }
+
+    &.green {
+      .content {
+        background: $color-green;
+      }
+    }
+
+    &.no-line {
+      &::after {
+        display: none;
+      }
+    }
+  }
 }
 </style>

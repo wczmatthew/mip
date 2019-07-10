@@ -65,7 +65,7 @@
               今日销售额
             </p>
           </div>
-          <div class="item" @click.stop="toAnalyze()">
+          <!-- <div class="item" @click.stop="toAnalyze()">
             <p class="top-num">
               <i class="iconfont icon-more" style="font-size: 26px;"></i>
             </p>
@@ -73,7 +73,7 @@
               <i class="iconfont icon-fenxi"></i>
               大数据分析
             </p>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -146,9 +146,11 @@
     </div> -->
     <!-- 管理中心 end -->
 
-    <button class="blue-btn bottom-btn" @click="onLogout()">
+    <analyze ref="analyze"></analyze>
+
+    <!-- <button class="blue-btn bottom-btn" @click="onLogout()">
       退出登录
-    </button>
+    </button> -->
 
   </div>
 </template>
@@ -156,6 +158,7 @@
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
 import userService from '@/services/user.service';
+import Analyze from './Analyze.vue';
 
 export default {
   data() {
@@ -178,16 +181,23 @@ export default {
     Utils.showLoading();
     this.getUserData();
     this.getData();
+
+    if (this.$route.path === '/market' && this.$route.query.tab === 'my') {
+      this.$refs.analyze && this.$refs.analyze.initChart();
+    }
   },
   watch: {
     '$route'(to) {
       if (to.path === '/market' && to.query.tab === 'my') {
         // 进入页面, 重新获取数据
         this.getData();
+        this.$refs.analyze && this.$refs.analyze.initChart();
       }
     },
   },
-  components: {},
+  components: {
+    Analyze,
+  },
   methods: {
     toAnalyze() {
       this.$router.push('/market/analyze');
@@ -210,14 +220,14 @@ export default {
       this.todayPrice = (result.todayPrice || 0).toFixed(2);
       this.totalPrice = (result.totalPrice || 0).toFixed(2);
       this.totalCount = result.totalCount || 0;
-      // this.finishCount = result.finishCount || 0;
+      this.finishCount = result.finishCount || 0;
       this.waitGetCount = result.waitGetCount || 0;
       this.waitPayCount = result.waitPayCount || 0;
       this.waitPostCount = result.waitPostCount || 0;
       this.orderCount = result.orderCount || 0;
       this.finishOrderCount = result.finishOrderCount || 0;
 
-      // if (this.finishCount > 99) this.finishCount = '99+';
+      if (this.finishCount > 99) this.finishCount = '99+';
       if (this.waitGetCount > 99) this.waitGetCount = '99+';
       if (this.waitPayCount > 99) this.waitPayCount = '99+';
       if (this.waitPostCount > 99) this.waitPostCount = '99+';

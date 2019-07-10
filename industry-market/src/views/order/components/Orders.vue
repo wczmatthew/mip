@@ -22,7 +22,7 @@
           <w-loading-row v-if="firstLoading"></w-loading-row>
 
           <!-- 订单信息 -->
-          <div class="item" v-for="(item, index) in dataList" :key="index">
+          <div class="item" v-for="(item, index) in dataList" :key="index" @click.stop="toDetail(item)">
             <div class="store">
               <span class="msg">
                 <i class="iconfont icon-store"></i>
@@ -35,27 +35,36 @@
               </span>
             </div>
 
-            <!-- 产品列表 -->
-            <div class="product-item" v-for="(product, productIndex) in item.itemList" :key="index+productIndex">
-              <div class="img">
-                <w-img :src="product.imgPath" alt=""/>
-              </div>
-              <div class="detail">
-                <div class="row">
-                  <span>{{product.xhgg}}</span>
-                  <!-- <span class="price">
-                    ￥{{product.normSum}}
-                  </span> -->
+            <div class="product-list">
+              <!-- 产品列表 -->
+              <div class="product-item" v-for="(product, productIndex) in item.itemList" :key="index+productIndex">
+                <div class="img">
+                  <w-img :src="product.imgPath" alt=""/>
                 </div>
-                <div class="row">
-                  <span class="desc">X{{product.qty || 0}}</span>
-                  <span class="desc price">
-                    ￥{{product.discountSum || product.normSum}}
-                  </span>
+                <div class="detail">
+                  <div class="row" style="width: 55%; display: block;">
+                    {{product.xhgg}}
+                    <!-- <span></span> -->
+                    <!-- <span class="price">
+                      ￥{{product.normSum}}
+                    </span> -->
+                  </div>
+                  <div class="row">
+                    <span class="desc">X{{product.qty || 0}}</span>
+                    <span class="desc price">
+                      ￥{{product.discountSum || product.normSum}}
+                    </span>
+                  </div>
                 </div>
               </div>
+              <!-- 产品列表 end -->
+
+              <!-- 二维码 -->
+              <div class="code-img">
+                <w-img :src="item.qrCodeStr"></w-img>
+              </div>
+              <!-- 二维码 -->
             </div>
-            <!-- 产品列表 end -->
 
             <!-- 订单总计 -->
             <div class="order-total">
@@ -65,9 +74,9 @@
 
             <!-- 按钮区域 -->
             <div class="order-bottom">
-              <button class="grey" @click.stop="showCode(item)">
+              <!-- <button class="grey" @click.stop="showCode(item)">
                 查看二维码
-              </button>
+              </button> -->
               <button v-if="item.billType == 2" @click.stop="onConfirmReceive(item, index)">
                 确认收货
               </button>
@@ -499,7 +508,6 @@ export default {
         flex: 1;
         overflow: hidden;
         padding-top: .05rem;
-
         .row {
           display: flex;
           align-items: center;
@@ -525,6 +533,24 @@ export default {
         } // end row
       }
     } // end product-item
+
+    .product-list {
+      position: relative;
+
+      .code-img {
+        position: absolute;
+        top: 50%;
+        right: 20%;
+        width: .45rem;
+        height: .45rem;
+        margin-top: -.22rem;
+
+        img {
+          width: 100%;
+          height: 100%;
+        }
+      }
+    }
 
     .order-total {
       text-align: right;

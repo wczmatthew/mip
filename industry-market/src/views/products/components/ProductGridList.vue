@@ -102,6 +102,9 @@ export default {
       item.loading = false;
       if (!result) return;
       Utils.showToast(`${item.XHGG}加入购物车成功`);
+      if (Number(this.$route.query.isBack) === 1) {
+        this.$router.back();
+      }
     },
   },
   props: {

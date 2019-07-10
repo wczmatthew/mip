@@ -26,6 +26,10 @@
     <!-- <order-list-tab v-show="active == 'order'" ref="order" current-path="/market"></order-list-tab> -->
     <!-- 订单管理 end -->
 
+    <!-- 解决方案 -->
+    <solution v-show="active == 'solution'"></solution>
+    <!-- 解决方案 end -->
+
     <!-- 个人中心 -->
     <my v-show="active == 'my'" ref="my"></my>
     <!-- <analyze v-show="active == 'my'"></analyze> -->
@@ -88,6 +92,7 @@
 import Utils from '@/common/Utils';
 import Home from './Home.vue';
 import Guide from './Guide.vue';
+import Solution from './Solution.vue';
 import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
 // import OrderListTab from '../order/OrderListTab.vue';
@@ -105,6 +110,7 @@ export default {
         { title: '展厅导购', icon: 'icon-daogou', tab: 'guide' },
         { title: '智能搜索', icon: 'icon-fenlei', tab: 'category' },
         { title: '商机记录', icon: 'icon-customers', tab: 'customer' },
+        { title: '解决方案', icon: 'icon-fenxi', tab: 'solution' },
         // { title: '订单进度', icon: 'icon-wenjianguanli', tab: 'order' },
         { title: '购物单', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
@@ -140,12 +146,15 @@ export default {
 
       if (to.path === '/market') {
         this.initTabActive();
+
+        if (to.query.tab === 'solution') this.isShowNav = false;
       }
     },
   },
   created() {},
   mounted() {
     this.initTabActive();
+    if (this.$route.query.tab === 'solution') this.isShowNav = false;
   },
   components: {
     ProductCategoryTab,
@@ -153,6 +162,7 @@ export default {
     Home,
     CartTab,
     CustomerTab,
+    Solution,
     // OrderListTab,
     My,
     // Analyze,

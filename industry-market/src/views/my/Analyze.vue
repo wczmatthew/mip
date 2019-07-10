@@ -1,12 +1,16 @@
 <!-- 大数据分析 -->
 <template lang='html'>
-  <w-container show-header show-back>
+  <!-- <w-container show-header show-back> -->
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <!-- <div slot="header-mid">
       大数据分析
-    </div>
+    </div> -->
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
+    <!-- 正文内容 end -->
+  <!-- </w-container> -->
+
+  <div>
     <!-- 实时数据 -->
     <div class="analyze-container analyze1">
       <div class="title-row">
@@ -270,21 +274,7 @@
       </div>
       <!-- 商品 end -->
     </div>
-    <!-- 正文内容 end -->
-  </w-container>
-  <!-- <div class="w-container"> -->
-    <!-- 顶部栏 -->
-    <!-- <w-header>
-      <div slot="header-mid">
-        大数据分析
-      </div>
-    </w-header> -->
-    <!-- 顶部栏 end -->
-    <!-- 正文内容 -->
-    <!-- <div class="w-content">
-    </div> -->
-    <!-- 正文内容 end -->
-  <!-- </div> -->
+  </div>
 </template>
 <script>
 import Utils from '@/common/Utils';
@@ -304,10 +294,6 @@ export default {
   },
   created() {},
   mounted() {
-    this.$nextTick(() => {
-      this.initChart();
-    });
-
     this.kpiList = [
       { title: '支付金额', content: '12,980.00' },
       { title: '支付件数', content: '791,150' },
