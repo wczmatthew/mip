@@ -18,7 +18,7 @@
       <div class="icon12" @click.stop="toProductList('NP8')"></div>
       <div class="icon13" @click.stop="toProductList('NS2')"></div>
       <div class="icon14" @click.stop="toProductList('NKB8')"></div>
-      <div class="icon15" @click.stop="toProductList('NVF5-G5')"></div>
+      <div class="icon15" @click.stop="toProductList('NVF5-GS')"></div>
       <div class="icon16" @click.stop="toProductList('NB1')"></div>
       <div class="icon17" @click.stop="toProductList('NJR2')"></div>
       <div class="icon18" @click.stop="toProductList('NS2')"></div>
