@@ -254,6 +254,9 @@ export default {
           this.loading = false;
           if (!result) return;
           Utils.showToast('加入购物车成功');
+          if (Number(this.$route.query.isBack) === 1) {
+            this.$router.go(-2);
+          }
         },
       });
     },

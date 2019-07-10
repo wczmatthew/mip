@@ -55,7 +55,7 @@ export default {
     },
     // 查看详情
     toDetail(item) {
-      this.$router.push(`${this.path}/detail?bm=${item.BM}`);
+      this.$router.push(`${this.path}/detail?bm=${item.BM}&isBack=${this.$route.query.isBack}`);
     },
     // 加入购物车
     onAddCart(item) {
