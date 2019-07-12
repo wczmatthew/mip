@@ -11,7 +11,7 @@
       <w-search class="index-search" disabled @input-click="toSearch()"></w-search>
     </div>
     <div class="header-right" slot="header-right">
-      <w-scan-icon></w-scan-icon>
+      <w-scan-icon color="white"></w-scan-icon>
     </div>
     <!-- 顶部栏 end -->
 

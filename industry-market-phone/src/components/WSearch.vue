@@ -82,11 +82,11 @@ export default {
   color: #333;
 
   .search-content {
-    background: #fff;
+    background: #f5f5f5;
     height: .3rem;
     line-height: .3rem;
-    border: 1px solid $color-line;
-    border-radius: .3rem;
+    // border: 1px solid $color-line;
+    border-radius: .05rem;
     display: flex;
     transition: all .3s ease;
   }
@@ -96,6 +96,7 @@ export default {
     font-size: .18rem;
     flex-shrink: 0;
     display: block;
+    color: #b9b9b9;
   }
 
   input {

@@ -2,7 +2,7 @@
 <template lang='html'>
   <div class="w-icon" @click.stop="toScan()">
     <i class="iconfont icon-scan" :class="[color]"></i>
-    <p>扫一扫</p>
+    <!-- <p>扫一扫</p> -->
   </div>
 </template>
 <script>
@@ -31,7 +31,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'white',
+      default: '',
     },
     currentPath: {
       type: String,
@@ -48,7 +48,6 @@ export default {
   height: 100%;
   flex-shrink: 0;
   position: relative;
-  color: #fff;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -60,7 +59,7 @@ export default {
   .iconfont {
     position: relative;
     width: auto;
-    color: $color-blue;
+    font-size: .2rem;
     .point {
       width: .06rem;
       height: .06rem;

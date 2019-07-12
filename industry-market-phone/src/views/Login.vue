@@ -119,16 +119,16 @@ export default {
 
   .logo {
     position: absolute;
-    bottom: -.5rem;
+    bottom: -.4rem;
     left: 50%;
-    margin-left: -.5rem;
+    margin-left: -.4rem;
     z-index: 10;
-    width: 1rem;
-    height: 1rem;
+    width: .8rem;
+    height: .8rem;
     min-width: .3rem;
     min-height: .3rem;
     border-radius: 1rem;
-    background: $default-color;
+    background: $color-blue;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -142,17 +142,17 @@ export default {
 .login-container {
   width: 93%;
   margin: 0 auto;
-  margin-top: 12vh;
+  margin-top: 10vh;
   .input-item {
     width: 100%;
     margin-top: .1rem;
-    border-bottom: .01rem solid $default-color;
+    border-bottom: .01rem solid $color-blue;
     display: flex;
     align-items: center;
 
     .iconfont {
-      color: $default-color;
-      border: .01rem solid $default-color;
+      color: $color-blue;
+      border: .01rem solid $color-blue;
       width: .2rem;
       height: .2rem;
       border-radius: .2rem;

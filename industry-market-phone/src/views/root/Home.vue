@@ -63,60 +63,277 @@
     <!-- 限时抢购 -->
     <div class="home-row">
       <div class="title">
-        限时抢购
+        限时购
+        <i class="iconfont icon-shandian"></i>
         <span class="time">{{hour}}</span>
         <span class="time">{{minute}}</span>
         <span class="time">{{second}}</span>
+        <span class="tip">
+          后结束
+        </span>
       </div>
 
       <div class="w-grid-list product-grid">
         <div class="item" v-for="(item, index) in productList" :key="index">
-          <div class="img">
-            <img src="~@/assets/home/banner.jpg" alt="">
-          </div>
           <div class="detail">
+            <div class="img">
+              <img src="~@/assets/home/banner.jpg" alt="">
+            </div>
             <p class="product-title">
               {{item.title}}
             </p>
-            <p class="desc">
-              质量好，价格优惠
-            </p>
-            <p class="price">
-              ￥ 9.33
-            </p>
           </div>
+          <p class="desc">
+            限时9折
+          </p>
         </div>
       </div>
     </div>
     <!-- 限时抢购 end -->
 
-    <!-- 正泰精品 -->
-    <div class="home-row">
-      <div class="title">
-        正泰精品
-        <span class="icon">hot !</span>
-      </div>
+    <!-- 广告图片 -->
+    <div class="banner2">
+      <img src="~@/assets/home/banner2.png" alt="">
+    </div>
+    <!-- 广告图片 end -->
 
-      <div class="w-grid-list product-grid">
-        <div class="item" v-for="(item, index) in productList" :key="'hot' + index">
-          <div class="img">
-            <img src="~@/assets/home/banner.jpg" alt="">
-          </div>
-          <div class="detail">
-            <p class="product-title">
-              {{item.title}}
-            </p>
-            <p class="desc">
-              质量好，价格优惠
-            </p>
-            <p class="price">
-              ￥ 9.33
-            </p>
-          </div>
+    <!-- 海报产品列表 -->
+    <div class="w-grid-list product-grid2">
+      <div class="product product1">
+        <p class="title">
+          开关插座黑灰色
+        </p>
+        <p class="desc">
+          细腻磨砂材质
+        </p>
+        <p class="price">
+          ￥ 23 起
+        </p>
+        <div class="label">
+          新品
+        </div>
+
+        <div class="img">
+          <img src="~@/assets/home/product1.png" alt="">
         </div>
       </div>
+
+      <div class="right-product">
+        <div class="product product2">
+          <p class="title">
+            NBE7小型断路器
+          </p>
+          <p class="desc">
+            好口碑好实力
+          </p>
+          <p class="price">
+            ￥ 23 起
+          </p>
+          <div class="label">
+            爆款
+          </div>
+
+          <div class="img">
+            <img src="~@/assets/home/product2.png" alt="">
+          </div>
+        </div>
+
+        <div class="product product3">
+          <p class="title">
+            开关插座黑灰色
+          </p>
+          <p class="desc">
+            细腻磨砂材质
+          </p>
+          <p class="price">
+            ￥ 23 起
+          </p>
+          <div class="label">
+            新品
+          </div>
+
+          <div class="img">
+            <img src="~@/assets/home/product3.png" alt="">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="product product2 product4">
+        <p class="title">
+          NBE7小型断路器
+        </p>
+        <p class="desc">
+          好口碑好实力
+        </p>
+        <p class="price">
+          ￥ 23 起
+        </p>
+        <div class="label">
+          爆款
+        </div>
+
+        <div class="img">
+          <img src="~@/assets/home/product4.png" alt="">
+        </div>
+      </div>
+
+      <div class="product product2 product5">
+        <p class="title">
+          开关插座黑灰色
+        </p>
+        <p class="desc">
+          细腻磨砂材质
+        </p>
+        <p class="price">
+          ￥ 23 起
+        </p>
+        <div class="label">
+          新品
+        </div>
+
+        <div class="img">
+          <img src="~@/assets/home/product2.png" alt="">
+        </div>
+      </div>
+
     </div>
-    <!-- 正泰精品 end -->
+    <!-- 海报产品列表 end -->
+
+    <!-- 产品列表 -->
+    <div class="w-grid-list product-list">
+      <div class="item">
+        <div class="img">
+          <img src="~@/assets/home/product1.png" alt="">
+        </div>
+        <p class="title">
+          正泰led灯带
+        </p>
+        <p class="desc">
+          最高优惠200
+        </p>
+        <p class="price">
+          ￥2333
+        </p>
+      </div>
+
+      <div class="item">
+        <div class="img">
+          <img src="~@/assets/home/product1.png" alt="">
+        </div>
+        <p class="title">
+          正泰led灯带
+        </p>
+        <p class="desc">
+          最高优惠200
+        </p>
+        <p class="price">
+          ￥2333
+        </p>
+      </div>
+
+      <div class="item">
+        <div class="img">
+          <img src="~@/assets/home/product1.png" alt="">
+        </div>
+        <p class="title">
+          正泰led灯带
+        </p>
+        <p class="desc">
+          最高优惠200
+        </p>
+        <p class="price">
+          ￥2333
+        </p>
+      </div>
+    </div>
+    <!-- 产品列表 end -->
+
+    <!-- 精品推荐 -->
+    <div class="product-bottom">
+      <p class="title">
+        精品推荐
+      </p>
+
+      <div class="w-grid-list">
+        <div class="col col2">
+          <div class="img">
+            <img src="~@/assets/home/product2.png" alt="">
+            <div class="bottom">
+              标配版到手2433
+            </div>
+          </div>
+          <p class="sub-title">
+            卧室灯吸顶灯
+          </p>
+          <p class="price">
+            ￥2433
+          </p>
+        </div>
+
+        <div class="col col2" style="margin-right: 0;">
+          <div class="img">
+            <img src="~@/assets/home/product2.png" alt="">
+            <div class="bottom">
+              标配版到手2433
+            </div>
+          </div>
+          <p class="sub-title">
+            卧室灯吸顶灯
+          </p>
+          <p class="price">
+            ￥2433
+          </p>
+        </div>
+
+        <div class="col col3">
+          <div class="img">
+            <img src="~@/assets/home/product2.png" alt="">
+            <div class="bottom">
+              标配版到手2433
+            </div>
+          </div>
+          <p class="sub-title">
+            卧室灯吸顶灯
+          </p>
+          <p class="price">
+            ￥2433
+          </p>
+        </div>
+
+        <div class="col col3">
+          <div class="img">
+            <img src="~@/assets/home/product2.png" alt="">
+            <div class="bottom">
+              标配版到手2433
+            </div>
+          </div>
+          <p class="sub-title">
+            卧室灯吸顶灯
+          </p>
+          <p class="price">
+            ￥2433
+          </p>
+        </div>
+
+        <div class="col col3" style="margin-right: 0;">
+          <div class="img">
+            <img src="~@/assets/home/product2.png" alt="">
+            <div class="bottom">
+              标配版到手2433
+            </div>
+          </div>
+          <p class="sub-title">
+            卧室灯吸顶灯
+          </p>
+          <p class="price">
+            ￥2433
+          </p>
+        </div>
+
+      </div>
+    </div>
+    <!-- 精品推荐 end -->
   </div>
 </template>
 <script>
@@ -265,7 +482,6 @@ export default {
   height: .44rem;
   display: flex;
   align-items: center;
-  background: rgba($color: #000000, $alpha: .6);
   position: fixed;
   top: 0;
   left: 0;
@@ -283,7 +499,6 @@ export default {
     align-items: center;
     justify-content: center;
     max-width: 30%;
-    color: #fff;
     flex-shrink: 0;
     font-size: .12rem;
 
@@ -307,23 +522,44 @@ export default {
   width: 100%;
   min-height: 2rem;
   overflow: hidden;
+  padding-top: .44rem;
 
   .banner-item {
+    padding: .1rem;
     height: 2rem;
     @include flex-center;
     img {
-      height: 2rem;
+      width: 100%;
+      height: 100%;
+      display: block;
+      border-radius: .08rem;
     }
   }
 }
 
-.home-category {
-  margin: 0 .15rem;
-  justify-content: space-around;
-  margin-top: .1rem;
-  border: 1px solid $color-line;
+.banner2 {
+  margin: .1rem;
+  display: block;
   border-radius: .05rem;
+  overflow: hidden;
+  img {
+    width: 100%;
+  }
+}
+
+.home-category {
+  justify-content: space-around;
   background: #fff;
+  padding: 0 .15rem;
+  padding-top: .1rem;
+
+  // &::after {
+  //   content: ' ';
+  //   display: block;
+  //   width: 100%;
+  //   height: 1px;
+  //   background: $color-line;
+  // }
 
   .item {
     width: 25%;
@@ -331,40 +567,48 @@ export default {
     padding-bottom: .08rem;
     position: relative;
     overflow: hidden;
-    border-right: 1px solid $color-line;
-
-    &:last-child {
-      border: 0;
-    }
 
     img {
-      width: 100%;
+      width: 65%;
       display: block;
       margin: 0 auto;
     }
 
     .sub-title {
-      font-size: .1rem;
-      font-weight: 700;
-      margin-top: -.1rem;
+      font-size: .12rem;
       text-align: center;
+      color: $color-grey;
+      margin-top: .1rem;
     }
   }
 }
 
 .home-row {
-  margin: .15rem .15rem .2rem;
+  padding: .15rem 0 .1rem;
+  @include background-top-gradient(#f7f7f7 90%, #fefefe);
   .title {
     display: flex;
     align-items: center;
-    font-size: .18rem;
+    justify-content: center;
+    font-size: .16rem;
     font-weight: 700;
     margin-bottom: .1rem;
+    color: #525252;
+
+    .icon-shandian {
+      color: #fb4b2e;
+      font-size: .2rem;
+      margin: 0 .05rem;
+    }
+
+    .tip {
+      color: $color-grey;
+      font-size: .12rem;
+    }
 
     .time {
-      background: $color-red;
-      color: #fff;
-      font-size: .14rem;
+      color: #525252;
+      font-size: .18rem;
       border-radius: .05rem;
       width: .2rem;
       height: .2rem;
@@ -372,17 +616,22 @@ export default {
       text-align: center;
       margin-right: .08rem;
       position: relative;
+      font-weight: 700;
       &::after {
         content: ":";
         position: absolute;
         right: -.06rem;
         top: 0;
-        color: $color-red;
+        color: #525252;
         font-weight: 700;
       }
 
       &:first-child {
         margin-left: .1rem;
+      }
+
+      &:nth-last-child(2)::after {
+        display: none;
       }
 
       &:last-child::after {
@@ -403,67 +652,294 @@ export default {
   } // end title
 
   .product-grid {
-    background: #fff;
-    border: 1px solid $color-line;
-    overflow: hidden;
+    overflow: auto;
     border-radius: .05rem;
+    flex-wrap: nowrap;
+    width: 100%;
 
     .item {
-      width: 50%;
-      padding: .1rem .05rem .1rem .1rem;
-      border-right: 1px solid $color-line;
-      border-bottom: 1px solid $color-line;
-      display: flex;
-      align-items: center;
-
-      &:nth-child(2n) {
-        border-right: 0;
-      }
-
-      &:nth-last-child(1),
-      &:nth-last-child(2) {
-        border-bottom: 0;
-      }
-
-      .img {
-        width: .57rem;
-        height: .57rem;
-        border: 1px solid #f3f3f3;
-        @include flex-center;
-        margin-right: .05rem;
-        overflow: hidden;
-        flex-shrink: 0;
-
-        img {
-          width: 100%;
-        }
-      }
+      width: .75rem;
+      padding: 0;
+      flex-shrink: 0;
+      overflow: hidden;
+      margin-left: .1rem;
 
       .detail {
-        flex: 1;
-        overflow: hidden;
-        font-size: .1rem;
+        background: #fff;
+        border-radius: .05rem;
+        padding: .08rem 0 .05rem;
 
+        .img {
+          width: .5rem;
+          height: .55rem;
+          border: 1px solid #f3f3f3;
+          @include flex-center;
+          overflow: hidden;
+          margin: 0 auto;
+
+          img {
+            height: 100%;
+          }
+        }
         .product-title {
           @include text-overflow-muli(2);
           @include break-word;
-        }
-
-        .desc {
-          color: $color-orange;
-          margin-top: .05rem;
-        }
-
-        .price {
-          font-size: .15rem;
-          font-weight: 700;
-          color: $color-red;
-          @include text-ellipsis;
-          margin-top: .05rem;
+          margin: .05rem .08rem 0;
+          font-size: .1rem;
+          color: $color-grey;
         }
       } // end detail
+
+      .desc {
+        color: $color-red;
+        margin-top: .05rem;
+        text-align: center;
+        @include text-ellipsis();
+        font-size: .12rem;
+      }
     } // end item
   } // end product-grid
 } // end home-row
+
+.product-grid2 {
+  padding: 0 .1rem;
+  .product {
+    padding: .15rem .15rem .1rem;
+    position: relative;
+    margin-bottom: .05rem;
+
+    .title {
+      @include text-overflow-muli(2);
+      @include break-word;
+      margin-bottom: .07rem;
+    }
+
+    .desc {
+      color: $color-grey;
+      font-size: .1rem;
+      @include text-ellipsis();
+      margin-bottom: .07rem;
+    }
+
+    .price {
+      font-size: .1rem;
+      @include text-ellipsis();
+      margin-bottom: .07rem;
+    }
+
+    .label {
+      background: $color-blue-light;
+      color: #fff;
+      font-size: .1rem;
+      padding: .05rem .08rem;
+      border-radius: .05rem;
+      display: inline-block;
+    }
+
+    .img {
+      display: block;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+  } // end product
+
+  .product1 {
+    width: 49%;
+    border-top-left-radius: .1rem;
+    background: #e4feff;
+
+    .img {
+      width: 90%;
+      margin: .35rem auto 0;
+    }
+  } // end product1
+
+  .right-product {
+    width: 49%;
+    margin-left: 2%;
+  } // right-product
+
+  .product2 {
+    background: #f4fcff;
+    border-top-right-radius: .1rem;
+    height: 1.2rem;
+    overflow: hidden;
+
+    .img {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 60%;
+    }
+  } // end product2
+
+  .product3 {
+    background: #eff1fe;
+    height: 1.2rem;
+    overflow: hidden;
+
+    .img {
+      position: absolute;
+      bottom: -10%;
+      right: 15%;
+      width: 40%;
+    }
+  } // end product3
+
+  .product4 {
+    background: #e7ffff;
+    width: 49%;
+  }
+
+  .product5 {
+    background: #ffe9fe;
+    width: 49%;
+    margin-left: 2%;
+    border-radius: 0;
+  }
+
+} // end product-grid2
+
+.product-list {
+  padding: .1rem;
+  justify-content: space-between;
+  background: #fff;
+
+  .item {
+    width: 33%;
+    background: #f9f9f9;
+    padding: .15rem;
+
+    .img {
+      width: 100%;
+      height: .9rem;
+      overflow: hidden;
+      @include flex-center;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        display: block;
+      }
+    }
+
+    .title {
+      @include text-overflow-muli(2);
+      @include break-word;
+      margin-bottom: .07rem;
+      text-align: center;
+      font-size: .12rem;
+      font-weight: 700;
+    }
+
+    .desc {
+      color: $color-grey;
+      font-size: .1rem;
+      @include text-ellipsis();
+      margin-bottom: .07rem;
+      text-align: center;
+    }
+
+    .price {
+      font-size: .1rem;
+      @include text-ellipsis();
+      margin-bottom: .07rem;
+      text-align: center;
+    }
+  } // end item
+} // end product-list
+
+.product-bottom {
+  background: #fff;
+  padding-top: .25rem;
+
+  .title {
+    font-size: .18rem;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: .14rem;
+  }
+
+  .w-grid-list {
+    padding: 0 3vw;
+  }
+
+  .col {
+    margin-right: 2vw;
+    overflow: hidden;
+
+    .img {
+      overflow: hidden;
+      @include flex-center;
+      position: relative;
+      background: #f0f0f0;
+      border-radius: .05rem;
+      img {
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+
+    .bottom {
+      width: 100%;
+      height: .26rem;
+      line-height: .26rem;
+      background: #f0f0f0;
+      text-align: center;
+      color: #fff;
+      @include text-ellipsis();
+      color: $color-grey;
+    }
+
+    .sub-title {
+      font-size: .12rem;
+      @include text-ellipsis();
+      text-align: center;
+      margin-top: .1rem;
+    }
+
+    .price {
+      font-size: .12rem;
+      color: $color-red;
+      text-align: center;
+      @include text-ellipsis();
+      margin: .1rem 0;
+    }
+  } // end col
+
+  .col2 {
+    .img {
+      width: 46vw;
+      height: 46vw;
+    }
+
+    .bottom {
+      background: rgba($color: #000000, $alpha: .5);
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      z-index: 10;
+      font-size: .12rem;
+      color: #fff;
+    }
+  }
+
+  .col3 {
+    .img {
+      max-width: 30vw;
+      max-height: 30vw;
+      display: block;
+      background: #c8c9cd;
+
+      .img {
+        display: block;
+      }
+    }
+  }
+
+} // end product-bottom
 
 </style>
