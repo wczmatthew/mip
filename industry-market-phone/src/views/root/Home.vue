@@ -520,13 +520,12 @@ export default {
 
 .banner {
   width: 100%;
-  min-height: 2rem;
   overflow: hidden;
   padding-top: .44rem;
 
   .banner-item {
     padding: .1rem;
-    height: 2rem;
+    height: 1.45rem;
     @include flex-center;
     img {
       width: 100%;
@@ -892,6 +891,7 @@ export default {
       color: #fff;
       @include text-ellipsis();
       color: $color-grey;
+      font-size: .12rem;
     }
 
     .sub-title {

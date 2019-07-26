@@ -218,7 +218,7 @@ export default {
     width: .45rem;
   }
   .icon-cart {
-    color: $default-color;
+    color: $color-default;
   }
 }
 
@@ -281,7 +281,7 @@ export default {
     }
 
     .title {
-      color: $default-color;
+      color: $color-default;
       text-align: right;
       @include text-overflow-muli(2);
       margin: .1rem;
@@ -305,7 +305,7 @@ export default {
 .recom-list {
   padding-bottom: .2rem;
   .title {
-    color: $default-color;
+    color: $color-default;
     padding-left: .12rem;
     font-size: .16rem;
     font-weight: 700;
@@ -349,14 +349,14 @@ export default {
           font-size: .16rem;
           @include text-overflow-muli(2);
           margin-bottom: .1rem;
-          color: $default-color;
+          color: $color-default;
         }
 
         .star {
           font-size: .1rem;
           display: flex;
           align-items: center;
-          color: $default-color;
+          color: $color-default;
           margin-bottom: .1rem;
 
           span {
@@ -372,11 +372,11 @@ export default {
           .label {
             display: block;
             padding: .02rem .05rem;
-            border: .01rem solid $default-color;
+            border: .01rem solid $color-default;
             border-radius: .05rem;
             font-size: .1rem;
             margin-right: 2%;
-            color: $default-color;
+            color: $color-default;
             margin-bottom: .05rem;
           }
         }

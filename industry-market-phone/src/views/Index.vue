@@ -1,17 +1,20 @@
 <template lang='html'>
-  <w-container show-header class="index-container">
+  <w-container class="index-container">
     <!-- 正文内容 -->
     <!-- 顶部栏 -->
-    <div class="header" slot="header-mid">
-      <div class="city">
-        <i class="iconfont icon-location"></i>
-        温州
-        <i class="iconfont icon-triangle-down"></i>
+    <div class="w-header">
+      <div class="w-header-mid header">
+        <div class="city">
+          <i class="iconfont icon-location"></i>
+          温州
+          <i class="iconfont icon-triangle-down"></i>
+        </div>
+        <w-search class="index-search" disabled @input-click="toSearch()"></w-search>
+
       </div>
-      <w-search class="index-search" disabled @input-click="toSearch()"></w-search>
-    </div>
-    <div class="header-right" slot="header-right">
-      <w-scan-icon color="white"></w-scan-icon>
+      <div class="header-right">
+        <w-scan-icon color="white"></w-scan-icon>
+      </div>
     </div>
     <!-- 顶部栏 end -->
 
@@ -162,7 +165,6 @@ export default {
   height: .44rem;
   display: flex;
   align-items: center;
-  background: $color-blue;
 
   .city {
     margin: 0 .1rem;
@@ -198,6 +200,7 @@ export default {
     justify-content: center;
     overflow: hidden;
     height: 100%;
+    min-height: 2rem;
     img {
       width: 100%;
     }
@@ -359,7 +362,14 @@ export default {
 <style lang="scss">
 .index-container .header-right {
   position: static;
-  background: #005bac;
+}
+
+.index-container .w-header {
+  background: rgba($color: #000000, $alpha: .5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 10;
 }
 
 .index-container .w-header::after {

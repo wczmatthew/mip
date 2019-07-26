@@ -9,7 +9,7 @@
     <!-- 顶部栏 end -->
 
     <!-- 菜单页面 -->
-    <div class="product-header" slot="w-header-other">
+    <div class="product-header" slot="header-other">
       <p class="title">开关</p>
       <search-sort></search-sort>
       <!-- <mall-tab :tab-list="tabList" @select="onSelectTab"></mall-tab> -->
@@ -162,7 +162,7 @@ export default {
     width: .45rem;
   }
   .icon-cart {
-    color: $default-color;
+    color: $color-default;
   }
 }
 

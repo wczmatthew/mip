@@ -27,9 +27,17 @@
 
     <div class="w-tabbar" slot="w-footer">
       <div class="item" v-for="(item, index) in tablist" :key="index"
-      :class="{'actived': active == item.tab}" @click="onChangeTab(index, item)">
-        <i class="iconfont" :class="[item.icon]"></i>
-        <p>{{item.title}}</p>
+      :class="{'actived': active == item.tab}"
+      @click="onChangeTab(index, item)">
+        <template v-if="item.tab == 'home'">
+          <div class="tab-icon" v-if="active == item.tab">
+            <img src="~@/assets/common/c.png" alt="" class="">
+          </div>
+          <i class="iconfont" :class="[item.icon]" v-if="active != 'home'"></i>
+          <p v-if="active != 'home'">{{item.title}}</p>
+        </template>
+        <i class="iconfont" :class="[item.icon]" v-if="item.tab != 'home'"></i>
+        <p v-if="item.tab != 'home'">{{item.title}}</p>
       </div>
     </div>
   </w-container>
@@ -91,7 +99,25 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+@import '~@/styles/variable.scss';
 .w-tabbar {
   background: #fff;
+
+  .tab-icon {
+    width: .3rem;
+    height: .3rem;
+    background: $color-default;
+    box-shadow: 0 0 5px $color-default;
+    margin: .03rem auto;
+    border-radius: .3rem;
+    overflow: hidden;
+    @include flex-center;
+
+    img {
+      width: auto;
+      height: 58%;
+      margin: 0;
+    }
+  }
 }
 </style>

@@ -113,7 +113,7 @@ export default {
   .txt {
     min-width: .4rem;
     height: .44rem;
-    color: $default-color;
+    color: $color-default;
     border: 0;
     background: #fff;
     flex-shrink: 0;

@@ -2,7 +2,7 @@
 <template lang='html'>
   <div class='w-container'>
     <!-- 顶部 -->
-    <header class="w-header w-gradient-left-bg" v-if="showHeader">
+    <header class="w-header" v-if="showHeader">
       <i class="iconfont icon-back header-left" v-if="showBack"
         @click="$router.back();"></i>
 
@@ -15,7 +15,7 @@
     <!-- 顶部 end -->
 
     <!-- 顶部不可滚动区域 -->
-    <slot name="w-header-other"></slot>
+    <slot name="header-other"></slot>
     <!-- 顶部不可滚动区域 end -->
 
     <!-- 中间内容 -->

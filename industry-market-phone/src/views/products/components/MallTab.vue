@@ -231,7 +231,7 @@ export default {
   }
 
   .popup-item {
-    color: $default-color;
+    color: $color-default;
     padding: .1rem .07rem;
     background: #fff;
     border-radius: .05rem;
@@ -240,7 +240,7 @@ export default {
     box-shadow: 0 0 .05rem #ccc;
     &.actived {
       color: #fff;
-      background: $default-color;
+      background: $color-default;
     }
   } // end popup-item
 
@@ -260,7 +260,7 @@ export default {
     }
 
     .popup-item {
-      color: $default-color;
+      color: $color-default;
       padding: .1rem .07rem;
       background: #fff;
       border-radius: .05rem;
@@ -269,7 +269,7 @@ export default {
       box-shadow: 0 0 .05rem #ccc;
       &.actived {
         color: #fff;
-        background: $default-color;
+        background: $color-default;
       }
     } // end popup-item
 

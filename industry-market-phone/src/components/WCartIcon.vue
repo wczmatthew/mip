@@ -28,7 +28,7 @@ export default {
   props: {
     color: {
       type: String,
-      default: 'white',
+      default: '',
     },
     currentPath: {
       type: String,
@@ -45,7 +45,7 @@ export default {
   height: 100%;
   flex-shrink: 0;
   position: relative;
-  color: #fff;
+  color: $color-black;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -56,7 +56,6 @@ export default {
   .iconfont {
     position: relative;
     width: auto;
-    color: $color-blue;
     .point {
       width: .06rem;
       height: .06rem;

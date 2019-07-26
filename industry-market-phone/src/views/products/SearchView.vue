@@ -8,55 +8,27 @@
     </div>
     <!-- 顶部栏 end -->
 
-    <cube-sticky :pos="scrollY">
-      <w-scroll
-        ref="scroll"
-        class="scroll-view"
-        @scroll="scrollHandler"
-        @pulling-down="onPullingDown"
-        @pulling-up="onPullingUp">
-        <!-- 热门搜索 -->
-        <div class="hot-search">
-          <p class="title">热门搜索</p>
-          <ul class="w-grid-list">
-            <li v-for="(item, index) in keywordsList" :key="'key'+index" class="item" @click="onPickKeyword(item)">
-              {{item}}
-            </li>
-          </ul>
-        </div>
-        <!-- 热门搜索 end -->
-        <!-- 搜索结果 -->
-        <div class="search-result">
-          <span>搜索结果</span>
-          <button class="blue-btn" @click="onSelectProduct()">产品选型</button>
-        </div>
-        <!-- 搜索结果 end -->
-
-        <!-- 筛选 -->
-        <cube-sticky-ele ele-key="11">
-          <search-sort></search-sort>
-        </cube-sticky-ele>
-        <!-- 筛选 end -->
-        <!-- 产品列表 -->
-        <div class="product-list">
-          <w-loading-row v-show="showLoading"></w-loading-row>
-          <no-data v-show="!showLoading && noProduct"></no-data>
-          <product-list ref="productList" routePath="search"></product-list>
-        </div>
-        <!-- 产品列表 end -->
-      </w-scroll>
-      <template slot="fixed">
-        <search-sort></search-sort>
-      </template>
-    </cube-sticky>
+    <!-- 热门搜索 -->
+    <div class="hot-search">
+      <p class="title">热门搜索</p>
+      <ul class="w-grid-list">
+        <li v-for="(item, index) in keywordsList" :key="'key'+index" class="item" @click="onPickKeyword(item)">
+          {{item}}
+        </li>
+      </ul>
+    </div>
+    <!-- 热门搜索 end -->
+    <!-- 搜索结果 -->
+    <div class="search-result">
+      <button class="red-btn" @click="onSelectProduct()">产品选型</button>
+    </div>
+    <!-- 搜索结果 end -->
   </w-container>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import service from '@/services/product.service';
+// import service from '@/services/product.service';
 import Utils from '@/common/Utils';
-import SearchSort from './components/SearchSort.vue';
-import ProductList from './components/ProductList.vue';
 
 export default {
   data() {
@@ -74,28 +46,16 @@ export default {
         '浴霸产品',
         '电工产品',
       ],
-      scrollY: 0,
       pageNum: 1,
-      hasNext: true,
-      productList: [],
-      noProduct: false,
-      showLoading: false,
     };
   },
   created() {},
   mounted() {
-    this.showLoading = true;
-    this.getData();
   },
   components: {
     WSearch,
-    SearchSort,
-    ProductList,
   },
   methods: {
-    scrollHandler({ y }) {
-      this.scrollY = -y;
-    },
     // 开始查询
     toSearch({ keywords }) {
       this.$refs.scroll.scrollTop();
@@ -115,46 +75,46 @@ export default {
     onSelectProduct() {
       this.$router.push(`${this.routePath}/category`);
     },
-    // 下拉刷新
-    onPullingDown() {
-      this.pageNum = 1;
-      this.getData();
-    },
-    // 上拉加载
-    onPullingUp() {
-      if (!this.hasNext) {
-        // 没有数据
-        this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
-        return;
-      }
-      this.getData();
-    },
-    async getData() {
-      // Utils.showLoading();
-      const result = await service.getProductList({ pageNum: this.pageNum, pageSize: 9, keyword: this.keywords, bnr: this.bnr });
-      this.showLoading = false;
-      if (!result) {
-        this.noProduct = !this.productList.length;
-        return;
-      }
+    // // 下拉刷新
+    // onPullingDown() {
+    //   this.pageNum = 1;
+    //   this.getData();
+    // },
+    // // 上拉加载
+    // onPullingUp() {
+    //   if (!this.hasNext) {
+    //     // 没有数据
+    //     this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
+    //     return;
+    //   }
+    //   this.getData();
+    // },
+    // async getData() {
+    //   // Utils.showLoading();
+    //   const result = await service.getProductList({ pageNum: this.pageNum, pageSize: 9, keyword: this.keywords, bnr: this.bnr });
+    //   this.showLoading = false;
+    //   if (!result) {
+    //     this.noProduct = !this.productList.length;
+    //     return;
+    //   }
 
-      if (this.pageNum === 1) {
-        // 第一页
-        this.productList = result.rows || [];
-      } else {
-        this.productList = this.productList.concat([...result.rows]);
-      }
+    //   if (this.pageNum === 1) {
+    //     // 第一页
+    //     this.productList = result.rows || [];
+    //   } else {
+    //     this.productList = this.productList.concat([...result.rows]);
+    //   }
 
-      this.$refs.productList && this.$refs.productList.updateList(this.productList);
-      this.noProduct = !this.productList.length;
-      this.hasNext = this.productList.length < result.total;
-      if (this.hasNext) {
-        this.pageNum += 1;
-      }
-      this.$nextTick(() => {
-        this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
-      });
-    },
+    //   this.$refs.productList && this.$refs.productList.updateList(this.productList);
+    //   this.noProduct = !this.productList.length;
+    //   this.hasNext = this.productList.length < result.total;
+    //   if (this.hasNext) {
+    //     this.pageNum += 1;
+    //   }
+    //   this.$nextTick(() => {
+    //     this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
+    //   });
+    // },
   },
 };
 </script>
@@ -166,6 +126,7 @@ export default {
 
 .hot-search {
   padding: 0 .05rem 0 .15rem;
+  background: #fff;
 
   .title {
     font-size: .15rem;
@@ -178,8 +139,7 @@ export default {
     .item {
       width: auto;
       padding: .05rem .1rem;
-      border: 1px solid $color-line;
-      background: #fff;
+      background: $color-bg;
       border-radius: .05rem;
       display: block;
       margin-bottom: .1rem;
@@ -189,7 +149,8 @@ export default {
       color: #5e5e5e;
 
       &.actived {
-        border-color: $color-blue;
+        background: $color-default;
+        color: #fff;
       }
 
     }
@@ -200,22 +161,23 @@ export default {
 }
 
 .search-result {
-  margin: 0 .15rem;
+  padding: .1rem .15rem;
   display: flex;
   align-items: center;
-  height: .35rem;
-  justify-content: space-between;
+  justify-content: flex-end;
   font-size: .15rem;
   font-weight: 700;
   border-bottom: 1px solid $color-line;
+  background: #fff;
 
   span {
     font-weight: 700;
   }
 
-  .blue-btn {
+  .red-btn {
     width: 1rem;
     height: .25rem;
+    line-height: .25rem;
     font-size: .12rem;
     margin: 0;
   }
