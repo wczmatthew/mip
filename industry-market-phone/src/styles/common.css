@@ -329,6 +329,12 @@ a {
   white-space: nowrap;
   -o-text-overflow: ellipsis; /* for Opera */
   text-overflow: ellipsis; /* for IE */
+  font-weight: 700;
+}
+
+.w-header-mid div,
+.w-header-mid p {
+  font-weight: 700;
 }
 
 .w-header .header-right {

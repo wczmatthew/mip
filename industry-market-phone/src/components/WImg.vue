@@ -15,6 +15,11 @@ export default {
   mounted() {
     this.imgPath = this.src;
   },
+  watch: {
+    src() {
+      this.imgPath = this.src;
+    },
+  },
   components: {},
   methods: {
     // 图片加载失败

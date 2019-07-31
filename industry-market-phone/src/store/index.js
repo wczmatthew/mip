@@ -5,6 +5,7 @@ import user from './modules/common/user';
 import options from './modules/common/options';
 import category from './modules/common/category';
 import customer from './modules/customer';
+import product from './modules/product';
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export default new Vuex.Store({
     customer,
     options,
     category,
+    product,
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []

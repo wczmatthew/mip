@@ -519,6 +519,7 @@ export default {
       align-items: center;
       margin-top: .05rem;
       flex-wrap: wrap;
+      padding-left: .2rem;
 
       .item {
         margin-bottom: .05rem;

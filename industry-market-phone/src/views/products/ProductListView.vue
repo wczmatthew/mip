@@ -10,16 +10,13 @@
 
     <!-- 菜单页面 -->
     <div class="product-header" slot="header-other">
-      <p class="title">开关</p>
+      <!-- <p class="title">开关</p> -->
       <search-sort></search-sort>
-      <!-- <mall-tab :tab-list="tabList" @select="onSelectTab"></mall-tab> -->
     </div>
     <!-- 菜单页面 end -->
 
-    <cube-scroll
+    <w-scroll
       ref="scroll"
-      :scroll-events="['scroll']"
-      :options="options"
       @pulling-down="onPullingDown"
       @pulling-up="onPullingUp">
 
@@ -28,7 +25,7 @@
       <product-list ref="productList" routePath="productList" v-else></product-list>
       <!-- 商品列表 end -->
 
-    </cube-scroll>
+    </w-scroll>
   </w-container>
 </template>
 <script>
@@ -38,21 +35,11 @@ import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import ProductList from './components/ProductList.vue';
 import SearchSort from './components/SearchSort.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
     return {
-      options: {
-        pullDownRefresh: {
-          threshold: 60,
-          stop: 40,
-          txt: '刷新成功',
-        },
-        pullUpLoad: {
-          threshold: 60,
-          txt: { more: '加载完成', noMore: '已加载全部' },
-        },
-      },
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' }), // 获取当前路由
       tabList: [
         { title: '综合电器', selectTxt: '' },
@@ -68,13 +55,11 @@ export default {
       noProduct: false,
       pageNum: 1,
       hasNext: true,
-      keywords: '',
       bnr: '',
     };
   },
   created() {},
   mounted() {
-    this.keywords = this.$route.query.keywords || '';
     this.$nextTick(() => {
       this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
     });
@@ -82,8 +67,13 @@ export default {
   },
   components: {
     WSearch,
-    SearchSort,
     ProductList,
+    SearchSort,
+  },
+  computed: {
+    ...mapGetters('product', {
+      keywords: 'keywords',
+    }),
   },
   methods: {
     onSearch({ keywords }) {

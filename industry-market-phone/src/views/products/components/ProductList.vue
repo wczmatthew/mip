@@ -13,16 +13,22 @@
         <p class="desc">
           质量好，价格优惠，统一保证
         </p>
-        <p class="price">
-          ￥{{item.DJJ || '0'}}
-        </p>
+
         <div class="bottom">
-          <div class="num">
+          <div class="left">
+            <p class="price">
+              <small>￥</small>{{item.DJJ || '0'}}
+            </p>
+            <p class="desc">
+              库存: (99999)
+            </p>
+          </div>
+          <!-- <div class="num">
             <i class="iconfont icon-jian"></i>
             <input type="number">
             <i class="iconfont icon-jia"></i>
-          </div>
-          <button class="blue-btn">加入购物车</button>
+          </div> -->
+          <button class="red-btn">加入购物车</button>
         </div>
       </div>
     </div>
@@ -89,14 +95,13 @@ export default {
   .item {
     width: 100%;
     padding: .05rem .15rem;
-    border-bottom: 1px solid $color-line;
     display: flex;
     align-items: center;
     background: #fff;
 
     .img {
-      width: 1rem;
-      height: 1rem;
+      width: .9rem;
+      height: .9rem;
       border: 1px solid #f3f3f3;
       @include flex-center;
       margin-right: .05rem;
@@ -120,7 +125,7 @@ export default {
       }
 
       .desc {
-        color: $color-orange;
+        color: $color-grey;
         margin-top: .05rem;
         font-size: .1rem;
       }
@@ -130,42 +135,48 @@ export default {
         font-weight: 700;
         color: $color-red;
         @include text-ellipsis;
-        margin: .1rem 0;
+
+        small {
+          font-size: .12rem;
+          font-weight: 700;
+        }
       }
 
       .bottom {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         justify-content: space-between;
-        .num {
-          border: 1px solid $color-line;
-          width: .9rem;
-          height: .25rem;
-          display: flex;
+        margin-top: .2rem;
+        // .num {
+        //   border: 1px solid $color-line;
+        //   width: .9rem;
+        //   height: .25rem;
+        //   display: flex;
 
-          .iconfont {
-            width: .25rem;
-            height: .25rem;
-            text-align: center;
-            line-height: .25rem;
-          }
+        //   .iconfont {
+        //     width: .25rem;
+        //     height: .25rem;
+        //     text-align: center;
+        //     line-height: .25rem;
+        //   }
 
-          input {
-            flex: 1;
-            width: 100%;
-            height: 100%;
-            border: 0;
-            border-left: 1px solid $color-line;
-            border-right: 1px solid $color-line;
-            text-align: center;
-          }
-        }
+        //   input {
+        //     flex: 1;
+        //     width: 100%;
+        //     height: 100%;
+        //     border: 0;
+        //     border-left: 1px solid $color-line;
+        //     border-right: 1px solid $color-line;
+        //     text-align: center;
+        //   }
+        // }
 
-        .blue-btn {
+        .red-btn {
           margin: 0;
           font-size: .1rem;
           width: .8rem;
           height: .25rem;
+          border-radius: 0;
         }
       }
 

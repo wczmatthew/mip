@@ -65,11 +65,32 @@ export default {
     },
     // 点击热门关键字
     onPickKeyword(keywords) {
-      this.$refs.scroll.scrollTop();
+      // this.$refs.scroll.scrollTop();
       this.showLoading = true;
       this.keywords = keywords;
       this.$refs.search.updateKeywords(keywords);
-      this.onPullingDown();
+      this.toProductList(keywords);
+    },
+    toProductList(keywords) {
+      // 返回上一页搜索页面
+      this.$store.commit('product/updateKeywords', keywords);
+      const productPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' });
+
+      setTimeout(() => {
+        this.loading = false;
+      }, 500);
+
+      const pathList = this.$route.matched;
+      const index = pathList.findIndex(item => item.path === productPath);
+      if (index >= 0) {
+        // 浏览历史记录有分类界面, 直接返回这一页
+        const goIndex = index - pathList.length + 1;
+        this.$router.go(goIndex);
+        return;
+      }
+
+      // 没有历史记录进入查询页面
+      this.$router.push(`${this.routePath}/productList`);
     },
     // 产品选型
     onSelectProduct() {
