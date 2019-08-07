@@ -77,11 +77,7 @@ export default {
       }, 100);
     },
     toSelect(item) {
-      this.$router.push(`${this.currentPath}/productSelect?seriesId=${item.sid}`);
-    },
-    toDetail(item) {
-      this.$store.commit('product/updateKeywords', '');
-      this.$router.push(`${this.currentPath}/productList?seriesId=${item.sid}&isSelect=1`);
+      this.$router.push(`${this.currentPath}/${this.nextPath}?seriesId=${item.sid}`);
     },
   },
   props: {
@@ -89,9 +85,9 @@ export default {
       type: String,
       default: '',
     },
-    showSelectBtn: { // 是否显示选型按钮
-      type: Boolean,
-      default: false,
+    nextPath: {
+      type: String,
+      default: 'productSelect',
     },
   },
 };

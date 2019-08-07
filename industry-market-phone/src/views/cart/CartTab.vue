@@ -2,12 +2,12 @@
 <template lang='html'>
   <div class="w-container">
     <!-- 顶部栏 -->
-    <w-header class="w-gradient-left-bg">
+    <w-header>
       <div slot="header-mid">
         购物车({{totalNum}})
       </div>
       <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
-        {{ isEdit ? '完成' : '管理' }}
+        {{ isEdit ? '完成' : '编辑' }}
       </div>
     </w-header>
     <!-- 顶部栏 end -->

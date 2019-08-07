@@ -58,10 +58,12 @@ export default {
   methods: {
     // 开始查询
     toSearch({ keywords }) {
-      this.$refs.scroll.scrollTop();
-      this.showLoading = true;
+      // this.$refs.scroll.scrollTop();
+      // this.showLoading = true;
       this.keywords = keywords;
-      this.onPullingDown();
+      // this.onPullingDown();
+      this.$refs.search.updateKeywords(keywords);
+      this.toProductList(keywords);
     },
     // 点击热门关键字
     onPickKeyword(keywords) {

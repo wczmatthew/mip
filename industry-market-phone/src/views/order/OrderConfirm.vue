@@ -1,6 +1,6 @@
 <!-- 确认订单 -->
 <template lang='html'>
-  <w-container show-header show-back>
+  <w-container show-header show-back show-footer>
     <!-- 顶部栏 -->
     <div slot="header-mid">
       确认订单
@@ -61,30 +61,24 @@
         <span class="title">
           支付方式
         </span>
-        <span class="desc">
-          请选择
-        </span>
-        <i class="iconfont icon-arrow-down"></i>
+        <cube-select
+          class="select desc"
+          placeholder="请选择支付方式"
+          v-model="payMode"
+          :options="payModeOptions">
+        </cube-select>
       </div>
 
       <div class="cell">
         <span class="title">
           提货方式
         </span>
-        <span class="desc">
-          请选择
-        </span>
-        <i class="iconfont icon-arrow-down"></i>
-      </div>
-
-      <div class="cell textarea-cell">
-        <span class="title">
-          备注
-        </span>
-        <div class="desc">
-          <!-- <textarea placeholder="请输入备注"></textarea> -->
-          <cube-textarea placeholder="请输入备注" :maxlength="200"></cube-textarea>
-        </div>
+        <cube-select
+          class="select desc"
+          placeholder="请选择提货方式"
+          v-model="sendType"
+          :options="sendTypeOptions">
+        </cube-select>
       </div>
 
       <div class="cell">
@@ -92,7 +86,7 @@
           商品金额
         </span>
         <span class="desc price">
-          ￥: 118.66
+          <small>￥</small> 118.66
         </span>
       </div>
 
@@ -101,7 +95,7 @@
           优惠金额
         </span>
         <span class="desc price">
-          ￥: 118.66
+          <small>￥</small> 118.66
         </span>
       </div>
 
@@ -114,20 +108,56 @@
           <cube-input type="number" placeholder="请输入抹零金额"></cube-input>
         </div>
       </div>
+
+      <div class="cell textarea-cell">
+        <span class="title">
+          备注
+        </span>
+        <div class="desc">
+          <!-- <textarea placeholder="请输入备注"></textarea> -->
+          <cube-textarea placeholder="请输入备注" :maxlength="200"></cube-textarea>
+        </div>
+      </div>
     </div>
     <!-- 其他内容 end -->
 
     <!-- 正文内容 end -->
 
-    <!--  -->
+    <div class="cart-bottom" slot="w-footer">
+      <div class="detail">
+        <p class="red bold">
+          <span>实付: </span>
+          <small>￥</small>
+          {{(totalPrice).toFixed(2)}}
+        </p>
+      </div>
+      <button type="button" class="orange-btn" @click="onPay()">
+        结算
+      </button>
+    </div>
   </w-container>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 
 export default {
   data() {
     return {
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'confirmOrder' }), // 获取当前路由
+      totalPrice: 0,
+      payMode: -1,
+      payModeOptions: [
+        { text: '在线支付', value: 1 },
+        { text: '现金/刷卡', value: 2 },
+        { text: '赊销', value: 3 },
+      ],
+      sendType: -1,
+      sendTypeOptions: [
+        { text: '送货上门', value: 1 },
+        { text: '门店自提', value: 2 },
+        { text: '物流配送', value: 3 },
+      ],
     };
   },
   created() {},
@@ -138,21 +168,25 @@ export default {
     }),
   },
   components: {},
-  methods: {},
+  methods: {
+    onChangeCustomer() {
+      this.$router.push(`${this.routePath}/customers`);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+@import '~@/styles/components/button.scss';
 
 .customre-item {
   display: flex;
   align-items: center;
-  padding: 0 .12rem;
+  padding: .1rem .12rem;
   margin-bottom: .1rem;
   background: #fff;
 
   .icon-kehu {
-    color: $color-blue;
+    color: $color-black;
     font-size: .2rem;
   }
 
@@ -220,7 +254,7 @@ export default {
         top: -.06rem;
         right: -.06rem;
         z-index: 1;
-        background: $color-blue;
+        background: $color-red;
       }
     } // end item
   } // end img-list
@@ -248,18 +282,22 @@ export default {
   .cell {
     margin-left: 0;
     padding-left: .12rem;
-    font-weight: 700;
   }
 
   .cell .title {
     width: 23%;
+    font-weight: 700;
+  }
+
+  .cell .iconfont {
+    font-weight: 700;
   }
 
   .cell .title,
   .cell .desc,
   .cell .iconfont {
-    font-weight: 700;
     line-height: .44rem;
+    color: $color-black;
   }
 
   .cell .price {
@@ -279,9 +317,88 @@ export default {
     }
   }
 } // end w-tableview
+
+
+.cart-bottom {
+  width: 100%;
+  height: 100%;
+  border-top: 1px solid $color-line;
+  background: #fff;
+  display: flex;
+  position: relative;
+  z-index: 10;
+
+  .mid {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: .12rem;
+
+    input {
+      width: .3rem;
+      height: .15rem;
+      border: 1px solid $color-line;
+      text-align: center;
+      margin-left: .05rem;
+      margin-top: .05rem;
+    }
+  }
+
+
+  .detail {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0 .12rem;
+
+    p {
+      @include text-ellipsis;
+      margin-bottom: .05rem;
+
+      span {
+        color: $color-grey;
+      }
+    }
+
+    .grey {
+      color: $color-grey-6;
+    }
+
+    .bold {
+      font-weight: 700;
+    }
+
+    .small {
+      font-size: .1rem;
+    }
+
+    .red {
+      color: $color-red;
+    }
+  }
+
+  .orange-btn,
+  .red-btn {
+    height: 100%;
+    border-radius: 0;
+    font-size: .14rem;
+    width: 40%;
+    flex-shrink: 0;
+  }
+
+  .orange-btn {
+    @include background-left-gradient(#e43d2e, $color-red);
+  }
+} // cart-bottom
 </style>
 <style lang="scss">
 .w-tableview .cell .desc {
+
+  .cube-input {
+    margin-top: .03rem;
+  }
+
   .cube-textarea,
   .cube-input-field {
     text-align: right;

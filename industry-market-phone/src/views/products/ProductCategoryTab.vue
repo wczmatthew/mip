@@ -1,6 +1,6 @@
 <!-- 产品货架页面 -->
 <template lang='html'>
-  <w-container showHeader showBack>
+  <w-container showHeader>
     <!-- 顶部栏 -->
     <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
     <div class="header-right" slot="header-right">
@@ -9,7 +9,7 @@
     <!-- 顶部栏 end -->
 
     <!-- 正文内容 -->
-    <product-category ref="productCategory" :current-path="routePath" show-select-btn></product-category>
+    <product-category ref="productCategory" :current-path="routePath" next-path="productList"></product-category>
     <!-- 正文内容 end -->
 
   </w-container>
@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       categoryData: null,
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' }), // 获取当前路由
+      routePath: '/market', // 获取当前路由
     };
   },
   created() {},
@@ -36,26 +36,28 @@ export default {
     // }
     this.getSortList();
   },
-  // watch: {
-  //   '$route'(to) {
-  //     if (to.path === '/market' && to.query.tab === 'select') {
-  //       // 返回到当前界面
-  //       this.$store.commit('product/updateKeywords', '');
-  //       // this.$refs.productCategory && this.$refs.productCategory.updateData(this.categoryData);
+  watch: {
+    '$route'(to) {
+      if (to.path === '/market' && to.query.tab === 'category') {
+        // 返回到当前界面
+        this.$store.commit('product/updateKeywords', '');
+        // this.$refs.productCategory && this.$refs.productCategory.updateData(this.categoryData);
 
-  //       if (!this.categoryData) {
-  //         this.getSortList();
-  //       }
-  //     }
-  //   },
-  // },
+        if (!this.categoryData) {
+          this.getSortList();
+        } else {
+          this.$refs.productCategory && this.$refs.productCategory.updateData(this.categoryData);
+        }
+      }
+    },
+  },
   components: {
     WSearch,
     ProductCategory,
   },
   methods: {
     toSearch() {
-      this.$router.push(`${this.routePath}/search`);
+      this.$router.push('/market/search');
     },
     async getSortList() {
       Utils.showLoading();

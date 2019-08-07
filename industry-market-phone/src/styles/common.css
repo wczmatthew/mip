@@ -8,6 +8,10 @@ html {
   font-size: inherit; /* 继承上一级字体大小 */
 }
 
+small {
+  font-size: smaller;
+}
+
 /* iPhone 5 ----------- */
 @media only screen and (min-device-width: 320px) and (max-device-width: 374px) {
   html {

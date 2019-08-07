@@ -34,24 +34,27 @@
                   {{item.areaName || '--'}}
                 </span>
               </div>
+              <div class="row">
+                <span>公司：{{item.companyName}}</span>
+              </div>
             </div>
           </div>
-          <div class="detail">
-            <p class="row">
-              <span>公司：{{item.companyName}}</span>
-            </p>
+          <div class="detail" :class="{'open': item.isOpen}"
+          :style="{height: item.height || 0}">
             <p class="row">
               <span>职务：{{item.deptName || '--'}}</span>
             </p>
             <div class="row">
               <span>手机：{{item.phone}}</span>
-              <!-- <p class="price">
-                已消费￥{{item.orderAmount || '0'}}
-              </p> -->
             </div>
             <p class="row">
               地址：{{item.address}}
             </p>
+          </div>
+
+          <div class="status-bar" :class="{'open': item.isOpen}" @click.stop="toggleDetail(item, $event)">
+            {{item.isOpen ? '收起详情' : '展开详情'}}
+            <i class="iconfont icon-arrow-down"></i>
           </div>
 
           <!-- 编辑按钮 -->
@@ -73,11 +76,8 @@
     <!-- 正文内容 end -->
 
     <div slot="w-footer" class="bottom-btn">
-      <button class="blue-btn" @click="onNew()">
+      <button class="red-btn" @click="onNew()">
         新增客户
-      </button>
-      <button class="blue-btn" @click="onChat()" v-if="isTabbar">
-        开始洽谈
       </button>
     </div>
   </div>
@@ -139,6 +139,23 @@ export default {
   },
   components: {},
   methods: {
+    toggleDetail(item, e) {
+      this.$set(item, 'isOpen', !item.isOpen);
+      // console.log(e.target);
+      if (item.isOpen) {
+        // 展开状态
+        if (!item.detailHeight) {
+          const detailNode = e.target.previousElementSibling;
+          let height = 0;
+          detailNode.childNodes.forEach(child => height += child.clientHeight);
+          item.detailHeight = height;
+        }
+        this.$set(item, 'height', `${item.detailHeight}px`);
+      } else {
+        // 闭合状态
+        this.$set(item, 'height', '0');
+      }
+    },
     onEditList(isEdit) {
       this.isEdit = isEdit;
     },
@@ -240,15 +257,12 @@ export default {
 @import '~@/styles/components/button.scss';
 
 .customer-list {
-  display: flex;
-  // align-items: center;
-  justify-content: space-between;
   padding: .1rem .12rem;
   flex-wrap: wrap;
   background: $color-bg;
 
   .item {
-    width: 49%;
+    width: 100%;
     background: #fff;
     border-radius: .05rem;
     box-shadow: 0 0 .05rem #ccc;
@@ -259,11 +273,11 @@ export default {
     transition: all .3s ease;
 
     .logo {
-      width: .5rem;
-      height: .5rem;
-      border-radius: .5rem;
-      background: $color-line;
-      border: .03rem solid $color-line;
+      width: .6rem;
+      height: .6rem;
+      border-radius: .6rem;
+      background: #fff;
+      border: 1px solid $color-line;
       flex-shrink: 0;
       margin-right: .1rem;
       overflow: hidden;
@@ -277,21 +291,36 @@ export default {
     .customer-row {
       display: flex;
       overflow: hidden;
+      border-bottom: 1px solid $color-line;
+      align-items: center;
+      padding-bottom: .05rem;
+      position: relative;
+      z-index: 10;
+      background: #fff;
+
+      .detail {
+        padding-top: 0;
+      }
     }
 
     .detail {
       flex: 1;
       overflow: hidden;
       position: relative;
+      transition: all .3s ease;
+
+      &.open {
+        height: 0;
+      }
 
       .row-1 {
         display: flex;
         align-items: center;
         padding: .05rem 0;
         padding-right: .4rem;
+        line-height: .18rem;
         .name {
-          font-size: .18rem;
-          color: $color-gold;
+          font-size: .15rem;
           @include text-overflow-muli(2);
         } // end name
 
@@ -301,18 +330,16 @@ export default {
         display: flex;
         align-items: center;
         flex-wrap: wrap;
-        margin-bottom: .1rem;
         .label {
-          background: #d1d8ff;
-          color: #7989dd;
+          background: $color-red;
+          color: #fff;
           padding: .05rem .08rem;
           font-size: .1rem;
           border-radius: .05rem;
           margin-right: .05rem;
 
           &:nth-child(2n) {
-            background: #ffe9d7;
-            color: #cd9465;
+            background: $color-orange;
           }
         }
       } // end row-label
@@ -322,6 +349,7 @@ export default {
         line-height: .16rem;
         display: flex;
         justify-content: space-between;
+        padding-top: .05rem;
         // align-items: center;
 
         span {
@@ -347,6 +375,25 @@ export default {
       }
     } // end detail
 
+    .status-bar {
+      width: 100%;
+      @include flex-center;
+      height: .25rem;
+      font-size: .12rem;
+      color: $color-grey;
+
+      .iconfont {
+        margin-left: .05rem;
+        transition: all .3s ease;
+      }
+
+      &.open {
+        .iconfont {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
     .right-icon {
       position: absolute;
       right: 0;
@@ -356,7 +403,7 @@ export default {
       text-align: center;
       line-height: .4rem;
       font-size: .22rem;
-      color: $color-blue;
+      color: $color-black;
       z-index: 10;
 
       &:active {
@@ -382,7 +429,7 @@ export default {
   } // end item
 
   .item.actived {
-    box-shadow: 0 0 .05rem $color-blue;
+    box-shadow: 0 0 .05rem $color-default;
 
     .icon-bottom-select {
       display: block;
@@ -390,7 +437,7 @@ export default {
       bottom: 0;
       right: 0;
       z-index: 10;
-      color: $color-blue;
+      color: $color-default;
       font-size: .22rem;
     }
   }
@@ -398,29 +445,24 @@ export default {
 
 .w-customer {
   height: 100%;
-}
-
-.scroll-view {
   padding-bottom: .4rem;
 }
 
 .bottom-btn {
-  position: absolute;
-  bottom: .1rem;
-  left: 50%;
-  margin-left: -1.6rem;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   z-index: 10;
   display: flex;
-  height: .3rem;
+  height: .4rem;
   align-items: center;
-  width: 3.2rem;
   justify-content: space-between;
+  width: 100%;
 
   button {
-    width: 1.5rem;
+    width: 100%;
     font-size: .14rem;
-    border-radius: .3rem;
-    height: .3rem;
+    border-radius: 0;
   }
 }
 </style>

@@ -11,8 +11,8 @@
         @pulling-up="onPullingUp">
 
         <no-data v-if="noData"></no-data>
-        <div v-for="(item, index) in productList" :key="index" class="item" @click="toDetail(item)">
-          <div class="radio" @click="onToggleChecked(item)">
+        <div v-for="(item, index) in productList" :key="index" class="item">
+          <div class="radio" @click.stop="onToggleChecked(item)">
             <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
           </div>
           <div class="img">
@@ -22,15 +22,15 @@
             <p class="product-title">
               {{item.spec}}
             </p>
-            <p class="desc">
+            <!-- <p class="desc">
               质量好，价格优惠，统一保证
-            </p>
+            </p> -->
             <div class="bottom">
               <p class="price">
-                ￥{{item.price || '0'}}
+                <small>￥</small>{{item.price || '0'}}
               </p>
-              <div class="num">
-                <i class="iconfont icon-jian"  @click.stop="onReduce(item)"></i>
+              <div class="num" @click.stop="stopProp()">
+                <i class="iconfont icon-jian" :class="{'disabled': item.qty == 1}" @click.stop="onReduce(item)"></i>
                 <input type="number" v-model="item.qty" @blur="onChangeNum(item)">
                 <i class="iconfont icon-jia" @click.stop="onAdd(item)"></i>
               </div>
@@ -85,7 +85,7 @@
           抹零: <input type="number" v-model="reducePrice">
         </div> -->
       </div>
-      <button type="button" class="blue-btn" v-show="!isEdit" @click="onPay()">
+      <button type="button" class="orange-btn" v-show="!isEdit" @click="onPay()">
         结账({{selectNum}})
       </button>
       <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
@@ -189,19 +189,45 @@ export default {
   },
   components: {},
   methods: {
+    stopProp() {}, // 阻止事件冒泡
     onEdit(isEdit) {
       this.isEdit = isEdit;
+      if (!this.isEdit) {
+        // 非编辑状态, 将库存小于等于0的选中产品去除
+        this.selectNum = 0;
+        this.productList.forEach((item) => {
+          if (Number(item.store || 0) <= 0) {
+            this.selectProducts[item.id] = false;
+          }
+
+          if (Number(item.store || 0) > 0 && this.selectProducts[item.id]) {
+            this.selectNum += 1;
+          }
+        });
+
+        this.calcPrice();
+        this.allChecked = this.selectNum === this.totalNum;
+      } else if (this.allChecked) {
+        // 编辑状态下, 如果是全选就将全部商品选中
+        this.productList.forEach((item) => {
+          this.selectProducts[item.id] = true;
+        });
+        this.selectNum = this.productList.length;
+        this.calcPrice();
+      }
     },
     // 全选或者取消全选
     onToggleAllChecked() {
+      if (!this.productList.length) return;
       this.allChecked = !this.allChecked;
-      this.productList = this.productList.map((item) => {
-        // item.checked = this.allChecked;
-        this.selectProducts[item.id] = this.allChecked;
-        return item;
-      });
 
-      this.selectNum = this.allChecked ? this.productList.length : 0;
+      this.selectNum = 0;
+      this.productList.forEach((item) => {
+        if (this.isEdit || Number(item.store || 0) > 0) {
+          this.selectProducts[item.id] = this.allChecked;
+          this.selectNum += 1;
+        }
+      });
 
       if (!this.allChecked) {
         this.totalPrice = 0;
@@ -212,36 +238,37 @@ export default {
     },
     // 选择或者取消选择产品
     onToggleChecked(item) {
+      // 没有库存不可选中结算
+      if (!this.isEdit && Number(item.store || 0) <= 0) return;
+
       this.selectProducts[item.id] = !this.selectProducts[item.id];
-      // item.checked = !item.checked;
-      // this.$set(this.productList, index, item);
+
+      // 计算总价格
+      this.calcPrice();
 
       if (!this.selectProducts[item.id] && this.allChecked) {
         this.allChecked = false;
       }
 
-      if (this.selectProducts[item.id]) {
-        // 判断是否全部都已经选择
-        const list = this.productList.filter(product => !product.checked);
-        this.allChecked = !!(!list || !list.length);
-      }
-
-      // 判断选择的数量
-      this.selectNum = 0;
-      for (const key in this.selectProducts) {
-        if (this.selectProducts[key]) {
-          this.selectNum += 1;
+      if (this.totalNum === this.productList.length) {
+        const list = this.productList.filter(product => !this.selectProducts[product.id]);
+        if (this.selectProducts[item.id]) {
+          // 最后一页, 判断是否已经全部选择
+          this.allChecked = !!(!list || !list.length);
         }
       }
 
-      this.calcPrice();
+      // 判断选择的数量
+      const list = this.productList.filter(product => this.selectProducts[product.id]);
+      this.selectNum = list && list.length ? list.length : 0;
     },
     // 计算总金额
     calcPrice() {
       let total = 0;
       this.productList.forEach((item) => {
+        const discountPrice = item.discountPrice || item.price || 0;
         if (this.selectProducts[item.id]) {
-          total += parseFloat(item.price) * parseInt(item.qty, 10);
+          total += parseFloat(discountPrice || 0) * parseInt(item.qty || 1, 10);
         }
       });
       this.totalPrice = total;
@@ -266,6 +293,19 @@ export default {
       const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
       if (!result) return;
 
+      // if (this.pageNum === 1 && this.beforeCustomerId !== this.customer.id) {
+      //   // 第一个页, 并且切换了一个客户, 需要重新更新选择数据
+      //   for (const key in this.selectProducts) {
+      //     this.selectProducts[key] = false;
+      //   }
+      // }
+
+      // TODO: 等接口调整好之后, 删除下面这行
+      result.rows.map((item) => {
+        item.store = 1000;
+        return item;
+      });
+
       // 判断是否选中
       if (this.allChecked) {
         result.rows = result.rows.map((item) => {
@@ -274,7 +314,8 @@ export default {
         });
       }
       if (this.pageNum === 1) {
-        this.productList = [...result.rows];
+        this.$refs.productList && this.$refs.productList.updateList([]);
+        this.productList = result.rows;
       } else {
         this.productList = this.productList.concat([...result.rows]);
       }
@@ -309,6 +350,9 @@ export default {
       item.loading = false;
       if (!result) return;
       item.qty = num - 1;
+
+      // 计算总价格
+      this.calcPrice();
     },
     // 数量增加1
     async onAdd(item) {
@@ -322,6 +366,17 @@ export default {
       item.loading = false;
       if (!result) return;
       item.qty = num + 1;
+
+      // 计算总价格
+      this.calcPrice();
+    },
+    // 直接调整价格
+    async onChangeNum(item) {
+      const num = item.qty;
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num, clientId: this.customer.id });
+      if (!result) return;
+      // 计算总价格
+      this.calcPrice();
     },
     // 从购物车中删除
     async onDelete() {
@@ -338,11 +393,16 @@ export default {
         bm.push(item.prodId);
       });
       Utils.showLoading();
-      const result = await service.deleteShopCar({ userid: Utils.getUserId(this), bm: bm.toString() });
+      const result = await service.deleteShopCarWithClient({ userid: Utils.getUserId(this), bm: bm.toString(), clientId: this.customer.id });
       this.loading = false;
-      Utils.hideLoading();
       if (!result) return;
-      this.productList = this.productList.filter(item => this.selectProducts[item.id]);
+      Utils.hideLoading();
+
+      // 重置全选和选中数量
+      this.allChecked = false;
+      this.selectNum = 0;
+
+      this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
       // this.productList.splice(index, 1);
       Utils.showToast('删除成功');
       // 计算选择产品的金额
@@ -440,15 +500,8 @@ export default {
         },
       });
     },
-    // 切换用户
-    onChangeCustomer() {
-      // 切换用户
-      if (!this.currentPath) {
-        this.$router.push(`${this.routePath}/customers`);
-        return;
-      }
-
-      this.$router.push(`${this.currentPath}/customers`);
+    toDetail(item) {
+      this.$router.push(`${this.currentPath}/productDetail?bm=${item.bm}`);
     },
   },
   props: {

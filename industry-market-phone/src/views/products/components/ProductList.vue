@@ -28,7 +28,7 @@
             <input type="number">
             <i class="iconfont icon-jia"></i>
           </div> -->
-          <button class="red-btn">加入购物车</button>
+          <button class="red-btn" @click.stop="onAddCart(item)">加入购物车</button>
         </div>
       </div>
     </div>
@@ -52,7 +52,8 @@ export default {
   mounted() {
     this.path = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: this.routePath });
   },
-  components: {},
+  components: {
+  },
   computed: {
     ...mapGetters('user', {
       userId: 'userId',
@@ -66,15 +67,18 @@ export default {
     toDetail(item) {
       this.$router.push(`${this.path}/productDetail?bm=${item.BM}`);
     },
+    onAddCart(item) {
+      this.$emit('add-cart', item);
+    },
     // 加入购物车
-    async onAddCart(item) {
+    async addCart(item, num) {
       if (item.loading) {
         Utils.showToast('正在加入购物车, 请勿频繁操作');
         return;
       }
       item.loading = true;
       console.log(this.userId);
-      const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: 1 });
+      const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: num });
       item.loading = false;
       if (!result) return;
       Utils.showToast('加入购物车成功');

@@ -28,11 +28,11 @@
     <!-- 产品图片 end -->
 
     <!-- 产品价格, 名称 -->
-    <div class="price">
-      ￥{{product.DJJ || 0}}
-    </div>
     <div class="product-title">
       {{product.XHGG || '暂无'}}
+    </div>
+    <div class="price">
+      ￥{{product.DJJ || 0}}
     </div>
     <!-- 产品价格, 名称 end -->
 
@@ -111,7 +111,7 @@
           </i>
           <p>购物车</p>
         </div>
-        <div class="icon" @click="onToggleCollect()" style="min-width: .5rem;">
+        <div class="icon icon-star" @click="onToggleCollect()">
           <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
           'icon-notcollect']"></i>
           <p>
@@ -121,12 +121,12 @@
       </div>
 
       <div class="btns">
-        <button class="light-blue-btn" @click="onAddCart()">
+        <button class="orange-btn" @click="onAddCart()">
           加入购物车
         </button>
-        <button class="blue-btn">
+        <!-- <button class="red-btn">
           立即购买
-        </button>
+        </button> -->
       </div>
     </footer>
     <!-- 底部栏 end -->
@@ -211,7 +211,8 @@ export default {
       const result = await orderService.addCollect({ userid: this.userId, bm: this.$route.query.bm });
       this.loading = false;
       if (!result) return;
-      this.product.isCollect = true;
+      // this.product.isCollect = true;
+      this.$set(this.product, 'isCollect', true);
       Utils.showToast('添加收藏成功');
     },
     // 取消收藏
@@ -250,13 +251,13 @@ export default {
       @include flex-center;
 
       .iconfont {
-        width: .25rem;
-        height: .25rem;
+        width: .3rem;
+        height: .3rem;
         background: $color-grey;
         color: #fff;
         text-align: center;
-        line-height: .25rem;
-        border-radius: .25rem;
+        line-height: .3rem;
+        border-radius: .3rem;
       }
     } // end back
 
@@ -276,13 +277,13 @@ export default {
         @include flex-center;
         .iconfont,
         .msg-icon {
-          width: .25rem;
-          height: .25rem;
+          width: .3rem;
+          height: .3rem;
           background: $color-grey;
           color: #fff;
           text-align: center;
-          line-height: .25rem;
-          border-radius: .25rem;
+          line-height: .3rem;
+          border-radius: .3rem;
           font-size: .2rem;
         }
       }
@@ -317,10 +318,10 @@ export default {
     padding: .05rem .12rem .1rem;
     background: #fff;
     font-size: .18rem;
-    margin-bottom: .1rem;
   }
 
   .w-tableview {
+    margin-top: .1rem;
     margin-bottom: .1rem;
   }
 
@@ -365,13 +366,19 @@ export default {
         }
 
         .icon-collect {
-          color: $color-yellow;
+          color: $color-red;
         }
 
         p {
           font-size: .1rem;
           text-align: center;
         }
+      }
+
+      .icon-star {
+        padding-left: 0;
+        padding-right: 0;
+        width: .6rem;
       }
     }
 

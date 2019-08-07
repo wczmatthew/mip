@@ -112,24 +112,20 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/components/modal.scss';
 
-.modal-container .modal {
-  width: 50%;
-}
-
 .nums {
-  width: 60%;
+  width: 80%;
   margin: 0 auto;
-  height: .2rem;
+  height: .3rem;
   border: 1px solid $color-line;
   display: flex;
   overflow: hidden;
-  border-radius: .2rem;
+  border-radius: .3rem;
 
   .iconfont {
-    color: $color-blue;
+    color: $color-default;
     flex-shrink: 0;
-    width: .2rem;
-    font-size: .2rem;
+    width: .3rem;
+    font-size: .3rem;
   }
 
   input {

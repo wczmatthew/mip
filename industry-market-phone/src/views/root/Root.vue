@@ -5,9 +5,9 @@
     <home v-show="active == 'home'"></home>
     <!-- 首页 end -->
 
-    <!-- 导购页面 -->
-    <!-- <guide v-show="active == 'guide'"></guide> -->
-    <!-- 导购页面 end -->
+    <!-- 产品分类 -->
+    <product-category-tab v-show="active == 'category'"></product-category-tab>
+    <!-- 产品分类 end -->
 
     <!-- 购物车 -->
     <cart-tab v-show="active == 'cart'" ref="cart" current-path="/market"></cart-tab>
@@ -36,7 +36,9 @@
           <i class="iconfont" :class="[item.icon]" v-if="active != 'home'"></i>
           <p v-if="active != 'home'">{{item.title}}</p>
         </template>
-        <i class="iconfont" :class="[item.icon]" v-if="item.tab != 'home'"></i>
+        <i class="iconfont" :class="[item.icon]" v-if="item.tab != 'home'">
+          <i class="num" v-if="item.tab === 'cart'">1</i>
+        </i>
         <p v-if="item.tab != 'home'">{{item.title}}</p>
       </div>
     </div>
@@ -49,15 +51,16 @@ import CartTab from '../cart/CartTab.vue';
 import CustomerTab from '../customers/CustomerTab.vue';
 // import OrderListTab from '../order/OrderListTab.vue';
 import My from '../my/My.vue';
+import ProductCategoryTab from '../products/ProductCategoryTab.vue';
 
 export default {
   data() {
     return {
       tablist: [
         { title: '首页', icon: 'icon-shouye', tab: 'home' },
-        // { title: '导购页', icon: 'icon-daogou', tab: 'guide' },
+        { title: '产品分类', icon: 'icon-cgdh', tab: 'category' },
+        { title: '活动', icon: 'icon-gift', tab: 'gift' },
         { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
-        { title: '客户洽谈', icon: 'icon-customers', tab: 'customer' },
         // { title: '订单管理', icon: 'icon-wenjianguanli', tab: 'order' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
@@ -81,6 +84,7 @@ export default {
     CartTab,
     CustomerTab,
     // OrderListTab,
+    ProductCategoryTab,
     My,
   },
   methods: {
@@ -102,6 +106,7 @@ export default {
 @import '~@/styles/variable.scss';
 .w-tabbar {
   background: #fff;
+  overflow: visible;
 
   .tab-icon {
     width: .3rem;
@@ -117,6 +122,27 @@ export default {
       width: auto;
       height: 58%;
       margin: 0;
+    }
+  }
+
+  .item {
+    .iconfont {
+      position: relative;
+
+      .num {
+        background: $color-red;
+        color: #fff;
+        min-width: .15rem;
+        height: .15rem;
+        line-height: .15rem;
+        border-radius: .15rem;
+        position: absolute;
+        top: -.02rem;
+        left: 58%;
+        font-size: .1rem;
+        z-index: 10;
+        padding: 0 .02rem;
+      }
     }
   }
 }
