@@ -8,6 +8,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 .price {
@@ -18,6 +19,7 @@
 
 .product-list {
   flex: 1;
+  overflow: auto;
   border-top-right-radius: .05rem;
   border-top-left-radius: .05rem;
   width: 100%;

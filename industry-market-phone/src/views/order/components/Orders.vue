@@ -36,22 +36,38 @@
             </div>
 
             <!-- 产品列表 -->
-            <div class="product-item" v-for="(product, productIndex) in item.itemList" :key="index+productIndex">
-              <div class="img">
-                <w-img :src="product.imgPath" alt=""/>
-              </div>
-              <div class="detail">
-                <div class="row">
-                  <span>{{product.xhgg}}</span>
-                  <!-- <span class="price">
-                    ￥{{product.normSum}}
-                  </span> -->
+            <div class="product-list" v-if="item.itemList.length > 3" @click.stop="$set(item, 'isOpen', !item.isOpen)" :class="{'open': item.isOpen}">
+              <div class="img-list">
+                <div class="product-img" v-for="(product, productIndex) in item.itemList.slice(0, 3)" :key="'img'+index+productIndex">
+                  <div class="img">
+                    <w-img :src="product.imgPath" alt=""/>
+                  </div>
+                  <i class="num">{{product.qty || 0}}</i>
                 </div>
-                <div class="row">
-                  <span class="desc">X{{product.qty || 0}}</span>
-                  <span class="desc price">
-                    ￥{{product.normSum}}
-                  </span>
+              </div>
+              <div class="right">
+                共 {{item.itemList.length}} 件
+                <i class="iconfont icon-arrow-down"></i>
+              </div>
+            </div>
+            <div v-show="item.itemList.length < 3 || item.isOpen">
+              <div class="product-item" v-for="(product, productIndex) in item.itemList" :key="index+productIndex">
+                <div class="img">
+                  <w-img :src="product.imgPath" alt=""/>
+                </div>
+                <div class="detail">
+                  <div class="row">
+                    <span>{{product.xhgg}}</span>
+                    <!-- <span class="price">
+                      ￥{{product.normSum}}
+                    </span> -->
+                  </div>
+                  <div class="row">
+                    <span class="desc">X{{product.qty || 0}}</span>
+                    <span class="desc price">
+                      ￥{{product.normSum}}
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -104,7 +120,7 @@ export default {
         { title: '全部', value: -1 },
         // { title: '售后中', value: 4, color: 'grey' },
         { title: '待付款', value: 6, color: 'red' },
-        { title: '待发货', value: 1, color: 'yellow' },
+        { title: '待发货', value: 1, color: 'grey' },
         { title: '待收货', value: 2, color: 'blue' },
         { title: '已完成', value: 3, color: 'green' },
         { title: '已关闭', value: 5, color: 'grey' },
@@ -262,12 +278,12 @@ export default {
   }
 
   .item.actived {
-    color: $color-blue;
+    color: $color-default;
   }
 
   .line {
     height: .01rem;
-    background: $color-blue;
+    background: $color-default;
     position: absolute;
     bottom: 0;
     left: 0;
@@ -277,13 +293,12 @@ export default {
 }
 
 .order-list {
-  width: 80%;
+  width: 93%;
   margin: 0 auto;
 
   .item {
     background: #fff;
     border-radius: .05rem;
-    padding: .1rem .15rem;
     padding-right: 0;
     padding-bottom: 0;
     margin-bottom: .1rem;
@@ -292,7 +307,7 @@ export default {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding-right: .15rem;
+      padding: .08rem .15rem .05rem;
 
       .msg {
         color: $color-grey-6;
@@ -317,7 +332,7 @@ export default {
       }
 
       .status {
-        font-size: .16rem;
+        font-size: .12rem;
         flex-shrink: 0;
         color: $color-blue;
 
@@ -339,14 +354,75 @@ export default {
       }
     } // end store
 
+    .product-list {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: .1rem .15rem;
+      border-top: 1px solid $color-bg;
+      border-bottom: 1px solid $color-bg;
+
+      .img-list {
+        display: flex;
+        flex: 1;
+        .product-img {
+          margin-right: .1rem;
+          position: relative;
+
+          .img {
+            width: .4rem;
+            height: .4rem;
+            overflow: hidden;
+            @include flex-center;
+            img {
+              height: 100%;
+            }
+          }
+
+          .num {
+            position: absolute;
+            display: block;
+            top: 0;
+            right: -.05rem;
+            height: .15rem;
+            line-height: .15rem;
+            min-width: .15rem;
+            border-radius: .15rem;
+            background: $color-default;
+            color:#fff;
+            font-size: .1rem;
+            text-align: center;
+          }
+        }
+      } // end img-list
+
+      .right {
+        flex-shrink: 0;
+        font-weight: 700;
+        font-size: .12rem;
+        @include flex-center;
+        .iconfont {
+          color: $color-black;
+          margin-left: .05rem;
+          font-weight: 700;
+          transition: all .3s ease;
+        }
+      }
+
+      &.open {
+        .right .iconfont {
+          transform: rotate(180deg);
+        }
+      }
+    } // end product-img-list
+
     .product-item {
       display: flex;
-      padding-right: .15rem;
-      padding-top: .1rem;
+      padding: .1rem .15rem 0;
 
       .img {
-        width: .6rem;
-        height: .6rem;
+        width: .4rem;
+        height: .4rem;
         flex-shrink: 0;
         margin-right: .1rem;
         overflow: hidden;
@@ -361,7 +437,7 @@ export default {
       .detail {
         flex: 1;
         overflow: hidden;
-        padding: .15rem 0;
+        padding: .05rem 0;
 
         .row {
           display: flex;
@@ -390,6 +466,7 @@ export default {
       @include text-ellipsis;
       padding-right: .15rem;
       font-size: .12rem;
+      padding-top: .08rem;
 
       .price {
         color: $color-red;
@@ -400,7 +477,7 @@ export default {
     .order-bottom {
       display: flex;
       justify-content: flex-end;
-      margin-top: .1rem;
+      margin-top: .05rem;
       padding-right: .05rem;
 
       button {

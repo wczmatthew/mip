@@ -1,9 +1,12 @@
 import productList from './products/productList';
+import productDetail from './products/detail';
 import customer from './customer';
 import search from './products/search';
 import detail from './order/detail';
 import order from './order';
 import confirmOrder from './order/confirmOrder';
+import guide from './guide';
+import address from './address';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -24,6 +27,9 @@ export default [
       ...detail,
       ...order,
       ...confirmOrder,
+      ...guide,
+      ...address,
+      ...productDetail,
       {
         path: 'chat',
         component: customerChat,

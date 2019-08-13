@@ -15,8 +15,8 @@ $color-title-bg: #f0f0f0;
 $color-line: #e3e3e3;
 $color-yellow: #f7d848;
 $color-orange: #fb6a3e;
-$color-gradient1: #4194f4;
-$color-gradient2: #00fdaf;
+$color-gradient1: #e43d2e;
+$color-gradient2: #cc171f;
 $color-hover-blue: #e6f7ff;
 $color-gold: #c5995b;
 
@@ -60,6 +60,8 @@ $line-scale: 0.5;
 
 /* 最多显示 $line 行, 显示不下显示... */
 @mixin text-overflow-muli($line) {
+  word-wrap: break-word;
+  word-break: break-all;
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

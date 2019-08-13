@@ -234,7 +234,7 @@ export default {
       if (this.hasNext) {
         this.pageNum += 1;
       }
-      this.$refs.scroll.forceUpdate(true);
+      this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
 
       if (this.firstLoading) {
         this.firstLoading = false;

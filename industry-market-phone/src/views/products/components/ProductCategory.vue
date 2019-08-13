@@ -26,14 +26,11 @@
           {{ item.bname }}
         </p>
         <div class="product-list">
-          <div class="product" v-for="(product, index) in item.childList" :key="product.sid + index" @click.stop="toSelect(product)">
-            <div class="product-item">
-              <div class="img">
-                <w-img :src="product.imgPath"></w-img>
-              </div>
-              <p>{{product.bname || '标题缺失, 请联系管理员'}}</p>
+          <div class="product-item" v-for="(product, index) in item.childList" :key="product.sid + index" @click.stop="toSelect(product)">
+            <div class="img">
+              <w-img :src="product.imgPath"></w-img>
             </div>
-            <!-- <button class="light-blue-btn" type="button" @click.stop="toSelect(product)" v-if="showSelectBtn">选型</button> -->
+            <p>{{product.bname || '标题缺失, 请联系管理员'}}</p>
           </div>
         </div>
       </div>
@@ -94,11 +91,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
-</style>
-
-<style lang="scss">
-@import '~@/styles/variable.scss';
-
+@import '~@/styles/components/productMenu.scss';
 .product-container {
   position: relative;
   width: 100%;
@@ -107,200 +100,34 @@ export default {
   display: flex;
   background: #fff;
 
-  .category-list {
-    min-width: .6rem;
-    height: 100%;
-    flex-shrink: 0;
-    background: #fff;
-    padding-top: .05rem;
-    overflow: auto;
+  .menu {
     position: relative;
+    &.actived {
+      color: $color-default;
 
-    .right-line {
-      position: relative;
-      min-height: 100%;
+      &::after {
+        content: ' ';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: .02rem;
+        height: .2rem;
+        margin-top: -.1rem;
+        background: $color-default;
+      }
     }
 
-    .right-line::after {
-      content: ' ';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 1px;
-      height: 100%;
-      background: #e6e6e6;
-      transform: scaleX(0.5);
-    }
-
-    .item {
-      font-size: 12px;
-      text-align: center;
-      height: .24rem;
-      line-height: .24rem;
-      padding: 0 .05rem;
-      @include break-word;
-      position: relative;
-
-      &.actived {
-        color: $color-default;
-
-        &::after {
-          content: ' ';
-          position: absolute;
-          right: 0;
-          top: .07rem;
-          width: .01rem;
-          height: .1rem;
-          background: $color-default;
-        }
-      }
-    } // end item
-
-    .menu {
-      height: .4rem;
-      line-height: .4rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      transition: all .3s ease;
-      padding: 0 .1rem;
-
-      span {
-        font-weight: 700;
-        flex: 1;
-      }
-
-      .iconfont {
-        font-weight: 700;
-        margin-left: .05rem;
-        transform: rotate(180deg);
-        transition: all .3s ease;
-      }
-
-      &.actived {
-        color: $color-default;
-        position: relative;
-        &::after {
-          content: ' ';
-          position: absolute;
-          right: 0;
-          top: .075rem;
-          background: $color-default;
-          width: .02rem;
-          height: .25rem;
-        }
-      }
-
-    } // end menu
-
-    .sub-list {
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .sub-item {
-      height: .24rem;
-      line-height: .24rem;
-      padding: 0 .1rem;
-      text-align: center;
-      background: #fff;
-      font-weight: 700;
-      position: relative;
-
-      &.actived {
-        color: $color-default;
-
-        &::after {
-          content: ' ';
-          position: absolute;
-          right: 0;
-          top: .07rem;
-          width: .01rem;
-          height: .1rem;
-          background: $color-default;
-        }
-      }
-    } // end sub-item
-  } // end category-list
-
-  .product-scroll {
-    flex: 1;
-    overflow: auto;
-
-    .title {
-      height: .3rem;
-      line-height: .3rem;
-      text-align: center;
-    }
-  }
+  } // end menu
 
   .product-list {
-    width: 100%;
-    display: flex;
-    flex-wrap: wrap;
-    padding-left: .1rem;
-    padding-top: .05rem;
-    // border-bottom: 5px solid #e6e6e6;
-    // box-shadow: 0 3px 2px #ccc;
-
-    .product {
-      width: .63rem;
-      margin-bottom: .08rem;
-      margin-right: .06rem;
-      display: flex;
-      flex-direction: column;
-    }
-
-    .product-item {
-      width: .63rem;
-      padding: .05rem;
-      margin-bottom: .06rem;
-      background: $color-bg;
-      border-radius: .02rem;
-      box-shadow: 0 0 .03rem #e6e6e6;
-      overflow: hidden;
-      flex: 1;
-
-      .no-data {
-        padding: 0;
-      }
-
-      .img {
-        width: .5rem;
-        height: .5rem;
-        margin: 0 auto;
-        @include flex-center;
-        overflow: hidden;
-        background: #fff;
-        padding: .02rem;
-
-        img {
-          max-height: 100%;
-          max-width: 100%;
-        }
-      } // end img
-
-      p {
-        font-size: 12px;
-        margin-top: .03rem;
-        @include break-word;
-        text-align: center;
-        line-height: 16px
-      }
-    }
-
-    button {
-      width: 70%;
-      height: .2rem;
-      font-size: 14px;
-    }
-
+    border-bottom: 0;
+    box-shadow: none;
   } // end product-list
 } // end product-container
+</style>
 
+<style lang="scss">
 .product-container {
-
   .cube-scroll-wrapper .cube-sticky-fixed {
     display: none;
   }

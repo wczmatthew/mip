@@ -10,7 +10,7 @@
     <!-- 正文内容 -->
     <div class="order-container">
       <!-- 购物车信息 -->
-      <div class="left">
+      <!-- <div class="left">
         <div class="store">
           <i class="iconfont icon-store"></i>
           {{customer.companyName}}
@@ -46,18 +46,6 @@
             </span>
             <span class="price">￥{{orderDetail.totalPrice || '--'}}</span>
           </div>
-          <!-- <div class="row">
-            <span class="title">运费: </span>
-            <span class="price">
-              ￥{{discountPrice.toFixed(2)}}
-            </span>
-          </div>
-          <div class="row">
-            <span class="title">优惠金额: </span>
-            <span class="price">
-              ￥{{discountPrice.toFixed(2)}}
-            </span>
-          </div> -->
           <div class="row">
             <span class="title">实付金额: </span>
             <span class="price">
@@ -65,12 +53,12 @@
             </span>
           </div>
         </div>
-      </div>
+      </div> -->
       <!-- 购物车信息 -->
 
       <!-- 付款信息 -->
-      <div class="right">
-        <div class="order-status w-underline-1">
+      <div class="detail">
+        <div class="order-status">
           <span class="title">
             <i class="iconfont icon-wenjianguanli"></i>
             订单状态
@@ -80,20 +68,66 @@
           </span>
         </div>
         <!-- 客户信息 -->
-        <div class="customre-item w-underline-1">
-          <i class="iconfont icon-kehu"></i>
+        <div class="customre-item">
+          <i class="iconfont icon-location"></i>
           <div class="detail">
             <p class="title">
               {{customer.name}}&nbsp;&nbsp;
               <span>{{customer.phone}}</span>
             </p>
             <div class="location">
-              <i class="iconfont icon-location"></i>
               {{customer.address}}
             </div>
           </div>
         </div>
         <!-- 客户信息 end -->
+
+        <!-- 产品信息 -->
+        <div class="cart-list">
+          <div class="store">
+            <i class="iconfont icon-store"></i>
+            {{customer.companyName}}
+          </div>
+
+          <div class="product-list">
+            <div class="product-item" v-for="(item, index) in productList" :key="index">
+              <div class="img">
+                <w-img :src="item.imgPath"></w-img>
+              </div>
+              <div class="detail">
+                <p class="title">
+                  {{item.xhgg || '暂无'}}
+                </p>
+                <div class="bottom">
+                  <div class="nums">
+                    x {{item.qty}}
+                  </div>
+                  <p class="price">
+                    ￥{{item.normSum || '--'}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="order-bottom">
+            <div class="w-underline height-1"></div>
+
+            <div class="row">
+              <span class="title">
+                商品总价:
+              </span>
+              <span class="price">￥{{orderDetail.totalPrice || '--'}}</span>
+            </div>
+            <div class="row">
+              <span class="title">实付金额: </span>
+              <span class="price">
+                ￥{{orderDetail.totalPrice || '--'}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <!-- 产品信息 end -->
 
         <!-- 其他信息 -->
         <div class="w-tableview">
@@ -103,6 +137,14 @@
             </span>
             <span class="desc">
               {{orderDetail.billNo}}
+            </span>
+          </div>
+          <div class="cell">
+            <span class="title">
+              订单总价
+            </span>
+            <span class="desc price">
+              ￥{{orderDetail.totalPrice || 0}}
             </span>
           </div>
           <div class="cell">
@@ -140,18 +182,9 @@
           </div>
           <div class="cell">
             <span class="title">
-              订单总价
-            </span>
-            <span class="desc price">
-              ￥{{orderDetail.totalPrice || 0}}
-            </span>
-          </div>
-          <div class="cell">
-            <span class="title">
               配送方式
             </span>
             <span class="desc">
-              门店自提
               {{ orderDetail.postType == 1 ? '送货上门' : '门店自提'}}
             </span>
           </div>
@@ -283,13 +316,8 @@ export default {
 }
 
 .order-container {
-  padding-top: .1rem;
-  padding-left: .12rem;
-  padding-right: .12rem;
   height: 100%;
   width: 100%;
-  display: flex;
-  justify-content: space-between;
 }
 
 .price {
@@ -298,14 +326,12 @@ export default {
   @include text-ellipsis;
 }
 
-.left {
+.cart-list {
   background: #fff;
-  height: 100%;
-  border-top-right-radius: .05rem;
-  border-top-left-radius: .05rem;
-  width: 40%;
+  width: 100%;
   display: flex;
   flex-direction: column;
+  border-bottom: .06rem solid $color-bg;
 
   .store {
     display: flex;
@@ -326,7 +352,7 @@ export default {
   } // end store
 
   .product-list {
-    flex: 1;
+    max-height: 40vh;
     overflow: auto;
   }
 
@@ -334,11 +360,11 @@ export default {
     display: flex;
     padding: 0 .1rem;
     align-items: center;
-    padding-top: .1rem;
+    padding-top: .05rem;
 
     .img {
-      width: .6rem;
-      height: .6rem;
+      width: .4rem;
+      height: .4rem;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -396,23 +422,17 @@ export default {
   } // end order-bottom
 } // end left
 
-.right {
+.detail {
   background: #fff;
-  width: 57%;
-  height: 100%;
-  border-top-right-radius: .05rem;
-  border-top-left-radius: .05rem;
-  padding-top: .08rem;
-  padding-left: .1rem;
-  padding-right: .1rem;
+  width: 100%;
   overflow: auto;
 
   .order-status {
-    height: .35rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: .05rem;
+    padding: .1rem .12rem;
+    border-bottom: .06rem solid $color-bg;
 
     .title {
       display: flex;
@@ -445,12 +465,18 @@ export default {
   .customre-item {
     display: flex;
     align-items: center;
+    border-bottom: .06rem solid $color-bg;
     padding: 0 .12rem;
-    margin-bottom: .1rem;
 
-    .icon-kehu {
-      color: $color-blue;
+    .icon-location {
       font-size: .2rem;
+      color: #fff;
+      width: .3rem;
+      height: .3rem;
+      line-height: .3rem;
+      border-radius: 100%;
+      text-align: center;
+      @include background-left-gradient($color-gradient1, $color-gradient2);
     }
 
     .detail {
@@ -478,20 +504,34 @@ export default {
   } // end customer-item
 
   .w-tableview {
-
+    padding-left: .12rem;
     .cell {
       margin: 0;
-      height: .3rem;
+      // height: .3rem;
 
-      &::after {
-        display: none;
+      // &::after {
+      //   display: none;
+      // }
+
+      .desc {
+        color: $color-black;
+      }
+
+      .price {
+        color: $color-red;
       }
     } // end cell
 
+
     .textarea {
       height: auto;
+      min-height: .4rem;
       align-items: flex-start;
       padding-top: .05rem;
+
+      .title {
+        line-height: .4rem;
+      }
       .desc {
         white-space: normal;
       }

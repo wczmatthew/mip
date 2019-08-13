@@ -9,19 +9,19 @@
     <!-- 正文内容 -->
 
     <!-- 客户信息 -->
-    <div class="customre-item w-underline" @click.stop="onChangeCustomer()">
+    <div class="customre-item w-underline" @click.stop="onChangeAddress()">
       <i class="iconfont icon-kehu"></i>
-      <div class="detail" v-if="!customer || !customer.id">
-        请先选择客户
+      <div class="detail" v-if="!selectAddress || !selectAddress.id">
+        请先选择收货地址
       </div>
       <div class="detail" v-else>
         <p class="title">
-          {{customer.name}}&nbsp;&nbsp;
-          <span>{{customer.phone}}</span>
+          {{selectAddress.name}}&nbsp;&nbsp;
+          <span>{{selectAddress.phone}}</span>
         </p>
         <div class="location">
           <i class="iconfont icon-location"></i>
-          {{customer.address}}
+          {{selectAddress.address}}
         </div>
       </div>
       <i class="iconfont icon-arrow-right"></i>
@@ -163,14 +163,14 @@ export default {
   created() {},
   mounted() {},
   computed: {
-    ...mapGetters('customer', {
-      customer: 'selectCustomer',
+    ...mapGetters('address', {
+      selectAddress: 'selectAddress',
     }),
   },
   components: {},
   methods: {
-    onChangeCustomer() {
-      this.$router.push(`${this.routePath}/customers`);
+    onChangeAddress() {
+      this.$router.push(`${this.routePath}/selectAddress`);
     },
   },
 };

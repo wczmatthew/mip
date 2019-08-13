@@ -170,7 +170,7 @@ export default {
 
       this.firstLoading = true;
       Utils.showLoading();
-      const result = await service.getProductDetail({ bm: this.$route.query.bm });
+      const result = await service.getProductDetail({ bm: this.$route.query.bm, userid: Utils.getUserId(this) });
       Utils.hideLoading();
       if (!result) {
         this.firstLoading = false;
@@ -297,6 +297,7 @@ export default {
     align-items: center;
     justify-content: center;
     background: #fff;
+    padding: .08rem 0;
 
     img {
       max-width: 100%;
@@ -315,7 +316,7 @@ export default {
   .product-title {
     font-weight: 700;
     @include break-word;
-    padding: .05rem .12rem .1rem;
+    padding: .1rem .12rem .1rem;
     background: #fff;
     font-size: .18rem;
   }

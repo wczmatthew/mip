@@ -1,20 +1,13 @@
 <!-- 我的 -->
 <template lang='html'>
   <div class="my">
-    <!-- 顶部栏 -->
-    <w-header class="w-header header">
-      <div slot="header-mid">
-        个人中心
-      </div>
-      <!-- <div class="header-right" slot="header-right">
-        <w-msg-icon></w-msg-icon>
-      </div> -->
-    </w-header>
-    <!-- 顶部栏 end -->
-
+    <!-- 右上角图标 -->
+    <div class="right-icon1" @click="onLogout()">
+      <i class="iconfont icon-logout"></i>
+    </div>
+    <!-- 右上角图标 end -->
     <!-- 个人信息 -->
     <div class="my-msg">
-      <div class="bg"></div>
       <div class="my-card">
         <div class="msg">
           <img src="~@/assets/common/user-logo.png" alt="" class="logo">
@@ -36,32 +29,32 @@
           </div> -->
           <div class="item">
             <p class="top-num">
-              {{totalCount}}
+              0
             </p>
             <p class="tip">
-              <i class="iconfont icon-shuliang"></i>
-              产品销售数量
+              <!-- <i class="iconfont icon-shuliang"></i> -->
+              我的收藏
             </p>
           </div>
           <div class="item">
             <p class="top-num">
-              {{todayPrice}}
+              0
             </p>
             <p class="tip">
-              <i class="iconfont icon-shuliang"></i>
-              今日销售额
+              <!-- <i class="iconfont icon-shuliang"></i> -->
+              最近浏览
             </p>
           </div>
-          <div class="item">
+          <div class="item" @click="toAddress()">
             <p class="top-num">
-              {{totalPrice}}
+              0
             </p>
             <!-- <i class="iconfont icon-qian">
               <i class="num">222222</i>
             </i> -->
             <p class="tip">
-              <i class="iconfont icon-qian"></i>
-              现金收入
+              <!-- <i class="iconfont icon-qian"></i> -->
+              收货地址
             </p>
           </div>
         </div>
@@ -116,39 +109,6 @@
     </div>
     <!-- 我的订单 end -->
 
-    <!-- 管理中心 -->
-    <div class="card my-manage">
-      <div class="title-row">
-        <div class="title">
-          管理中心
-        </div>
-      </div>
-
-      <div class="w-tableview">
-        <div class="cell" @click="toCollection()">
-          <span class="title">
-            <i class="iconfont icon-notcollect"></i>
-            我的收藏
-          </span>
-          <i class="iconfont icon-arrow-right"></i>
-        </div>
-
-        <!-- <div class="cell">
-          <span class="title">
-            <i class="iconfont icon-kehu"></i>
-            我的客户
-          </span>
-          <i class="iconfont icon-arrow-right"></i>
-        </div> -->
-
-      </div>
-    </div>
-    <!-- 管理中心 end -->
-
-    <button class="blue-btn bottom-btn" @click="onLogout()">
-      退出登录
-    </button>
-
   </div>
 </template>
 <script>
@@ -189,6 +149,9 @@ export default {
     onLogout() {
       this.$store.commit('user/updateUserId', '');
       this.$router.push('/login');
+    },
+    toAddress() {
+      this.$router.push('/market/address');
     },
     async getUserData() {
       const result = await userService.getUserInfo({ userid: Utils.getUserId(this) });
@@ -246,6 +209,19 @@ export default {
   position: relative;
 }
 
+.right-icon1 {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: .4rem;
+  height: .4rem;
+  @include flex-center;
+  color: #fff;
+  .iconfont {
+    font-size: .2rem;
+  }
+}
+
 .grid-list {
   display: flex;
   margin-top: .1rem;
@@ -256,22 +232,6 @@ export default {
     position: relative;
     padding: .1rem 0;
 
-    &:active {
-      background: $color-bg;
-    }
-
-    &:not(:last-child)::after {
-      content: ' ';
-      display: block;
-      width: 1px;
-      height: 70%;
-      position: absolute;
-      right: 0;
-      bottom: 10%;
-      background: $color-line;
-      transform: scaleX(.5);
-    }
-
     .top-num {
       text-align: center;
       font-size: .2rem;
@@ -280,7 +240,7 @@ export default {
     .iconfont {
       display: inline-block;
       font-size: .2rem;
-      color: $color-blue;
+      color: $color-grey;
       position: relative;
       .num {
         position: absolute;
@@ -299,7 +259,6 @@ export default {
     } // end iconfont
 
     .tip {
-      color: $color-grey;
       font-size: .12rem;
       margin-top: .05rem;
       display: flex;
@@ -315,24 +274,17 @@ export default {
 }
 
 .my-msg {
-  position: relative;
-  .bg {
-    @include background-left-gradient($color-gradient1, $color-gradient2);
-    height: 1.45rem;
-  }
+  border-bottom-left-radius: .2rem;
+  border-bottom-right-radius: .2rem;
+  padding-bottom: .2rem;
+  @include background-left-gradient(#e73b35, #e0252c);
 
   .my-card {
-    width: 70%;
-    padding-top: .1rem;
-    background: #fff;
+    width: 100%;
+    padding-top: .3rem;
     border-radius: .05rem;
     margin: 0 auto;
-    box-shadow: 0 .02rem .05rem #ccc;
-    position: absolute;
-    bottom: -20%;
-    left: 15%;
-    z-index: 10;
-
+    color: #fff;
     .msg {
       display: flex;
       align-items: center;
@@ -342,16 +294,22 @@ export default {
         height: .5rem;
         border-radius: .5rem;
         margin-left: 8%;
+        background: #fff;
       }
 
       .detail {
         flex: 1;
         padding: 0 .1rem;
+        line-height: 1.2;
         @include text-ellipsis;
+
+        .title {
+          font-size: .16rem;
+        }
+
         .desc {
           font-size: .12rem;
-          color: $color-grey;
-          margin-top: .05rem;
+          margin-top: .1rem;
         }
       } // end detail
     } // end msg
@@ -364,14 +322,15 @@ export default {
   width: 95%;
   margin: 0 auto;
   margin-top: .1rem;
-  padding: .1rem;
+  padding: 0 .1rem;
 
   .title-row {
     display: flex;
     align-items: center;
     justify-content: space-between;
     border-bottom: .01rem solid $color-line;
-    height: .3rem;
+    height: .4rem;
+    line-height: .4rem;
     .title {
       font-weight: 700;
     }
@@ -379,8 +338,7 @@ export default {
     .desc {
       font-size: .12rem;
       color: $color-grey;
-      height: .3rem;
-      line-height: .3rem;
+      height: 100%;
       font-weight: 700;
 
       &:active {
@@ -392,8 +350,8 @@ export default {
 
 .my-order {
   padding-bottom: 0;
-  box-shadow: 0 0 .05rem #ccc;
-
+  box-shadow: 0 .02rem .05rem #ccc;
+  margin-top: -.2rem;
   .grid-list {
     margin-top: 0;
   }
@@ -415,7 +373,7 @@ export default {
   }
 
   .grid-list .item .tip {
-    color: $color-black;
+    color: $color-grey;
   }
 } // end my-order
 

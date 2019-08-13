@@ -18,15 +18,57 @@ export default {
     return postHttp({ url: '/productcenter/product/search', params });
   },
   /**
+   * 获取产品列表
+   * @param pageNum 页码
+   * @param pageSize 一页多少条
+   * @param keyword 型号规格（模糊查询）
+   * @param seriesId 系列id
+   * @param orderByColumn 排序的字段名
+   * @param isAsc 升序降序
+   */
+  getNewProductList: ({ pageNum, pageSize, keyword, seriesId, orderByColumn, isAsc }) => {
+    const params = {
+      pageNum,
+      pageSize: pageSize || 10,
+      seriesId: seriesId || '',
+      keyword: keyword || '',
+      orderByColumn,
+      isAsc,
+    };
+    return postHttp({ url: '/productcenter/product/newSearch', params });
+  },
+  /**
+   * 获取产品列表
+   * @param pageNum 页码
+   * @param pageSize 一页多少条
+   * @param keyword 型号规格（模糊查询）
+   * @param seriesId 系列id
+   * @param orderByColumn 排序的字段名
+   * @param isAsc 升序降序
+   */
+  newSelectSearch: ({ pageNum, pageSize, keyword, seriesId, orderByColumn, isAsc }) => {
+    const params = {
+      pageNum,
+      pageSize: pageSize || 10,
+      seriesId: seriesId || '',
+      keyword: keyword || '',
+      orderByColumn,
+      isAsc,
+    };
+    return postHttp({ url: '/productcenter/product/newSelectSearch', params });
+  },
+  /**
    * 获取前几个产品列表
    */
   getTopProducts: () => getHttp({ url: '/productcenter/product/getTopProduct' }),
   /**
    * 获取产品详情
    * @param bm 产品编号
+   * @param userid 用户id
    */
-  getProductDetail: ({ bm }) => {
-    const params = { bm };
+  getProductDetail: ({ bm, userid }) => {
+    if (!userid) return '';
+    const params = { bm, userid };
     return getHttp({ url: '/productcenter/product/get', params });
   },
   /**
@@ -39,6 +81,17 @@ export default {
       userid,
     };
     return postHttp({ url: '/productcenter/stock/getShelfList', params });
+  },
+  /**
+   * （新！）获取货位和货架数据
+   * @param userid 用户id
+   * @param shelfId 货位id
+   */
+  getNewShelfProductList: ({ shelfId }) => {
+    const params = {
+      shelfId,
+    };
+    return postHttp({ url: '/productcenter/stock/getNewShelfProductList', params });
   },
   /**
    * 根据货位获取货架产品信息

@@ -6,6 +6,7 @@ import options from './modules/common/options';
 import category from './modules/common/category';
 import customer from './modules/customer';
 import product from './modules/product';
+import address from './modules/address';
 
 Vue.use(Vuex);
 
@@ -18,6 +19,7 @@ export default new Vuex.Store({
     options,
     category,
     product,
+    address,
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []

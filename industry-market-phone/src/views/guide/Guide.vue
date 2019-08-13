@@ -1,21 +1,13 @@
 <!-- 导购页面 -->
 <template lang='html'>
-  <div class="w-container">
+  <w-container show-header show-back>
     <!-- 顶部栏 -->
-    <!-- <header class="w-header">
-
-      <div class="w-header-mid">
-        店内模式
-      </div>
-
-      <div class="header-right">
-        <w-msg-icon color="blue"></w-msg-icon>
-        <i class="iconfont icon-cart"></i>
-      </div>
-    </header> -->
+    <div slot="header-mid">
+      展厅导购
+    </div>
     <!-- 顶部栏 end -->
-
-    <div class="w-content">
+    <!-- 正文内容 -->
+    <div class="guide-container">
       <div class="w-grid-list">
         <div class="item" v-for="(item, index) in list" :key="index" @click="toCategory(item)">
           <div class="img">
@@ -27,22 +19,9 @@
           </div>
         </div>
       </div>
-
-      <!-- 按钮区域 -->
-      <div class="icon-list">
-        <!-- <div class="icon">
-          <i class="iconfont icon-store"></i>
-        </div> -->
-        <div class="icon">
-          <i class="iconfont icon-daogou" @click="toProductList()"></i>
-        </div>
-        <div class="icon" @click="toCategory()">
-          <i class="iconfont icon-fenlei"></i>
-        </div>
-      </div>
-      <!-- 按钮区域 end -->
     </div>
-  </div>
+    <!-- 正文内容 end -->
+  </w-container>
 </template>
 <script>
 // import img from '@/assets/guide/img.png';
@@ -53,6 +32,7 @@ export default {
   data() {
     return {
       list: [],
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'guide' }), // 获取当前路由
     };
   },
   created() {},
@@ -64,47 +44,53 @@ export default {
     async getData() {
       Utils.showLoading();
       const result = await service.getTopShelfList({ userid: Utils.getUserId(this) });
-      Utils.hideLoading();
       if (!result) return;
+      Utils.hideLoading();
       this.list = [...result];
     },
     toCategory(item) {
       if (item) {
-        this.$router.push(`/market/category?id=${item.id}`);
+        this.$router.push(`${this.routePath}/guideCategory?id=${item.id}`);
         return;
       }
-      this.$router.push('/market/category');
-    },
-    toProductList() {
-      this.$router.push('/market/productList');
+      this.$router.push(`${this.routePath}/guideCategory`);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
-.w-content {
+.guide-container {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
   background: url('~@/assets/guide/bg.jpg') no-repeat;
   background-size: cover;
+  background-position: center;
 }
 
 .w-grid-list {
-  width: 80%;
+  width: 90%;
   margin: 0 auto;
+  padding-top: 57vh;
   justify-content: space-between;
-  padding-top: .4rem;
 
   .item {
-    width: 45%;
-    height: .6rem;
+    width: 46%;
+    height: .4rem;
     border-radius: .05rem;
     overflow: hidden;
     display: flex;
     align-items: center;
     padding: 0;
     background: $color-blue;
-    margin-bottom: .2rem;
+    margin-bottom: .15rem;
     box-shadow: 0 .02rem .05rem #313131;
+    opacity: .85;
+
+    &:nth-child(2n) {
+      margin-right: 0;
+    }
 
     .img {
       width: 50%;
@@ -136,17 +122,17 @@ export default {
   position: fixed;
   z-index: 20;
   right: .1rem;
-  bottom: .5rem;
+  bottom: .4rem;
 
   .icon {
-    width: .4rem;
-    height: .4rem;
-    border-radius: .4rem;
+    width: .3rem;
+    height: .3rem;
+    border-radius: .3rem;
     background: $color-blue;
     color: #fff;
     text-align: center;
-    line-height: .4rem;
-    font-size: .22rem;
+    line-height: .3rem;
+    font-size: 22px;
     margin-bottom: .1rem;
 
     &:active {

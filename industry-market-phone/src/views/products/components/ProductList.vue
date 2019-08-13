@@ -1,8 +1,9 @@
 <!-- 产品列表 一行3列 -->
 <template lang='html'>
   <!-- 商品列表 -->
-  <div class="product-list">
-    <div v-for="(item, index) in productList" :key="index" class="item" @click="toDetail(item)">
+  <div class="product-list" :class="{'grid-2-list': listType == 'grid', 'grid-1-list': listType == 'list'}">
+    <div v-for="(item, index) in productList" :key="index"
+    class="item product" @click="toDetail(item)">
       <div class="img">
         <w-img :src="item.imgPath"></w-img>
       </div>
@@ -28,7 +29,10 @@
             <input type="number">
             <i class="iconfont icon-jia"></i>
           </div> -->
-          <button class="red-btn" @click.stop="onAddCart(item)">加入购物车</button>
+          <button class="red-btn" @click.stop="onAddCart(item)">
+            <span v-show="listType == 'list'">加入购物车</span>
+            <i class="iconfont icon-cart" v-show="listType == 'grid'"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -46,6 +50,7 @@ export default {
       noProduct: false,
       productList: [], // 产品列表数据
       path: '',
+      listType: 'list', // grid 一行2个显示, list: 一行一个(列表模式)
     };
   },
   created() {},
@@ -60,6 +65,9 @@ export default {
     }),
   },
   methods: {
+    changeListType(listType) {
+      this.listType = listType;
+    },
     updateList(list) {
       this.productList = list;
     },
@@ -187,4 +195,37 @@ export default {
     } // end detail
   } // end item
 }
+
+.grid-2-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  .product {
+    width: 49%;
+    flex-direction: column;
+    margin-top: .08rem;
+
+    .product-title {
+      margin-top: .05rem;
+    }
+
+    .detail .bottom {
+      margin-top: .1rem;
+
+      .red-btn {
+        width: .25rem;
+        height: .25rem;
+        border-radius: .25rem;
+        font-size: .18rem;
+        @include flex-center;
+      }
+    }
+    .img {
+      height: .7rem;
+      border: 0;
+    }
+  } // end product
+
+} // end grid-2-list
+
 </style>

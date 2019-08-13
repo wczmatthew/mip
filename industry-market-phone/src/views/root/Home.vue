@@ -21,8 +21,8 @@
     <!-- 轮播图 -->
     <div class="banner" v-if="banners && banners.length">
       <cube-slide ref="slide" :data="banners">
-        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="clickHandler(item)" class="banner-item" :auto-play="autoplay">
-          <img :src="item.url">
+        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="onClickBanner(item)" class="banner-item" :auto-play="autoplay">
+          <w-img :src="item.imgPath"/>
         </cube-slide-item>
       </cube-slide>
     </div>
@@ -30,14 +30,13 @@
 
     <!-- 常用功能 -->
     <div class="w-grid-list home-category">
-      <div class="item" @click="toCategory()">
-        <img src="~@/assets/home/index-icon1.png" alt="">
+      <div class="item" @click="toCategory(item)" v-for="(item, index) in categoryList" :key="'category'+index">
+        <w-img :src="item.imgPath" alt=""/>
         <p class="sub-title">
-          产品分类
+          {{item.title}}
         </p>
       </div>
-
-      <div class="item">
+      <!-- <div class="item">
         <img src="~@/assets/home/index-icon2.png" alt="">
         <p class="sub-title">
           洽谈
@@ -56,9 +55,27 @@
         <p class="sub-title">
           解决方案
         </p>
-      </div>
+      </div> -->
     </div>
     <!-- 常用功能 end -->
+
+    <!-- 新闻 -->
+    <div class="news-container">
+      <span class="title">商城头条</span>
+      <div class="list">
+        <cube-slide direction="vertical" :data="news" :show-dots="false" ref="newsSlide">
+          <cube-slide-item v-for="(item, index) in news" :key="'news'+index" @click.native="onClickNews(item)">
+            <div class="item">
+              {{item.title}}
+            </div>
+          </cube-slide-item>
+        </cube-slide>
+      </div>
+      <!-- <span class="desc">
+        更多
+      </span> -->
+    </div>
+    <!-- 新闻 end -->
 
     <!-- 限时抢购 -->
     <div class="home-row">
@@ -74,17 +91,17 @@
       </div>
 
       <div class="w-grid-list product-grid">
-        <div class="item" v-for="(item, index) in productList" :key="index">
+        <div class="item" v-for="(item, index) in buyingProducts.list" :key="index" @click="toProductDetail(item.bm)">
           <div class="detail">
             <div class="img">
-              <img src="~@/assets/home/banner.jpg" alt="">
+              <w-img :src="item.imgPath" alt=""/>
             </div>
             <p class="product-title">
               {{item.title}}
             </p>
           </div>
           <p class="desc">
-            限时9折
+            ￥{{item.price}}
           </p>
         </div>
       </div>
@@ -92,8 +109,8 @@
     <!-- 限时抢购 end -->
 
     <!-- 广告图片 -->
-    <div class="banner2">
-      <img src="~@/assets/home/banner2.png" alt="">
+    <div class="banner2" v-if="midAds.imgPath">
+      <w-img :src="midAds.imgPath" alt="" @click="onClickBanner(midAds)"/>
     </div>
     <!-- 广告图片 end -->
 
@@ -351,9 +368,11 @@ export default {
           title: '图片1',
         },
       ],
-      caterotyList: [],
+      buyingProducts: [],
+      categoryList: [],
+      news: [],
+      midAds: {}, // 中间广告
       autoplay: true,
-      productList: [],
       hour: 0,
       minute: 0,
       second: 0,
@@ -378,20 +397,17 @@ export default {
   },
   created() {},
   mounted() {
-    // this.getBanner();
+    this.getData();
     console.log('home mounted');
 
-    this.productList = [
-      { title: '家用漏保断路器NBE7LE1P+N' },
-      { title: '家用漏保断路器NBE7LE1P+N' },
-      { title: '家用漏保断路器NBE7LE1P+N' },
-      { title: '家用漏保断路器NBE7LE1P+N' },
-    ];
+    // this.productList = [
+    //   { title: '家用漏保断路器NBE7LE1P+N' },
+    //   { title: '家用漏保断路器NBE7LE1P+N' },
+    //   { title: '家用漏保断路器NBE7LE1P+N' },
+    //   { title: '家用漏保断路器NBE7LE1P+N' },
+    // ];
 
     // this.calcTime();
-    this.timer && clearInterval(this.timer);
-    console.log('timer: ', this.timer);
-    this.timer = setInterval(this.calcTime, 1000);
   },
   components: {
     WSearch,
@@ -436,13 +452,13 @@ export default {
       this.$router.push('/market/search');
     },
     // 点击轮播图
-    clickHandler(item) {
-      if (!item.goUrl) return;
-      if (item.goUrl.indexOf('http') > -1) {
+    onClickBanner(item) {
+      if (!item.url) return;
+      if (item.url.indexOf('http') > -1) {
         try {
           // TODO:
           // eslint-disable-next-line
-          native_listen('goToUrl', { url: item.goUrl });
+          native_listen('goToUrl', { url: item.url });
         } catch (error) {
           console.log('error: ', error);
         }
@@ -458,18 +474,36 @@ export default {
       }
     },
     // 获取首页轮播图
-    async getBanner() {
+    async getData() {
       Utils.showLoading();
-      const result = await indexService.getBanner(5);
-      Utils.hideLoading();
+      const result = await indexService.getIndexData({ userid: Utils.getUserId(this) });
       if (!result) return;
-      this.banners = [...result];
+      Utils.hideLoading();
+      this.banners = [...result.banner];
+      this.categoryList = result.category || [];
+      this.news = result.news || [];
+      this.buyingProducts = result.buyingProducts || {};
+      this.midAds = result.midAds || {};
+      if (this.buyingProducts.endDate) {
+        this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
+
+        this.timer && clearInterval(this.timer);
+        this.timer = setInterval(this.calcTime, 1000);
+      }
       this.$nextTick(() => {
         this.$refs.slide && this.$refs.slide.refresh();
+        this.$refs.newsSlide && this.$refs.newsSlide.refresh();
       });
     },
-    toCategory() {
-      this.$router.push('/market/productCategory');
+    toCategory(item) {
+      if (!item.url) {
+        Utils.showToast('敬请期待');
+        return;
+      }
+      this.$router.push(`/market/${item.url}`);
+    },
+    toProductDetail(id) {
+      this.$router.push(`/market/productDetail?bm=${id}`);
     },
   },
 };
@@ -582,6 +616,60 @@ export default {
   }
 }
 
+.news-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: .1rem .12rem;
+  background: #fff;
+
+  &::before {
+    content: ' ';
+    position: absolute;
+    top: 0;
+    left: 3%;
+    width: 94%;
+    height: 1px;
+    background: $color-line;
+    transform: scaleY(.5);
+  }
+
+  .title {
+    font-size: .15rem;
+    font-weight: 700;
+  }
+
+  .list {
+    flex: 1;
+    overflow: hidden;
+    height: .3rem;
+    line-height: .3rem;
+    position: relative;
+
+    &::before {
+      content: ' ';
+      position: absolute;
+      top: .12rem;
+      left: .05rem;
+      width: .05rem;
+      height: .05rem;
+      border-radius: 100%;
+      background: $color-grey;
+    }
+
+    .item {
+      padding: 0 .1rem 0 .15rem;
+      @include text-ellipsis;
+      font-size: .12rem;
+    }
+  }
+
+  .desc {
+    font-size: .12rem;
+    color: $color-grey;
+  }
+}
+
 .home-row {
   padding: .15rem 0 .1rem;
   @include background-top-gradient(#f7f7f7 90%, #fefefe);
@@ -609,7 +697,7 @@ export default {
       color: #525252;
       font-size: .18rem;
       border-radius: .05rem;
-      width: .2rem;
+      min-width: .2rem;
       height: .2rem;
       line-height: .2rem;
       text-align: center;
@@ -657,7 +745,7 @@ export default {
     width: 100%;
 
     .item {
-      width: .75rem;
+      width: .8rem;
       padding: 0;
       flex-shrink: 0;
       overflow: hidden;
@@ -669,8 +757,8 @@ export default {
         padding: .08rem 0 .05rem;
 
         .img {
-          width: .5rem;
-          height: .55rem;
+          width: .55rem;
+          height: .6rem;
           border: 1px solid #f3f3f3;
           @include flex-center;
           overflow: hidden;
@@ -683,9 +771,12 @@ export default {
         .product-title {
           @include text-overflow-muli(2);
           @include break-word;
-          margin: .05rem .08rem 0;
+          margin: .05rem .05rem 0;
           font-size: .1rem;
           color: $color-grey;
+          height: .22rem;
+          line-height: .12rem;
+          @include flex-center;
         }
       } // end detail
 

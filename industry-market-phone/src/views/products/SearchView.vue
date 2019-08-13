@@ -1,6 +1,6 @@
 <!-- 商城页 -->
 <template lang='html'>
-  <w-container showHeader showBack>
+  <w-container showHeader showBack class="search-container">
     <!-- 顶部栏 -->
     <w-search class="search" slot="header-mid" show-scan @search="toSearch" ref="search"></w-search>
     <div class="header-right" slot="header-right">

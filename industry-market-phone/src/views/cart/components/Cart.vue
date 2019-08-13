@@ -289,7 +289,6 @@ export default {
     },
     // 获取购物车数据
     async getData() {
-      console.log(Utils.getUserId(this));
       const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
       if (!result) return;
 

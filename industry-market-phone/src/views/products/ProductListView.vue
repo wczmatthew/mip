@@ -3,17 +3,19 @@
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
     <!-- <w-search class="search" ref="search" slot="header-mid" show-scan @search="onSearch"></w-search> -->
-    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
+    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()" ref="search"></w-search>
     <div class="header-right" slot="header-right">
       <!-- <w-cart-icon :current-path="routePath" color="blue"></w-cart-icon> -->
     </div>
     <!-- 顶部栏 end -->
 
     <!-- 菜单页面 -->
-    <div class="product-header" slot="header-other">
-      <!-- <p class="title">开关</p> -->
+    <sort-tab :tab-list="tabList" @select="onSelectTab" @change-list-type="onChangeListType" slot="header-other"></sort-tab>
+    <!-- 菜单页面 end -->
+    <!-- 菜单页面 -->
+    <!-- <div class="product-header" slot="header-other">
       <search-sort></search-sort>
-    </div>
+    </div> -->
     <!-- 菜单页面 end -->
 
     <w-scroll
@@ -39,7 +41,7 @@ import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import ProductList from './components/ProductList.vue';
-import SearchSort from './components/SearchSort.vue';
+import SortTab from './components/SortTab.vue';
 import { mapGetters } from 'vuex';
 import WNumModal from '@/components/WNumModal.vue';
 
@@ -47,21 +49,18 @@ export default {
   data() {
     return {
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productList' }), // 获取当前路由
-      tabList: [
-        { title: '综合电器', selectTxt: '' },
-        { title: '配电电器', selectTxt: '' },
-        { title: '控制电器', selectTxt: '' },
-        { title: '驱动电器', selectTxt: '' },
-        { title: '继电器', selectTxt: '' },
-        { title: '开关电器', selectTxt: '' },
-        { title: '电源电器', selectTxt: '' },
-        { title: '焊接设备', selectTxt: '' },
-      ],
       productList: [],
       noProduct: false,
       pageNum: 1,
       hasNext: true,
       bnr: '',
+      isAsc: '',
+      isFirstLoading: false,
+      orderByColumn: '',
+      tabList: [
+        { name: '产品型号', sort: 'asc', column: 'xhgg' },
+        { name: '价格', sort: 'none', column: 'djj' },
+      ],
     };
   },
   created() {},
@@ -71,10 +70,20 @@ export default {
     });
     this.getData();
   },
+  watch: {
+    keywords() {
+      // console.log('keywords change');
+      this.$nextTick(() => {
+        this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
+      });
+      this.onPullingDown();
+      // this.getData();
+    },
+  },
   components: {
     WSearch,
     ProductList,
-    SearchSort,
+    SortTab,
     WNumModal,
   },
   computed: {
@@ -83,6 +92,9 @@ export default {
     }),
   },
   methods: {
+    onChangeListType(listType) {
+      this.$refs.productList && this.$refs.productList.changeListType(listType);
+    },
     addCart(item) {
       this.$refs.numModal.show({
         callback: async (type, num) => {
@@ -110,7 +122,8 @@ export default {
     },
     onSelectTab(data) {
       // console.log(data);
-      this.bnr = data.bnr || '';
+      this.orderByColumn = data.column || '';
+      this.isAsc = data.sort === 'none' ? '' : data.sort;
       this.onPullingDown();
     },
     // 图片加载失败
@@ -120,6 +133,8 @@ export default {
     // 下拉刷新
     onPullingDown() {
       this.pageNum = 1;
+      this.isFirstLoading = true;
+      this.$refs.scroll && this.$refs.scroll.scrollTop();
       this.getData();
     },
     // 上拉加载
@@ -133,7 +148,8 @@ export default {
     },
     async getData() {
       // Utils.showLoading();
-      const result = await service.getProductList({ pageNum: this.pageNum, pageSize: 9, keyword: this.keywords, bnr: this.bnr });
+      const params = { pageNum: this.pageNum, pageSize: this.pageSize, keyword: this.keywords, seriesId: this.seriesId, orderByColumn: this.orderByColumn, isAsc: this.isAsc };
+      const result = await service.getNewProductList(params);
       if (!result) {
         this.noProduct = !this.productList.length;
         return;
@@ -146,13 +162,13 @@ export default {
         this.productList = this.productList.concat([...result.rows]);
       }
 
-      this.$refs.productList && this.$refs.productList.updateList(this.productList);
       this.noProduct = !this.productList.length;
       this.hasNext = this.productList.length < result.total;
       if (this.hasNext) {
         this.pageNum += 1;
       }
       this.$nextTick(() => {
+        this.$refs.productList && this.$refs.productList.updateList(this.productList);
         this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
       });
 
