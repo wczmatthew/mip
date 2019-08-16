@@ -116,151 +116,109 @@
 
     <!-- 海报产品列表 -->
     <div class="w-grid-list product-grid2">
-      <div class="product product1">
+      <div class="product product1" v-if="hotPro1.id">
         <p class="title">
-          开关插座黑灰色
+          {{hotPro1.title}}
         </p>
-        <p class="desc">
+        <!-- <p class="desc">
           细腻磨砂材质
-        </p>
+        </p> -->
         <p class="price">
-          ￥ 23 起
+          ￥ {{hotPro1.price}} 起
         </p>
         <div class="label">
-          新品
+          {{hotPro1.productType}}
         </div>
 
-        <div class="img">
-          <img src="~@/assets/home/product1.png" alt="">
-        </div>
+        <w-img :src="hotPro1.imgPath" alt="" class="bg"/>
       </div>
 
       <div class="right-product">
-        <div class="product product2">
+        <div class="product product2" v-if="hotPro2.id">
           <p class="title">
-            NBE7小型断路器
+            {{hotPro2.title}}
           </p>
-          <p class="desc">
+          <!-- <p class="desc">
             好口碑好实力
-          </p>
+          </p> -->
           <p class="price">
-            ￥ 23 起
+            ￥ {{hotPro2.price}} 起
           </p>
           <div class="label">
-            爆款
+            {{hotPro2.productType}}
           </div>
 
-          <div class="img">
-            <img src="~@/assets/home/product2.png" alt="">
-          </div>
+          <w-img :src="hotPro2.imgPath" alt="" class="bg"/>
         </div>
 
-        <div class="product product3">
+        <div class="product product3" v-if="hotPro3.id">
           <p class="title">
-            开关插座黑灰色
+            {{hotPro3.title}}
           </p>
-          <p class="desc">
-            细腻磨砂材质
-          </p>
+          <!-- <p class="desc">
+            好口碑好实力
+          </p> -->
           <p class="price">
-            ￥ 23 起
+            ￥ {{hotPro3.price}} 起
           </p>
           <div class="label">
-            新品
+            {{hotPro3.productType}}
           </div>
 
-          <div class="img">
-            <img src="~@/assets/home/product3.png" alt="">
-          </div>
+          <w-img :src="hotPro3.imgPath" alt="" class="bg"/>
         </div>
-
       </div>
 
-      <div class="product product2 product4">
+      <div class="product product2 product4" v-if="hotPro4.id">
         <p class="title">
-          NBE7小型断路器
+          {{hotPro4.title}}
         </p>
-        <p class="desc">
+        <!-- <p class="desc">
           好口碑好实力
-        </p>
+        </p> -->
         <p class="price">
-          ￥ 23 起
+          ￥ {{hotPro4.price}} 起
         </p>
         <div class="label">
-          爆款
+          {{hotPro4.productType}}
         </div>
 
-        <div class="img">
-          <img src="~@/assets/home/product4.png" alt="">
-        </div>
+        <w-img :src="hotPro4.imgPath" alt="" class="bg"/>
       </div>
 
-      <div class="product product2 product5">
+      <div class="product product2 product5" v-if="hotPro5.id">
         <p class="title">
-          开关插座黑灰色
+          {{hotPro5.title}}
         </p>
-        <p class="desc">
-          细腻磨砂材质
-        </p>
+        <!-- <p class="desc">
+          好口碑好实力
+        </p> -->
         <p class="price">
-          ￥ 23 起
+          ￥ {{hotPro5.price}} 起
         </p>
         <div class="label">
-          新品
+          {{hotPro5.productType}}
         </div>
 
-        <div class="img">
-          <img src="~@/assets/home/product2.png" alt="">
-        </div>
+        <w-img :src="hotPro5.imgPath" alt="" class="bg"/>
       </div>
-
     </div>
     <!-- 海报产品列表 end -->
 
     <!-- 产品列表 -->
     <div class="w-grid-list product-list">
-      <div class="item">
+      <div class="item" v-for="(item, index) in generalProList" :key="'hot'+index" @click="toProductDetail(item.bm)">
         <div class="img">
-          <img src="~@/assets/home/product1.png" alt="">
+          <w-img :src="item.imgPath" alt=""/>
         </div>
         <p class="title">
-          正泰led灯带
+          {{item.title}}
         </p>
-        <p class="desc">
+        <!-- <p class="desc">
           最高优惠200
-        </p>
+        </p> -->
         <p class="price">
-          ￥2333
-        </p>
-      </div>
-
-      <div class="item">
-        <div class="img">
-          <img src="~@/assets/home/product1.png" alt="">
-        </div>
-        <p class="title">
-          正泰led灯带
-        </p>
-        <p class="desc">
-          最高优惠200
-        </p>
-        <p class="price">
-          ￥2333
-        </p>
-      </div>
-
-      <div class="item">
-        <div class="img">
-          <img src="~@/assets/home/product1.png" alt="">
-        </div>
-        <p class="title">
-          正泰led灯带
-        </p>
-        <p class="desc">
-          最高优惠200
-        </p>
-        <p class="price">
-          ￥2333
+          ￥{{item.price || 0}}
         </p>
       </div>
     </div>
@@ -273,78 +231,18 @@
       </p>
 
       <div class="w-grid-list">
-        <div class="col col2">
+        <div class="col" v-for="(item, index) in highQualityProList" :key="'high'+index" @click="toProductDetail(item.bm)" :class="[index < 3 ? 'col2' : 'col3']">
           <div class="img">
-            <img src="~@/assets/home/product2.png" alt="">
+            <w-img :src="item.imgPath" alt=""/>
             <div class="bottom">
-              标配版到手2433
+              {{item.productType}}
             </div>
           </div>
           <p class="sub-title">
-            卧室灯吸顶灯
+            {{item.title}}
           </p>
           <p class="price">
-            ￥2433
-          </p>
-        </div>
-
-        <div class="col col2" style="margin-right: 0;">
-          <div class="img">
-            <img src="~@/assets/home/product2.png" alt="">
-            <div class="bottom">
-              标配版到手2433
-            </div>
-          </div>
-          <p class="sub-title">
-            卧室灯吸顶灯
-          </p>
-          <p class="price">
-            ￥2433
-          </p>
-        </div>
-
-        <div class="col col3">
-          <div class="img">
-            <img src="~@/assets/home/product2.png" alt="">
-            <div class="bottom">
-              标配版到手2433
-            </div>
-          </div>
-          <p class="sub-title">
-            卧室灯吸顶灯
-          </p>
-          <p class="price">
-            ￥2433
-          </p>
-        </div>
-
-        <div class="col col3">
-          <div class="img">
-            <img src="~@/assets/home/product2.png" alt="">
-            <div class="bottom">
-              标配版到手2433
-            </div>
-          </div>
-          <p class="sub-title">
-            卧室灯吸顶灯
-          </p>
-          <p class="price">
-            ￥2433
-          </p>
-        </div>
-
-        <div class="col col3" style="margin-right: 0;">
-          <div class="img">
-            <img src="~@/assets/home/product2.png" alt="">
-            <div class="bottom">
-              标配版到手2433
-            </div>
-          </div>
-          <p class="sub-title">
-            卧室灯吸顶灯
-          </p>
-          <p class="price">
-            ￥2433
+            ￥{{item.price}}
           </p>
         </div>
 
@@ -372,6 +270,14 @@ export default {
       categoryList: [],
       news: [],
       midAds: {}, // 中间广告
+      hotSaleProList: [], // 热门产品
+      hotPro1: {},
+      hotPro2: {},
+      hotPro3: {},
+      hotPro4: {},
+      hotPro5: {},
+      generalProList: [], // 热门下面的产品列表
+      highQualityProList: [], // 精品推荐
       autoplay: true,
       hour: 0,
       minute: 0,
@@ -398,8 +304,7 @@ export default {
   created() {},
   mounted() {
     this.getData();
-    console.log('home mounted');
-
+    this.getOtherData();
     // this.productList = [
     //   { title: '家用漏保断路器NBE7LE1P+N' },
     //   { title: '家用漏保断路器NBE7LE1P+N' },
@@ -456,7 +361,6 @@ export default {
       if (!item.url) return;
       if (item.url.indexOf('http') > -1) {
         try {
-          // TODO:
           // eslint-disable-next-line
           native_listen('goToUrl', { url: item.url });
         } catch (error) {
@@ -473,7 +377,7 @@ export default {
         this.$router.push(item.url);
       }
     },
-    // 获取首页轮播图
+    // 获取首页第一屏数据
     async getData() {
       Utils.showLoading();
       const result = await indexService.getIndexData({ userid: Utils.getUserId(this) });
@@ -494,6 +398,20 @@ export default {
         this.$refs.slide && this.$refs.slide.refresh();
         this.$refs.newsSlide && this.$refs.newsSlide.refresh();
       });
+    },
+    // 获取首页第二屏数据
+    async getOtherData() {
+      const result = await indexService.getIndexOtherData({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      this.hotSaleProList = [...result.hotSaleProList];
+      this.highQualityProList = [...result.highQualityProList];
+      this.generalProList = [...result.generalProList];
+
+      this.hotPro1 = this.hotSaleProList.length > 0 ? this.hotSaleProList[0] : {};
+      this.hotPro2 = this.hotSaleProList.length > 1 ? this.hotSaleProList[1] : {};
+      this.hotPro3 = this.hotSaleProList.length > 2 ? this.hotSaleProList[2] : {};
+      this.hotPro4 = this.hotSaleProList.length > 3 ? this.hotSaleProList[3] : {};
+      this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
     },
     toCategory(item) {
       if (!item.url) {
@@ -798,10 +716,17 @@ export default {
     position: relative;
     margin-bottom: .05rem;
 
+    p {
+      position: relative;
+      z-index: 2;
+    }
+
     .title {
       @include text-overflow-muli(2);
       @include break-word;
       margin-bottom: .07rem;
+      position: relative;
+      z-index: 2;
     }
 
     .desc {
@@ -826,13 +751,13 @@ export default {
       display: inline-block;
     }
 
-    .img {
-      display: block;
-
-      img {
-        max-width: 100%;
-        max-height: 100%;
-      }
+    img.bg {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
     }
   } // end product
 
@@ -840,11 +765,7 @@ export default {
     width: 49%;
     border-top-left-radius: .1rem;
     background: #e4feff;
-
-    .img {
-      width: 90%;
-      margin: .35rem auto 0;
-    }
+    min-height: 2.45rem;
   } // end product1
 
   .right-product {
@@ -857,26 +778,12 @@ export default {
     border-top-right-radius: .1rem;
     height: 1.2rem;
     overflow: hidden;
-
-    .img {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      width: 60%;
-    }
   } // end product2
 
   .product3 {
     background: #eff1fe;
     height: 1.2rem;
     overflow: hidden;
-
-    .img {
-      position: absolute;
-      bottom: -10%;
-      right: 15%;
-      width: 40%;
-    }
   } // end product3
 
   .product4 {
@@ -1015,6 +922,10 @@ export default {
       z-index: 10;
       font-size: .12rem;
       color: #fff;
+    }
+
+    &:nth-child(2n) {
+      margin-right: 0;
     }
   }
 

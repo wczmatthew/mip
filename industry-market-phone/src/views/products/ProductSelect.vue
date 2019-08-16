@@ -139,9 +139,7 @@ export default {
   computed: {
     ...mapGetters('user', {
       userId: 'userId',
-    }),
-    ...mapGetters('customer', {
-      customer: 'selectCustomer',
+      customerId: 'customerId',
     }),
     totalPrice() {
       const price = this.product.DJJ || 0;
@@ -246,37 +244,17 @@ export default {
 
       if (!isAllSelect) return;
 
-      // 判断是否选择了客户
+      // TODO: 判断是否绑定经销商
       Utils.hideLoading();
-      if (!this.customer || !this.customer.id) {
-        // 还未选择客户, 提醒导购员先选择用户
-        Utils.showConfirm({
+      if (!this.customerId) {
+        Utils.showAlert({
           title: '提醒',
-          content: '还未选择客户, 是否先选择客户?',
-          confirmBtn: '确定',
-          cancelBtn: '直接购物',
-          maskClosable: false,
-          onConfirm: () => {
-            this.$router.push(`${this.routePath}/customers`);
-          },
-          onCancel: () => {
-            // 新增临时客户, 再将产品加入购物单
-            this.addTempCustomer();
-          },
+          content: '您还未绑定经销商, 不能进行下单操作?',
+          maskClosable: true,
         });
         return;
       }
 
-      this.addProductToCart();
-    },
-    // 添加临时客户
-    async addTempCustomer() {
-      Utils.showLoading();
-      const result = await orderService.addTempClient({ userid: Utils.getUserId(this) });
-      if (!result) return;
-      Utils.hideLoading();
-      // 更新选中客户信息
-      this.$store.commit('customer/updateSelectCustomer', result);
       this.addProductToCart();
     },
     // 将产品加入到购物车中
@@ -291,7 +269,7 @@ export default {
         return;
       }
       this.loading = true;
-      const result = await orderService.addToShopCarWithClient({ userid: this.userId, bm: this.$route.query.bm, qty: this.number || 1, clientId: this.customer.id });
+      const result = await orderService.addToShopCarWithClient({ userid: this.userId, bm: this.$route.query.bm, qty: this.number || 1, clientId: this.customerId });
       this.loading = false;
       if (!result) return;
       Utils.showToast('加入购物单成功');

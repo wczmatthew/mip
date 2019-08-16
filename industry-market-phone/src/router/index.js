@@ -6,6 +6,7 @@ import search from './products/search';
 
 const Login = () => import('@/views/Login.vue'); // 登录
 const Index = () => import('@/views/Index.vue'); // 首页
+const Register = () => import('@/views/Register.vue'); // 首页
 
 Vue.use(Router);
 
@@ -18,6 +19,10 @@ export default new Router({
     {
       path: '/login',
       component: Login,
+    },
+    {
+      path: '/register',
+      component: Register,
     },
     {
       path: '/',

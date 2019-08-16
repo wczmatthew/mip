@@ -183,4 +183,48 @@ export default {
     const params = { userid };
     return postHttp({ url: '/ordercenter/order/getOrderStatisticInfo', params });
   },
+  /**
+   * 获取收货地址列表
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示多少条
+   */
+  getAddressList: ({ userid }) => {
+    if (!userid) return '';
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/address/getAddressList', params });
+  },
+  /**
+   * 新增收货地址
+   * @param addressData 地址信息
+   */
+  addAddress: (addressData) => {
+    const params = { ...addressData };
+    return postHttp({ url: '/ordercenter/address/addAddress', params });
+  },
+  /**
+   * 编辑收货地址
+   * @param addressData 地址信息
+   */
+  editAddress: (addressData) => {
+    const params = { ...addressData };
+    return postHttp({ url: '/ordercenter/address/editAddress', params });
+  },
+  /**
+   * 删除收货地址
+   * @param userid 用户id
+   * @param addressId 收获地址id，批量的话，用逗号隔开
+   */
+  deleteAddress: ({ userid, addressId }) => {
+    const params = { userid, addressId };
+    return postHttp({ url: '/ordercenter/address/deleteAddress', params });
+  },
+  /**
+   * 获取默认收货地址
+   * @param userid 用户id
+   */
+  getDefaultAddress: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/address/getDefaultAddress', params });
+  },
 };

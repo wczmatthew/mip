@@ -2,7 +2,7 @@
 <template lang='html'>
   <div class='w-container'>
     <!-- 顶部 -->
-    <header class="w-header" v-if="showHeader">
+    <header class="w-header" v-if="showHeader" :class="headerClass">
       <i class="iconfont icon-back header-left" v-if="showBack"
         @click="$router.back();"></i>
 
@@ -78,6 +78,10 @@ export default {
     showHeader: { // 是否显示顶部栏
       type: Boolean,
       default: false,
+    },
+    headerClass: {
+      type: String,
+      default: '',
     },
     showFooter: { // 是否显示底部
       type: Boolean,

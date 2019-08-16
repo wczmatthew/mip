@@ -16,12 +16,12 @@
       </div>
       <div class="detail" v-else>
         <p class="title">
-          {{selectAddress.name}}&nbsp;&nbsp;
-          <span>{{selectAddress.phone}}</span>
+          {{selectAddress.consignee}}&nbsp;&nbsp;
+          <span>{{selectAddress.telephone}}</span>
         </p>
         <div class="location">
           <i class="iconfont icon-location"></i>
-          {{selectAddress.address}}
+          {{selectAddress.province}} {{selectAddress.address}}
         </div>
       </div>
       <i class="iconfont icon-arrow-right"></i>
@@ -140,6 +140,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
+import service from '@/services/order.service';
 
 export default {
   data() {
@@ -161,7 +162,9 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.getDefaultAddress();
+  },
   computed: {
     ...mapGetters('address', {
       selectAddress: 'selectAddress',
@@ -169,6 +172,14 @@ export default {
   },
   components: {},
   methods: {
+    // 获取默认地址
+    async getDefaultAddress() {
+      Utils.showLoading();
+      const result = await service.getDefaultAddress({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      this.$store.commit('address/updateSelectAddress', result);
+    },
     onChangeAddress() {
       this.$router.push(`${this.routePath}/selectAddress`);
     },

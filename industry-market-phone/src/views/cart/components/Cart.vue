@@ -183,8 +183,8 @@ export default {
     },
   },
   computed: {
-    ...mapGetters('customer', {
-      customer: 'selectCustomer',
+    ...mapGetters('user', {
+      customerId: 'customerId',
     }),
   },
   components: {},
@@ -292,7 +292,7 @@ export default {
       const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
       if (!result) return;
 
-      // if (this.pageNum === 1 && this.beforeCustomerId !== this.customer.id) {
+      // if (this.pageNum === 1 && this.beforeCustomerId !== this.customerId) {
       //   // 第一个页, 并且切换了一个客户, 需要重新更新选择数据
       //   for (const key in this.selectProducts) {
       //     this.selectProducts[key] = false;
@@ -372,7 +372,7 @@ export default {
     // 直接调整价格
     async onChangeNum(item) {
       const num = item.qty;
-      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num, clientId: this.customer.id });
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num, clientId: this.customerId });
       if (!result) return;
       // 计算总价格
       this.calcPrice();
@@ -392,7 +392,7 @@ export default {
         bm.push(item.prodId);
       });
       Utils.showLoading();
-      const result = await service.deleteShopCarWithClient({ userid: Utils.getUserId(this), bm: bm.toString(), clientId: this.customer.id });
+      const result = await service.deleteShopCarWithClient({ userid: Utils.getUserId(this), bm: bm.toString(), clientId: this.customerId });
       this.loading = false;
       if (!result) return;
       Utils.hideLoading();
@@ -417,7 +417,7 @@ export default {
 
       this.$router.push(`${this.currentPath || this.routePath}/confirmOrder`);
 
-      // if (!this.customer || !this.customer.id) {
+      // if (!this.customer || !this.customerId) {
       //   Utils.showToast('请先选择客户');
       //   return;
       // }
@@ -477,7 +477,7 @@ export default {
       });
 
       const params = {
-        clientId: this.customer.id,
+        clientId: this.customerId,
         userid: Utils.getUserId(this),
         carIds: cardIds.toString(),
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）

@@ -379,18 +379,22 @@ a {
 }
 
 .w-gradient-left-bg {
-  background: -webkit-linear-gradient(left, #4194f4, #00fdaf); 
-  background: -o-linear-gradient(right, #4194f4, #00fdaf); 
-  background: -moz-linear-gradient(right, #4194f4, #00fdaf); 
-  background: linear-gradient(to right, #4194f4 , #00fdaf);
+  background: -webkit-linear-gradient(left, #e43d2e, #cc171f); 
+  background: -o-linear-gradient(right, #e43d2e, #cc171f); 
+  background: -moz-linear-gradient(right, #e43d2e, #cc171f); 
+  background: linear-gradient(to right, #e43d2e , #cc171f);
   width: 100%;
   position: relative;
   color: #fff;
 }
 
-/* .w-gradient-left-bg .w-header-mid {
+.w-gradient-left-bg .w-header-mid {
   color: #fff;
-} */
+}
+
+.w-gradient-left-bg .header-left {
+  color: #fff;
+}
 
 .w-edit-header .header-right {
   position: absolute;

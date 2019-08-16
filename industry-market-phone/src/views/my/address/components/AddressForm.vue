@@ -29,6 +29,13 @@
 
     <div class="cell">
       <span class="title">
+        邮政编码
+      </span>
+      <input type="number" class="desc" placeholder="请输入邮政编码" v-model.trim="zipcode">
+    </div>
+
+    <div class="cell">
+      <span class="title">
         设为默认地址
       </span>
       <div class="desc">
@@ -58,6 +65,7 @@ export default {
       name: '',
       phone: '',
       addressDetail: '',
+      zipcode: '', // 邮政编码
     };
   },
   created() {},
@@ -79,11 +87,12 @@ export default {
       this.addressArea = selectedText.join(' ');
     },
     updateData(data) {
-      this.name = data.name || '';
-      this.phone = data.phone || '';
-      this.addressArea = data.addressArea || '';
-      this.addressDetail = data.addressDetail || '';
-      this.isDefault = data.isDefault || '';
+      this.name = data.consignee || '';
+      this.phone = data.telephone || '';
+      this.addressArea = data.province || '';
+      this.addressDetail = data.address || '';
+      this.isDefault = Boolean(Number(data.isdefault));
+      this.zipcode = data.zipcode || '';
     },
     // 校验表单是否填写完毕
     validForm() {
@@ -97,6 +106,11 @@ export default {
         return { isValid: false };
       }
 
+      if (!Utils.checkPhoneNum(this.phone)) {
+        Utils.showToast('联系方式格式错误');
+        return { isValid: false };
+      }
+
       if (!this.addressArea) {
         Utils.showToast('请选择省市区');
         return { isValid: false };
@@ -107,6 +121,11 @@ export default {
         return { isValid: false };
       }
 
+      if (!this.zipcode) {
+        Utils.showToast('请输入邮政编码');
+        return { isValid: false };
+      }
+
       return {
         isValid: true,
         data: {
@@ -114,6 +133,7 @@ export default {
           phone: this.phone,
           addressArea: this.addressArea,
           addressDetail: this.addressDetail,
+          zipcode: this.zipcode,
           isDefault: this.isDefault,
         },
       };

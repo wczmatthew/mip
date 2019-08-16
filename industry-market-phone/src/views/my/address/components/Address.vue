@@ -7,7 +7,10 @@
       <w-loading-row v-if="firstLoading"></w-loading-row>
       <div class="item" v-for="(item, index) in dataList" :key="index" @click.stop="onSelect(item)">
         <div class="title-row">
-          <span class="title">{{item.name}}</span>
+          <span class="title">
+            {{item.consignee}}
+            <i v-if="item.isdefault==1">[默认]</i>
+          </span>
           <div class="right-icon">
             <span class="icon" @click.stop="onEdit(item, index)">
               编辑
@@ -19,10 +22,10 @@
         </div>
         <div class="detail">
           <div class="row">
-            <span>手机：{{item.phone}}</span>
+            <span>手机：{{item.telephone}}</span>
           </div>
           <p class="row">
-            地址：{{item.address}}
+            地址：{{item.province}} {{item.address}}
           </p>
         </div>
       </div>
@@ -48,7 +51,7 @@ export default {
       firstLoading: true,
       noData: false,
       pageNum: 1,
-      pageSize: 10,
+      pageSize: 20,
       hasNext: true,
       loading: false,
       isEdit: false,
@@ -61,33 +64,43 @@ export default {
   },
   watch: {
     '$route'(to) {
-      this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
       if (to.path !== this.currentPath) return;
       // 重新进入
-      if (!this.customer || !this.customer.id) {
+      if (!this.updateAddress || !this.updateAddress.id) {
         this.editIndex = -1;
         return;
       }
 
       if (this.editIndex > -1) {
         // 编辑操作
-        this.dataList.splice(this.editIndex, 1, this.customer);
+        this.dataList.splice(this.editIndex, 1, this.updateAddress);
         this.editIndex = -1;
       } else {
         // 新增操作
-        this.dataList.splice(0, 0, this.customer);
-      }
-      this.$store.commit('customer/updateCustomer');
-      this.$refs.scroll.forceUpdate(true);
+        this.dataList.splice(0, 0, this.updateAddress);
 
-      if (this.hasNext) {
-        this.dataList.pop();
+        // if (this.hasNext) {
+        //   // 移除最后一个, 防止上拉加载的时候数据重复
+        //   this.dataList.pop();
+        // }
       }
+
+      if (Number(this.updateAddress.isdefault) === 1) {
+        // 新增或者编辑的为默认地址, 那么将其他的设置为非默认
+        this.dataList.forEach((item) => {
+          if (item.id !== this.updateAddress.id) {
+            item.isdefault = 0;
+          }
+        });
+      }
+
+      this.$store.commit('address/updateAddress');
     },
   },
   computed: {
     ...mapGetters('address', {
       selectAddress: 'selectAddress',
+      updateAddress: 'updateAddress',
     }),
   },
   components: {},
@@ -106,19 +119,20 @@ export default {
         maskClosable: true,
       });
     },
-    // TODO: 删除客户
+    // 删除
     async delete(address, index) {
       Utils.showLoading();
-      const result = await service.deleteClient({ userid: Utils.getUserId(this), clientId: address.id });
+      const result = await service.deleteAddress({ userid: Utils.getUserId(this), addressId: address.id });
       Utils.hideLoading();
       if (!result) return;
       this.dataList.splice(index, 1);
       Utils.showToast('删除成功');
     },
     // 编辑
-    onEdit(customer, index) {
+    onEdit(address, index) {
       this.editIndex = index;
-      this.$router.push(`${this.currentPath}/edit?id=${customer.id}`);
+      this.$store.commit('address/updateAddress', address);
+      this.$router.push(`${this.currentPath}/edit?id=${address.id}`);
     },
     // 新增
     onNew() {
@@ -131,15 +145,18 @@ export default {
       this.$store.commit('address/updateSelectAddress', address);
       this.$router.back();
     },
-    // TODO: 获取收货地址
+    // 获取收货地址
     async getData() {
-      const result = await service.getCustomerList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
+      const result = await service.getAddressList({ userid: Utils.getUserId(this) });
 
       this.firstLoading = false;
 
-      if (!result) return;
+      if (!result) {
+        this.noData = true;
+        return;
+      }
 
-      this.dataList = [...result.rows];
+      this.dataList = [...result];
       this.noData = !this.dataList.length;
     },
   },
@@ -184,6 +201,14 @@ export default {
         padding-top: .06rem;
         @include text-overflow-muli(2);
         line-height: 1.3;
+        display: flex;
+        align-items: center;
+
+        i {
+          font-size: .1rem;
+          color: $color-red;
+          margin-left: .05rem;
+        }
       }
 
       .right-icon {

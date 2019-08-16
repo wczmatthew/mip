@@ -62,6 +62,7 @@ export default {
   computed: {
     ...mapGetters('user', {
       userId: 'userId',
+      customerId: 'customerId',
     }),
   },
   methods: {
@@ -76,6 +77,14 @@ export default {
       this.$router.push(`${this.path}/productDetail?bm=${item.BM}`);
     },
     onAddCart(item) {
+      if (!this.customerId) {
+        Utils.showAlert({
+          title: '提醒',
+          content: '您还未绑定经销商, 不能进行下单操作?',
+          maskClosable: true,
+        });
+        return;
+      }
       this.$emit('add-cart', item);
     },
     // 加入购物车

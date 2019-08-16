@@ -1,18 +1,18 @@
 <!-- 产品货架页面 -->
 <template lang='html'>
-  <w-container showHeader>
+  <div>
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
-    <div class="header-right" slot="header-right">
-      <w-cart-icon currentPath="market"></w-cart-icon>
-    </div>
+    <w-header>
+      <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
+      <div class="header-right" slot="header-right">
+        <w-cart-icon currentPath="market"></w-cart-icon>
+      </div>
+    </w-header>
     <!-- 顶部栏 end -->
-
     <!-- 正文内容 -->
     <product-category ref="productCategory" :current-path="routePath" next-path="productList"></product-category>
     <!-- 正文内容 end -->
-
-  </w-container>
+  </div>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';

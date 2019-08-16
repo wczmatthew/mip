@@ -3,12 +3,14 @@
  */
 const state = {
   userId: process.env.NODE_ENV === 'production' ? '' : '100001581',
+  customerId: process.env.NODE_ENV === 'production' ? '' : '100001581',
   // userId: '',
 };
 
 // getters
 const getters = {
   userId: state => state.userId,
+  customerId: state => state.customerId,
 };
 
 // actions -- 接口调用方法
@@ -19,6 +21,9 @@ const actions = {
 const mutations = {
   updateUserId(state, data) {
     state.userId = data;
+  },
+  updateCustomerId(state, data) {
+    state.customerId = data;
   },
 };
 
