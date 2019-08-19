@@ -13,6 +13,18 @@ export default {
     return getHttp({ url: '/ordercenter/shopcar/addToShopCar', params });
   },
   /**
+   * 根据客户加入购物单
+   * @param userid 用户id
+   * @param bm 产品编号
+   * @param qty 产品数量
+   * @param clientId 客户id
+   */
+  addToShopCarWithClient: ({ userid, bm, qty, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, bm, qty, clientId };
+    return getHttp({ url: '/ordercenter/shopcar/addToShopCarWithClient', params });
+  },
+  /**
    * 加入收藏夹
    * @param userid 用户id
    * @param bm 产品编号
@@ -44,15 +56,40 @@ export default {
     return postHttp({ url: '/ordercenter/shopcar/getShopCarList', params });
   },
   /**
+   * 根据客户获取购物车
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示多少条
+   * @param clientId 客户id
+   * @param rateClientId 关联的客户id
+   */
+  getShopCarListByClient: ({ userid, pageNum, pageSize, clientId, rateClientId }) => {
+    if (!userid) return '';
+    const params = { userid, pageNum, pageSize: pageSize || 20, clientId, rateClientId };
+    return postHttp({ url: '/ordercenter/shopcar/getShopCarListByClient', params });
+  },
+  /**
    * 编辑购物车数量
    * @param userid 用户id
    * @param bm 产品编号
    * @param qty 产品数量
    */
-  editCartNum: ({ userid, bm, qty }) => {
+  // editCartNum: ({ userid, bm, qty }) => {
+  //   if (!userid) return '';
+  //   const params = { userid, bm, qty };
+  //   return postHttp({ url: '/ordercenter/shopcar/editShopCar', params });
+  // },
+  /**
+   * 编辑购物车数量
+   * @param userid 用户id
+   * @param bm 产品编号
+   * @param qty 产品数量
+   * @param clientId 客户id
+   */
+  editCartNum: ({ userid, bm, qty, clientId }) => {
     if (!userid) return '';
-    const params = { userid, bm, qty };
-    return postHttp({ url: '/ordercenter/shopcar/editShopCar', params });
+    const params = { userid, bm, qty, clientId };
+    return postHttp({ url: '/ordercenter/shopcar/editShopCarWithClient', params });
   },
   /**
    * 从购物车删除
@@ -63,6 +100,17 @@ export default {
     if (!userid) return '';
     const params = { userid, bm };
     return postHttp({ url: '/ordercenter/shopcar/deleteShopCar', params });
+  },
+  /**
+   * 从购物车删除
+   * @param userid 用户id
+   * @param bm 产品编号
+   * @param clientId 客户id
+   */
+  deleteShopCarWithClient: ({ userid, bm, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, bm, clientId };
+    return postHttp({ url: '/ordercenter/shopcar/deleteShopCarWithClient', params });
   },
   /**
    * 获取客户列表

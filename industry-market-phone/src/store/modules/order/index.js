@@ -18,9 +18,9 @@ const actions = {
 const mutations = {
   // 更新选中的产品信息
   updateSelectProducts(state, data) {
-    state.selectProducts = [ ...data ];
+    state.selectProducts = [...data];
   },
-  // 重置选中的地址信息
+  // 重置选中的产品信息
   resetSelectProducts(state) {
     state.selectProducts = [];
   },

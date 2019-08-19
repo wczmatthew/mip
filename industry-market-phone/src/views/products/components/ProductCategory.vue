@@ -5,7 +5,7 @@
     <div class="category-list" v-if="menuList && menuList.length">
       <div class="right-line">
         <div class="menu-item" v-for="(item, index) in menuList" :key="index">
-          <div class="menu" @click.stop="onChangeShelf(item)" :class="{'actived': selectMenu.sid == item.sid}">
+          <div class="menu" @click.stop="onChangeShelf(item, index)" :class="{'actived': selectMenu.sid == item.sid}">
             <span>{{ item.bname }}</span>
           </div>
         </div>
@@ -60,14 +60,16 @@ export default {
       if (!this.menuList.length) return;
 
       // 默认选中第一个
+      if (this.menuIndex > 0) return;
       this.menuList[0].isOpen = true;
       this.selectMenu = this.menuList[0];
-      this.onChangeShelf(this.selectMenu);
+      this.onChangeShelf(this.selectMenu, 0);
     },
     // 获取产品列表
-    onChangeShelf(item) {
+    onChangeShelf(item, index) {
       this.loadingShelf = true;
       this.selectMenu = { ...item };
+      this.menuIndex = index;
       this.dataList = [...item.childList];
       setTimeout(() => {
         this.loadingShelf = false;

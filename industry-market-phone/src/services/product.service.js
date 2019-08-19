@@ -120,6 +120,14 @@ export default {
   // 获取产品选型类型
   getSelectSortList: () => postHttp({ url: '/productcenter/product/getSelectSortList' }),
   /**
+   * 获取自定义产品类型
+   * @param userid 用户id
+   */
+  getNewSortList: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/productcenter/product/getNewSortList', params });
+  },
+  /**
    * 获取产品选型数据
    */
   productSelectInfo: ({ userid, seriesId }) => postHttp({ url: '/productcenter/product/productSelectInfo', params: { seriesId, userid } }),

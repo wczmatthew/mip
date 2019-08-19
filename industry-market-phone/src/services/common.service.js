@@ -11,4 +11,12 @@ export default {
     const params = { clientId };
     return postHttp({ url: '/contentcenter/content/getQuestionList', params });
   },
+  /**
+   * 获取购物车数量
+   * @param userid 用户id
+   */
+  getSdShopcarCount: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/shopcar/getSdShopcarCount', params });
+  },
 };

@@ -38,7 +38,7 @@
           </div>
           <div class="item">
             <p class="top-num">
-              0
+              {{collectCount || 0}}
             </p>
             <p class="tip">
               <!-- <i class="iconfont icon-shuliang"></i> -->
@@ -47,11 +47,8 @@
           </div>
           <div class="item" @click="toAddress()">
             <p class="top-num">
-              0
+              {{addressCount || 0}}
             </p>
-            <!-- <i class="iconfont icon-qian">
-              <i class="num">222222</i>
-            </i> -->
             <p class="tip">
               <!-- <i class="iconfont icon-qian"></i> -->
               收货地址
@@ -126,6 +123,8 @@ export default {
       waitGetCount: 0, // 订单-待收货数量
       waitPayCount: 0, // 订单-待付款数量
       waitPostCount: 0, // 订单-待发货数量
+      collectCount: 0, // 我的收藏
+      addressCount: 0, // 收货地址数量
       userData: {},
     };
   },
@@ -162,18 +161,20 @@ export default {
       const result = await service.getOrderStatisticInfo({ userid: Utils.getUserId(this) });
       Utils.hideLoading();
       if (!result) return;
-      this.todayPrice = (result.todayPrice || 0).toFixed(2);
-      this.totalPrice = (result.totalPrice || 0).toFixed(2);
-      this.totalCount = result.totalCount || 0;
+      // this.todayPrice = (result.todayPrice || 0).toFixed(2);
+      // this.totalPrice = (result.totalPrice || 0).toFixed(2);
+      // this.totalCount = result.totalCount || 0;
       // this.finishCount = result.finishCount || 0;
-      this.waitGetCount = result.waitGetCount || 0;
-      this.waitPayCount = result.waitPayCount || 0;
-      this.waitPostCount = result.waitPostCount || 0;
+      // this.waitGetCount = result.waitGetCount || 0;
+      // this.waitPayCount = result.waitPayCount || 0;
+      // this.waitPostCount = result.waitPostCount || 0;
+      this.collectCount = result.collectCount || 0; // 我的收藏
+      this.addressCount = result.addressCount || 0; // 收货地址数量
 
       // if (this.finishCount > 99) this.finishCount = '99+';
-      if (this.waitGetCount > 99) this.waitGetCount = '99+';
-      if (this.waitPayCount > 99) this.waitPayCount = '99+';
-      if (this.waitPostCount > 99) this.waitPostCount = '99+';
+      // if (this.waitGetCount > 99) this.waitGetCount = '99+';
+      // if (this.waitPayCount > 99) this.waitPayCount = '99+';
+      // if (this.waitPostCount > 99) this.waitPostCount = '99+';
     },
     toOrders(status) {
       if (!status) {

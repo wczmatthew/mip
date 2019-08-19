@@ -77,6 +77,7 @@ export default {
       this.$router.push(`${this.path}/productDetail?bm=${item.BM}`);
     },
     onAddCart(item) {
+      Utils.hideLoading();
       if (!this.customerId) {
         Utils.showAlert({
           title: '提醒',
@@ -94,8 +95,7 @@ export default {
         return;
       }
       item.loading = true;
-      console.log(this.userId);
-      const result = await service.addCart({ userid: this.userId, bm: item.BM, qty: num });
+      const result = await service.addToShopCarWithClient({ userid: this.userId, bm: item.BM, qty: num, clientId: this.customerId });
       item.loading = false;
       if (!result) return;
       Utils.showToast('加入购物车成功');

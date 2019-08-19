@@ -289,7 +289,7 @@ export default {
     },
     // 获取购物车数据
     async getData() {
-      const result = await service.getCartList({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize });
+      const result = await service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, clientId: this.customerId });
       if (!result) return;
 
       // if (this.pageNum === 1 && this.beforeCustomerId !== this.customerId) {
@@ -298,12 +298,6 @@ export default {
       //     this.selectProducts[key] = false;
       //   }
       // }
-
-      // TODO: 等接口调整好之后, 删除下面这行
-      result.rows.map((item) => {
-        item.store = 1000;
-        return item;
-      });
 
       // 判断是否选中
       if (this.allChecked) {
@@ -345,7 +339,7 @@ export default {
       }
       item.loading = true;
       const num = item.qty;
-      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.BM, qty: num - 1 });
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num - 1, clientId: this.customerId });
       item.loading = false;
       if (!result) return;
       item.qty = num - 1;
@@ -361,7 +355,7 @@ export default {
       }
       item.loading = true;
       const num = item.qty;
-      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num + 1 });
+      const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num + 1, clientId: this.customerId });
       item.loading = false;
       if (!result) return;
       item.qty = num + 1;
@@ -406,6 +400,8 @@ export default {
       Utils.showToast('删除成功');
       // 计算选择产品的金额
       this.calcPrice();
+
+      this.$store.dispatch('user/getCartNum');
     },
     // 付款
     onPay() {
@@ -414,6 +410,8 @@ export default {
         Utils.showToast('请先选择结算的产品');
         return;
       }
+
+      this.$store.commit('order/updateSelectProducts', list);
 
       this.$router.push(`${this.currentPath || this.routePath}/confirmOrder`);
 

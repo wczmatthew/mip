@@ -269,7 +269,7 @@ export default {
         return;
       }
       this.loading = true;
-      const result = await orderService.addToShopCarWithClient({ userid: this.userId, bm: this.$route.query.bm, qty: this.number || 1, clientId: this.customerId });
+      const result = await orderService.addToShopCarWithClient({ userid: this.userId, bm: this.product.BM, qty: this.number || 1, clientId: this.customerId });
       this.loading = false;
       if (!result) return;
       Utils.showToast('加入购物单成功');

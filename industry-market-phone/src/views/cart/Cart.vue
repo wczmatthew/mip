@@ -5,7 +5,7 @@
     <div slot="header-mid">
       购物车({{totalNum}})
     </div>
-    <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
+    <div class="header-right" :class="{'color-active': isEdit }" slot="header-right" @click="onEdit()">
       {{ isEdit ? '完成' : '管理' }}
     </div>
     <!-- 顶部栏 end -->
@@ -52,7 +52,7 @@ export default {
   color: $color-grey;
 }
 
-.color-blue {
-  color: $color-blue;
+.color-active {
+  color: $color-default;
 }
 </style>

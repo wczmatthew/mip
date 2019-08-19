@@ -78,6 +78,8 @@ export default {
       Utils.hideLoading();
       // 更新用户id
       this.$store.commit('user/updateUserId', result.userid);
+      this.$store.commit('user/updateCustomerId', result.clientId);
+      this.$store.commit('user/updateIsBind', result.isBind);
       Utils.showToast('登录成功');
       this.$router.push('/index');
 

@@ -245,13 +245,13 @@ export default {
   methods: {
     // 获取订单状态颜色
     getOrderColor() {
-      let color = 'blue';
+      let color = 'red';
       switch (this.orderDetail.billType) {
         case 1:
-          color = 'yellow';
+          color = 'orange';
           break;
         case 2:
-          color = 'blue';
+          color = 'red';
           break;
         case 3:
           color = 'green';
@@ -285,6 +285,9 @@ export default {
           break;
         case 5:
           txt = '已关闭';
+          break;
+        case 6:
+          txt = '待付款';
           break;
         default:
           break;
@@ -351,10 +354,10 @@ export default {
     }
   } // end store
 
-  .product-list {
-    max-height: 40vh;
-    overflow: auto;
-  }
+  // .product-list {
+  //   // max-height: 40vh;
+  //   // overflow: auto;
+  // }
 
   .product-item {
     display: flex;
@@ -446,10 +449,14 @@ export default {
     .status {
       font-size: .13rem;
       flex-shrink: 0;
-      color: $color-blue;
+      color: $color-red;
 
       &.red {
         color: $color-red;
+      }
+
+      &.orange {
+        color: $color-orange;
       }
 
       &.grey {

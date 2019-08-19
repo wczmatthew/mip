@@ -107,7 +107,7 @@
         </div>
         <div class="icon">
           <i class="iconfont icon-gouwuche">
-            <i class="num">10</i>
+            <i class="num" v-if="cartNum > 0">{{cartNum}}</i>
           </i>
           <p>购物车</p>
         </div>
@@ -130,6 +130,10 @@
       </div>
     </footer>
     <!-- 底部栏 end -->
+
+    <!-- 数量弹窗 -->
+    <w-num-modal ref="numModal"></w-num-modal>
+    <!-- 数量弹窗 end -->
   </w-container>
 </template>
 <script>
@@ -137,6 +141,7 @@ import Utils from '@/common/Utils';
 import service from '@/services/product.service';
 import orderService from '@/services/order.service';
 import { mapGetters } from 'vuex';
+import WNumModal from '@/components/WNumModal.vue';
 
 export default {
   data() {
@@ -144,7 +149,7 @@ export default {
       product: {},
       loading: false,
       firstLoading: true,
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'detail' }), // 获取当前路由
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'productDetail' }), // 获取当前路由
     };
   },
   created() {},
@@ -154,9 +159,13 @@ export default {
   computed: {
     ...mapGetters('user', {
       userId: 'userId',
+      customerId: 'customerId',
+      cartNum: 'cartNum',
     }),
   },
-  components: {},
+  components: {
+    WNumModal,
+  },
   methods: {
     toIndex() {
       this.$router.push('/market?tab=home');
@@ -181,13 +190,30 @@ export default {
       this.firstLoading = false;
     },
     // 加入购物车
-    async onAddCart() {
+    onAddCart() {
+      if (!this.customerId) {
+        Utils.showAlert({
+          title: '提醒',
+          content: '您还未绑定经销商, 不能进行下单操作?',
+          maskClosable: true,
+        });
+        return;
+      }
+      this.$refs.numModal && this.$refs.numModal.show({
+        callback: async (type, num) => {
+          if (type !== 'confirm') return;
+          // 已经选择了客户, 直接将产品加入购物单
+          this.startAddCart(num);
+        },
+      });
+    },
+    async startAddCart(num) {
       if (this.loading) {
         Utils.showToast('正在加入购物车, 请勿频繁操作');
         return;
       }
       this.loading = true;
-      const result = await orderService.addCart({ userid: this.userId, bm: this.$route.query.bm, qty: 1 });
+      const result = await orderService.addToShopCarWithClient({ userid: this.userId, bm: this.$route.query.bm, qty: num || 1, clientId: this.customerId });
       this.loading = false;
       if (!result) return;
       Utils.showToast('加入购物车成功');

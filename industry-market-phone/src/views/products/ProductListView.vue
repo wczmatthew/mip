@@ -65,6 +65,7 @@ export default {
   },
   created() {},
   mounted() {
+    this.seriesId = this.$route.query.seriesId;
     this.$nextTick(() => {
       this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
     });

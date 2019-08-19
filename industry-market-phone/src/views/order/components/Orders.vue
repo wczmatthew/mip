@@ -163,6 +163,7 @@ export default {
     },
     // 下拉刷新
     onPullingDown() {
+      this.$refs.scroll && this.$refs.scroll.scrollTop();
       this.pageNum = 1;
       this.getData();
     },
@@ -483,7 +484,7 @@ export default {
       button {
         display: block;
         padding: .1rem .1rem ;
-        color: $color-blue;
+        color: $color-default;
         border: 0;
         font-size: .12rem;
 

@@ -33,15 +33,18 @@
           <i class="iconfont" :class="[item.icon]" v-if="active != 'home'"></i>
           <p v-if="active != 'home'">{{item.title}}</p>
         </template>
-        <i class="iconfont" :class="[item.icon]" v-if="item.tab != 'home'">
-          <i class="num" v-if="item.tab === 'cart'">1</i>
-        </i>
-        <p v-if="item.tab != 'home'">{{item.title}}</p>
+        <template v-else>
+          <i class="iconfont" :class="[item.icon]">
+            <i class="num" v-if="item.tab === 'cart' && cartNum > 0">{{cartNum}}</i>
+          </i>
+          <p>{{item.title}}</p>
+        </template>
       </div>
     </div>
   </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Home from './Home.vue';
 import CartTab from '../cart/CartTab.vue';
 import Activity from '../activity/Activity.vue';
@@ -65,12 +68,19 @@ export default {
     '$route'(to) {
       if (to.path === '/market') {
         this.initTabActive();
+        this.$store.dispatch('user/getCartNum');
       }
     },
+  },
+  computed: {
+    ...mapGetters('user', {
+      cartNum: 'cartNum',
+    }),
   },
   created() {},
   mounted() {
     this.initTabActive();
+    this.$store.dispatch('user/getCartNum');
   },
   components: {
     Home,

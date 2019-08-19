@@ -37,6 +37,9 @@ export default {
     scrollHandler({ y }) {
       this.$emit('scroll', { y });
     },
+    scrollTo(x, y, time, ease) {
+      this.$refs.cubescroll.scrollTo(x, y, time, ease || 'ease');
+    },
     // 下拉刷新
     onPullingDown() {
       this.$emit('pulling-down');

@@ -1,6 +1,6 @@
 <!-- 产品货架页面 -->
 <template lang='html'>
-  <div>
+  <div class="w-container">
     <!-- 顶部栏 -->
     <w-header>
       <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
@@ -61,7 +61,7 @@ export default {
     },
     async getSortList() {
       Utils.showLoading();
-      const result = await service.getSelectSortList();
+      const result = await service.getNewSortList({ userid: Utils.getUserId(this) });
       if (!result) return;
       Utils.hideLoading();
       this.categoryData = result;

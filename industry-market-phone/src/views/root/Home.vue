@@ -36,26 +36,6 @@
           {{item.title}}
         </p>
       </div>
-      <!-- <div class="item">
-        <img src="~@/assets/home/index-icon2.png" alt="">
-        <p class="sub-title">
-          洽谈
-        </p>
-      </div>
-
-      <div class="item">
-        <img src="~@/assets/home/index-icon3.png" alt="">
-        <p class="sub-title">
-          在线设计
-        </p>
-      </div>
-
-      <div class="item">
-        <img src="~@/assets/home/index-icon4.png" alt="">
-        <p class="sub-title">
-          解决方案
-        </p>
-      </div> -->
     </div>
     <!-- 常用功能 end -->
 
@@ -294,6 +274,11 @@ export default {
         this.timer = setInterval(() => {
           this.calcTime();
         }, 1000);
+
+        this.$nextTick(() => {
+          this.$refs.slide && this.$refs.slide.refresh();
+          this.$refs.newsSlide && this.$refs.newsSlide.refresh();
+        });
       } else {
         // this.autoplay = false;
       }
@@ -472,6 +457,7 @@ export default {
 
 .banner {
   width: 100%;
+  min-height: 1.2rem;
   overflow: hidden;
   padding-top: .44rem;
 

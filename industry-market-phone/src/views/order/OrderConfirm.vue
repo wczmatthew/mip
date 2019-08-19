@@ -29,30 +29,45 @@
     <!-- 客户信息 end -->
 
     <!-- 产品列表 -->
-    <div class="product-img-list">
+    <div class="product-img-list" @click.stop="isOpen = !isOpen" :class="{'open': isOpen}">
       <div class="img-list">
-        <div class="item">
+        <div class="item" v-for="(product, productIndex) in selectProducts.slice(0, 3)" :key="'img'+productIndex">
           <div class="img">
-            <w-img></w-img>
+            <w-img :src="product.imgPath" alt=""/>
           </div>
-          <i class="num">1</i>
-        </div>
-        <div class="item">
-          <div class="img">
-            <w-img></w-img>
-          </div>
-          <i class="num">300</i>
+          <i class="num">{{product.qty || 0}}</i>
         </div>
       </div>
 
       <div class="right">
-        共32件
-        <i class="iconfont icon-arrow-down arrow-up"></i>
+        共{{selectProducts.length}}件
+        <i class="iconfont icon-arrow-down"></i>
       </div>
     </div>
     <!-- 产品列表 end -->
 
     <!-- 产品详细列表 -->
+    <div class="product-list" v-show="isOpen">
+      <div class="product-item" v-for="(product, productIndex) in selectProducts" :key="'openPro'+productIndex">
+        <div class="img">
+          <w-img :src="product.imgPath" alt=""/>
+        </div>
+        <div class="detail">
+          <div class="row">
+            <span>{{product.spec}}</span>
+            <!-- <span class="price">
+              ￥{{product.normSum}}
+            </span> -->
+          </div>
+          <div class="row">
+            <span class="desc">X{{product.qty || 0}}</span>
+            <span class="desc price">
+              ￥{{product.price}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
     <!-- 产品详细列表 end -->
 
     <!-- 其他内容 -->
@@ -97,16 +112,6 @@
         <span class="desc price">
           <small>￥</small> 118.66
         </span>
-      </div>
-
-      <div class="cell">
-        <span class="title">
-          抹零金额
-        </span>
-        <!-- <input type="number" class="desc"> -->
-        <div class="desc">
-          <cube-input type="number" placeholder="请输入抹零金额"></cube-input>
-        </div>
       </div>
 
       <div class="cell textarea-cell">
@@ -159,6 +164,7 @@ export default {
         { text: '门店自提', value: 2 },
         { text: '物流配送', value: 3 },
       ],
+      isOpen: false,
     };
   },
   created() {},
@@ -168,6 +174,9 @@ export default {
   computed: {
     ...mapGetters('address', {
       selectAddress: 'selectAddress',
+    }),
+    ...mapGetters('order', {
+      selectProducts: 'selectProducts',
     }),
   },
   components: {},
@@ -280,14 +289,63 @@ export default {
       transition: all .3s ease;
       font-weight: 700;
       margin-left: .05rem;
-    }
-
-    .arrow-up {
-      transform: rotate(-180deg);
+      transition: all .3s ease;
     }
   }
 
+  &.open {
+    .right .iconfont {
+      transform: rotate(180deg);
+    }
+  }
 } // end product-img-list
+
+.product-item {
+  display: flex;
+  padding: 0 .15rem .1rem;
+
+  .img {
+    width: .4rem;
+    height: .4rem;
+    flex-shrink: 0;
+    margin-right: .1rem;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    img {
+      height: 100%;
+    }
+  } // end img
+
+  .detail {
+    flex: 1;
+    overflow: hidden;
+    padding: .05rem 0;
+
+    .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      @include text-ellipsis;
+      margin-bottom: .05rem;
+      .price {
+        max-width: 40%;
+      }
+
+      .desc {
+        color: $color-grey;
+        font-size: .12rem;
+      }
+
+      .desc.price {
+        // color: $color-black;
+        color: $color-red;
+      }
+    } // end row
+  }
+
+} // end product-item
 
 .w-tableview {
   .cell {

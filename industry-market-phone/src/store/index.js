@@ -7,6 +7,7 @@ import category from './modules/common/category';
 import customer from './modules/customer';
 import product from './modules/product';
 import address from './modules/address';
+import order from './modules/order';
 
 Vue.use(Vuex);
 
@@ -20,6 +21,7 @@ export default new Vuex.Store({
     category,
     product,
     address,
+    order,
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []
