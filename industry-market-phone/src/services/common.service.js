@@ -19,4 +19,20 @@ export default {
     const params = { userid };
     return postHttp({ url: '/ordercenter/shopcar/getSdShopcarCount', params });
   },
+  /**
+   * 活动页接口
+   * @param userid 用户id
+   */
+  getActivityPageItem: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/contentcenter/post/getActivityPageItem', params });
+  },
+  /**
+   * 获取活动详细接口
+   * @param postId 活动id
+   */
+  getActivityItem: ({ postId }) => {
+    const params = { postId };
+    return postHttp({ url: '/contentcenter/post/getActivityItem', params });
+  },
 };

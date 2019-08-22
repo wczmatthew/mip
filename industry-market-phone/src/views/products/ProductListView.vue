@@ -37,7 +37,6 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-import notFoundImg from '@/assets/404.png';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import ProductList from './components/ProductList.vue';
@@ -126,10 +125,6 @@ export default {
       this.orderByColumn = data.column || '';
       this.isAsc = data.sort === 'none' ? '' : data.sort;
       this.onPullingDown();
-    },
-    // 图片加载失败
-    imgErr(item) {
-      item.imgPath = notFoundImg;
     },
     // 下拉刷新
     onPullingDown() {

@@ -217,6 +217,7 @@ export default {
    */
   dateFormat: (dateStr, fmt) => { // author: meizz
     if (!dateStr) return '';
+    fmt = fmt || 'yyyy-MM-dd HH:mm:ss';
     // ios 兼容写法
     var date;
     if (dateStr instanceof Date) {

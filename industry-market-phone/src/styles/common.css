@@ -103,21 +103,6 @@ i {
   font-style: normal;
 }
 
-/* 强制换行 */
-
-.break-word {
-  word-wrap: break-word;
-  word-break: break-all;
-}
-
-.hidden {
-  display: none;
-}
-
-.show {
-  display: block;
-}
-
 /* chrome表单自动填充后，input文本框的背景会变成偏黄色的 */
 input:-webkit-autofill {
   -webkit-box-shadow: 0 0 0px 1000px white inset;
@@ -133,6 +118,20 @@ input[disabled], input:disabled, input.disabled{
   -moz-opacity: 1;
   -khtml-opacity: 1;
   opacity: 1;
+}
+
+/* 强制换行 */
+.break-word {
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+.hidden {
+  display: none;
+}
+
+.show {
+  display: block;
 }
 
 a {
@@ -151,6 +150,10 @@ a {
   float: left;
 }
 
+.color-red {
+  color: #ca141d !important;
+}
+
 .radius-5 {
   -moz-border-radius: 5px;
   -webkit-border-radius: 5px;
@@ -158,7 +161,6 @@ a {
 }
 
 /* 一行显示显示不下... */
-
 .text-ellipsis {
   overflow: hidden;
   white-space: nowrap;

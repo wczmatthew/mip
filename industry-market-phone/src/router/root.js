@@ -7,6 +7,7 @@ import order from './order';
 import confirmOrder from './order/confirmOrder';
 import guide from './guide';
 import address from './address';
+import collect from './collect';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -15,6 +16,7 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // const Guide = () => import('@/views/root/Guide.vue');
 const customerChat = () => import('@/views/customers/CustomerChat.vue');
 const productCategory = () => import('@/views/products/ProductCategory.vue');
+const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
 
 export default [
   {
@@ -30,6 +32,11 @@ export default [
       ...guide,
       ...address,
       ...productDetail,
+      ...collect,
+      {
+        path: 'activieyDetail',
+        component: activityDetail,
+      },
       {
         path: 'chat',
         component: customerChat,

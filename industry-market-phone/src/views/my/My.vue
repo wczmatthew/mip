@@ -16,7 +16,8 @@
               {{userData.userName || '--'}}
             </p>
             <p class="desc">
-              上次登录时间: {{userData.loginTime || '--'}}
+              <!-- 上次登录时间: {{userData.loginTime || '--'}} -->
+              {{userData.email}}
             </p>
           </div>
         </div>
@@ -27,9 +28,9 @@
             </i>
             <p class="tip">我的收藏</p>
           </div> -->
-          <div class="item">
+          <div class="item" @click="toCollect()">
             <p class="top-num">
-              0
+              {{collectCount || 0}}
             </p>
             <p class="tip">
               <!-- <i class="iconfont icon-shuliang"></i> -->
@@ -38,7 +39,7 @@
           </div>
           <div class="item">
             <p class="top-num">
-              {{collectCount || 0}}
+              0
             </p>
             <p class="tip">
               <!-- <i class="iconfont icon-shuliang"></i> -->
@@ -151,6 +152,9 @@ export default {
     },
     toAddress() {
       this.$router.push('/market/address');
+    },
+    toCollect() {
+      this.$router.push('/market/collections');
     },
     async getUserData() {
       const result = await userService.getUserInfo({ userid: Utils.getUserId(this) });

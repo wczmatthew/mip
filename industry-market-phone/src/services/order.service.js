@@ -35,6 +35,17 @@ export default {
     return getHttp({ url: '/ordercenter/shopcar/addToCollect', params });
   },
   /**
+   * 加入收藏夹带客户
+   * @param userid 用户id
+   * @param bm 产品编号
+   * @param clientId 客户id
+   */
+  addToCollectWithClient: ({ userid, bm, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, bm, qty: 1, clientId };
+    return getHttp({ url: '/ordercenter/shopcar/addToCollectWithClient', params });
+  },
+  /**
    * 取消收藏
    * @param userid 用户id
    * @param bm 产品编号
@@ -43,6 +54,29 @@ export default {
     if (!userid) return '';
     const params = { userid, bm };
     return getHttp({ url: '/ordercenter/shopcar/deleteCollect', params });
+  },
+  /**
+   * 取消收藏
+   * @param userid 用户id
+   * @param bm 产品编码（复数，逗号隔开）
+   * @param clientId 客户id
+   */
+  deleteCollectWithClient: ({ userid, bm, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, bm, clientId };
+    return getHttp({ url: '/ordercenter/shopcar/deleteCollectWithClient', params });
+  },
+  /**
+   * 根据客户获取收藏夹列表
+   * @param userid 用户id
+   * @param pageNum 当前页码
+   * @param pageSize 每页数量
+   * @param clientId 客户id
+   */
+  getCollectListByClient: ({ userid, pageNum, pageSize, clientId }) => {
+    if (!userid) return '';
+    const params = { userid, pageNum, pageSize, clientId };
+    return getHttp({ url: '/ordercenter/shopcar/getCollectListByClient', params });
   },
   /**
    * 获取购物车列表

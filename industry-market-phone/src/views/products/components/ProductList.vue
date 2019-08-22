@@ -3,7 +3,7 @@
   <!-- 商品列表 -->
   <div class="product-list" :class="{'grid-2-list': listType == 'grid', 'grid-1-list': listType == 'list'}">
     <div v-for="(item, index) in productList" :key="index"
-    class="item product" @click="toDetail(item)">
+    class="item product" @click="toDetail(item, index)" :class="{'selected': item.isSelect}">
       <div class="img">
         <w-img :src="item.imgPath"></w-img>
       </div>
@@ -12,7 +12,8 @@
           {{item.XHGG}}
         </p>
         <p class="desc">
-          质量好，价格优惠，统一保证
+          <!-- 质量好，价格优惠，统一保证 -->
+          {{item.JNR}}
         </p>
 
         <div class="bottom">
@@ -20,9 +21,9 @@
             <p class="price">
               <small>￥</small>{{item.DJJ || '0'}}
             </p>
-            <p class="desc">
+            <!-- <p class="desc">
               库存: (99999)
-            </p>
+            </p> -->
           </div>
           <!-- <div class="num">
             <i class="iconfont icon-jian"></i>
@@ -51,6 +52,8 @@ export default {
       productList: [], // 产品列表数据
       path: '',
       listType: 'list', // grid 一行2个显示, list: 一行一个(列表模式)
+      isEdit: false,
+      selectProductList: [],
     };
   },
   created() {},
@@ -66,6 +69,13 @@ export default {
     }),
   },
   methods: {
+    changeEditType(isEdit) {
+      this.isEdit = isEdit;
+      if (this.isEdit) {
+        this.selectProductList = [];
+        this.productList.forEach(item => item.isSelect = false);
+      }
+    },
     changeListType(listType) {
       this.listType = listType;
     },
@@ -73,7 +83,25 @@ export default {
       this.productList = list;
     },
     // 查看详情
-    toDetail(item) {
+    toDetail(item, index) {
+      if (this.isEdit) {
+        // 编辑模式, 选择产品
+        const list = this.selectProductList.filter(product => product.id === item.id);
+        if (list && list.length) {
+          // 已经选择过, 取消选择
+          this.selectProductList = this.selectProductList.filter(product => product.id !== item.id);
+          this.$emit('select-change', this.selectProductList);
+          // this.$set(item, 'isSelect', false);
+          item.isSelect = false;
+          this.$set(this.productList, index, item);
+          return;
+        }
+        this.selectProductList.push(item);
+        item.isSelect = true;
+        this.$set(this.productList, index, item);
+        this.$emit('select-change', this.selectProductList);
+        return;
+      }
       this.$router.push(`${this.path}/productDetail?bm=${item.BM}`);
     },
     onAddCart(item) {
@@ -115,14 +143,14 @@ export default {
   position: relative;
   .item {
     width: 100%;
-    padding: .05rem .15rem;
+    padding: .1rem .15rem;
     display: flex;
     align-items: center;
     background: #fff;
 
     .img {
-      width: .9rem;
-      height: .9rem;
+      width: .8rem;
+      height: .8rem;
       border: 1px solid #f3f3f3;
       @include flex-center;
       margin-right: .05rem;
@@ -202,6 +230,10 @@ export default {
       }
 
     } // end detail
+
+    &.selected {
+      background: rgba($color: #ca141d, $alpha: .1);
+    }
   } // end item
 }
 

@@ -2,11 +2,13 @@
 <template lang='html'>
   <div class="w-cart" @click.stop="toCart()">
     <i class="iconfont icon-cart" :class="[color]">
-      <!-- <i class="point"></i> -->
+      <i class="point" v-if="cartNum > 0">{{cartNum}}</i>
     </i>
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
@@ -15,6 +17,11 @@ export default {
   created() {},
   mounted() {},
   components: {},
+  computed: {
+    ...mapGetters('user', {
+      cartNum: 'cartNum',
+    }),
+  },
   methods: {
     toCart() {
       if (!this.currentPath) {
@@ -57,14 +64,18 @@ export default {
     position: relative;
     width: auto;
     .point {
-      width: .06rem;
-      height: .06rem;
-      border-radius: .06rem;
       background: $color-red;
+      color: #fff;
+      min-width: .15rem;
+      height: .15rem;
+      line-height: .15rem;
+      border-radius: .15rem;
       position: absolute;
-      right: -.01rem;
-      top: 0;
+      top: -.02rem;
+      left: 58%;
+      font-size: .1rem;
       z-index: 10;
+      padding: 0 .02rem;
     }
 
     &.white {

@@ -101,7 +101,8 @@
           商品金额
         </span>
         <span class="desc price">
-          <small>￥</small> 118.66
+          <small>￥</small>
+          {{(totalPrice).toFixed(2)}}
         </span>
       </div>
 
@@ -110,7 +111,8 @@
           优惠金额
         </span>
         <span class="desc price">
-          <small>￥</small> 118.66
+          <small>￥</small>
+          {{(totalPrice - payPrice).toFixed(2)}}
         </span>
       </div>
 
@@ -120,7 +122,7 @@
         </span>
         <div class="desc">
           <!-- <textarea placeholder="请输入备注"></textarea> -->
-          <cube-textarea placeholder="请输入备注" :maxlength="200"></cube-textarea>
+          <cube-textarea placeholder="请输入备注" :maxlength="200" v-model="tips"></cube-textarea>
         </div>
       </div>
     </div>
@@ -133,7 +135,7 @@
         <p class="red bold">
           <span>实付: </span>
           <small>￥</small>
-          {{(totalPrice).toFixed(2)}}
+          {{(payPrice).toFixed(2)}}
         </p>
       </div>
       <button type="button" class="orange-btn" @click="onPay()">
@@ -151,12 +153,16 @@ export default {
   data() {
     return {
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'confirmOrder' }), // 获取当前路由
-      totalPrice: 0,
+      totalPrice: 0, // 实际金额
+      payPrice: 0, // 付款金额
       payMode: -1,
       payModeOptions: [
-        { text: '在线支付', value: 1 },
-        { text: '现金/刷卡', value: 2 },
-        { text: '赊销', value: 3 },
+        // { text: '在线支付', value: 1 },
+        // { text: '现金/刷卡', value: 2 },
+        // { text: '赊销', value: 3 },
+        { text: '支付宝支付', value: 11 },
+        { text: '微信支付', value: 12 },
+        { text: '银联支付', value: 13 },
       ],
       sendType: -1,
       sendTypeOptions: [
@@ -165,11 +171,13 @@ export default {
         { text: '物流配送', value: 3 },
       ],
       isOpen: false,
+      tips: '',
     };
   },
   created() {},
   mounted() {
     this.getDefaultAddress();
+    this.calcPrice();
   },
   computed: {
     ...mapGetters('address', {
@@ -178,8 +186,12 @@ export default {
     ...mapGetters('order', {
       selectProducts: 'selectProducts',
     }),
+    ...mapGetters('user', {
+      customerId: 'customerId',
+    }),
   },
-  components: {},
+  components: {
+  },
   methods: {
     // 获取默认地址
     async getDefaultAddress() {
@@ -191,6 +203,56 @@ export default {
     },
     onChangeAddress() {
       this.$router.push(`${this.routePath}/selectAddress`);
+    },
+    // 计算总金额
+    calcPrice() {
+      let total = 0;
+      this.payPrice = 0;
+      this.selectProducts.forEach((item) => {
+        total += parseFloat(item.price || 0) * parseInt(item.qty || 1, 10);
+        this.payPrice += parseFloat(item.discountPrice || 0) * parseInt(item.qty || 1, 10);
+      });
+      this.totalPrice = total;
+    },
+    async onPay() {
+      if (!this.selectAddress || !this.selectAddress.id) {
+        Utils.showToast('请先选择收货地址');
+        return;
+      }
+
+      if (this.payMode === -1) {
+        Utils.showToast('请先选择付款方式');
+        return;
+      }
+
+      if (this.sendType === -1) {
+        Utils.showToast('请先选择配送方式');
+        return;
+      }
+
+      const cardIds = [];
+      this.selectProducts.forEach((item) => {
+        cardIds.push(item.id);
+      });
+      const params = {
+        clientId: this.customerId,
+        userid: Utils.getUserId(this),
+        carIds: cardIds.toString(),
+        postType: this.sendType, // 配送方式（1送货上门，2门店自提）
+        // certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
+        payType: this.payWay,
+        memo: this.tips || '',
+      };
+      Utils.showLoading();
+      const result = await service.createOrder(params);
+      this.loading = false;
+      if (!result) return;
+
+      const result2 = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: result.billNo, type: 1 });
+      if (!result2) return;
+      Utils.hideLoading();
+      Utils.showToast('确认付款成功');
+      this.$router.back();
     },
   },
 };

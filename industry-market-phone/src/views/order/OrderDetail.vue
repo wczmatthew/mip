@@ -152,7 +152,7 @@
               付款方式
             </span>
             <span class="desc blue">
-              {{orderDetail.payType == 1 ? '在线支付' : '现金刷卡'}}
+              {{orderDetail.payType | getPayTypeStr}}
             </span>
           </div>
           <div class="cell">
@@ -242,6 +242,34 @@ export default {
     this.getData();
   },
   components: {},
+  filters: {
+    getPayTypeStr(val) {
+      let str = '';
+      switch (val) {
+        case 1:
+          str = '在线支付';
+          break;
+        case 2:
+          str = '现金/刷卡';
+          break;
+        case 3:
+          str = '赊销';
+          break;
+        case 11:
+          str = '支付宝支付';
+          break;
+        case 12:
+          str = '微信支付';
+          break;
+        case 13:
+          str = '银联支付';
+          break;
+        default:
+          break;
+      }
+      return str;
+    },
+  },
   methods: {
     // 获取订单状态颜色
     getOrderColor() {

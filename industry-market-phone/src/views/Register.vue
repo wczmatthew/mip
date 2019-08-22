@@ -38,6 +38,10 @@
         </button>
       </div>
     </div>
+
+    <p class="tip">
+      PS: 密码默认为 123456
+    </p>
     <!-- 正文内容 end -->
 
     <button class="bottom-btn gradient-btn" slot="w-footer" @click="onConfirm()">
@@ -47,6 +51,7 @@
 </template>
 <script>
 import Utils from '@/common/Utils';
+import service from '@/services/user.service';
 
 export default {
   data() {
@@ -56,7 +61,7 @@ export default {
       code: '', // 验证码
       isSendCode: false,
       sendTime: -1,
-      defaultSendTime: 10,
+      defaultSendTime: 60,
       timer: null,
     };
   },
@@ -64,19 +69,38 @@ export default {
   mounted() {},
   components: {},
   methods: {
-    onSendCode() {
+    // 发送验证码
+    async onSendCode() {
+      if (!this.phone) {
+        Utils.showToast('请先输入手机号码');
+        return;
+      }
+
+      if (!Utils.checkPhoneNum(this.phone)) {
+        Utils.showToast('手机号码格式错误');
+        return;
+      }
+
       if (this.isSendCode) return;
       this.isSendCode = true;
 
       this.sendTime = this.defaultSendTime;
       if (this.timer) {
         clearInterval(this.timer);
-        console.log(this.timer);
         this.timer = null;
       }
       this.timer = setInterval(() => {
         this.countDown();
       }, 1000);
+
+      const result = await service.sendVerifyCode({ mobile: this.phone });
+      if (!result) {
+        // 发送验证码错误
+        clearInterval(this.timer);
+        this.timer = null;
+        return;
+      }
+      Utils.showToast('发送验证码成功');
     },
     countDown() {
       if (this.sendTime > 0) {
@@ -85,11 +109,10 @@ export default {
       }
 
       clearInterval(this.timer);
-      console.log(this.timer);
       this.timer = null;
       this.isSendCode = false;
     },
-    onConfirm() {
+    async onConfirm() {
       if (!this.name) {
         Utils.showToast('请输入联系人');
         return;
@@ -105,12 +128,28 @@ export default {
         return;
       }
 
-      if (!this.phone) {
-        Utils.showToast('请输入联系方式');
+      if (!this.code) {
+        Utils.showToast('请输入验证码');
         return;
       }
 
-      console.log('1111');
+      Utils.showLoading();
+      const params = {
+        corpId: this.$route.query.id || '', // 商家id
+        clientName: this.name, // 客户名称
+        phone: this.phone, // 联系方式
+        code: this.code, // 手机验证码
+      };
+      const result = await service.registerBindUser(params);
+      if (!result) return;
+      Utils.showToast('绑定成功');
+
+      // 自动登录
+      this.$store.commit('user/updateUserId', result.userid);
+      this.$store.commit('user/updateCustomerId', result.clientId);
+      this.$store.commit('user/updateIsBind', result.isBind);
+      Utils.showToast('登录成功');
+      this.$router.push('/market?tab=home');
     },
   },
 };
@@ -139,5 +178,11 @@ export default {
   font-size: .12rem;
   height: .3rem;
   margin-left: .05rem;
+}
+
+.tip {
+  font-size: .12rem;
+  padding: .1rem .12rem;
+  color: $color-grey;
 }
 </style>

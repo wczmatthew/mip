@@ -234,7 +234,7 @@ export default {
         return;
       }
       this.loading = true;
-      const result = await orderService.addCollect({ userid: this.userId, bm: this.$route.query.bm });
+      const result = await orderService.addToCollectWithClient({ userid: this.userId, bm: this.$route.query.bm, clientId: this.customerId });
       this.loading = false;
       if (!result) return;
       // this.product.isCollect = true;
@@ -248,7 +248,7 @@ export default {
         return;
       }
       this.loading = true;
-      const result = await orderService.deleteCollect({ userid: this.userId, bm: this.$route.query.bm });
+      const result = await orderService.deleteCollectWithClient({ userid: this.userId, bm: this.$route.query.bm, clientId: this.customerId });
       this.loading = false;
       if (!result) return;
       this.product.isCollect = false;
