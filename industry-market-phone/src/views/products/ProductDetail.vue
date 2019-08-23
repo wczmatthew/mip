@@ -124,9 +124,9 @@
         <button class="orange-btn" @click="onAddCart()">
           加入购物车
         </button>
-        <!-- <button class="red-btn">
+        <button class="red-btn" @click="onConfirm()">
           立即购买
-        </button> -->
+        </button>
       </div>
     </footer>
     <!-- 底部栏 end -->
@@ -204,6 +204,35 @@ export default {
           if (type !== 'confirm') return;
           // 已经选择了客户, 直接将产品加入购物单
           this.startAddCart(num);
+        },
+      });
+    },
+    // 立即购买
+    onConfirm() {
+      if (!this.customerId) {
+        Utils.showAlert({
+          title: '提醒',
+          content: '您还未绑定经销商, 不能进行下单操作?',
+          maskClosable: true,
+        });
+        return;
+      }
+      this.$refs.numModal && this.$refs.numModal.show({
+        callback: async (type, num) => {
+          if (type !== 'confirm') return;
+          // 直接将产品加入购物单
+          const list = [{
+            ...this.product,
+            discountPrice: this.product.DJJ,
+            qty: num,
+            discountRate: 0,
+            discountSum: 0,
+            price: this.product.DJJ,
+            spec: this.product.XHGG,
+          }];
+          this.$store.commit('order/updateSelectProducts', list);
+
+          this.$router.push(`${this.currentPath || this.routePath}/confirmOrder`);
         },
       });
     },

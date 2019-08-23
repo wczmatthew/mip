@@ -223,6 +223,24 @@ export default {
     return postHttp({ url: '/ordercenter/order/createOrder', params });
   },
   /**
+   * 创建订单
+   * @param userid 用户id
+   * @param clientId 客户id
+   * @param address 地址id
+   * @param itemList 购物车id,复数用逗号隔开
+   * @param payType 付款方式（1 线上付款，2 现金刷卡）
+   * @param postType 配送方式（1送货上门，2门店自提）
+   * @param memo 备注
+   */
+  createAppOrder: ({
+    address, userid, itemList, clientId,
+    payType, memo, postType,
+  }) => {
+    if (!userid) return '';
+    const params = { userid, address, itemList, clientId, payType, memo, postType };
+    return postHttp({ url: '/ordercenter/order/createAppOrder', params });
+  },
+  /**
    * 获取订单列表
    * @param userid 用户id
    * @param pageNum 页码

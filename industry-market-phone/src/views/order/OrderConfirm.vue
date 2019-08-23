@@ -172,6 +172,8 @@ export default {
       ],
       isOpen: false,
       tips: '',
+      isCreated: false, // 是否已经创建订单
+      orderDetail: {},
     };
   },
   created() {},
@@ -215,6 +217,11 @@ export default {
       this.totalPrice = total;
     },
     async onPay() {
+      if (this.isCreated) {
+        this.changeOrderType();
+        return;
+      }
+
       if (!this.selectAddress || !this.selectAddress.id) {
         Utils.showToast('请先选择收货地址');
         return;
@@ -230,25 +237,38 @@ export default {
         return;
       }
 
-      const cardIds = [];
+      const itemList = [];
       this.selectProducts.forEach((item) => {
-        cardIds.push(item.id);
+        itemList.push({
+          prodId: item.BM,
+          qty: item.qty,
+          discountPrice: item.discountPrice,
+          discountRate: item.discountRate,
+          discountSum: item.discountSum,
+        });
       });
       const params = {
         clientId: this.customerId,
+        address: this.selectAddress.id,
         userid: Utils.getUserId(this),
-        carIds: cardIds.toString(),
+        itemList: JSON.stringify(itemList),
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）
         // certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
-        payType: this.payWay,
+        payType: this.payMode,
         memo: this.tips || '',
       };
       Utils.showLoading();
-      const result = await service.createOrder(params);
+      const result = await service.createAppOrder(params);
       this.loading = false;
       if (!result) return;
 
-      const result2 = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: result.billNo, type: 1 });
+      this.isCreated = true;
+      this.orderDetail = result;
+
+      this.changeOrderType();
+    },
+    async changeOrderType() {
+      const result2 = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: this.orderDetail.billId, type: 1 });
       if (!result2) return;
       Utils.hideLoading();
       Utils.showToast('确认付款成功');

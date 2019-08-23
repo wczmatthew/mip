@@ -72,11 +72,11 @@
           <i class="iconfont icon-location"></i>
           <div class="detail">
             <p class="title">
-              {{customer.name}}&nbsp;&nbsp;
-              <span>{{customer.phone}}</span>
+              {{addressInfo.consignee}}&nbsp;&nbsp;
+              <span>{{addressInfo.telephone}}</span>
             </p>
             <div class="location">
-              {{customer.address}}
+              {{addressInfo.province}}{{addressInfo.address}}
             </div>
           </div>
         </div>
@@ -235,6 +235,7 @@ export default {
       tips: '',
       orderDetail: {},
       customer: {},
+      addressInfo: {},
     };
   },
   created() {},
@@ -245,7 +246,7 @@ export default {
   filters: {
     getPayTypeStr(val) {
       let str = '';
-      switch (val) {
+      switch (parseInt(val, 10)) {
         case 1:
           str = '在线支付';
           break;
@@ -332,6 +333,7 @@ export default {
       this.productList = [...result.itemList];
       this.customer = result.client;
       this.totalNum = result.total;
+      this.addressInfo = result.addressInfo;
     },
   },
 };

@@ -72,6 +72,15 @@ export default {
   mounted() {
     this.getData();
   },
+  watch: {
+    '$route'(to) {
+      if (to.path === '/market' && to.query.tab === 'gift') {
+        this.$nextTick(() => {
+          this.$refs.slide && this.$refs.slide.refresh();
+        });
+      }
+    },
+  },
   components: {},
   filters: {
     dateFormat(val) {
@@ -127,6 +136,7 @@ export default {
 
 .banner {
   width: 100%;
+  height: 1.2rem;
   overflow: hidden;
 
   .banner-item {

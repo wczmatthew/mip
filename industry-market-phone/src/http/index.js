@@ -17,19 +17,29 @@ import router from '../router';
 let httpHost = '';
 if (process.env.NODE_ENV === 'production') {
   // 正式版本
-  httpHost = '';
+  httpHost = getProjectName() || '';
 } else if (process.env.NODE_ENV === 'test-dev' || process.env.NODE_ENV === 'development') {
-  httpHost = '/hw';
-  // httpHost = '/local';
+  // httpHost = '/hw';
+  httpHost = '/local';
   // httpHost = '/test';
 }
-
 
 // console.log('http env: ', process.env.NODE_ENV)
 
 export { httpHost };
 
 axios.defaults.baseURL = httpHost; // 默认的请求url
+
+// 获取路径前缀 比如 http://www.aaa.com/abc/sdfong  => /abc
+function getProjectName() {
+  var strFullPath = window.document.location.href;
+  var strPath = window.document.location.pathname;
+  var pos = strFullPath.indexOf(strPath);
+  // var prePath = strFullPath.substring(0, pos);
+  var postPath = strPath.substring(0, strPath.substr(1).indexOf("/") + 1);
+  return postPath === '/marketingmobile' ? "" : postPath;
+} 
+
 
 
 function handleRes(response, showErrToast) {
