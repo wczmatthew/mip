@@ -15,36 +15,39 @@
 
 
     <div class="logo">
-      <img src="../assets/login/chint.png" alt="">
+      <img src="../assets/common/logo.png" alt="">
     </div>
 
     <p class="logo-title">
-      工业超市账号
+      智慧能源解决方案供应商
     </p>
 
     <div class="login-container">
+      <p class="login-title">
+        登录
+      </p>
       <form autocomplete="off">
         <div class="login-form">
           <div class="form1"  v-show="loginType == 0">
             <div class="input-item">
-              <i class="iconfont icon-my"></i>
+              <!-- <i class="iconfont icon-my"></i> -->
               <input type="text" placeholder="请输入您的账号" v-model.trim="username">
             </div>
 
             <div class="input-item">
-              <i class="iconfont icon-mima"></i>
+              <!-- <i class="iconfont icon-mima"></i> -->
               <input type="password" placeholder="请输入6-16位字符的密码" v-model="pwd" @keyup.enter="onLogin()">
             </div>
           </div>
 
           <div class="form2" v-show="loginType == 1">
             <div class="input-item">
-              <i class="iconfont icon-my"></i>
+              <!-- <i class="iconfont icon-my"></i> -->
               <input type="tel" placeholder="请输入您的手机号" v-model="phone">
             </div>
 
             <div class="input-item">
-              <i class="iconfont icon-mima"></i>
+              <!-- <i class="iconfont icon-mima"></i> -->
               <input type="text" placeholder="请输入验证码" v-model.trim="code" @keyup.enter="onLogin()">
               <button class="plain-blue-btn" @click.stop="onSendCode()">
                 <template v-if="sendTime == -1">
@@ -259,17 +262,15 @@ export default {
   // left: 50%;
   // z-index: 10;
   margin: 0 auto;
-  margin-top: .5rem;
-  width: .8rem;
-  height: .8rem;
+  margin-top: 10vh;
+  width: 50%;
   min-width: .3rem;
   min-height: .3rem;
-  border-radius: 1rem;
-  background: $color-blue;
+  // border-radius: 1rem;
+  // background: $color-blue;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0 .1rem;
   img {
     width: 100%;
   }
@@ -278,25 +279,32 @@ export default {
 .logo-title {
   text-align: center;
   line-height: .2rem;
-  margin-top: .15rem;
-  font-size: 18px;
+  color: $color-grey;
   font-weight: 700;
+  font-size: 12px;
+  margin-top: .05rem;
 }
 
 .login-container {
-  width: 93%;
+  width: 85%;
   margin: 0 auto;
-  margin-top: 7vh;
+  margin-top: 15vh;
+
+  .login-title {
+    font-size: 18px;
+    font-weight: 700;
+  }
+
   .input-item {
     width: 100%;
     margin-top: .1rem;
-    border-bottom: .01rem solid $color-blue;
+    border-bottom: .01rem solid $color-line;
     display: flex;
     align-items: center;
 
     .iconfont {
-      color: $color-blue;
-      border: .01rem solid $color-blue;
+      color: $color-line;
+      border: .01rem solid $color-line;
       width: .2rem;
       height: .2rem;
       border-radius: .2rem;
@@ -310,7 +318,6 @@ export default {
       min-height: .2rem;
       max-height: .4rem;
       border: 0;
-      margin-left: .1rem;
       flex: 1;
     }
 
@@ -324,18 +331,18 @@ export default {
 
   .blue-btn {
     margin-top: 5%;
-    border-radius: .4rem;
     // width: 65%;
     height: 10vh;
     font-size:  14px;
-    max-height: .35rem;
-    min-height: .2rem;
+    height: .35rem;
+    width: 100%;
+    @include background-left-gradient(#306cff, #01d1fd);
   }
 
   .tip {
     padding: .12rem 0 .1rem;
-    font-size:  12px;
-    color: $color-grey;
+    font-size:  13px;
+    color: #666;
   }
 } // login-container
 

@@ -113,12 +113,12 @@
           <i class="iconfont icon-shouye"></i>
           <p>首页</p>
         </div>
-        <div class="icon">
+        <!-- <div class="icon">
           <i class="iconfont icon-gouwuche">
             <i class="num" v-if="cartNum > 0">{{cartNum}}</i>
           </i>
           <p>购物车</p>
-        </div>
+        </div> -->
         <div class="icon icon-star" @click="onToggleCollect()">
           <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
           'icon-notcollect']"></i>

@@ -18,7 +18,7 @@ import Address from './components/Address.vue';
 export default {
   data() {
     return {
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'address' }),
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'selectAddress' }),
     };
   },
   created() {

@@ -8,6 +8,7 @@ import confirmOrder from './order/confirmOrder';
 import guide from './guide';
 import address from './address';
 import collect from './collect';
+import cart from './order/cart';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -33,6 +34,7 @@ export default [
       ...address,
       ...productDetail,
       ...collect,
+      ...cart,
       {
         path: 'activieyDetail',
         component: activityDetail,
