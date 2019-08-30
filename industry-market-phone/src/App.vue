@@ -8,7 +8,7 @@
 </template>
 
 <script>
-// import Utils from '@/common/Utils';
+import Utils from '@/common/Utils';
 
 export default {
   data() {
@@ -30,6 +30,14 @@ export default {
   },
   created() {},
   mounted() {
+    const userid = Utils.getLocalStorageItem('userId');
+    if (userid) {
+      // 登录过一次, 可以直接登录
+      this.$store.commit('user/updateUserId', userid);
+      this.$store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
+      this.$store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
+      this.$router.push('/market?tab=home');
+    }
     // Utils.hideLoading();
     // document.getElementById('app').addEventListener('touchstart', (e) => {
     //   e.stopPropagation();

@@ -69,7 +69,7 @@
       padding-right: .05rem;
 
       span {
-        font-weight: 700;
+        // font-weight: 700;
         flex: 1;
       }
 
@@ -132,7 +132,6 @@
   .product-scroll {
     flex: 1;
     overflow: auto;
-    background: $color-bg;
     padding-bottom: .1rem;
 
     .title {
@@ -161,15 +160,15 @@
     }
 
     .product-item {
-      width: .65rem;
+      width: 30%;
       padding: .05rem;
       margin-bottom: .06rem;
       background: #fff;
       border-radius: .02rem;
-      box-shadow: 0 0 .03rem #e6e6e6;
+      // box-shadow: 0 0 .03rem #e6e6e6;
       overflow: hidden;
       flex-shrink: 0;
-      margin-right: .05rem;
+      margin-right: 3%;
 
       .no-data {
         padding: 0;

@@ -250,7 +250,7 @@ export default {
     margin-bottom: .1rem;
 
     .title {
-      font-size: .16rem;
+      font-size:  16px;
       padding: .1rem 0;
     }
 

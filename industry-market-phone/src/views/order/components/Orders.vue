@@ -239,23 +239,30 @@ export default {
       this.dataList.splice(index, 1);
     },
     // 关闭订单
-    async onCloseOrder(item, index) {
-      if (this.loading) return;
-      this.loading = true;
-      Utils.showLoading();
-      const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 5 });
-      Utils.hideLoading();
-      this.loading = false;
-      if (!result) return;
-      Utils.showToast('关闭订单成功');
-      if (this.tabValue === -1) {
-        // 全部
-        item.billType = 5;
-        return;
-      }
+    onCloseOrder(item, index) {
+      Utils.showConfirm({
+        title: '提醒',
+        content: '确定关闭该订单?',
+        maskClosable: true,
+        onConfirm: async () => {
+          if (this.loading) return;
+          this.loading = true;
+          Utils.showLoading();
+          const result = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: item.billNo, type: 5 });
+          Utils.hideLoading();
+          this.loading = false;
+          if (!result) return;
+          Utils.showToast('关闭订单成功');
+          if (this.tabValue === -1) {
+            // 全部
+            item.billType = 5;
+            return;
+          }
 
-      // 对应状态
-      this.dataList.splice(index, 1);
+          // 对应状态
+          this.dataList.splice(index, 1);
+        },
+      });
     },
   },
   props: {
@@ -322,7 +329,7 @@ export default {
         }
 
         .icon-store {
-          font-size: .16rem;
+          font-size:  16px;
         }
 
         .icon-arrow-right {
@@ -333,7 +340,7 @@ export default {
       }
 
       .status {
-        font-size: .12rem;
+        font-size:  12px;
         flex-shrink: 0;
         color: $color-blue;
 
@@ -400,7 +407,7 @@ export default {
       .right {
         flex-shrink: 0;
         font-weight: 700;
-        font-size: .12rem;
+        font-size:  12px;
         @include flex-center;
         .iconfont {
           color: $color-black;
@@ -452,7 +459,7 @@ export default {
 
           .desc {
             color: $color-grey;
-            font-size: .12rem;
+            font-size:  12px;
           }
 
           .desc.price {
@@ -466,12 +473,12 @@ export default {
       text-align: right;
       @include text-ellipsis;
       padding-right: .15rem;
-      font-size: .12rem;
+      font-size:  12px;
       padding-top: .08rem;
 
       .price {
         color: $color-red;
-        font-size: .16rem;
+        font-size:  16px;
       }
     } // end order-total
 
@@ -486,7 +493,7 @@ export default {
         padding: .1rem .1rem ;
         color: $color-default;
         border: 0;
-        font-size: .12rem;
+        font-size:  12px;
 
         &.grey {
           color: $color-grey-6;

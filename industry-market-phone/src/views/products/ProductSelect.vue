@@ -136,6 +136,14 @@ export default {
   mounted() {
     this.getData();
   },
+  watch: {
+    '$route'(to) {
+      if (to.path === this.routePath) {
+        // 重新进入页面
+        this.$store.dispatch('user/getCartNum');
+      }
+    },
+  },
   computed: {
     ...mapGetters('user', {
       userId: 'userId',
@@ -273,6 +281,7 @@ export default {
       this.loading = false;
       if (!result) return;
       Utils.showToast('加入购物单成功');
+      this.$store.dispatch('user/getCartNum');
     },
     // 添加收藏或者取消收藏
     onToggleCollect() {
@@ -313,17 +322,17 @@ export default {
     async onSelectTag(item, index, subIndex) {
       // 判断是否可以选择
       if (item.list[subIndex].isSelected) return;
-      if (item.list[subIndex].disabled) {
-        Utils.showConfirm({
-          title: '提醒',
-          content: '该操作会更换产品型号, 确认更换?',
-          maskClosable: true,
-          onConfirm: () => {
-            this.startChangePorperty(item, index, subIndex);
-          },
-        });
-        return;
-      }
+      // if (item.list[subIndex].disabled) {
+      //   Utils.showConfirm({
+      //     title: '提醒',
+      //     content: '该操作会更换产品型号, 确认更换?',
+      //     maskClosable: true,
+      //     onConfirm: () => {
+      //       this.startChangePorperty(item, index, subIndex);
+      //     },
+      //   });
+      //   return;
+      // }
 
       this.startChangePorperty(item, index, subIndex);
     },
@@ -547,7 +556,7 @@ export default {
         .iconfont {
           display: block;
           margin-bottom: .02rem;
-          font-size: .2rem;
+          font-size:  20px;
         }
 
         .icon-collect {
@@ -622,7 +631,7 @@ export default {
     color: $color-grey-6;
     flex-shrink: 0;
     width: .2rem;
-    font-size: .2rem;
+    font-size:  20px;
   }
 
   input {
@@ -630,7 +639,7 @@ export default {
     display: block;
     overflow: hidden;
     text-align: center;
-    font-size: .16rem;
+    font-size:  16px;
   }
 }
 </style>

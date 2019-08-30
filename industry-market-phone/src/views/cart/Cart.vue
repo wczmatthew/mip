@@ -29,6 +29,15 @@ export default {
   created() {},
   mounted() {
   },
+  watch: {
+    '$route'(to) {
+      if (to.path === this.routePath && this.$refs.cart) {
+        // 重新进入页面
+        this.$refs.cart.$data.isFirstLoading = true;
+        this.$refs.cart.onPullingDown();
+      }
+    },
+  },
   computed: {},
   components: {
     Cart,
@@ -48,7 +57,7 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
 .header-right {
-  font-size: .12rem;
+  font-size:  12px;
   color: $color-grey;
 }
 

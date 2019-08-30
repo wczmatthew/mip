@@ -223,7 +223,7 @@ export default {
   @include flex-center;
   color: #fff;
   .iconfont {
-    font-size: .2rem;
+    font-size:  20px;
   }
 }
 
@@ -239,12 +239,12 @@ export default {
 
     .top-num {
       text-align: center;
-      font-size: .2rem;
+      font-size:  20px;
     }
 
     .iconfont {
       display: inline-block;
-      font-size: .2rem;
+      font-size:  20px;
       color: $color-grey;
       position: relative;
       .num {
@@ -264,14 +264,14 @@ export default {
     } // end iconfont
 
     .tip {
-      font-size: .12rem;
+      font-size:  12px;
       margin-top: .05rem;
       display: flex;
       align-items: center;
       justify-content: center;
 
       .iconfont {
-        font-size: .12rem;
+        font-size:  12px;
         margin-right: .05rem;
       }
     }
@@ -309,11 +309,11 @@ export default {
         @include text-ellipsis;
 
         .title {
-          font-size: .16rem;
+          font-size:  16px;
         }
 
         .desc {
-          font-size: .12rem;
+          font-size:  12px;
           margin-top: .1rem;
         }
       } // end detail
@@ -341,7 +341,7 @@ export default {
     }
 
     .desc {
-      font-size: .12rem;
+      font-size:  12px;
       color: $color-grey;
       height: 100%;
       font-weight: 700;
@@ -389,7 +389,7 @@ export default {
     align-items: center;
   }
   .w-tableview .cell .title .iconfont {
-    font-size: .2rem;
+    font-size:  20px;
     color: $color-grey;
     margin-right: .1rem;
   }

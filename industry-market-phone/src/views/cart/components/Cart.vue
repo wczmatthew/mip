@@ -11,7 +11,9 @@
         @pulling-up="onPullingUp">
 
         <no-data v-if="noData"></no-data>
+        <w-loading-row v-if="isFirstLoading"></w-loading-row>
         <div v-for="(item, index) in productList" :key="index" class="item">
+          <div class="disabled-bg" v-if="item.store <= 0"></div>
           <div class="radio" @click.stop="onToggleChecked(item)">
             <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
           </div>
@@ -147,6 +149,7 @@ import { mapGetters } from 'vuex';
 export default {
   data() {
     return {
+      isFirstLoading: true,
       totalNum: 0,
       pageNum: 1,
       pageSize: 5,
@@ -290,6 +293,7 @@ export default {
     // 获取购物车数据
     async getData() {
       const result = await service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, clientId: this.customerId });
+      this.isFirstLoading = false;
       if (!result) return;
 
       // if (this.pageNum === 1 && this.beforeCustomerId !== this.customerId) {
@@ -302,7 +306,9 @@ export default {
       // 判断是否选中
       if (this.allChecked) {
         result.rows = result.rows.map((item) => {
-          this.selectProducts[item.id] = true;
+          if (Number(item.store || 0) > 0) {
+            this.selectProducts[item.id] = true;
+          }
           return item;
         });
       }

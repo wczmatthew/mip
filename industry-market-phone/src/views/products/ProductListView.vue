@@ -203,7 +203,7 @@ export default {
     height: .3rem;
     line-height: .3rem;
     text-align: center;
-    font-size: .18rem;
+    font-size:  18px;
     border-bottom: 1px solid #f1f1f1;
   }
 

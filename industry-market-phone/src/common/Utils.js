@@ -102,7 +102,7 @@ export default {
     }
 
     // 获取用户的其他数据
-    const userId = this.getUserId();
+    const userId = localStorage.getItem('userId');
     let userData = localStorage.getItem(userId) || '{}';
     userData = JSON.parse(userData);
     return key === userId ? userData : userData[key];
@@ -121,7 +121,7 @@ export default {
         localStorage.setItem(key, value);
       } else {
         // 存储用户的其他数据
-        const userId = this.getUserId();
+        const userId = localStorage.getItem('userId');
         let userData = this.getLocalStorageItem(userId) || {};
         userData[key] = value;
         localStorage.setItem(userId, JSON.stringify(userData));
@@ -146,7 +146,7 @@ export default {
    */
   removeLocalStorageItem(key) {
     if (key !== 'userId') {
-      const userId = this.getUserId();
+      const userId = localStorage.getItem('userId');
       let userData = this.getLocalStorageItem(userId) || {};
       // userData[key] = value;
       delete userData[key];

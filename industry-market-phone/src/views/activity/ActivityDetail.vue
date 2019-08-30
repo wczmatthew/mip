@@ -65,7 +65,7 @@ export default {
 }
 
 .desc {
-  font-size: .12rem;
+  font-size:  12px;
   color: $color-grey;
   margin-bottom: .1rem;
   text-align: center;

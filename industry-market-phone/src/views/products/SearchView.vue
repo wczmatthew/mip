@@ -167,7 +167,7 @@ export default {
       display: block;
       margin-bottom: .1rem;
       margin-right: .08rem;
-      font-size: .12rem;
+      font-size:  12px;
       font-weight: 700;
       color: #5e5e5e;
 
@@ -201,7 +201,7 @@ export default {
     width: 1rem;
     height: .25rem;
     line-height: .25rem;
-    font-size: .12rem;
+    font-size:  12px;
     margin: 0;
   }
 }

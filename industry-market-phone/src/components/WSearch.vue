@@ -93,7 +93,7 @@ export default {
 
   .iconfont {
     width: .25rem;
-    font-size: .18rem;
+    font-size:  18px;
     flex-shrink: 0;
     display: block;
     color: #b9b9b9;
@@ -117,7 +117,7 @@ export default {
     border: 0;
     background: #fff;
     flex-shrink: 0;
-    font-size: .14rem;
+    font-size:  14px;
     padding: 0 .1rem;
   }
 }

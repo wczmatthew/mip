@@ -354,7 +354,7 @@ export default {
 }
 
 .price {
-  font-size: .12rem;
+  font-size:  12px;
   color: $color-red;
   @include text-ellipsis;
 }
@@ -410,7 +410,7 @@ export default {
       flex: 1;
       overflow: hidden;
       padding-left: .1rem;
-      font-size: .12rem;
+      font-size:  12px;
 
       .bottom {
         display: flex;
@@ -449,7 +449,7 @@ export default {
       }
 
       .price {
-        font-size: .14rem;
+        font-size:  14px;
       }
     }
   } // end order-bottom
@@ -471,7 +471,7 @@ export default {
       display: flex;
       align-items: center;
       .iconfont {
-        font-size: .2rem;
+        font-size:  20px;
         margin-right: .05rem;
       }
     }
@@ -506,7 +506,7 @@ export default {
     padding: 0 .12rem;
 
     .icon-location {
-      font-size: .2rem;
+      font-size:  20px;
       color: #fff;
       width: .3rem;
       height: .3rem;

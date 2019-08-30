@@ -176,7 +176,7 @@ export default {
     max-width: 30%;
     color: #fff;
     flex-shrink: 0;
-    font-size: .12rem;
+    font-size:  12px;
 
     .iconfont {
       margin-left: .03rem;
@@ -184,7 +184,7 @@ export default {
     }
 
     .icon-location {
-      font-size: .14rem;
+      font-size:  14px;
       margin-right: .05rem;
     }
   }
@@ -226,7 +226,7 @@ export default {
     justify-content: center;
     padding: .1rem 0;
     color: $color-blue;
-    font-size: .12rem;
+    font-size:  12px;
     font-weight: 700;
 
     .line {
@@ -319,7 +319,7 @@ export default {
       font-weight: 700;
       text-align: left;
       padding: 0 .1rem;
-      font-size: .18rem;
+      font-size:  18px;
     }
 
     .sub-txt {

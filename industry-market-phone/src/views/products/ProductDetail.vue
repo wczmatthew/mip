@@ -70,6 +70,14 @@
       </div>
       <div class="cell">
         <div class="title">
+          库存数量
+        </div>
+        <div class="desc red">
+          {{product.store || 0}}
+        </div>
+      </div>
+      <div class="cell">
+        <div class="title">
           单价
         </div>
         <div class="desc price" style="padding: 0;">
@@ -121,10 +129,10 @@
       </div>
 
       <div class="btns">
-        <button class="orange-btn" @click="onAddCart()">
+        <button @click="onAddCart()"  :class="[product.store > 0 ? 'orange-btn' : 'grey-btn']">
           加入购物车
         </button>
-        <button class="red-btn" @click="onConfirm()">
+        <button @click="onConfirm()"  :class="[product.store > 0 ? 'red-btn' : 'grey-light-btn']">
           立即购买
         </button>
       </div>
@@ -199,9 +207,16 @@ export default {
         });
         return;
       }
+
+      if (this.product.store <= 0) return;
+      Utils.hideLoading();
       this.$refs.numModal && this.$refs.numModal.show({
         callback: async (type, num) => {
           if (type !== 'confirm') return;
+          if (num > this.product.store) {
+            Utils.showToast('超过库存数量, 请重新输入');
+            return;
+          }
           // 已经选择了客户, 直接将产品加入购物单
           this.startAddCart(num);
         },
@@ -217,9 +232,17 @@ export default {
         });
         return;
       }
+
+      if (this.product.store <= 0) return;
+      Utils.hideLoading();
+
       this.$refs.numModal && this.$refs.numModal.show({
         callback: async (type, num) => {
           if (type !== 'confirm') return;
+          if (num > this.product.store) {
+            Utils.showToast('超过库存数量, 请重新输入');
+            return;
+          }
           // 直接将产品加入购物单
           const list = [{
             ...this.product,
@@ -339,7 +362,7 @@ export default {
           text-align: center;
           line-height: .3rem;
           border-radius: .3rem;
-          font-size: .2rem;
+          font-size:  20px;
         }
       }
     }
@@ -362,7 +385,7 @@ export default {
 
   .price {
     color: $color-red;
-    font-size: .18rem;
+    font-size:  18px;
     @include text-ellipsis;
     padding: .05rem .12rem;
     background: #fff;
@@ -373,12 +396,16 @@ export default {
     @include break-word;
     padding: .1rem .12rem .1rem;
     background: #fff;
-    font-size: .18rem;
+    font-size:  18px;
   }
 
   .w-tableview {
     margin-top: .1rem;
     margin-bottom: .1rem;
+  }
+
+  .w-tableview .cell .desc.red {
+    color: $color-red;
   }
 
   .footer {
@@ -447,7 +474,7 @@ export default {
         flex: 1;
         border-radius: 0;
         height: 100%;
-        font-size: .14rem;
+        font-size:  14px;
       }
     }
   } // end footer

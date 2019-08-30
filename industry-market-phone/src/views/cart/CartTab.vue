@@ -35,9 +35,10 @@ export default {
   },
   watch: {
     '$route'(to) {
-      if (to.path === '/market' && to.query.tab === 'cart') {
+      if (to.path === '/market' && to.query.tab === 'cart' && this.$refs.cart) {
         // 重新进入页面
-        this.$refs.cart && this.$refs.cart.onPullingDown();
+        this.$refs.cart.$data.isFirstLoading = true;
+        this.$refs.cart.onPullingDown();
       }
     },
   },
@@ -61,7 +62,7 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
 .header-right {
-  font-size: .14rem;
+  font-size:  14px;
 }
 
 .color-active {

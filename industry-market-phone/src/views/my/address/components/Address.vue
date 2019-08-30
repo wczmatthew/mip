@@ -218,7 +218,7 @@ export default {
           width: .35rem;
           height: .3rem;
           @include flex-center;
-          font-size: .12rem;
+          font-size:  12px;
           color: $color-grey;
 
           .icon-delete {
@@ -230,7 +230,7 @@ export default {
 
     .row {
       color: $color-grey;
-      font-size: .12rem;
+      font-size:  12px;
       @include text-overflow-muli(2);
       padding-bottom: .05rem;
     }
@@ -256,7 +256,7 @@ export default {
 
   button {
     width: 100%;
-    font-size: .14rem;
+    font-size:  14px;
     border-radius: 0;
   }
 }

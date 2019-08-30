@@ -157,7 +157,7 @@ export default {
 
   .icon-kehu {
     color: $color-blue;
-    font-size: .2rem;
+    font-size:  20px;
   }
 
   .detail {
@@ -181,7 +181,7 @@ export default {
 
   .icon-exchange-user {
     // color: $color-grey;
-    font-size: .2rem;
+    font-size:  20px;
   }
 } // end customer-item
 
@@ -202,7 +202,7 @@ export default {
     height: .4rem;
     line-height: .4rem;
     position: relative;
-    font-size: .16rem;
+    font-size:  16px;
     color: $color-blue;
     border-bottom: 1px solid $color-line;
 
@@ -213,7 +213,7 @@ export default {
       top: 0;
       right: 0;
       z-index: 10;
-      font-size: .18rem;
+      font-size:  18px;
 
       &:active {
         background: #f5f5f5;
@@ -284,7 +284,7 @@ export default {
     border: 1px solid #e2e2e2;
     border-radius: .05rem;
     margin-left: .17rem;
-    font-size: .14rem;
+    font-size:  14px;
     line-height: .18rem;
     height: .3rem;
     color: #333;

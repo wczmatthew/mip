@@ -362,7 +362,7 @@ export default {
           text-align: right;
           padding-left: .05rem;
           padding: 0;
-          font-size: .14rem;
+          font-size:  14px;
           padding-bottom: .02rem;
         }
       } // end row
@@ -379,7 +379,7 @@ export default {
       width: 100%;
       @include flex-center;
       height: .25rem;
-      font-size: .12rem;
+      font-size:  12px;
       color: $color-grey;
 
       .iconfont {
@@ -461,7 +461,7 @@ export default {
 
   button {
     width: 100%;
-    font-size: .14rem;
+    font-size:  14px;
     border-radius: 0;
   }
 }

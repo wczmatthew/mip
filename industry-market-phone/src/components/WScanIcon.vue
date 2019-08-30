@@ -59,7 +59,7 @@ export default {
   .iconfont {
     position: relative;
     width: auto;
-    font-size: .2rem;
+    font-size:  20px;
     .point {
       width: .06rem;
       height: .06rem;

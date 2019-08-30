@@ -15,7 +15,9 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.$store.dispatch('user/getCartNum');
+  },
   components: {},
   computed: {
     ...mapGetters('user', {
@@ -56,7 +58,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: .23rem;
+  font-size: .22rem;
   line-height: 1;
 
 
@@ -71,7 +73,7 @@ export default {
       line-height: .15rem;
       border-radius: .15rem;
       position: absolute;
-      top: -.02rem;
+      top: -.05rem;
       left: 58%;
       font-size: .1rem;
       z-index: 10;

@@ -165,7 +165,7 @@ export default {
     .detail {
       flex: 1;
       overflow: hidden;
-      font-size: .12rem;
+      font-size:  12px;
 
       .product-title {
         @include text-overflow-muli(2);
@@ -180,13 +180,13 @@ export default {
       }
 
       .price {
-        font-size: .18rem;
+        font-size:  18px;
         font-weight: 700;
         color: $color-red;
         @include text-ellipsis;
 
         small {
-          font-size: .12rem;
+          font-size:  12px;
           font-weight: 700;
         }
       }
@@ -257,7 +257,7 @@ export default {
         width: .25rem;
         height: .25rem;
         border-radius: .25rem;
-        font-size: .18rem;
+        font-size:  18px;
         @include flex-center;
       }
     }

@@ -2,7 +2,7 @@
 <template lang='html'>
   <w-container>
     <!-- 背景 -->
-    <div class="login-bg">
+    <!-- <div class="login-bg">
       <div class="bg">
         <img src="../assets/login/login-bg2.jpg" alt="">
       </div>
@@ -10,8 +10,17 @@
       <div class="logo">
         <img src="../assets/login/chint.png" alt="">
       </div>
-    </div>
+    </div> -->
     <!-- 背景 end -->
+
+
+    <div class="logo">
+      <img src="../assets/login/chint.png" alt="">
+    </div>
+
+    <p class="logo-title">
+      工业超市账号
+    </p>
 
     <div class="login-container">
       <form autocomplete="off">
@@ -50,7 +59,7 @@
         </div>
 
         <p class="tip" @click.stop="onChangeLoginType()">
-          {{loginType === 1 ? '使用密码登录' : '使用验证码登录'}}
+          {{loginType === 1 ? '账号密码登录' : '短信验证码登录'}}
         </p>
 
         <button type="button" class="blue-btn" @click="onLogin()">
@@ -80,7 +89,16 @@ export default {
       loginType: 0, // 0: 密码登录, 1: 验证码登录
     };
   },
-  created() {},
+  created() {
+    // const userid = Utils.getLocalStorageItem('userId');
+    // if (userid) {
+    //   // 登录过一次, 可以直接登录
+    //   this.$store.commit('user/updateUserId', userid);
+    //   this.$store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
+    //   this.$store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
+    //   this.$router.push('/market?tab=home');
+    // }
+  },
   mounted() {},
   components: {},
   methods: {
@@ -194,6 +212,10 @@ export default {
       this.$store.commit('user/updateUserId', result.userid);
       this.$store.commit('user/updateCustomerId', result.clientId);
       this.$store.commit('user/updateIsBind', result.isBind);
+      // 将数据存储在本地, 自动登录使用
+      Utils.saveLocalStorageItem('userId', result.userid);
+      Utils.saveLocalStorageItem('customerId', result.clientId);
+      Utils.saveLocalStorageItem('isBind', result.isBind);
       Utils.showToast('登录成功');
       this.$router.push('/market?tab=home');
     },
@@ -229,32 +251,42 @@ export default {
     z-index: 10;
   }
 
-  .logo {
-    position: absolute;
-    bottom: -.4rem;
-    left: 50%;
-    margin-left: -.4rem;
-    z-index: 10;
-    width: .8rem;
-    height: .8rem;
-    min-width: .3rem;
-    min-height: .3rem;
-    border-radius: 1rem;
-    background: $color-blue;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0 .1rem;
-    img {
-      width: 100%;
-    }
+}
+
+.logo {
+  // position: absolute;
+  // bottom: -.4rem;
+  // left: 50%;
+  // z-index: 10;
+  margin: 0 auto;
+  margin-top: .5rem;
+  width: .8rem;
+  height: .8rem;
+  min-width: .3rem;
+  min-height: .3rem;
+  border-radius: 1rem;
+  background: $color-blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 .1rem;
+  img {
+    width: 100%;
   }
+}
+
+.logo-title {
+  text-align: center;
+  line-height: .2rem;
+  margin-top: .15rem;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .login-container {
   width: 93%;
   margin: 0 auto;
-  margin-top: 10vh;
+  margin-top: 7vh;
   .input-item {
     width: 100%;
     margin-top: .1rem;
@@ -284,25 +316,25 @@ export default {
 
     button {
       width: .8rem;
-      font-size: .12rem;
+      font-size:  12px;
       height: .3rem;
       margin-left: .05rem;
     }
   }
 
   .blue-btn {
-    margin-top: 10%;
+    margin-top: 5%;
     border-radius: .4rem;
-    width: 65%;
+    // width: 65%;
     height: 10vh;
-    font-size: .14rem;
+    font-size:  14px;
     max-height: .35rem;
     min-height: .2rem;
   }
 
   .tip {
     padding: .12rem 0 .1rem;
-    font-size: .12rem;
+    font-size:  12px;
     color: $color-grey;
   }
 } // login-container

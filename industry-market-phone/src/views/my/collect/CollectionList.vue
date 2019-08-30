@@ -157,7 +157,7 @@ export default {
 </script>
 <style lang="scss" scoped>
 .header-right {
-  font-size: .14rem;
+  font-size:  14px;
 }
 </style>
 <style lang="scss">

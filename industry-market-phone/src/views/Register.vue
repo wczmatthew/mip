@@ -175,13 +175,13 @@ export default {
 
 .w-tableview .cell .plain-red-btn {
   width: .8rem;
-  font-size: .12rem;
+  font-size:  12px;
   height: .3rem;
   margin-left: .05rem;
 }
 
 .tip {
-  font-size: .12rem;
+  font-size:  12px;
   padding: .1rem .12rem;
   color: $color-grey;
 }

@@ -165,7 +165,7 @@ export default {
     color: #fff;
     border-radius: .05rem;
     margin-left: .1rem;
-    font-size: .12rem;
+    font-size:  12px;
     font-weight: 700;
   }
 }
@@ -200,7 +200,7 @@ export default {
       @include flex-center;
       @include text-ellipsis;
       color: #fff;
-      font-size: .12rem;
+      font-size:  12px;
       font-weight: 700;
       background: rgba($color: #000000, $alpha: .2)
     }
@@ -242,7 +242,7 @@ export default {
 
     .desc {
       color: $color-grey;
-      font-size: .12rem;
+      font-size:  12px;
       @include text-ellipsis;
       line-height: .16rem;
       margin-top: .05rem;

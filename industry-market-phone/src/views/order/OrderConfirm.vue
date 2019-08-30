@@ -289,7 +289,7 @@ export default {
 
   .icon-kehu {
     color: $color-black;
-    font-size: .2rem;
+    font-size:  20px;
   }
 
   .detail {
@@ -417,7 +417,7 @@ export default {
 
       .desc {
         color: $color-grey;
-        font-size: .12rem;
+        font-size:  12px;
       }
 
       .desc.price {
@@ -483,7 +483,7 @@ export default {
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    font-size: .12rem;
+    font-size:  12px;
 
     input {
       width: .3rem;
@@ -533,7 +533,7 @@ export default {
   .red-btn {
     height: 100%;
     border-radius: 0;
-    font-size: .14rem;
+    font-size:  14px;
     width: 40%;
     flex-shrink: 0;
   }

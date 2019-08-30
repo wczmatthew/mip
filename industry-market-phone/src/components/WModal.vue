@@ -130,7 +130,7 @@ export default {
         border-radius: .2rem;
         line-height: .2rem;
         text-align: center;
-        font-size: .12rem;
+        font-size:  12px;
         margin-top: .07rem;
       }
     }
@@ -174,12 +174,12 @@ export default {
 
       .confirm {
         color: $color-blue;
-        font-size: .12rem;
+        font-size:  12px;
       }
 
       .cancle {
         color: $color-grey;
-        font-size: .12rem;
+        font-size:  12px;
       }
     } // end modal-bottom
 

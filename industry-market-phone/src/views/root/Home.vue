@@ -211,7 +211,7 @@
       </p>
 
       <div class="w-grid-list">
-        <div class="col" v-for="(item, index) in highQualityProList" :key="'high'+index" @click="toProductDetail(item.bm)" :class="[index < 3 ? 'col2' : 'col3']">
+        <div class="col" v-for="(item, index) in highQualityProList" :key="'high'+index" @click="toProductDetail(item.bm)" :class="[index < 2 ? 'col2' : 'col3']">
           <div class="img">
             <w-img :src="item.imgPath" alt=""/>
             <div class="bottom">
@@ -437,7 +437,7 @@ export default {
     justify-content: center;
     max-width: 30%;
     flex-shrink: 0;
-    font-size: .12rem;
+    font-size:  12px;
 
     .iconfont {
       margin-left: .03rem;
@@ -445,7 +445,7 @@ export default {
     }
 
     .icon-location {
-      font-size: .14rem;
+      font-size:  14px;
       margin-right: .05rem;
     }
   }
@@ -512,7 +512,7 @@ export default {
     }
 
     .sub-title {
-      font-size: .12rem;
+      font-size:  12px;
       text-align: center;
       color: $color-grey;
       margin-top: .1rem;
@@ -564,12 +564,12 @@ export default {
     .item {
       padding: 0 .1rem 0 .15rem;
       @include text-ellipsis;
-      font-size: .12rem;
+      font-size:  12px;
     }
   }
 
   .desc {
-    font-size: .12rem;
+    font-size:  12px;
     color: $color-grey;
   }
 }
@@ -581,25 +581,25 @@ export default {
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: .16rem;
+    font-size:  16px;
     font-weight: 700;
     margin-bottom: .1rem;
     color: #525252;
 
     .icon-shandian {
       color: #fb4b2e;
-      font-size: .2rem;
+      font-size:  20px;
       margin: 0 .05rem;
     }
 
     .tip {
       color: $color-grey;
-      font-size: .12rem;
+      font-size:  12px;
     }
 
     .time {
       color: #525252;
-      font-size: .18rem;
+      font-size:  18px;
       border-radius: .05rem;
       min-width: .2rem;
       height: .2rem;
@@ -634,7 +634,7 @@ export default {
       background: $color-red;
       height: .2rem;
       line-height: .2rem;
-      font-size: .14rem;
+      font-size:  14px;
       border-radius: .05rem;
       padding: 0 .08rem;
       margin-left: .1rem;
@@ -663,7 +663,7 @@ export default {
         .img {
           width: .55rem;
           height: .6rem;
-          border: 1px solid #f3f3f3;
+          // border: 1px solid #f3f3f3;
           @include flex-center;
           overflow: hidden;
           margin: 0 auto;
@@ -689,7 +689,7 @@ export default {
         margin-top: .05rem;
         text-align: center;
         @include text-ellipsis();
-        font-size: .12rem;
+        font-size:  12px;
       }
     } // end item
   } // end product-grid
@@ -814,7 +814,7 @@ export default {
       @include break-word;
       margin-bottom: .07rem;
       text-align: center;
-      font-size: .12rem;
+      font-size:  12px;
       font-weight: 700;
     }
 
@@ -840,7 +840,7 @@ export default {
   padding-top: .25rem;
 
   .title {
-    font-size: .18rem;
+    font-size:  18px;
     font-weight: 700;
     text-align: center;
     margin-bottom: .14rem;
@@ -875,18 +875,18 @@ export default {
       color: #fff;
       @include text-ellipsis();
       color: $color-grey;
-      font-size: .12rem;
+      font-size:  12px;
     }
 
     .sub-title {
-      font-size: .12rem;
+      font-size:  12px;
       @include text-ellipsis();
       text-align: center;
       margin-top: .1rem;
     }
 
     .price {
-      font-size: .12rem;
+      font-size:  12px;
       color: $color-red;
       text-align: center;
       @include text-ellipsis();
@@ -895,6 +895,7 @@ export default {
   } // end col
 
   .col2 {
+    width: 46vw;
     .img {
       width: 46vw;
       height: 46vw;
@@ -906,7 +907,7 @@ export default {
       bottom: 0;
       left: 0;
       z-index: 10;
-      font-size: .12rem;
+      font-size:  12px;
       color: #fff;
     }
 
@@ -916,16 +917,35 @@ export default {
   }
 
   .col3 {
-    .img {
-      max-width: 30vw;
-      max-height: 30vw;
-      display: block;
-      background: #c8c9cd;
+    width: 30vw;
+    margin-left: 2vw;
+    margin-right: 0;
 
-      .img {
+    .img {
+      width: 30vw;
+      height: 30vw;
+      background: #c8c9cd;
+      padding-bottom: .26rem;
+      position: relative;
+      margin-right: 0;
+
+      img {
         display: block;
       }
+
+      .bottom {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 10;
+        font-size:  12px;
+      }
     }
+
+    &:nth-child(3n) {
+      margin-left: 0;
+    }
+
   }
 
 } // end product-bottom
