@@ -13,7 +13,7 @@
     <p class="desc">
       发布人: {{creator}}
     </p>
-    <p class="desc" style="font-size: .1rem;">
+    <p class="desc" style="font-size: 10px;">
       {{date}}
     </p>
     <div class="news-detail" v-html="detail"></div>

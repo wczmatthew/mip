@@ -333,7 +333,7 @@ export default {
         }
 
         .icon-arrow-right {
-          font-size: .1rem;
+          font-size: 10px;
           font-weight: 700;
           margin-left: .03rem;
         }
@@ -398,7 +398,7 @@ export default {
             border-radius: .15rem;
             background: $color-default;
             color:#fff;
-            font-size: .1rem;
+            font-size: 10px;
             text-align: center;
           }
         }

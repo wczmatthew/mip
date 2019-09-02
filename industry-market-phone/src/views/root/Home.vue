@@ -441,7 +441,7 @@ export default {
 
     .iconfont {
       margin-left: .03rem;
-      font-size: .1rem;
+      font-size: 10px;
     }
 
     .icon-location {
@@ -506,7 +506,7 @@ export default {
     overflow: hidden;
 
     img {
-      width: 65%;
+      width: 50%;
       display: block;
       margin: 0 auto;
     }
@@ -539,7 +539,7 @@ export default {
   }
 
   .title {
-    font-size: .15rem;
+    font-size: 15px;
     font-weight: 700;
   }
 
@@ -676,7 +676,7 @@ export default {
           @include text-overflow-muli(2);
           @include break-word;
           margin: .05rem .05rem 0;
-          font-size: .1rem;
+          font-size: 10px;
           color: $color-grey;
           height: .22rem;
           line-height: .12rem;
@@ -717,13 +717,13 @@ export default {
 
     .desc {
       color: $color-grey;
-      font-size: .1rem;
+      font-size: 10px;
       @include text-ellipsis();
       margin-bottom: .07rem;
     }
 
     .price {
-      font-size: .1rem;
+      font-size: 10px;
       @include text-ellipsis();
       margin-bottom: .07rem;
     }
@@ -731,7 +731,7 @@ export default {
     .label {
       background: $color-blue-light;
       color: #fff;
-      font-size: .1rem;
+      font-size: 10px;
       padding: .05rem .08rem;
       border-radius: .05rem;
       display: inline-block;
@@ -820,14 +820,14 @@ export default {
 
     .desc {
       color: $color-grey;
-      font-size: .1rem;
+      font-size: 10px;
       @include text-ellipsis();
       margin-bottom: .07rem;
       text-align: center;
     }
 
     .price {
-      font-size: .1rem;
+      font-size: 10px;
       @include text-ellipsis();
       margin-bottom: .07rem;
       text-align: center;

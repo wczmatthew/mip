@@ -152,8 +152,8 @@ export default {
   background: #fff;
 
   .title {
-    font-size: .15rem;
-    font-weight: 700;
+    font-size: 15px;
+    // font-weight: 700;
     height: .44rem;
     line-height: .44rem;
   }
@@ -167,8 +167,8 @@ export default {
       display: block;
       margin-bottom: .1rem;
       margin-right: .08rem;
-      font-size:  12px;
-      font-weight: 700;
+      font-size: 12px;
+      // font-weight: 700;
       color: #5e5e5e;
 
       &.actived {
@@ -188,7 +188,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: flex-end;
-  font-size: .15rem;
+  font-size: 15px;
   font-weight: 700;
   border-bottom: 1px solid $color-line;
   background: #fff;

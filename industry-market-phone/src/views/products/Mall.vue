@@ -353,7 +353,7 @@ export default {
         }
 
         .star {
-          font-size: .1rem;
+          font-size: 10px;
           display: flex;
           align-items: center;
           color: $color-default;
@@ -374,7 +374,7 @@ export default {
             padding: .02rem .05rem;
             border: .01rem solid $color-default;
             border-radius: .05rem;
-            font-size: .1rem;
+            font-size: 10px;
             margin-right: 2%;
             color: $color-default;
             margin-bottom: .05rem;

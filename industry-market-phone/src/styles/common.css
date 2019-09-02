@@ -236,7 +236,7 @@ a {
   -ms-flex-align: center;
   align-items: center;
   color: #333333;
-  font-size: .1rem;
+  font-size: 10px;
   position: relative;
   z-index: 10;
 }
@@ -495,7 +495,7 @@ a {
   -ms-flex: 1;
   flex: 1;
   color: #999;
-  font-size: .1rem;
+  font-size: 10px;
   text-align: center;
   padding: .03rem 0;
   height: 100%;
@@ -521,7 +521,8 @@ a {
 
 .w-tabbar .item .iconfont {
   height: .22rem;
-  font-size: .22rem;
+  font-size: 20px;
+  line-height: .22rem;
 }
 
 .w-tabbar .item p {
@@ -718,7 +719,7 @@ a {
   -ms-justify-content: center;
   -o-justify-content: center;
   justify-content: center;
-  font-size: .15rem;
+  font-size: 15px;
   font-weight: 700;
 }
 
@@ -753,7 +754,7 @@ a {
 }
 
 .w-sort-area .item .arrow .iconfont {
-  font-size: .1rem;
+  font-size: 10px;
   color: #333;
 }
 

@@ -81,7 +81,7 @@ export default {
   }
 
   p {
-    font-size: .1rem;
+    font-size: 10px;
     text-align: center;
     margin-top: .05rem;
   }

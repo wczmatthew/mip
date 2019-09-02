@@ -75,7 +75,7 @@ export default {
       position: absolute;
       top: -.05rem;
       left: 58%;
-      font-size: .1rem;
+      font-size: 10px;
       z-index: 10;
       padding: 0 .02rem;
     }

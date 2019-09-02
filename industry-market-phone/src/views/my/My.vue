@@ -258,7 +258,7 @@ export default {
         min-width: .15rem;
         text-align: center;
         line-height: .15rem;
-        font-size: .1rem;
+        font-size: 10px;
         padding: 0 .02rem;
       }
     } // end iconfont
@@ -370,7 +370,7 @@ export default {
     max-width: .25rem;
     height: .15rem;
     top: -.05rem;
-    font-size: .1rem;
+    font-size: 10px;
   }
 
   .grid-list .item:after {

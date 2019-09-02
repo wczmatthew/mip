@@ -320,7 +320,7 @@ export default {
         padding-right: .4rem;
         line-height: .18rem;
         .name {
-          font-size: .15rem;
+          font-size: 15px;
           @include text-overflow-muli(2);
         } // end name
 
@@ -334,7 +334,7 @@ export default {
           background: $color-red;
           color: #fff;
           padding: .05rem .08rem;
-          font-size: .1rem;
+          font-size: 10px;
           border-radius: .05rem;
           margin-right: .05rem;
 
@@ -345,7 +345,7 @@ export default {
       } // end row-label
 
       .row {
-        font-size: .1rem;
+        font-size: 10px;
         line-height: .16rem;
         display: flex;
         justify-content: space-between;

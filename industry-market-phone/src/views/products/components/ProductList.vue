@@ -176,7 +176,7 @@ export default {
       .desc {
         color: $color-grey;
         margin-top: .05rem;
-        font-size: .1rem;
+        font-size: 10px;
       }
 
       .price {
@@ -222,7 +222,7 @@ export default {
 
         .red-btn {
           margin: 0;
-          font-size: .1rem;
+          font-size: 10px;
           width: .8rem;
           height: .25rem;
           border-radius: 0;

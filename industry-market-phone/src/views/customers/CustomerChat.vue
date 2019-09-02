@@ -233,7 +233,7 @@ export default {
     padding-top: .15rem;
 
     .question {
-      font-size: .15rem;
+      font-size: 15px;
       margin-bottom: .05rem;
       @include break-word;
       display: flex;

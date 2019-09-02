@@ -440,7 +440,7 @@ export default {
             right: -.05rem;
             background: $color-red;
             color: #fff;
-            font-size: .1rem;
+            font-size: 10px;
             min-width: .15rem;
             height: .15rem;
             line-height: .15rem;
@@ -453,7 +453,7 @@ export default {
         }
 
         p {
-          font-size: .1rem;
+          font-size: 10px;
           text-align: center;
         }
       }

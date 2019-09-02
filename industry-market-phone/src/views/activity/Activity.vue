@@ -47,7 +47,7 @@
           <p class="desc">
             {{item.memo}}
           </p>
-          <p class="desc" style="font-size: .1rem;">
+          <p class="desc" style="font-size: 10px;">
             {{item.createTime | dateFormat}} ~ {{item.activityEndTime | dateFormat}}
           </p>
         </div>

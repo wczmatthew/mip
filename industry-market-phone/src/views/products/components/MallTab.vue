@@ -182,7 +182,7 @@ export default {
     .iconfont {
       width: auto;
       height: auto;
-      font-size: .1rem;
+      font-size: 10px;
       margin: 0;
       margin-left: .05rem;
       flex-shrink: 0;

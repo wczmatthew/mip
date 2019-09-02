@@ -205,7 +205,7 @@ export default {
         align-items: center;
 
         i {
-          font-size: .1rem;
+          font-size: 10px;
           color: $color-red;
           margin-left: .05rem;
         }

@@ -180,7 +180,7 @@ export default {
 
     .iconfont {
       margin-left: .03rem;
-      font-size: .1rem;
+      font-size: 10px;
     }
 
     .icon-location {
@@ -266,7 +266,7 @@ export default {
     }
 
     .sub-title {
-      font-size: .1rem;
+      font-size: 10px;
       font-weight: 700;
       margin-top: .05rem;
       text-align: center;
@@ -323,7 +323,7 @@ export default {
     }
 
     .sub-txt {
-      font-size: .15rem;
+      font-size: 15px;
       margin-top: .05rem;
     }
 

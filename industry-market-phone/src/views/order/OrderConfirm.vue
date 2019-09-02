@@ -348,7 +348,7 @@ export default {
         height: .15rem;
         min-width: .15rem;
         color: #fff;
-        font-size: .1rem;
+        font-size: 10px;
         border-radius: .15rem;
         padding: 0 .02rem;
         @include flex-center;
@@ -521,7 +521,7 @@ export default {
     }
 
     .small {
-      font-size: .1rem;
+      font-size: 10px;
     }
 
     .red {
