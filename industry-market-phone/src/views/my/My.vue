@@ -134,6 +134,14 @@ export default {
     Utils.showLoading();
     this.getUserData();
     this.getData();
+
+    // 调用设置界面
+    // try {
+    //   // eslint-disable-next-line
+    //   native_listen('setting');
+    // } catch (error) {
+    //   // Utils.showToast('敬请期待');
+    // }
   },
   watch: {
     '$route'(to) {

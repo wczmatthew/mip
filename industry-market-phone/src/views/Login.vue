@@ -221,6 +221,13 @@ export default {
       Utils.saveLocalStorageItem('isBind', result.isBind);
       Utils.showToast('登录成功');
       this.$router.push('/market?tab=home');
+
+      try {
+        // eslint-disable-next-line
+        native_listen('login_success');
+      } catch (error) {
+        // Utils.showToast('敬请期待');
+      }
     },
   },
 };
