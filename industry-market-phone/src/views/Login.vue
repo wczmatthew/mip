@@ -224,7 +224,7 @@ export default {
 
       try {
         // eslint-disable-next-line
-        native_listen('login_success');
+        native_listen('login_success', result.userid);
       } catch (error) {
         // Utils.showToast('敬请期待');
       }

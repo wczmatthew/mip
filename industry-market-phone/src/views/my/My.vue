@@ -2,8 +2,11 @@
 <template lang='html'>
   <div class="my">
     <!-- 右上角图标 -->
-    <div class="right-icon1" @click="onLogout()">
+    <div class="right-icon1" @click="onLogout()" style="right: .4rem;">
       <i class="iconfont icon-logout"></i>
+    </div>
+    <div class="right-icon1" @click="onSetting()">
+      <i class="iconfont icon-setting" style="font-weight: 700; font-size: 22px;"></i>
     </div>
     <!-- 右上角图标 end -->
     <!-- 个人信息 -->
@@ -134,14 +137,6 @@ export default {
     Utils.showLoading();
     this.getUserData();
     this.getData();
-
-    // 调用设置界面
-    // try {
-    //   // eslint-disable-next-line
-    //   native_listen('setting');
-    // } catch (error) {
-    //   // Utils.showToast('敬请期待');
-    // }
   },
   watch: {
     '$route'(to) {
@@ -153,6 +148,15 @@ export default {
   },
   components: {},
   methods: {
+    onSetting() {
+      // 调用设置界面
+      try {
+        // eslint-disable-next-line
+        native_listen('setting');
+      } catch (error) {
+        // Utils.showToast('敬请期待');
+      }
+    },
     // 退出登录
     onLogout() {
       this.$store.commit('user/updateUserId', '');

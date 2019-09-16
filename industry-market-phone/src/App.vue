@@ -37,6 +37,13 @@ export default {
       this.$store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
       this.$store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
       this.$router.push('/market?tab=home');
+
+      try {
+        // eslint-disable-next-line
+        native_listen('login_success', userid);
+      } catch (error) {
+        // Utils.showToast('敬请期待');
+      }
     }
     // Utils.hideLoading();
     // document.getElementById('app').addEventListener('touchstart', (e) => {
