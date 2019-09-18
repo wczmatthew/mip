@@ -2,7 +2,7 @@
 <template lang='html'>
   <w-container showFooter>
     <!-- 首页 -->
-    <home v-show="active == 'home'"></home>
+    <home v-show="active == 'home'" ref="home"></home>
     <!-- 首页 end -->
 
     <!-- 产品分类 -->
@@ -56,12 +56,14 @@ export default {
     return {
       tablist: [
         { title: '首页', icon: 'icon-shouye', tab: 'home' },
-        { title: '产品分类', icon: 'icon-cgdh', tab: 'category' },
-        { title: '活动', icon: 'icon-gift', tab: 'gift' },
+        { title: '分类', icon: 'icon-cgdh', tab: 'category' },
+        { title: '发现', icon: 'icon-faxian1', tab: 'gift' },
         { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
       active: 'home',
+      clickNum: 0,
+      timer: null,
     };
   },
   watch: {
@@ -81,6 +83,7 @@ export default {
   mounted() {
     this.initTabActive();
     this.$store.dispatch('user/getCartNum');
+    this.$store.dispatch('keywords/getHotKeywordList');
   },
   components: {
     Home,
@@ -97,9 +100,25 @@ export default {
       this.active = this.$route.query.tab || 'msg';
     },
     onChangeTab(index, item) {
+      // 判断是否是双击
+      this.clickNum += 1;
+      if (this.clickNum > 1) {
+        this.refreshViews(item);
+      }
+
+      this.timer = setTimeout(() => {
+        this.clickNum = 0;
+      }, 300);
+
       if (this.active === item.tab) return;
       this.active = item.tab;
       this.$router.push(`/market?tab=${item.tab}`);
+    },
+    refreshViews(item) {
+      this.clickNum = 0;
+      if (item.tab === 'home') {
+        this.$refs.home && this.$refs.home.refresh();
+      }
     },
   },
 };

@@ -9,7 +9,7 @@
         <div class="title-row">
           <span class="title">
             {{item.consignee}}
-            <i v-if="item.isdefault==1">[默认]</i>
+            <i v-if="item.isdefault==1">默认</i>
           </span>
           <div class="right-icon">
             <span class="icon" @click.stop="onEdit(item, index)">
@@ -206,8 +206,11 @@ export default {
 
         i {
           font-size: 10px;
-          color: $color-red;
+          background: #ffcbcb;
           margin-left: .05rem;
+          padding: .02rem .05rem;
+          color: #e43d2e;
+          border-radius: .05rem;
         }
       }
 

@@ -20,18 +20,18 @@
       </div>
       <!-- 轮播图 end -->
 
-      <p class="activity-title">
+      <!-- <p class="activity-title">
         商城头条
         <span>hot</span>
-      </p>
+      </p> -->
 
       <!-- 类目列表 -->
-      <div class="category-list">
+      <!-- <div class="category-list">
         <div class="item" v-for="(item, index) in categoryList" :key="'ca' + index" @click="toCategory(item)">
           <w-img :src="item.imgPath" alt="" class="bg"/>
           <p>{{item.title}}</p>
         </div>
-      </div>
+      </div> -->
       <!-- 类目列表 end -->
 
       <!-- 活动列表 -->
@@ -141,8 +141,10 @@ export default {
 
   .banner-item {
     padding: .1rem;
-    height: 1.45rem;
+    // height: 1.45rem;
     @include flex-center;
+    overflow: hidden;
+
     img {
       width: 100%;
       height: 100%;
@@ -208,6 +210,7 @@ export default {
 }
 
 .activity-list {
+  margin-top: .1rem;
   .item {
     margin-bottom: .1rem;
     padding: 0 .12rem;

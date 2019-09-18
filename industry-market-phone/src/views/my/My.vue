@@ -70,8 +70,8 @@
           我的订单
         </div>
         <div class="desc" @click.stop="toOrders()">
-          查看全部订单
-          <!-- <i class="iconfont icon-arrow-right"></i> -->
+          全部订单
+          <i class="iconfont icon-arrow-right"></i>
         </div>
       </div>
 
@@ -159,8 +159,15 @@ export default {
     },
     // 退出登录
     onLogout() {
-      this.$store.commit('user/updateUserId', '');
-      this.$router.push('/login');
+      Utils.showConfirm({
+        title: '提醒',
+        content: '确定退出登录?',
+        maskClosable: true,
+        onConfirm: () => {
+          this.$store.commit('user/updateUserId', '');
+          this.$router.push('/login');
+        },
+      });
     },
     toAddress() {
       this.$router.push('/market/address');
@@ -356,7 +363,6 @@ export default {
       font-size:  12px;
       color: $color-grey;
       height: 100%;
-      font-weight: 700;
 
       &:active {
         opacity: .6;
@@ -374,7 +380,7 @@ export default {
   }
 
   .grid-list .item .iconfont {
-    font-size: .25rem;
+    font-size: .2rem;
   }
 
   .grid-list .item .iconfont .num {

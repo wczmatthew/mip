@@ -297,10 +297,12 @@ a {
   position: relative;
   box-shadow: 0 -.03rem .05rem #999;
   display: flex;
+  position: relative;
+  z-index: 1;
   /* color: #ca141d; */
 }
 
-.w-header::after {
+/* .w-header::after {
   content: ' ';
   position: absolute;
   bottom: 0;
@@ -309,7 +311,7 @@ a {
   height: 1px;
   background: #e6e6e6;
   transform: scaleY(0.5);
-}
+} */
 
 .w-header .back {
   text-decoration: none;
@@ -465,7 +467,6 @@ a {
 
 .w-tabbar {
   height: .44rem;
-  border-top: .01rem solid #e6e6e6;
   display: -webkit-box;
   /* 老版本语法: Safari, iOS, Android browser, older WebKit browsers. */
   display: -moz-box;
@@ -521,7 +522,7 @@ a {
 
 .w-tabbar .item .iconfont {
   height: .22rem;
-  font-size: 20px;
+  font-size: 22px;
   line-height: .22rem;
 }
 
@@ -576,6 +577,10 @@ a {
   height: 1px;
   background: #e6e6e6;
   transform: scaleY(0.5);
+}
+
+.w-tableview .cell.no-line::after {
+  display: none;
 }
 
 .w-tableview .cell .title {

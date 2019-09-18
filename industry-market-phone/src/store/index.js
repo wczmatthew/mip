@@ -6,6 +6,7 @@ import options from './modules/common/options';
 import category from './modules/common/category';
 import customer from './modules/customer';
 import product from './modules/product';
+import keywords from './modules/product/keywords';
 import address from './modules/address';
 import order from './modules/order';
 
@@ -22,6 +23,7 @@ export default new Vuex.Store({
     product,
     address,
     order,
+    keywords,
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []

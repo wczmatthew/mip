@@ -2,6 +2,7 @@ import { postHttp } from '@/http';
 
 export default {
   getUserInfo: ({ userid }) => {
+    if (!userid) return null;
     const params = { userid };
     return postHttp({ url: '/usercenter/user/getUserInfo', params });
   },

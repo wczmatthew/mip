@@ -36,7 +36,7 @@
             </div>
 
             <!-- 产品列表 -->
-            <div class="product-list" v-if="item.itemList.length > 3" @click.stop="$set(item, 'isOpen', !item.isOpen)" :class="{'open': item.isOpen}">
+            <div class="product-list" v-if="item.itemList.length >= 3" @click.stop="$set(item, 'isOpen', !item.isOpen)" :class="{'open': item.isOpen}">
               <div class="img-list">
                 <div class="product-img" v-for="(product, productIndex) in item.itemList.slice(0, 3)" :key="'img'+index+productIndex">
                   <div class="img">

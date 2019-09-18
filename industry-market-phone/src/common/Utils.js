@@ -287,31 +287,6 @@ export default {
     }, 10);
   },
   /**
-   * 防抖
-   * @param func 需要防抖的方法
-   * @param limit 限制时间, 多少时间内只能执行一次
-   */
-  throttle2(func, limit) {
-    let lastFunc
-    let lastRan
-    return function() {
-      const context = this
-      const args = arguments
-      if (!lastRan) {
-        func.apply(context, args)
-        lastRan = Date.now()
-      } else {
-        clearTimeout(lastFunc)
-        lastFunc = setTimeout(function() {
-          if ((Date.now() - lastRan) >= limit) {
-            func.apply(context, args)
-            lastRan = Date.now()
-          }
-        }, limit - (Date.now() - lastRan))
-      }
-    }
-  },
-  /**
    * 频率控制 返回函数连续调用时，func 执行频率限定为 次 / wait
    * 
    * @param  {function}   func      传入函数
@@ -513,5 +488,15 @@ export default {
     } catch (error) {
       // console.log('error: ', error);
     }
+  },
+  // 判断是否是微信浏览器
+  checkIsWeixin() {
+    const ua = window.navigator.userAgent.toLowerCase();
+    if(ua.match(/MicroMessenger/i) == 'micromessenger'){
+      /* 这是微信浏览器 */
+      return true;
+    }
+    /* 不是微信浏览器 */
+    return false;
   },
 }

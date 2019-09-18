@@ -2,7 +2,7 @@
 <template lang='html'>
   <div>
     <!-- 顶部栏 -->
-    <header class="w-header">
+    <header class="w-header home-header">
       <div class="city">
         <i class="iconfont icon-location"></i>
         温州
@@ -10,10 +10,10 @@
       </div>
 
       <div class="w-header-mid">
-        <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .1rem;"></w-search>
+        <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .1rem;" ref="searchView" placeholder="dz47"></w-search>
       </div>
       <div class="header-right" slot="header-right">
-        <w-scan-icon></w-scan-icon>
+        <w-scan-icon current-path="/market"></w-scan-icon>
       </div>
     </header>
     <!-- 顶部栏 end -->
@@ -58,7 +58,7 @@
     <!-- 新闻 end -->
 
     <!-- 限时抢购 -->
-    <div class="home-row">
+    <div class="home-row" v-if="buyingProducts">
       <div class="title">
         限时购
         <i class="iconfont icon-shandian"></i>
@@ -236,6 +236,7 @@ import WSearch from '@/components/WSearch.vue';
 import banner from '@/assets/home/banner.png';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -246,7 +247,7 @@ export default {
           title: '图片1',
         },
       ],
-      buyingProducts: [],
+      buyingProducts: {},
       categoryList: [],
       news: [],
       midAds: {}, // 中间广告
@@ -264,6 +265,7 @@ export default {
       second: 0,
       endDate: '2019-6-17 20:00:00',
       timer: null,
+      keywordsTimer: null,
     };
   },
   watch: {
@@ -285,24 +287,41 @@ export default {
       // console.log('autoplay: ', this.autoplay);
       // this.$refs.slide && this.$refs.slide.refresh();
     },
+    keywordsList() {
+      this.updateKeywords();
+    },
   },
   created() {},
   mounted() {
     this.getData();
     this.getOtherData();
-    // this.productList = [
-    //   { title: '家用漏保断路器NBE7LE1P+N' },
-    //   { title: '家用漏保断路器NBE7LE1P+N' },
-    //   { title: '家用漏保断路器NBE7LE1P+N' },
-    //   { title: '家用漏保断路器NBE7LE1P+N' },
-    // ];
 
-    // this.calcTime();
+    this.keywordsTimer = setInterval(() => {
+      this.updateKeywords();
+    }, 5000);
   },
   components: {
     WSearch,
   },
+  destroyed() {
+    clearInterval(this.keywordsTimer);
+    this.keywordsTimer = null;
+  },
+  computed: {
+    ...mapGetters('keywords', {
+      keywordsList: 'keywordsList',
+    }),
+  },
   methods: {
+    updateKeywords() {
+      if (!this.keywordsList.length) return;
+      const index = Math.floor(Math.random() * this.keywordsList.length);
+      this.$refs.searchView && this.$refs.searchView.updateKeywords(this.keywordsList[index].name);
+    },
+    refresh() {
+      this.getData();
+      this.getOtherData();
+    },
     // 计算结束时间
     calcTime() {
       if (!this.endDate) return;
@@ -354,7 +373,12 @@ export default {
         return;
       }
 
-      this.$router.push(item.url);
+      if (item.url.indexOf('/market') === 0) {
+        this.$router.push(item.url);
+        return;
+      }
+
+      this.$router.push(`/market/${item.url}`);
     },
     // 点击类目
     onCategoryClick(item) {
@@ -368,12 +392,12 @@ export default {
       const result = await indexService.getIndexData({ userid: Utils.getUserId(this) });
       if (!result) return;
       Utils.hideLoading();
-      this.banners = [...result.banner];
+      this.banners = result.banner || [];
       this.categoryList = result.category || [];
       this.news = result.news || [];
-      this.buyingProducts = result.buyingProducts || {};
+      this.buyingProducts = result.buyingProducts || null;
       this.midAds = result.midAds || {};
-      if (this.buyingProducts.endDate) {
+      if (this.buyingProducts && this.buyingProducts.endDate) {
         this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
 
         this.timer && clearInterval(this.timer);
@@ -789,18 +813,20 @@ export default {
 .product-list {
   padding: .1rem;
   justify-content: space-between;
-  background: #fff;
+  background: $color-bg;
 
   .item {
-    width: 33%;
-    background: #f9f9f9;
-    padding: .15rem;
+    width: 32%;
+    background: #fff;
+    padding: .15rem .1rem;
+    border-radius: .05rem;
 
     .img {
-      width: 100%;
+      width: 90%;
       height: .9rem;
       overflow: hidden;
       @include flex-center;
+      margin: 0 auto;
 
       img {
         max-width: 100%;
@@ -836,8 +862,8 @@ export default {
 } // end product-list
 
 .product-bottom {
-  background: #fff;
-  padding-top: .25rem;
+  // background: #fff;
+  padding-top: .1rem;
 
   .title {
     font-size:  18px;
@@ -858,7 +884,7 @@ export default {
       overflow: hidden;
       @include flex-center;
       position: relative;
-      background: #f0f0f0;
+      background: #fff;
       border-radius: .05rem;
       img {
         max-width: 100%;
@@ -902,7 +928,7 @@ export default {
     }
 
     .bottom {
-      background: rgba($color: #000000, $alpha: .5);
+      background: rgba($color: #000000, $alpha: .3);
       position: absolute;
       bottom: 0;
       left: 0;
@@ -924,7 +950,7 @@ export default {
     .img {
       width: 30vw;
       height: 30vw;
-      background: #c8c9cd;
+      background: #fff;
       padding-bottom: .26rem;
       position: relative;
       margin-right: 0;
@@ -950,4 +976,10 @@ export default {
 
 } // end product-bottom
 
+</style>
+<style lang="scss">
+.home-header .w-search-bar input {
+  color: #ca141d;
+  -webkit-text-fill-color: #ca141d;
+}
 </style>

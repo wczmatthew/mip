@@ -52,7 +52,7 @@
 
     <!-- 产品参数 -->
     <div class="w-tableview">
-      <div class="cell">
+      <div class="cell no-line">
         <div class="title">
           产品编码
         </div>
@@ -60,7 +60,7 @@
           {{product.BM || '--'}}
         </div>
       </div>
-      <div class="cell">
+      <div class="cell no-line">
         <div class="title">
           单位
         </div>
@@ -68,7 +68,7 @@
           {{product.SLDW || '--'}}
         </div>
       </div>
-      <div class="cell">
+      <div class="cell no-line">
         <div class="title">
           库存数量
         </div>
@@ -76,7 +76,7 @@
           {{product.store || 0}}
         </div>
       </div>
-      <div class="cell">
+      <div class="cell no-line">
         <div class="title">
           单价
         </div>
@@ -84,7 +84,7 @@
           ￥{{product.DJJ || 0}}
         </div>
       </div>
-      <div class="cell">
+      <div class="cell no-line">
         <div class="title">
           装箱数
         </div>
@@ -92,7 +92,7 @@
           {{product.ZXS || 0}}
         </div>
       </div>
-      <div class="cell">
+      <div class="cell no-line">
         <div class="title">
           盒装数
         </div>
@@ -402,6 +402,11 @@ export default {
   .w-tableview {
     margin-top: .1rem;
     margin-bottom: .1rem;
+    padding: .1rem 0;
+  }
+
+  .w-tableview .cell {
+    height: .25rem;
   }
 
   .w-tableview .cell .desc.red {
@@ -431,7 +436,7 @@ export default {
         .iconfont {
           display: block;
           margin-bottom: .02rem;
-          font-size: .22rem;
+          font-size: .18rem;
           position: relative;
 
           .num {

@@ -151,7 +151,7 @@ export default {
     .img {
       width: .8rem;
       height: .8rem;
-      border: 1px solid #f3f3f3;
+      // border: 1px solid #f3f3f3;
       @include flex-center;
       margin-right: .05rem;
       overflow: hidden;
@@ -166,6 +166,7 @@ export default {
       flex: 1;
       overflow: hidden;
       font-size:  12px;
+      width: 100%;
 
       .product-title {
         @include text-overflow-muli(2);

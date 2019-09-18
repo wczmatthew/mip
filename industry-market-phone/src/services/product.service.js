@@ -157,4 +157,8 @@ export default {
     };
     return postHttp({ url: '/productcenter/product/getSelectProductDetail', params });
   },
+  /**
+   * 获取热门搜索词
+   */
+  getHotKeywordList: () => postHttp({ url: '/productcenter/product/getHotKeywordList' }),
 };

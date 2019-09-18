@@ -102,7 +102,12 @@ export default {
     //   this.$router.push('/market?tab=home');
     // }
   },
-  mounted() {},
+  mounted() {
+    window.history.pushState(null, null, document.URL);
+    window.addEventListener('popstate', () => {
+      window.history.pushState(null, null, document.URL);
+    });
+  },
   components: {},
   methods: {
     onChangeLoginType() {

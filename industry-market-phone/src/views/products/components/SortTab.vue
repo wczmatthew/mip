@@ -57,7 +57,7 @@ export default {
 
 .w-sort-list .icon-item {
   width: .4rem;
-  font-size:  14px;
+  font-size: 18px;
   flex: none;
 }
 </style>

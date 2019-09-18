@@ -4,7 +4,7 @@
     <!-- 顶部栏 -->
     <w-search class="search" slot="header-mid" show-scan @search="toSearch" ref="search"></w-search>
     <div class="header-right" slot="header-right">
-      <w-scan-icon></w-scan-icon>
+      <w-scan-icon :current-path="routePath"></w-scan-icon>
     </div>
     <!-- 顶部栏 end -->
 
@@ -12,8 +12,8 @@
     <div class="hot-search">
       <p class="title">热门搜索</p>
       <ul class="w-grid-list">
-        <li v-for="(item, index) in keywordsList" :key="'key'+index" class="item" @click="onPickKeyword(item)">
-          {{item}}
+        <li v-for="(item, index) in keywordsList" :key="'key'+index" class="item" @click="onPickKeyword(item.name)">
+          {{item.name}}
         </li>
       </ul>
     </div>
@@ -27,8 +27,8 @@
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
-// import service from '@/services/product.service';
 import Utils from '@/common/Utils';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -38,22 +38,28 @@ export default {
         fullPath: this.$route.path,
         currentPath: 'search',
       }), // 获取当前路由
-      keywordsList: [
-        '接触器',
-        '断路器',
-        '高压电流互感器',
-        '变压器',
-        '浴霸产品',
-        '电工产品',
-      ],
+      // keywordsList: [
+      //   { name: '接触器' },
+      //   { name: '断路器' },
+      //   { name: '高压电流互感器' },
+      //   { name: '变压器' },
+      //   { name: '浴霸产品' },
+      //   { name: '电工产品' },
+      // ],
       pageNum: 1,
     };
   },
   created() {},
   mounted() {
+    this.$store.dispatch('keywords/getHotKeywordList');
   },
   components: {
     WSearch,
+  },
+  computed: {
+    ...mapGetters('keywords', {
+      keywordsList: 'keywordsList',
+    }),
   },
   methods: {
     // 开始查询

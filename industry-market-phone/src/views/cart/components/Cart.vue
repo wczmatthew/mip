@@ -24,17 +24,17 @@
             <p class="product-title">
               {{item.spec}}
             </p>
-            <!-- <p class="desc">
-              质量好，价格优惠，统一保证
-            </p> -->
+            <p class="desc">
+              (库存: {{item.store || 0}})
+            </p>
             <div class="bottom">
               <p class="price">
                 <small>￥</small>{{item.price || '0'}}
               </p>
               <div class="num" @click.stop="stopProp()">
                 <i class="iconfont icon-jian" :class="{'disabled': item.qty == 1}" @click.stop="onReduce(item)"></i>
-                <input type="number" v-model="item.qty" @blur="onChangeNum(item)">
-                <i class="iconfont icon-jia" @click.stop="onAdd(item)"></i>
+                <input type="number" v-model="item.qty" @keyup="onChangeNum(item)">
+                <i class="iconfont icon-jia" :class="{'disabled': item.qty >= item.store}" @click.stop="onAdd(item)"></i>
               </div>
             </div>
           </div>
@@ -169,6 +169,7 @@ export default {
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
       orderDetail: {},
       reducePrice: 0, // 抹零价格
+      isChangeNum: false, // 编辑价格的产品, 用来判断价格修改是否已经执行
     };
   },
   created() {},
@@ -355,6 +356,8 @@ export default {
     },
     // 数量增加1
     async onAdd(item) {
+      if (item.qty >= item.store) return;
+
       if (item.loading) {
         Utils.showToast('正在调整数量, 请不要重复操作');
         return;
@@ -369,11 +372,26 @@ export default {
       // 计算总价格
       this.calcPrice();
     },
+    onChangeNum(item) {
+      Utils.throttle(() => {
+        if (this.isChangeNum) return;
+        if (item.qty > item.store) {
+          item.qty = item.store;
+        }
+        this.startChangeNum(item);
+        this.isChangeNum = true;
+      }, 500, { leading: false })();
+    },
     // 直接调整价格
-    async onChangeNum(item) {
+    async startChangeNum(item) {
       const num = item.qty;
       const result = await service.editCartNum({ userid: Utils.getUserId(this), bm: item.prodId, qty: num, clientId: this.customerId });
-      if (!result) return;
+      setTimeout(() => {
+        this.isChangeNum = false;
+      }, 500);
+      if (!result) {
+        return;
+      }
       // 计算总价格
       this.calcPrice();
     },

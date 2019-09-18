@@ -337,7 +337,7 @@ export default {
         width: .6rem;
         height: .6rem;
         overflow: hidden;
-        border: 1px solid $color-line;
+        // border: 1px solid $color-line;
         @include flex-center;
         img {
           height: .6rem;

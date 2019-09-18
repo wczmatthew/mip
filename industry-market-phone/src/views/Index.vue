@@ -13,7 +13,7 @@
 
       </div>
       <div class="header-right">
-        <w-scan-icon color="white"></w-scan-icon>
+        <w-scan-icon color="white" current-path="/market"></w-scan-icon>
       </div>
     </div>
     <!-- 顶部栏 end -->
