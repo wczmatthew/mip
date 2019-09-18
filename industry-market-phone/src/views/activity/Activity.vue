@@ -1,15 +1,15 @@
-<!-- 活动 -->
+<!-- 发现 -->
 <template lang='html'>
   <div class="w-container">
     <!-- 顶部栏 -->
     <header class="w-header">
       <div class="w-header-mid">
-        活动
+        发现
       </div>
     </header>
     <!-- 顶部栏 end -->
 
-    <div class="w-content">
+    <div class="w-content" ref="activity">
       <!-- 轮播图 -->
       <div class="banner" v-if="banners && banners.length">
         <cube-slide ref="slide" :data="banners">
@@ -88,6 +88,9 @@ export default {
     },
   },
   methods: {
+    scrollTop() {
+      this.$refs.activity.scrollTop = 0;
+    },
     // 点击轮播图
     onClickBanner(item) {
       if (!item.url) return;

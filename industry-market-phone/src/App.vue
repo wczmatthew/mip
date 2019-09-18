@@ -8,12 +8,14 @@
 </template>
 
 <script>
-import Utils from '@/common/Utils';
-
 export default {
   data() {
     return {
       transitionName: '',
+      isFirstEnter: true,
+      filterUrls: [
+        '/register',
+      ],
     };
   },
   // watch $route 决定使用哪种过渡
@@ -30,34 +32,10 @@ export default {
   },
   created() {},
   mounted() {
-    const userid = Utils.getLocalStorageItem('userId');
-    if (userid) {
-      // 登录过一次, 可以直接登录
-      this.$store.commit('user/updateUserId', userid);
-      this.$store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
-      this.$store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
-      this.$router.push('/market?tab=home');
-
-      try {
-        // eslint-disable-next-line
-        native_listen('login_success', userid);
-      } catch (error) {
-        // Utils.showToast('敬请期待');
-      }
-    }
-    // Utils.hideLoading();
-    // document.getElementById('app').addEventListener('touchstart', (e) => {
-    //   e.stopPropagation();
-    // });
-
-    // document.getElementById('app').addEventListener('touchmove', (e) => {
-    //   e.stopPropagation();
-    //   // e.preventDefault();
-    // }, false);
-    // this.$store.dispatch('category/getSortList');
   },
   components: {},
-  methods: {},
+  methods: {
+  },
 };
 </script>
 

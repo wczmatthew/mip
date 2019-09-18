@@ -6,15 +6,15 @@
     <!-- 首页 end -->
 
     <!-- 产品分类 -->
-    <product-category-tab v-show="active == 'category'"></product-category-tab>
+    <product-category-tab v-show="active == 'category'" ref="category"></product-category-tab>
     <!-- 产品分类 end -->
 
-    <!-- 购物车 -->
+    <!-- 购物单 -->
     <cart-tab v-show="active == 'cart'" ref="cart" current-path="/market"></cart-tab>
-    <!-- 购物车 end -->
+    <!-- 购物单 end -->
 
     <!-- 活动 -->
-    <activity v-show="active == 'gift'"></activity>
+    <activity v-show="active == 'gift'" ref="gift"></activity>
     <!-- 活动 end -->
 
 
@@ -58,7 +58,7 @@ export default {
         { title: '首页', icon: 'icon-shouye', tab: 'home' },
         { title: '分类', icon: 'icon-cgdh', tab: 'category' },
         { title: '发现', icon: 'icon-faxian1', tab: 'gift' },
-        { title: '购物车', icon: 'icon-gouwuche', tab: 'cart' },
+        { title: '购物单', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
       active: 'home',
@@ -81,6 +81,16 @@ export default {
   },
   created() {},
   mounted() {
+    const _this = this;
+    if (_this.$route.path === '/market') {
+      window.history.pushState(null, null, document.URL);
+    }
+    window.addEventListener('popstate', () => {
+      // console.log(_this.$route.path);
+      if (_this.$route.path === '/market') {
+        window.history.pushState(null, null, document.URL);
+      }
+    });
     this.initTabActive();
     this.$store.dispatch('user/getCartNum');
     this.$store.dispatch('keywords/getHotKeywordList');
@@ -104,15 +114,22 @@ export default {
       this.clickNum += 1;
       if (this.clickNum > 1) {
         this.refreshViews(item);
+        return;
       }
 
       this.timer = setTimeout(() => {
         this.clickNum = 0;
       }, 300);
 
-      if (this.active === item.tab) return;
+      if (this.active === item.tab) {
+        // 滚动到顶部
+        if (item.tab === 'my') return;
+        this.$refs[item.tab] && this.$refs[item.tab].scrollTop();
+        return;
+      }
       this.active = item.tab;
       this.$router.push(`/market?tab=${item.tab}`);
+      window.history.pushState(null, null, document.URL);
     },
     refreshViews(item) {
       this.clickNum = 0;

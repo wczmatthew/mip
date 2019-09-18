@@ -13,7 +13,7 @@
         </p>
         <p class="desc">
           <!-- 质量好，价格优惠，统一保证 -->
-          {{item.JNR}}
+          {{item.BNR || item.JNR}}
         </p>
 
         <div class="bottom">
@@ -31,8 +31,8 @@
             <i class="iconfont icon-jia"></i>
           </div> -->
           <button class="red-btn" @click.stop="onAddCart(item)">
-            <span v-show="listType == 'list'">加入购物车</span>
-            <i class="iconfont icon-cart" v-show="listType == 'grid'"></i>
+            <!-- <span v-show="listType == 'list'">加入购物单</span> -->
+            <i class="iconfont icon-cart"></i>
           </button>
         </div>
       </div>
@@ -116,17 +116,17 @@ export default {
       }
       this.$emit('add-cart', item);
     },
-    // 加入购物车
+    // 加入购物单
     async addCart(item, num) {
       if (item.loading) {
-        Utils.showToast('正在加入购物车, 请勿频繁操作');
+        Utils.showToast('正在加入购物单, 请勿频繁操作');
         return;
       }
       item.loading = true;
       const result = await service.addToShopCarWithClient({ userid: this.userId, bm: item.BM, qty: num, clientId: this.customerId });
       item.loading = false;
       if (!result) return;
-      Utils.showToast('加入购物车成功');
+      Utils.showToast('加入购物单成功');
     },
   },
   props: {
@@ -147,6 +147,19 @@ export default {
     display: flex;
     align-items: center;
     background: #fff;
+    position: relative;
+
+    &::after {
+      content: " ";
+      position: absolute;
+      bottom: 0;
+      left: 2%;
+      width: 96%;
+      height: 1px;
+      background: $color-line;
+      transform: scaleY(.5);
+      display: block;
+    }
 
     .img {
       width: .8rem;
@@ -165,19 +178,20 @@ export default {
     .detail {
       flex: 1;
       overflow: hidden;
-      font-size:  12px;
+      font-size: 12px;
       width: 100%;
 
       .product-title {
         @include text-overflow-muli(2);
         @include break-word;
-        font-weight: 700;
+        font-size: 14px;
       }
 
       .desc {
         color: $color-grey;
         margin-top: .05rem;
         font-size: 10px;
+        margin-top: .1rem;
       }
 
       .price {
@@ -196,7 +210,7 @@ export default {
         display: flex;
         align-items: flex-end;
         justify-content: space-between;
-        margin-top: .2rem;
+        margin-top: .1rem;
         // .num {
         //   border: 1px solid $color-line;
         //   width: .9rem;
@@ -223,10 +237,10 @@ export default {
 
         .red-btn {
           margin: 0;
-          font-size: 10px;
-          width: .8rem;
+          font-size: 16px;
+          width: .25rem;
           height: .25rem;
-          border-radius: 0;
+          border-radius: .25rem;
         }
       }
 
@@ -235,6 +249,7 @@ export default {
     &.selected {
       background: rgba($color: #ca141d, $alpha: .1);
     }
+
   } // end item
 }
 
@@ -258,12 +273,13 @@ export default {
         width: .25rem;
         height: .25rem;
         border-radius: .25rem;
-        font-size:  18px;
+        font-size: 18px;
         @include flex-center;
       }
     }
     .img {
-      height: .7rem;
+      width: .9rem;
+      height: .9rem;
       border: 0;
     }
   } // end product

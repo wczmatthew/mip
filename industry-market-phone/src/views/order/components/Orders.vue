@@ -25,8 +25,8 @@
           <div class="item" v-for="(item, index) in dataList" :key="index">
             <div class="store">
               <span class="msg">
-                <i class="iconfont icon-store"></i>
-                {{item.companyName}}
+                <!-- <i class="iconfont icon-store"></i> -->
+                订单编号:{{item.billNo}}
                 <!-- <i class="iconfont icon-arrow-right"></i> -->
               </span>
               <span class="status" :class="[getOrderColor(item)]">
@@ -87,10 +87,10 @@
               <button v-if="item.billType == 6" @click.stop="onConfirmPay(item, index)">
                 确认付款
               </button>
-              <button class="grey" @click.stop="toDetail(item)">查看详情</button>
-              <button class="grey" v-if="item.billType == 1" @click.stop="onCloseOrder(item, index)">
+              <button class="grey" @click.stop="toDetail(item, index)">查看详情</button>
+              <!-- <button class="grey" v-if="item.billType == 1" @click.stop="onCloseOrder(item, index)">
                 关闭订单
-              </button>
+              </button> -->
             </div>
             <!-- 按钮区域 end -->
           </div>
@@ -104,6 +104,7 @@
 <script>
 import service from '@/services/order.service';
 import Utils from '@/common/Utils';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -129,6 +130,27 @@ export default {
       dataList: [],
       customer: {},
     };
+  },
+  watch: {
+    '$route'(to, from) {
+      if (to.path !== this.currentPath) return;
+
+      if (!this.orderData) return;
+      if (this.tabValue !== -1) {
+        // 不是全部类目下, 删除已经变更状态的订单
+        this.dataList.splice(this.orderData.index, 1);
+        return;
+      }
+
+      // 在全部类目下, 将对应的状态变更
+      this.dataList.splice(this.orderData.index, 1, this.orderData.item);
+      this.$store.commit('order/updateOrderData', null);
+    },
+  },
+  computed: {
+    ...mapGetters('order', {
+      orderData: 'orderData',
+    }),
   },
   created() {},
   mounted() {
@@ -197,7 +219,8 @@ export default {
       this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
     },
     // 查看详情
-    toDetail(item) {
+    toDetail(item, index) {
+      this.$store.commit('order/updateOrderData', { index, item });
       this.$router.push(`${this.currentPath}/orderDetail?id=${item.billNo}`);
     },
     // 确认付款, 付款成功
@@ -323,6 +346,8 @@ export default {
         display: flex;
         align-items: center;
         height: .3rem;
+        font-size: 10px;
+        margin-right: .05rem;
 
         .iconfont {
           margin-right: .05rem;

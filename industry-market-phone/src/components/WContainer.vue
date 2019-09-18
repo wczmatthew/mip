@@ -19,7 +19,7 @@
     <!-- 顶部不可滚动区域 end -->
 
     <!-- 中间内容 -->
-    <slot name="w-content" v-if="editContent"></slot>
+    <slot name="w-content" v-if="editContent" ref="rootContainer"></slot>
     <div class="w-content w-scroll" v-else>
       <slot></slot>
     </div>

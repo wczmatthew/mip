@@ -3,9 +3,9 @@
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
     <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
-    <div class="header-right" slot="header-right">
+    <!-- <div class="header-right" slot="header-right">
       <w-cart-icon currentPath="market"></w-cart-icon>
-    </div>
+    </div> -->
     <!-- 顶部栏 end -->
 
     <!-- 正文内容 -->

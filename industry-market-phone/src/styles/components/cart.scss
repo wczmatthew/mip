@@ -98,8 +98,8 @@
       .product-title {
         @include text-overflow-muli(2);
         @include break-word;
-        font-weight: 700;
         line-height: 1.2;
+        font-size: 14px;
       }
 
       .desc {
@@ -234,7 +234,7 @@
 
 .cart-bottom {
   width: 100%;
-  height: .4rem;
+  height: .44rem;
   // border-top: 1px solid $color-line;
   background: #fff;
   display: flex;
@@ -276,7 +276,7 @@
 
     .iconfont {
       margin-right: .05rem;
-      font-size:  14px;
+      font-size: 20px;
     }
 
     .icon-radio-checked {
@@ -318,16 +318,20 @@
       p {
         margin-bottom: 0;
         margin-left: .1rem;
+        font-size: 10px;
       }
     }
 
     p {
       @include text-ellipsis;
       margin-bottom: .05rem;
+      font-size: 16px;
+      line-height: 1.2;
 
       span {
         color: $color-black;
         font-weight: 700;
+        font-size: 15px;
       }
     }
 
@@ -350,11 +354,14 @@
 
   .orange-btn,
   .red-btn {
-    height: 100%;
-    border-radius: 0;
+    height: .3rem;
+    line-height: .3rem;
+    border-radius: .3rem;
     font-size:  14px;
     width: 25%;
     flex-shrink: 0;
+    margin-right: .05rem;
+    margin-top: .07rem;
   }
 
   .orange-btn {

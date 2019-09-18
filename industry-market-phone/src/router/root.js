@@ -23,6 +23,7 @@ export default [
   {
     path: '/market',
     component: Root,
+    meta: { notBack: true },
     children: [
       ...productList,
       ...customer,

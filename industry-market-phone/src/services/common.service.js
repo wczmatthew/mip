@@ -12,7 +12,7 @@ export default {
     return postHttp({ url: '/contentcenter/content/getQuestionList', params });
   },
   /**
-   * 获取购物车数量
+   * 获取购物单数量
    * @param userid 用户id
    */
   getSdShopcarCount: ({ userid }) => {

@@ -1,6 +1,6 @@
 <!--  -->
 <template lang='html'>
-  <div>
+  <div ref="homeContainer" class="w-scrollview">
     <!-- 顶部栏 -->
     <header class="w-header home-header">
       <div class="city">
@@ -318,6 +318,9 @@ export default {
       const index = Math.floor(Math.random() * this.keywordsList.length);
       this.$refs.searchView && this.$refs.searchView.updateKeywords(this.keywordsList[index].name);
     },
+    scrollTop() {
+      this.$refs.homeContainer.scrollTop = 0;
+    },
     refresh() {
       this.getData();
       this.getOtherData();
@@ -563,7 +566,7 @@ export default {
   }
 
   .title {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 700;
   }
 
@@ -841,7 +844,6 @@ export default {
       margin-bottom: .07rem;
       text-align: center;
       font-size:  12px;
-      font-weight: 700;
     }
 
     .desc {
@@ -867,7 +869,6 @@ export default {
 
   .title {
     font-size:  18px;
-    font-weight: 700;
     text-align: center;
     margin-bottom: .14rem;
   }
@@ -928,7 +929,7 @@ export default {
     }
 
     .bottom {
-      background: rgba($color: #000000, $alpha: .3);
+      background: rgba(255, 143, 143, .7);
       position: absolute;
       bottom: 0;
       left: 0;
@@ -939,6 +940,9 @@ export default {
 
     &:nth-child(2n) {
       margin-right: 0;
+      .bottom {
+        background: rgba(109, 188, 255, 0.7);
+      }
     }
   }
 

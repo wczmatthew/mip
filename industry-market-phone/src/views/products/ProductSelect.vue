@@ -10,30 +10,35 @@
       <w-cart-icon :current-path="routePath"></w-cart-icon>
     </div>
     <!-- 顶部栏 end -->
-    <div slot="header-other" class="w-tableview">
-      <div class="product-title">
-        {{product.XHGG || '暂无'}}
+    <div slot="header-other" class="product-top">
+      <div class="img">
+        <w-img :src="product.imgPath" v-if="product.imgPath"></w-img>
       </div>
-      <div class="grid-cell">
-        <div class="item">
-          <div>
-            价格
-            <span class="price" style="padding: 0;">
-              ￥{{product.DJJ || 0}}
-            </span>
-          </div>
-          <div>
-            库存数量
-            <span class="red">
-              {{product.store || 0}}
-            </span>
-          </div>
+      <div class="detail">
+        <div class="product-title">
+          {{product.XHGG || '暂无'}}
         </div>
-        <div class="item">
-          <div class="nums">
-            <i class="iconfont icon-circle-reduce2" @click.stop="onReduce()"></i>
-            <input type="number" v-model="number">
-            <i class="iconfont icon-circle-add2" @click.stop="onAdd()"></i>
+        <div class="grid-cell">
+          <div class="item">
+            <div>
+              价格
+              <span class="price" style="padding: 0;">
+                <small>￥</small>{{product.DJJ || 0}}
+              </span>
+            </div>
+            <div>
+              库存数量
+              <span class="red">
+                {{product.store || 0}}
+              </span>
+            </div>
+          </div>
+          <div class="item">
+            <div class="nums">
+              <i class="iconfont icon-circle-reduce2" @click.stop="onReduce()"></i>
+              <input type="number" v-model="number">
+              <i class="iconfont icon-circle-add2" @click.stop="onAdd()"></i>
+            </div>
           </div>
         </div>
       </div>
@@ -79,7 +84,7 @@
     <footer slot="w-footer" class="footer">
       <div class="left">
         <div class="icon" @click="toIndex()">
-          <i class="iconfont icon-store"></i>
+          <i class="iconfont icon-home"></i>
           <p>首页</p>
         </div>
         <!-- <div class="icon" @click="onToggleCollect()">
@@ -265,7 +270,7 @@ export default {
 
       this.addProductToCart();
     },
-    // 将产品加入到购物车中
+    // 将产品加入到购物单中
     async addProductToCart() {
       if (this.product.store <= 0) return;
       if (this.loading) {
@@ -409,6 +414,54 @@ export default {
     background: #fff;
   }
 
+  .product-top {
+    display: flex;
+    align-items: center;
+    background: #fff;
+
+    .img {
+      width: .8rem;
+      height: .8rem;
+      flex-shrink: 0;
+      text-align: center;
+      padding: .05rem;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    .detail {
+      flex: 1;
+      overflow: hidden;
+    }
+
+    .grid-cell {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 .12rem;
+      font-size: 14px;
+      color: $color-grey;
+
+      .item {
+        max-width: 50%;
+        min-height: .2rem;
+        line-height: .18rem;
+        padding: .1rem 0;
+        font-size: 12px;
+
+        .red {
+          color: $color-red;
+        }
+
+        .nums {
+          width: 100%;
+          margin-left: 0;
+        }
+      }
+    }
+  }
+
   .product-left {
     width: 50%;
     border-right: 1px solid $color-line;
@@ -445,7 +498,7 @@ export default {
   }
 
   .product-title {
-    font-weight: 700;
+    // font-weight: 700;
     @include break-word;
     padding: .1rem .12rem .05rem;
     background: #fff;
@@ -462,34 +515,15 @@ export default {
     color: $color-red;
   }
 
-  .grid-cell {
-    display: flex;
-    justify-content: space-between;
-    padding: 0 .12rem;
-    font-size: 14px;
-    color: $color-grey;
-
-    .item {
-      max-width: 50%;
-      min-height: .2rem;
-      line-height: .18rem;
-      padding: .1rem 0;
-
-      .red {
-        color: $color-red;
-      }
-    }
-  }
-
   .list-cell {
     margin-bottom: .1rem;
     .title {
-      font-size: 15px;
+      font-size: 14px;
       height: .25rem;
       padding-left: .05rem;
       margin-left: .05rem;
       position: relative;
-      font-weight: 700;
+      // font-weight: 700;
       display: flex;
       align-items: center;
 
@@ -513,8 +547,8 @@ export default {
         margin-left: .08rem;
         // border: 1px solid $color-black;
         border-radius: .03rem;
-        padding: .05rem .08rem;
-        font-size: 14px;
+        padding: .06rem .08rem;
+        font-size: 12px;
         line-height: 16px;
         background: $color-line;
 
@@ -577,13 +611,14 @@ export default {
       justify-content: center;
       flex-direction: column;
       padding-right: .1rem;
+      font-size: 16px;
 
       p {
         @include text-ellipsis;
 
         span {
           color: $color-black;
-          font-weight: 700;
+          font-size: 14px;
         }
       }
 
@@ -606,7 +641,9 @@ export default {
 
     .btns {
       width: 1rem;
-      height: 100%;
+      height: .3rem;
+      border-radius: .3rem;
+      margin-right: .05rem;
       display: flex;
       overflow: hidden;
       button {

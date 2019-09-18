@@ -437,7 +437,6 @@ export default {
 
   .cell .title {
     width: 23%;
-    font-weight: 700;
   }
 
   .cell .iconfont {

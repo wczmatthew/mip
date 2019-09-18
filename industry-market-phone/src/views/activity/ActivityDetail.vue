@@ -3,16 +3,16 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <div slot="header-mid">
-      活动详情
+      发现详情
     </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <p class="activity-title">
       {{title}}
     </p>
-    <p class="desc">
+    <!-- <p class="desc">
       发布人: {{creator}}
-    </p>
+    </p> -->
     <p class="desc" style="font-size: 10px;">
       {{date}}
     </p>

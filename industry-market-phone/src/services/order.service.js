@@ -2,7 +2,7 @@ import { getHttp, postHttp } from '@/http';
 
 export default {
   /**
-   * 加入购物车
+   * 加入购物单
    * @param userid 用户id
    * @param bm 产品编号
    * @param qty 产品数量
@@ -79,7 +79,7 @@ export default {
     return getHttp({ url: '/ordercenter/shopcar/getCollectListByClient', params });
   },
   /**
-   * 获取购物车列表
+   * 获取购物单列表
    * @param userid 用户id
    * @param pageNum 页码
    * @param pageSize 一页显示多少条
@@ -90,7 +90,7 @@ export default {
     return postHttp({ url: '/ordercenter/shopcar/getShopCarList', params });
   },
   /**
-   * 根据客户获取购物车
+   * 根据客户获取购物单
    * @param userid 用户id
    * @param pageNum 页码
    * @param pageSize 一页显示多少条
@@ -103,7 +103,7 @@ export default {
     return postHttp({ url: '/ordercenter/shopcar/getShopCarListByClient', params });
   },
   /**
-   * 编辑购物车数量
+   * 编辑购物单数量
    * @param userid 用户id
    * @param bm 产品编号
    * @param qty 产品数量
@@ -114,7 +114,7 @@ export default {
   //   return postHttp({ url: '/ordercenter/shopcar/editShopCar', params });
   // },
   /**
-   * 编辑购物车数量
+   * 编辑购物单数量
    * @param userid 用户id
    * @param bm 产品编号
    * @param qty 产品数量
@@ -126,7 +126,7 @@ export default {
     return postHttp({ url: '/ordercenter/shopcar/editShopCarWithClient', params });
   },
   /**
-   * 从购物车删除
+   * 从购物单删除
    * @param userid 用户id
    * @param bm 产品编号
    */
@@ -136,7 +136,7 @@ export default {
     return postHttp({ url: '/ordercenter/shopcar/deleteShopCar', params });
   },
   /**
-   * 从购物车删除
+   * 从购物单删除
    * @param userid 用户id
    * @param bm 产品编号
    * @param clientId 客户id
@@ -208,7 +208,7 @@ export default {
    * 创建订单
    * @param userid 用户id
    * @param clientId 客户id
-   * @param carIds 购物车id,复数用逗号隔开
+   * @param carIds 购物单id,复数用逗号隔开
    * @param payType 付款方式（1 线上付款，2 现金刷卡）
    * @param postType 配送方式（1送货上门，2门店自提）
    * @param certType 相关文件（1资质证书，2发票，3出库单）
@@ -227,7 +227,7 @@ export default {
    * @param userid 用户id
    * @param clientId 客户id
    * @param address 地址id
-   * @param itemList 购物车id,复数用逗号隔开
+   * @param itemList 购物单id,复数用逗号隔开
    * @param payType 付款方式（1 线上付款，2 现金刷卡）
    * @param postType 配送方式（1送货上门，2门店自提）
    * @param memo 备注

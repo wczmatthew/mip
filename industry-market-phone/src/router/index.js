@@ -12,10 +12,10 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
-    {
-      path: '/index',
-      redirect: '/',
-    },
+    // {
+    //   path: '/',
+    //   redirect: '/market?tab=home',
+    // },
     {
       path: '/login',
       component: Login,
@@ -25,7 +25,7 @@ export default new Router({
       component: Register,
     },
     {
-      path: '/',
+      path: '/index',
       component: Index,
       children: [
         ...search,

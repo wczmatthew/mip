@@ -3,7 +3,7 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <div slot="header-mid">
-      购物车({{totalNum}})
+      购物单({{totalNum}})
     </div>
     <div class="header-right" :class="{'color-active': isEdit }" slot="header-right" @click="onEdit()">
       {{ isEdit ? '完成' : '管理' }}

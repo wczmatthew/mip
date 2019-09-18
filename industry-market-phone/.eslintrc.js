@@ -23,7 +23,8 @@ module.exports = {
     'import/no-extraneous-dependencies': ["error", { devDependencies: true, }],
     'object-curly-newline': 'off',
     'no-restricted-syntax': 'off',
-    'no-return-assign': 'off'
+    'no-return-assign': 'off',
+    'no-underscore-dangle': 'off',
   },
   parserOptions: {
     parser: 'babel-eslint',

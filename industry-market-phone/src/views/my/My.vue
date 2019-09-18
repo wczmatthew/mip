@@ -165,6 +165,7 @@ export default {
         maskClosable: true,
         onConfirm: () => {
           this.$store.commit('user/updateUserId', '');
+          Utils.removeLocalStorageItem('userId');
           this.$router.push('/login');
         },
       });
@@ -283,7 +284,7 @@ export default {
     } // end iconfont
 
     .tip {
-      font-size:  12px;
+      font-size: 12px;
       margin-top: .05rem;
       display: flex;
       align-items: center;
@@ -381,6 +382,7 @@ export default {
 
   .grid-list .item .iconfont {
     font-size: .2rem;
+    color: $color-grey-6;
   }
 
   .grid-list .item .iconfont .num {
@@ -396,7 +398,9 @@ export default {
   }
 
   .grid-list .item .tip {
-    color: $color-grey;
+    color: $color-grey-6;
+    font-size: 10px;
+
   }
 } // end my-order
 

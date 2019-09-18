@@ -135,7 +135,7 @@ export default {
 
       Utils.showLoading();
       const params = {
-        corpId: this.$route.query.id || '', // 商家id
+        key: this.$route.query.id || '', // 商家id
         clientName: this.name, // 客户名称
         phone: this.phone, // 联系方式
         code: this.code, // 手机验证码

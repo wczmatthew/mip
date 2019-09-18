@@ -56,6 +56,9 @@ export default {
     ProductCategory,
   },
   methods: {
+    scrollTop() {
+      this.$refs.productCategory.scrollTop();
+    },
     toSearch() {
       this.$router.push('/market/search');
     },

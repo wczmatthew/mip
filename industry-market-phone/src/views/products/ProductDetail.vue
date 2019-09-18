@@ -28,11 +28,11 @@
     <!-- 产品图片 end -->
 
     <!-- 产品价格, 名称 -->
-    <div class="product-title">
-      {{product.XHGG || '暂无'}}
-    </div>
     <div class="price">
       ￥{{product.DJJ || 0}}
+    </div>
+    <div class="product-title">
+      {{product.XHGG || '暂无'}} <small>({{product.JNR + product.BNR}})</small>
     </div>
     <!-- 产品价格, 名称 end -->
 
@@ -76,14 +76,14 @@
           {{product.store || 0}}
         </div>
       </div>
-      <div class="cell no-line">
+      <!-- <div class="cell no-line">
         <div class="title">
           单价
         </div>
         <div class="desc price" style="padding: 0;">
           ￥{{product.DJJ || 0}}
         </div>
-      </div>
+      </div> -->
       <div class="cell no-line">
         <div class="title">
           装箱数
@@ -117,7 +117,7 @@
           <i class="iconfont icon-gouwuche">
             <i class="num" v-if="cartNum > 0">{{cartNum}}</i>
           </i>
-          <p>购物车</p>
+          <p>购物单</p>
         </div> -->
         <div class="icon icon-star" @click="onToggleCollect()">
           <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
@@ -130,7 +130,7 @@
 
       <div class="btns">
         <button @click="onAddCart()"  :class="[product.store > 0 ? 'orange-btn' : 'grey-btn']">
-          加入购物车
+          加入购物单
         </button>
         <button @click="onConfirm()"  :class="[product.store > 0 ? 'red-btn' : 'grey-light-btn']">
           立即购买
@@ -197,7 +197,7 @@ export default {
       this.product.isCollect = !!this.product.isCollect;
       this.firstLoading = false;
     },
-    // 加入购物车
+    // 加入购物单
     onAddCart() {
       if (!this.customerId) {
         Utils.showAlert({
@@ -261,14 +261,14 @@ export default {
     },
     async startAddCart(num) {
       if (this.loading) {
-        Utils.showToast('正在加入购物车, 请勿频繁操作');
+        Utils.showToast('正在加入购物单, 请勿频繁操作');
         return;
       }
       this.loading = true;
       const result = await orderService.addToShopCarWithClient({ userid: this.userId, bm: this.$route.query.bm, qty: num || 1, clientId: this.customerId });
       this.loading = false;
       if (!result) return;
-      Utils.showToast('加入购物车成功');
+      Utils.showToast('加入购物单成功');
     },
     // 添加收藏或者取消收藏
     onToggleCollect() {
@@ -376,6 +376,7 @@ export default {
     justify-content: center;
     background: #fff;
     padding: .08rem 0;
+    border-bottom: .08rem solid $color-bg;
 
     img {
       max-width: 100%;
@@ -385,10 +386,11 @@ export default {
 
   .price {
     color: $color-red;
-    font-size:  18px;
+    font-size: 18px;
     @include text-ellipsis;
-    padding: .05rem .12rem;
+    padding: 0 .12rem;
     background: #fff;
+    padding-top: .1rem;
   }
 
   .product-title {
@@ -396,17 +398,31 @@ export default {
     @include break-word;
     padding: .1rem .12rem .1rem;
     background: #fff;
-    font-size:  18px;
+    font-size: 16px;
+
+    small {
+      font-weight: 700;
+    }
   }
 
   .w-tableview {
-    margin-top: .1rem;
+    margin-top: .08rem;
     margin-bottom: .1rem;
     padding: .1rem 0;
   }
 
   .w-tableview .cell {
     height: .25rem;
+  }
+
+  .w-tableview .cell .title {
+    width: .5rem;
+    font-size: 12px;
+  }
+
+  .w-tableview .cell .desc {
+    text-align: left;
+    font-size: 12px;
   }
 
   .w-tableview .cell .desc.red {
@@ -472,9 +488,12 @@ export default {
 
     .btns {
       flex: 1;
-      height: 100%;
+      height: .3rem;
+      border-radius: .3rem;
       display: flex;
       overflow: hidden;
+      margin-right: .05rem;
+      // margin-top: .1rem;
       button {
         flex: 1;
         border-radius: 0;

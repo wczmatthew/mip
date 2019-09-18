@@ -4,7 +4,7 @@
     <!-- 顶部栏 -->
     <w-header>
       <div slot="header-mid">
-        购物车({{totalNum}})
+        购物单({{totalNum}})
       </div>
       <div class="header-right" :class="{'color-active': isEdit }" slot="header-right" @click="onEdit()">
         {{ isEdit ? '完成' : '编辑' }}
@@ -43,6 +43,9 @@ export default {
     },
   },
   methods: {
+    scrollTop() {
+      this.$refs.cart.scrollTop();
+    },
     getTotalNum(totalNum) {
       this.totalNum = totalNum;
     },

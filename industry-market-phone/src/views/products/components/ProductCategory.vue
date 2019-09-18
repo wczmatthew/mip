@@ -14,7 +14,7 @@
     <!-- 左侧类目 end -->
 
     <!-- 产品列表 -->
-    <div class="product-scroll">
+    <div class="product-scroll" ref="categoryContainer">
       <w-loading-row v-show="loadingShelf"></w-loading-row>
       <no-data v-if="!dataList || !dataList.length"></no-data>
       <div
@@ -54,6 +54,9 @@ export default {
   mounted() {},
   components: {},
   methods: {
+    scrollTop() {
+      this.$refs.categoryContainer.scrollTop = 0;
+    },
     updateData(data) {
       this.menuList = [...data];
 
@@ -73,6 +76,7 @@ export default {
       this.dataList = [...item.childList];
       setTimeout(() => {
         this.loadingShelf = false;
+        this.scrollTop();
       }, 100);
     },
     toSelect(item) {

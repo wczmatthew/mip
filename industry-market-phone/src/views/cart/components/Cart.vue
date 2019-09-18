@@ -2,7 +2,7 @@
 <template lang='html'>
   <!-- 正文内容 -->
   <div class="cart-container">
-    <!-- 购物车信息 -->
+    <!-- 购物单信息 -->
     <div class="product-list">
       <w-scroll
         ref="scroll"
@@ -65,7 +65,7 @@
 
       </w-scroll>
     </div>
-    <!-- 购物车信息 end -->
+    <!-- 购物单信息 end -->
 
     <!-- 底部价格 -->
     <div class="cart-bottom">
@@ -75,10 +75,10 @@
 
       <div class="detail">
         <p class="red bold">
-          <span>实付: </span>{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
+          <span>合计: </span>{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
         </p>
         <div class="msg">
-          <p class="bold grey">合计: {{totalPrice.toFixed(2)}}</p>
+          <!-- <p class="bold grey">合计: {{totalPrice.toFixed(2)}}</p> -->
           <p class="red small">
             优惠: {{discountPrice.toFixed(2)}}
           </p>
@@ -88,7 +88,7 @@
         </div> -->
       </div>
       <button type="button" class="orange-btn" v-show="!isEdit" @click="onPay()">
-        结账({{selectNum}})
+        结算({{selectNum}})
       </button>
       <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
         删除
@@ -152,7 +152,7 @@ export default {
       isFirstLoading: true,
       totalNum: 0,
       pageNum: 1,
-      pageSize: 5,
+      pageSize: 15,
       productList: [],
       selectProducts: {}, // 选择的产品
       noData: true,
@@ -181,7 +181,7 @@ export default {
   watch: {
     '$route'(to) {
       if (to.path === this.currentPath) {
-        // 重新进入购物车页面
+        // 重新进入购物单页面
         this.hasNext = true;
       }
     },
@@ -193,6 +193,9 @@ export default {
   },
   components: {},
   methods: {
+    scrollTop() {
+      this.$refs.scroll.scrollTop();
+    },
     stopProp() {}, // 阻止事件冒泡
     onEdit(isEdit) {
       this.isEdit = isEdit;
@@ -291,7 +294,7 @@ export default {
       }
       this.getData();
     },
-    // 获取购物车数据
+    // 获取购物单数据
     async getData() {
       const result = await service.getShopCarListByClient({ userid: Utils.getUserId(this), pageNum: this.pageNum, pageSize: this.pageSize, clientId: this.customerId });
       this.isFirstLoading = false;
@@ -395,7 +398,7 @@ export default {
       // 计算总价格
       this.calcPrice();
     },
-    // 从购物车中删除
+    // 从购物单中删除
     async onDelete() {
       const delList = this.productList.filter(item => this.selectProducts[item.id]);
       if (!delList || !delList.length) {
