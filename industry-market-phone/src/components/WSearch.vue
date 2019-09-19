@@ -78,13 +78,13 @@ export default {
   height: .44rem;
   // background: #fff;
   position: relative;
-  padding-top: .07rem;
+  padding-top: .09rem;
   color: #333;
 
   .search-content {
     background: #f5f5f5;
-    height: .3rem;
-    line-height: .3rem;
+    height: .26rem;
+    line-height: .26rem;
     // border: 1px solid $color-line;
     border-radius: .05rem;
     display: flex;
@@ -102,10 +102,10 @@ export default {
   input {
     flex: 1;
     width: 100%;
-    height: .3rem;
+    height: .26rem;
     border: 0;
     background: transparent !important;
-    font-size: .13rem;
+    font-size: 12px;
     display: block;
     padding-left: .1rem;
   }

@@ -30,7 +30,7 @@
 
     <!-- 常用功能 -->
     <div class="w-grid-list home-category">
-      <div class="item" @click="toCategory(item)" v-for="(item, index) in categoryList" :key="'category'+index">
+      <div class="item" @click="onClickLink(item)" v-for="(item, index) in categoryList" :key="'category'+index">
         <w-img :src="item.imgPath" alt=""/>
         <p class="sub-title">
           {{item.title}}
@@ -44,7 +44,7 @@
       <span class="title">商城头条</span>
       <div class="list">
         <cube-slide direction="vertical" :data="news" :show-dots="false" ref="newsSlide">
-          <cube-slide-item v-for="(item, index) in news" :key="'news'+index" @click.native="onClickNews(item)">
+          <cube-slide-item v-for="(item, index) in news" :key="'news'+index" @click.native="onClickLink(item)">
             <div class="item">
               {{item.title}}
             </div>
@@ -425,7 +425,7 @@ export default {
       this.hotPro4 = this.hotSaleProList.length > 3 ? this.hotSaleProList[3] : {};
       this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
     },
-    toCategory(item) {
+    onClickLink(item) {
       if (!item.url) {
         Utils.showToast('敬请期待');
         return;

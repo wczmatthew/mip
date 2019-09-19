@@ -1,12 +1,20 @@
 <!-- 注册 -->
 <template lang='html'>
-  <w-container show-header show-back show-footer header-class="w-gradient-left-bg">
+  <w-container show-header show-back show-footer>
     <!-- 顶部栏 -->
     <div slot="header-mid">
       注册关联
     </div>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
+
+    <div class="logo">
+      <img src="../assets/common/logo.png" alt="">
+    </div>
+
+    <p class="logo-title">
+      智慧能源解决方案供应商
+    </p>
 
     <div class="w-tableview">
       <div class="cell">
@@ -28,7 +36,7 @@
           验证码
         </span>
         <input type="text" class="desc" placeholder="请输入验证码" v-model.trim="code">
-        <button class="plain-red-btn" @click.stop="onSendCode()">
+        <button class="plain-blue-btn" @click.stop="onSendCode()">
           <template v-if="sendTime == -1">
             发送验证码
           </template>
@@ -135,7 +143,7 @@ export default {
 
       Utils.showLoading();
       const params = {
-        key: this.$route.query.id || '', // 商家id
+        key: this.$route.query.key || '', // 商家id
         clientName: this.name, // 客户名称
         phone: this.phone, // 联系方式
         code: this.code, // 手机验证码
@@ -157,6 +165,38 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
 
+.w-container {
+  background: #fff;
+}
+
+.logo {
+  margin: 0 auto;
+  margin-top: 5vh;
+  width: 50%;
+  min-width: .3rem;
+  min-height: .3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    width: 100%;
+  }
+}
+
+.logo-title {
+  text-align: center;
+  line-height: .2rem;
+  color: $color-grey;
+  font-weight: 700;
+  font-size: 12px;
+  margin-top: .05rem;
+  margin-bottom: 5vh;
+}
+
+.w-tableview {
+  margin: 0 .12rem;
+}
+
 .w-tableview .cell {
   margin-left: 0;
   padding-left: .12rem;
@@ -173,7 +213,7 @@ export default {
   color: $color-black;
 }
 
-.w-tableview .cell .plain-red-btn {
+.w-tableview .cell .plain-blue-btn {
   width: .8rem;
   font-size:  12px;
   height: .3rem;
@@ -184,5 +224,10 @@ export default {
   font-size:  12px;
   padding: .1rem .12rem;
   color: $color-grey;
+}
+
+.bottom-btn,
+.w-gradient-left-bg {
+  @include background-left-gradient(#306cff, #01d1fd);
 }
 </style>

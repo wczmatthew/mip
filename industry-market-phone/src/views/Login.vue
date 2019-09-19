@@ -61,9 +61,14 @@
           </div>
         </div>
 
-        <p class="tip" @click.stop="onChangeLoginType()">
-          {{loginType === 1 ? '账号密码登录' : '短信验证码登录'}}
-        </p>
+        <div class="tip">
+          <p @click.stop="onChangeLoginType()">
+            {{loginType === 1 ? '账号密码登录' : '短信验证码登录'}}
+          </p>
+          <p @click.stop="onRegister()">
+            注册
+          </p>
+        </div>
 
         <button type="button" class="blue-btn" @click="onLogin()">
           登录
@@ -109,6 +114,9 @@ export default {
       }
 
       this.loginType = 1;
+    },
+    onRegister() {
+      this.$router.push('/register');
     },
     // 发送验证码
     async onSendCode() {
@@ -344,9 +352,14 @@ export default {
   }
 
   .tip {
-    padding: .12rem 0 .1rem;
     font-size:  13px;
     color: #666;
+    display: flex;
+    justify-content: space-between;
+
+    p {
+      padding: .12rem 0 .1rem;
+    }
   }
 } // login-container
 

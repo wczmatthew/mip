@@ -10,7 +10,7 @@
     <div class="order-container">
       <!-- 付款信息 -->
       <div class="detail">
-        <div class="order-status">
+        <div class="order-status" :class="[getOrderColor()]">
           <div class="title">
             {{getOrderText()}}
             <!-- <i class="iconfont icon-wenjianguanli"></i> -->
@@ -23,8 +23,8 @@
             {{getOrderText()}}
           </span> -->
         </div>
-        <!-- 客户信息 -->
-        <div class="customre-item">
+        <!-- 地址信息 -->
+        <div class="customre-item" v-if="addressInfo && addressInfo.consignee">
           <i class="iconfont icon-location"></i>
           <div class="detail">
             <p class="title">
@@ -36,7 +36,7 @@
             </div>
           </div>
         </div>
-        <!-- 客户信息 end -->
+        <!-- 地址信息 end -->
 
         <!-- 产品信息 -->
         <div class="cart-list">
@@ -345,7 +345,7 @@ export default {
       this.productList = [...result.itemList];
       this.customer = result.client;
       this.totalNum = result.total;
-      this.addressInfo = result.addressInfo;
+      this.addressInfo = result.addressInfo || {};
     },
   },
 };
@@ -491,11 +491,23 @@ export default {
   overflow: auto;
 
   .order-status {
-    padding: .1rem .12rem;
+    padding: .18rem .12rem;
     border-bottom: .06rem solid $color-bg;
-    background: $color-red;
     color: #fff;
     background: $color-gradient1;
+
+    &.green {
+      background: #1be491;
+    }
+
+    &.orange {
+      background: $color-orange;
+    }
+
+    &.grey {
+      background: #bbb;
+    }
+
     .title {
       display: flex;
       align-items: center;
@@ -535,6 +547,7 @@ export default {
     }
   }
 
+
   .customre-item {
     display: flex;
     align-items: center;
@@ -549,7 +562,7 @@ export default {
       line-height: .3rem;
       border-radius: .3rem;
       text-align: center;
-      @include background-left-gradient($color-gradient1, $color-gradient2);
+      @include background-left-gradient(#ff4d3e, $color-orange);
     }
 
     .detail {

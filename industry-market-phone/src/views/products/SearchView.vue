@@ -150,7 +150,7 @@ export default {
 <style lang="scss" scoped>
 @import "~@/styles/components/button.scss";
 .search {
-  padding: 0.07rem 0.45rem;
+  padding: 0.09rem 0.45rem;
 }
 
 .hot-search {
