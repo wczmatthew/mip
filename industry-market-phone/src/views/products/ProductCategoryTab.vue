@@ -14,6 +14,7 @@
     </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
+    <w-loading-row v-if="loading"></w-loading-row>
     <product-category-scroll ref="productCategory" :current-path="routePath" next-path="productList"></product-category-scroll>
     <!-- 正文内容 end -->
   </div>
@@ -31,6 +32,7 @@ export default {
     return {
       categoryData: null,
       routePath: '/market', // 获取当前路由
+      loading: true,
     };
   },
   created() {},
@@ -39,6 +41,7 @@ export default {
     // if (this.$route.query.tab === 'select') {
     //   this.getSortList();
     // }
+    this.loading = true;
     this.getSortList();
   },
   watch: {
@@ -51,7 +54,7 @@ export default {
         if (!this.categoryData) {
           this.getSortList();
         } else {
-          this.$refs.productCategory && this.$refs.productCategory.updateData(this.categoryData);
+          // this.$refs.productCategory && this.$refs.productCategory.updateData(this.categoryData);
         }
       }
     },
@@ -68,10 +71,11 @@ export default {
       this.$router.push('/market/search');
     },
     async getSortList() {
-      Utils.showLoading();
+      // Utils.showLoading();
       const result = await service.getNewSortList({ userid: Utils.getUserId(this) });
+      this.loading = false;
       if (!result) return;
-      Utils.hideLoading();
+      // Utils.hideLoading();
       this.categoryData = result;
       this.$refs.productCategory && this.$refs.productCategory.updateData(result);
     },

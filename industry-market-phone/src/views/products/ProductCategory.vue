@@ -36,7 +36,9 @@ export default {
     // if (this.$route.query.tab === 'select') {
     //   this.getSortList();
     // }
-    this.getSortList();
+    setTimeout(() => {
+      this.getSortList();
+    }, 400);
   },
   // watch: {
   //   '$route'(to) {

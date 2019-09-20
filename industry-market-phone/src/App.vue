@@ -23,6 +23,8 @@ export default {
     '$route'(to, from) {
       if (to.path.indexOf('/index') >= 0) {
         this.transitionName = 'slide-right-half';
+      } else if (to.path === '/market') {
+        this.transitionName = 'none';
       } else {
         const toDepth = to.path.split('/').length;
         const fromDepth = from.path.split('/').length;

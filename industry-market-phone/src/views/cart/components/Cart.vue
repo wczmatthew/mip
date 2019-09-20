@@ -12,6 +12,7 @@
 
         <no-data v-if="noData"></no-data>
         <w-loading-row v-if="isFirstLoading"></w-loading-row>
+        <div style="width: 100%; height: .1rem;"></div>
         <div v-for="(item, index) in productList" :key="index" class="item">
           <div class="disabled-bg" v-if="item.store <= 0"></div>
           <div class="radio" @click.stop="onToggleChecked(item)">
@@ -238,6 +239,7 @@ export default {
 
       if (!this.allChecked) {
         this.totalPrice = 0;
+        this.selectNum = 0;
         return;
       }
       // 计算选择产品的金额

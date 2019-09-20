@@ -74,22 +74,15 @@ export default {
     onScrollHandle(pos) {
       // console.log(pos.y);
       let selectMenuIndex = 0;
-      this.menuYList.forEach((y, index) => {
-        if (-pos.y > (y - 5)) {
-          selectMenuIndex = index;
-        }
-      });
+      if (pos.y < 0) {
+        this.menuYList.forEach((y, index) => {
+          if (-pos.y > (y - 5)) {
+            selectMenuIndex = index;
+          }
+        });
+      }
 
       this.selectMenu = this.menuList[selectMenuIndex];
-      // this.pullDownY = pos.y
-      // if (pos.y > 0) {
-      //   this.pullDownStyle = `top:${pos.y}px`
-      //   this.triggerSurpriseFlag = false
-      //   if (this.pullDownY > 90) {
-      //     this.triggerSurpriseFlag = true
-      //   }
-      // }
-      // this.$refs.topHeader.style.opacity = this.headerStyle
     },
     scrollTop() {
       this.$refs.productScroll.scrollTo(0, 0, 300, 'ease');
@@ -117,8 +110,6 @@ export default {
 
       // 默认选中第一个
       if (this.menuIndex > 0) return;
-      this.menuList[0].isOpen = true;
-      this.selectMenu = this.menuList[0];
       this.scrollTop();
       // this.onChangeShelf(this.selectMenu, 0);
 

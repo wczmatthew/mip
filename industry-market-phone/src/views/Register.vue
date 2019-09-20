@@ -123,6 +123,8 @@ export default {
       this.isSendCode = false;
     },
     async onConfirm() {
+      Utils.nativeCloseKeyboard();
+
       if (!this.name) {
         Utils.showToast('请输入联系人');
         return;

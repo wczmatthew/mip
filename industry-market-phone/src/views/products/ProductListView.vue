@@ -22,6 +22,7 @@
       @pulling-up="onPullingUp">
 
       <!-- 商品列表 -->
+      <w-loading-row v-if="isLoading"></w-loading-row>
       <no-data v-if="noProduct"></no-data>
       <product-list ref="productList" routePath="productList" v-else @add-cart="addCart"></product-list>
       <!-- 商品列表 end -->
@@ -54,6 +55,7 @@ export default {
       isAsc: '',
       isFirstLoading: false,
       orderByColumn: '',
+      isLoading: false,
       tabList: [
         { name: '产品型号', sort: 'asc', column: 'xhgg' },
         { name: '价格', sort: 'none', column: 'djj' },
@@ -66,6 +68,7 @@ export default {
     this.$nextTick(() => {
       this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
     });
+    this.isLoading = true;
     this.getData();
   },
   watch: {
@@ -74,6 +77,7 @@ export default {
       this.$nextTick(() => {
         this.$refs.search && this.$refs.search.updateKeywords(this.keywords);
       });
+      this.isLoading = true;
       this.onPullingDown();
       // this.getData();
     },
@@ -122,6 +126,7 @@ export default {
       // console.log(data);
       this.orderByColumn = data.column || '';
       this.isAsc = data.sort === 'none' ? '' : data.sort;
+      this.isLoading = true;
       this.onPullingDown();
     },
     // 下拉刷新
@@ -144,6 +149,7 @@ export default {
       // Utils.showLoading();
       const params = { pageNum: this.pageNum, pageSize: this.pageSize, keyword: this.keywords, seriesId: this.seriesId, orderByColumn: this.orderByColumn, isAsc: this.isAsc };
       const result = await service.getNewProductList(params);
+      this.isLoading = false;
       if (!result) {
         this.noProduct = !this.productList.length;
         return;

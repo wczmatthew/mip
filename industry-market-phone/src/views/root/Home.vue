@@ -293,8 +293,11 @@ export default {
   },
   created() {},
   mounted() {
-    this.getData();
-    this.getOtherData();
+    // 自动登录存储userid有延时, 故这里延时加载
+    setTimeout(() => {
+      this.getData();
+      this.getOtherData();
+    }, 300);
 
     this.keywordsTimer = setInterval(() => {
       this.updateKeywords();
@@ -314,7 +317,12 @@ export default {
   },
   methods: {
     updateKeywords() {
-      if (!this.keywordsList.length) return;
+      if (!this.keywordsList.length) {
+        this.$refs.searchView && this.$refs.searchView.updateKeywords('dz47');
+        clearInterval(this.keywordsTimer);
+        this.keywordsTimer = null;
+        return;
+      }
       const index = Math.floor(Math.random() * this.keywordsList.length);
       this.$refs.searchView && this.$refs.searchView.updateKeywords(this.keywordsList[index].name);
     },
@@ -522,7 +530,8 @@ export default {
     overflow: hidden;
 
     img {
-      width: 50%;
+      // width: 50%;
+      height: .32rem;
       display: block;
       margin: 0 auto;
     }

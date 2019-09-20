@@ -49,7 +49,7 @@
             <div class="input-item">
               <!-- <i class="iconfont icon-mima"></i> -->
               <input type="text" placeholder="请输入验证码" v-model.trim="code" @keyup.enter="onLogin()">
-              <button class="plain-blue-btn" @click.stop="onSendCode()">
+              <button type="button" class="plain-blue-btn" @click.stop="onSendCode()">
                 <template v-if="sendTime == -1">
                   发送验证码
                 </template>
@@ -65,9 +65,9 @@
           <p @click.stop="onChangeLoginType()">
             {{loginType === 1 ? '账号密码登录' : '短信验证码登录'}}
           </p>
-          <p @click.stop="onRegister()">
+          <!-- <p @click.stop="onRegister()">
             注册
-          </p>
+          </p> -->
         </div>
 
         <button type="button" class="blue-btn" @click="onLogin()">
@@ -163,6 +163,7 @@ export default {
     },
     // 登录
     async onLogin() {
+      Utils.nativeCloseKeyboard();
       let result;
       if (this.loginType === 0) {
         // 密码登录

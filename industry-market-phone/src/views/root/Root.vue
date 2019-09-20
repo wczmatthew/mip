@@ -66,10 +66,14 @@ export default {
       active: 'home',
       clickNum: 0,
       timer: null,
+      fromPath: '',
     };
   },
   watch: {
-    '$route'(to) {
+    '$route'(to, from) {
+      this.fromPath = from.path;
+      console.log('route from: ', this.fromPath);
+
       if (to.path === '/market') {
         this.initTabActive();
         this.$store.dispatch('user/getCartNum');
@@ -84,15 +88,15 @@ export default {
   created() {},
   mounted() {
     const _this = this;
-    if (_this.$route.path === '/market') {
-      window.history.pushState(null, null, document.URL);
-    }
+    // if (_this.$route.path === '/market') {
+    //   window.history.pushState(null, null, document.URL);
+    // }
     window.addEventListener('popstate', () => {
-      // console.log(_this.$route.path);
-      if (_this.$route.path === '/market') {
+      if (_this.$route.meta.notBack) {
         window.history.pushState(null, null, document.URL);
       }
     });
+
     this.initTabActive();
     this.$store.dispatch('user/getCartNum');
     this.$store.dispatch('keywords/getHotKeywordList');
@@ -132,6 +136,11 @@ export default {
       this.active = item.tab;
       this.$router.push(`/market?tab=${item.tab}`);
       window.history.pushState(null, null, document.URL);
+
+      if (item.tab === 'category') {
+        this.$refs[item.tab] && this.$refs[item.tab].scrollTop();
+        this.$refs[item.tab] && this.$refs[item.tab].getSortList();
+      }
     },
     refreshViews(item) {
       this.clickNum = 0;
