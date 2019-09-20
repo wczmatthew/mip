@@ -2,12 +2,14 @@
 <template lang='html'>
   <w-container show-header show-back>
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <template #header-mid>
       选择客户
-    </div>
-    <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
-      {{ isEdit ? '完成' : '管理' }}
-    </div>
+    </template>
+    <template #header-right>
+      <div class="header-right" :class="{'color-blue': isEdit }" @click="onEdit()">
+        {{ isEdit ? '完成' : '管理' }}
+      </div>
+    </template>
     <!-- 顶部栏 end -->
 
     <customer :current-path="routePath" ref="customer"></customer>

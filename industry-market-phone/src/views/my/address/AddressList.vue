@@ -2,9 +2,9 @@
 <template lang='html'>
   <w-container show-header show-back>
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <template #header-mid>
       收货地址
-    </div>
+    </template>
     <!-- 顶部栏 end -->
 
     <Address :current-path="routePath" ref="address"></Address>

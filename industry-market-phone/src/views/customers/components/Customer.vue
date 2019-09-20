@@ -75,7 +75,7 @@
     </w-scroll>
     <!-- 正文内容 end -->
 
-    <div slot="w-footer" class="bottom-btn">
+    <div class="bottom-btn">
       <button class="red-btn" @click="onNew()">
         新增客户
       </button>

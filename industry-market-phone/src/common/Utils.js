@@ -422,9 +422,15 @@ export default {
   /**
    * 获取最后一位元素
    * @param {*} name className
+   * @param {*} parentDom 父容器
    */
-  getLastElementByClassName(name) {
-    const els = document.getElementsByClassName(name);
+  getLastElementByClassName(name, parentDom) {
+    let els;
+    if (parentDom) {
+      els = parentDom.getElementsByClassName(name);
+    } else {
+      els = document.getElementsByClassName(name);
+    }
     if (!els.length) {
       return null;
     }

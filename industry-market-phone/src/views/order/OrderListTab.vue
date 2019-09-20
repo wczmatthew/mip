@@ -3,12 +3,14 @@
   <div>
     <!-- 顶部栏 -->
     <w-header>
-      <div slot="header-mid">
+      <template #header-mid>
         订单管理
-      </div>
-      <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
-        {{ isEdit ? '完成' : '管理' }}
-      </div>
+      </template>
+      <template #header-right>
+        <div class="header-right" :class="{'color-blue': isEdit }" @click="onEdit()">
+          {{ isEdit ? '完成' : '管理' }}
+        </div>
+      </template>
     </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->

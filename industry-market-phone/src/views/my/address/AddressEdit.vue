@@ -2,19 +2,19 @@
 <template lang='html'>
   <w-container show-header show-back show-footer>
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <template #header-mid>
       编辑收货地址
-    </div>
-    <div class="header-right" slot="header-right">
-    </div>
+    </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <address-form ref="addressForm"></address-form>
     <!-- 正文内容 end -->
 
-    <button class="bottom-btn gradient-btn" slot="w-footer" @click="onConfirm()">
-      编辑收货地址
-    </button>
+    <template #w-footer>
+      <button class="bottom-btn gradient-btn" @click="onConfirm()">
+        编辑收货地址
+      </button>
+    </template>
   </w-container>
 </template>
 <script>

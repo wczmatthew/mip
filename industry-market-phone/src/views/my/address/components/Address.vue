@@ -32,7 +32,7 @@
     </div>
     <!-- 正文内容 end -->
 
-    <div slot="w-footer" class="bottom-btn">
+    <div class="bottom-btn">
       <button class="gradient-btn" @click="onNew()">
         新增地址
       </button>

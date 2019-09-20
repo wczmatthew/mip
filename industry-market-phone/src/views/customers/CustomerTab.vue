@@ -3,16 +3,14 @@
   <div class="w-container">
     <!-- 顶部栏 -->
     <w-header>
-      <div slot="header-mid">
+      <template #header-mid>
         客户列表
-      </div>
-      <div class="header-right" :class="{'color-blue': isEdit }" slot="header-right" @click="onEdit()">
-        {{ isEdit ? '完成' : '管理' }}
-      </div>
-      <!-- <div class="header-right" slot="header-right">
-        <w-msg-icon color="blue"></w-msg-icon>
-        <w-cart-icon color="blue"></w-cart-icon>
-      </div> -->
+      </template>
+      <template #header-right>
+        <div class="header-right" :class="{'color-blue': isEdit }" @click="onEdit()">
+          {{ isEdit ? '完成' : '管理' }}
+        </div>
+      </template>
     </w-header>
     <!-- 顶部栏 end -->
 

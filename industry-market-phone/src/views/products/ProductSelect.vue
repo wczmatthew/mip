@@ -2,48 +2,52 @@
 <template lang='html'>
   <w-container show-back show-header show-footer class="product-detail">
     <!-- 顶部栏 -->
-    <p slot="header-mid">
+    <template #header-mid>
       产品选型
-    </p>
-
-    <div class="header-right" slot="header-right">
-      <w-cart-icon :current-path="routePath"></w-cart-icon>
-    </div>
+    </template>
+    <template #header-right>
+      <div class="header-right">
+        <w-cart-icon :current-path="routePath"></w-cart-icon>
+      </div>
+    </template>
     <!-- 顶部栏 end -->
-    <div slot="header-other" class="product-top">
-      <div class="img">
-        <w-img :src="product.imgPath" v-if="product.imgPath"></w-img>
-      </div>
-      <div class="detail">
-        <div class="product-title">
-          {{product.XHGG || '暂无'}}
-        </div>
-        <div class="grid-cell">
-          <div class="item">
-            <div>
-              价格
-              <span class="price" style="padding: 0;">
-                <small>￥</small>{{product.DJJ || 0}}
-              </span>
-            </div>
-            <div>
-              库存数量
-              <span class="red">
-                {{product.store || 0}}
-              </span>
-            </div>
-          </div>
-          <div class="item">
-            <div class="nums">
-              <i class="iconfont icon-circle-reduce2" @click.stop="onReduce()"></i>
-              <input type="number" v-model="number">
-              <i class="iconfont icon-circle-add2" @click.stop="onAdd()"></i>
-            </div>
-          </div>
-        </div>
-      </div>
 
-    </div>
+    <template #header-other>
+      <div class="product-top">
+        <div class="img">
+          <w-img :src="product.imgPath" v-if="product.imgPath"></w-img>
+        </div>
+        <div class="detail">
+          <div class="product-title">
+            {{product.XHGG || '暂无'}}
+          </div>
+          <div class="grid-cell">
+            <div class="item">
+              <div>
+                价格
+                <span class="price" style="padding: 0;">
+                  <small>￥</small>{{product.DJJ || 0}}
+                </span>
+              </div>
+              <div>
+                库存数量
+                <span class="red">
+                  {{product.store || 0}}
+                </span>
+              </div>
+            </div>
+            <div class="item">
+              <div class="nums">
+                <i class="iconfont icon-circle-reduce2" @click.stop="onReduce()"></i>
+                <input type="number" v-model="number">
+                <i class="iconfont icon-circle-add2" @click.stop="onAdd()"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </template>
 
     <!-- 正文内容 -->
 
@@ -81,40 +85,42 @@
     <!-- 正文内容 end -->
 
     <!-- 底部栏 -->
-    <footer slot="w-footer" class="footer">
-      <div class="left">
-        <div class="icon" @click="toIndex()">
-          <i class="iconfont icon-home"></i>
-          <p>首页</p>
+    <template #w-footer>
+      <footer class="footer">
+        <div class="left">
+          <div class="icon" @click="toIndex()">
+            <i class="iconfont icon-home"></i>
+            <p>首页</p>
+          </div>
+          <!-- <div class="icon" @click="onToggleCollect()">
+            <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
+            'icon-notcollect']"></i>
+            <p>
+              {{product.isCollect ? '取消收藏' : '收藏'}}
+            </p>
+          </div> -->
         </div>
-        <!-- <div class="icon" @click="onToggleCollect()">
-          <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
-          'icon-notcollect']"></i>
-          <p>
-            {{product.isCollect ? '取消收藏' : '收藏'}}
-          </p>
+
+        <!-- <div class="mid">
+          数量: <input type="number" v-model="number">
         </div> -->
-      </div>
 
-      <!-- <div class="mid">
-        数量: <input type="number" v-model="number">
-      </div> -->
+        <div class="detail">
+          <p class="red bold">
+            <span>实付: </span>{{(totalPrice).toFixed(2)}}
+          </p>
+        </div>
 
-      <div class="detail">
-        <p class="red bold">
-          <span>实付: </span>{{(totalPrice).toFixed(2)}}
-        </p>
-      </div>
-
-      <div class="btns">
-        <button @click="onAddCart()" :class="[product.store > 0 ? 'red-btn' : 'grey-btn']">
-          {{ product.store > 0 ? '加入购物单' : '无库存' }}
-        </button>
-        <!-- <button class="blue-btn">
-          立即购买
-        </button> -->
-      </div>
-    </footer>
+        <div class="btns">
+          <button @click="onAddCart()" :class="[product.store > 0 ? 'red-btn' : 'grey-btn']">
+            {{ product.store > 0 ? '加入购物单' : '无库存' }}
+          </button>
+          <!-- <button class="blue-btn">
+            立即购买
+          </button> -->
+        </div>
+      </footer>
+    </template>
     <!-- 底部栏 end -->
 
   </w-container>

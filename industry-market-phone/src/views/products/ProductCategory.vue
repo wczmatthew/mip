@@ -2,14 +2,16 @@
 <template lang='html'>
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
+    <template #header-mid>
+      <w-search class="search" disabled show-scan @input-click="toSearch()"></w-search>
+    </template>
     <!-- <div class="header-right" slot="header-right">
       <w-cart-icon currentPath="market"></w-cart-icon>
     </div> -->
     <!-- 顶部栏 end -->
 
     <!-- 正文内容 -->
-    <product-category ref="productCategory" :current-path="routePath" show-select-btn></product-category>
+    <product-category-scroll ref="productCategory" :current-path="routePath" show-select-btn></product-category-scroll>
     <!-- 正文内容 end -->
 
   </w-container>
@@ -19,7 +21,7 @@ import WSearch from '@/components/WSearch.vue';
 // import { mapGetters } from 'vuex';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
-import ProductCategory from './components/ProductCategory.vue';
+import ProductCategoryScroll from './components/ProductCategoryScroll.vue';
 
 export default {
   data() {
@@ -51,10 +53,19 @@ export default {
   // },
   components: {
     WSearch,
-    ProductCategory,
+    ProductCategoryScroll,
   },
   methods: {
     toSearch() {
+      const productPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'search' });
+      const pathList = this.$route.matched;
+      const index = pathList.findIndex(item => item.path === productPath);
+      if (index >= 0) {
+        // 浏览历史记录有分类界面, 直接返回这一页
+        const goIndex = index - pathList.length + 1;
+        this.$router.go(goIndex);
+        return;
+      }
       this.$router.push(`${this.routePath}/search`);
     },
     async getSortList() {

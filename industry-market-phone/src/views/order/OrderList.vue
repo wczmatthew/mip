@@ -2,9 +2,9 @@
 <template lang='html'>
   <w-container show-header show-back>
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <template #header-mid>
       订单管理
-    </div>
+    </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <orders :current-path="routePath" ref="order"></orders>

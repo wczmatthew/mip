@@ -2,7 +2,9 @@
 <template lang='html'>
   <w-container show-header show-back>
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
+    <template #header-mid>
+      <w-search class="search" disabled show-scan @input-click="toSearch()"></w-search>
+    </template>
     <!-- <div class="header-right" slot="header-right">
       <w-cart-icon color="blue" :current-path="routePath"></w-cart-icon>
     </div> -->

@@ -107,36 +107,38 @@
     <!-- 正文内容 end -->
 
     <!-- 底部栏 -->
-    <footer slot="w-footer" class="footer">
-      <div class="left">
-        <div class="icon" @click="toIndex()">
-          <i class="iconfont icon-shouye"></i>
-          <p>首页</p>
+    <template #w-footer>
+      <footer class="footer">
+        <div class="left">
+          <div class="icon" @click="toIndex()">
+            <i class="iconfont icon-shouye"></i>
+            <p>首页</p>
+          </div>
+          <!-- <div class="icon">
+            <i class="iconfont icon-gouwuche">
+              <i class="num" v-if="cartNum > 0">{{cartNum}}</i>
+            </i>
+            <p>购物单</p>
+          </div> -->
+          <div class="icon icon-star" @click="onToggleCollect()">
+            <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
+            'icon-notcollect']"></i>
+            <p>
+              {{product.isCollect ? '取消收藏' : '收藏'}}
+            </p>
+          </div>
         </div>
-        <!-- <div class="icon">
-          <i class="iconfont icon-gouwuche">
-            <i class="num" v-if="cartNum > 0">{{cartNum}}</i>
-          </i>
-          <p>购物单</p>
-        </div> -->
-        <div class="icon icon-star" @click="onToggleCollect()">
-          <i class="iconfont" :class="[product.isCollect ? 'icon-collect' :
-          'icon-notcollect']"></i>
-          <p>
-            {{product.isCollect ? '取消收藏' : '收藏'}}
-          </p>
-        </div>
-      </div>
 
-      <div class="btns">
-        <button @click="onAddCart()"  :class="[product.store > 0 ? 'orange-btn' : 'grey-btn']">
-          加入购物单
-        </button>
-        <button @click="onConfirm()"  :class="[product.store > 0 ? 'red-btn' : 'grey-light-btn']">
-          立即购买
-        </button>
-      </div>
-    </footer>
+        <div class="btns">
+          <button @click="onAddCart()"  :class="[product.store > 0 ? 'orange-btn' : 'grey-btn']">
+            加入购物单
+          </button>
+          <button @click="onConfirm()"  :class="[product.store > 0 ? 'red-btn' : 'grey-light-btn']">
+            立即购买
+          </button>
+        </div>
+      </footer>
+    </template>
     <!-- 底部栏 end -->
 
     <!-- 数量弹窗 -->

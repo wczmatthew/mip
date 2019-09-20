@@ -22,25 +22,27 @@
     <my v-show="active == 'my'" ref="my"></my>
     <!-- 个人中心 end -->
 
-    <div class="w-tabbar" slot="w-footer">
-      <div class="item" v-for="(item, index) in tablist" :key="index"
-      :class="{'actived': active == item.tab}"
-      @click="onChangeTab(index, item)">
-        <template v-if="item.tab == 'home'">
-          <div class="tab-icon" v-if="active == item.tab">
-            <img src="~@/assets/common/c.png" alt="" class="">
-          </div>
-          <i class="iconfont" :class="[item.icon]" v-if="active != 'home'"></i>
-          <p v-if="active != 'home'">{{item.title}}</p>
-        </template>
-        <template v-else>
-          <i class="iconfont" :class="[item.icon]">
-            <i class="num" v-if="item.tab === 'cart' && cartNum > 0">{{cartNum}}</i>
-          </i>
-          <p>{{item.title}}</p>
-        </template>
+    <template #w-footer>
+      <div class="w-tabbar">
+        <div class="item" v-for="(item, index) in tablist" :key="index"
+        :class="{'actived': active == item.tab}"
+        @click="onChangeTab(index, item)">
+          <template v-if="item.tab == 'home'">
+            <div class="tab-icon" v-if="active == item.tab">
+              <img src="~@/assets/common/c.png" alt="" class="">
+            </div>
+            <i class="iconfont" :class="[item.icon]" v-if="active != 'home'"></i>
+            <p v-if="active != 'home'">{{item.title}}</p>
+          </template>
+          <template v-else>
+            <i class="iconfont" :class="[item.icon]">
+              <i class="num" v-if="item.tab === 'cart' && cartNum > 0">{{cartNum}}</i>
+            </i>
+            <p>{{item.title}}</p>
+          </template>
+        </div>
       </div>
-    </div>
+    </template>
   </w-container>
 </template>
 <script>

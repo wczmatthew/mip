@@ -2,10 +2,14 @@
 <template lang='html'>
   <w-container showHeader showBack class="search-container">
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" show-scan @search="toSearch" ref="search"></w-search>
-    <div class="header-right" slot="header-right">
-      <w-scan-icon :current-path="routePath"></w-scan-icon>
-    </div>
+    <template #header-mid>
+      <w-search class="search" show-scan @search="toSearch" ref="search"></w-search>
+    </template>
+    <template #header-right>
+      <div class="header-right">
+        <w-cart-icon :current-path="routePath"></w-cart-icon>
+      </div>
+    </template>
     <!-- 顶部栏 end -->
 
     <!-- 热门搜索 -->
@@ -102,6 +106,15 @@ export default {
     },
     // 产品选型
     onSelectProduct() {
+      const productPath = Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' });
+      const pathList = this.$route.matched;
+      const index = pathList.findIndex(item => item.path === productPath);
+      if (index >= 0) {
+        // 浏览历史记录有分类界面, 直接返回这一页
+        const goIndex = index - pathList.length + 1;
+        this.$router.go(goIndex);
+        return;
+      }
       this.$router.push(`${this.routePath}/category`);
     },
     // // 下拉刷新

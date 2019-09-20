@@ -2,9 +2,9 @@
 <template lang='html'>
   <w-container show-header show-back :show-footer="orderDetail.billType == 2 || orderDetail.billType == 6 || orderDetail.billType == 1">
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <template #header-mid>
       订单详情
-    </div>
+    </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="order-container">
@@ -172,17 +172,19 @@
     <!-- 正文内容 end -->
 
     <!-- 底部 -->
-    <footer slot="w-footer" class="footer">
-      <button v-if="orderDetail.billType == 2" @click.stop="onConfirmReceive()" class="plain-red-btn">
-        确认收货
-      </button>
-      <button v-if="orderDetail.billType == 6" @click.stop="onConfirmPay()"  class="plain-red-btn">
-        确认付款
-      </button>
-      <button class="plain-grey-dark-btn" v-if="orderDetail.billType == 1" @click.stop="onCloseOrder()">
-        关闭订单
-      </button>
-    </footer>
+    <template #w-footer>
+      <footer class="footer">
+        <button v-if="orderDetail.billType == 2" @click.stop="onConfirmReceive()" class="plain-red-btn">
+          确认收货
+        </button>
+        <button v-if="orderDetail.billType == 6" @click.stop="onConfirmPay()"  class="plain-red-btn">
+          确认付款
+        </button>
+        <button class="plain-grey-dark-btn" v-if="orderDetail.billType == 1" @click.stop="onCloseOrder()">
+          关闭订单
+        </button>
+      </footer>
+    </template>
     <!-- 底部 end -->
 
   </w-container>

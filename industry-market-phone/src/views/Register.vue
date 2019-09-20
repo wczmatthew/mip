@@ -2,9 +2,9 @@
 <template lang='html'>
   <w-container show-header show-back show-footer>
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <template #header-mid>
       注册关联
-    </div>
+    </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
 
@@ -52,9 +52,11 @@
     </p>
     <!-- 正文内容 end -->
 
-    <button class="bottom-btn gradient-btn" slot="w-footer" @click="onConfirm()">
-      确定
-    </button>
+    <template #w-footer>
+      <button class="bottom-btn gradient-btn" @click="onConfirm()">
+        确定
+      </button>
+    </template>
   </w-container>
 </template>
 <script>

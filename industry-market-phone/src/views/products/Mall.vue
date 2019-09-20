@@ -2,13 +2,14 @@
 <template lang='html'>
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
-    <w-search class="search" slot="header-mid" show-scan disabled
-    @input-click="toSearch()"></w-search>
-    <div class="header-right" slot="header-right">
-      <!-- <w-msg-icon color="blue"></w-msg-icon> -->
-      <!-- <i class="iconfont icon-cart"></i> -->
-      <w-cart-icon color="blue" :current-path="routePath"></w-cart-icon>
-    </div>
+    <template #header-mid>
+      <w-search class="search" show-scan disabled @input-click="toSearch()"></w-search>
+    </template>
+    <template #header-right>
+      <div class="header-right">
+        <w-cart-icon color="blue" :current-path="routePath"></w-cart-icon>
+      </div>
+    </template>
     <!-- 顶部栏 end -->
 
     <cube-sticky :pos="scrollY">
@@ -81,12 +82,6 @@
         </div>
         <!-- 优选推荐 end -->
       </div>
-
-      <!-- 置顶的菜单栏 -->
-      <!-- <template slot="fixed">
-        <mall-tab :tab-list="tabList"></mall-tab>
-      </template> -->
-      <!-- 置顶的菜单栏 -->
     </cube-sticky>
   </w-container>
 </template>

@@ -3,14 +3,18 @@
   <div class="w-container">
     <!-- 顶部栏 -->
     <w-header>
-      <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()"></w-search>
-      <div class="header-right" slot="header-right">
-        <w-cart-icon currentPath="market"></w-cart-icon>
-      </div>
+      <template #header-mid>
+        <w-search class="search" disabled show-scan @input-click="toSearch()"></w-search>
+      </template>
+      <template #header-right>
+        <div class="header-right">
+          <w-cart-icon currentPath="market"></w-cart-icon>
+        </div>
+      </template>
     </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <product-category ref="productCategory" :current-path="routePath" next-path="productList"></product-category>
+    <product-category-scroll ref="productCategory" :current-path="routePath" next-path="productList"></product-category-scroll>
     <!-- 正文内容 end -->
   </div>
 </template>
@@ -19,7 +23,8 @@ import WSearch from '@/components/WSearch.vue';
 // import { mapGetters } from 'vuex';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
-import ProductCategory from './components/ProductCategory.vue';
+// import ProductCategory from './components/ProductCategory.vue';
+import ProductCategoryScroll from './components/ProductCategoryScroll.vue';
 
 export default {
   data() {
@@ -53,7 +58,7 @@ export default {
   },
   components: {
     WSearch,
-    ProductCategory,
+    ProductCategoryScroll,
   },
   methods: {
     scrollTop() {

@@ -2,12 +2,14 @@
 <template lang='html'>
   <w-container show-header show-back class="collect-container">
     <!-- 顶部栏 -->
-    <div slot="header-mid">
+    <template #header-mid>
       收藏夹
-    </div>
-    <div class="header-right" slot="header-right" @click="onToggleEdit()" :class="{'color-red': isEdit}">
-      {{isEdit ? '删除' : '编辑'}}
-    </div>
+    </template>
+    <template #header-right>
+      <div class="header-right" @click="onToggleEdit()" :class="{'color-red': isEdit}">
+        {{isEdit ? '删除' : '编辑'}}
+      </div>
+    </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <w-scroll

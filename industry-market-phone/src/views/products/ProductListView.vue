@@ -2,20 +2,18 @@
 <template lang='html'>
   <w-container showHeader showBack>
     <!-- 顶部栏 -->
-    <!-- <w-search class="search" ref="search" slot="header-mid" show-scan @search="onSearch"></w-search> -->
-    <w-search class="search" slot="header-mid" disabled show-scan @input-click="toSearch()" ref="search"></w-search>
-    <div class="header-right" slot="header-right">
-      <!-- <w-cart-icon :current-path="routePath" color="blue"></w-cart-icon> -->
-    </div>
+    <template #header-mid>
+      <w-search class="search" disabled show-scan @input-click="toSearch()" ref="search"></w-search>
+    </template>
+    <template #header-right>
+      <div class="header-right"></div>
+    </template>
     <!-- 顶部栏 end -->
 
     <!-- 菜单页面 -->
-    <sort-tab :tab-list="tabList" @select="onSelectTab" @change-list-type="onChangeListType" slot="header-other"></sort-tab>
-    <!-- 菜单页面 end -->
-    <!-- 菜单页面 -->
-    <!-- <div class="product-header" slot="header-other">
-      <search-sort></search-sort>
-    </div> -->
+    <template #header-other>
+      <sort-tab :tab-list="tabList" @select="onSelectTab" @change-list-type="onChangeListType"></sort-tab>
+    </template>
     <!-- 菜单页面 end -->
 
     <w-scroll

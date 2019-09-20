@@ -109,9 +109,9 @@ export default {
     async getData() {
       const result = await service.getActivityPageItem({ userid: Utils.getUserId(this) });
       if (!result) return;
-      this.banners = [...result.activityAds];
-      this.categoryList = [...result.categoryList];
-      this.activityList = [...result.activityList];
+      this.banners = result.activityAds || [];
+      this.categoryList = result.categoryList || [];
+      this.activityList = result.activityList || [];
 
       this.$nextTick(() => {
         this.$refs.slide && this.$refs.slide.refresh();

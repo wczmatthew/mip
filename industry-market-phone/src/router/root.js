@@ -9,6 +9,8 @@ import guide from './guide';
 import address from './address';
 import collect from './collect';
 import cart from './order/cart';
+import contact from './my/contact';
+import productSelectSearch from './products/productSelectRoot';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -16,7 +18,6 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 导购
 // const Guide = () => import('@/views/root/Guide.vue');
 const customerChat = () => import('@/views/customers/CustomerChat.vue');
-const productCategory = () => import('@/views/products/ProductCategory.vue');
 const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
 
 export default [
@@ -36,6 +37,8 @@ export default [
       ...productDetail,
       ...collect,
       ...cart,
+      ...contact,
+      ...productSelectSearch,
       {
         path: 'activieyDetail',
         component: activityDetail,
@@ -45,13 +48,6 @@ export default [
         component: customerChat,
         children: [
           ...customer,
-        ],
-      },
-      {
-        path: 'productCategory',
-        component: productCategory,
-        children: [
-          ...productList,
         ],
       },
     ],

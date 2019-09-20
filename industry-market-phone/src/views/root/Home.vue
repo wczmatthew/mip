@@ -12,7 +12,7 @@
       <div class="w-header-mid">
         <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .1rem;" ref="searchView" placeholder="dz47"></w-search>
       </div>
-      <div class="header-right" slot="header-right">
+      <div class="header-right">
         <w-scan-icon current-path="/market"></w-scan-icon>
       </div>
     </header>
@@ -21,7 +21,7 @@
     <!-- 轮播图 -->
     <div class="banner" v-if="banners && banners.length">
       <cube-slide ref="slide" :data="banners">
-        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="onClickBanner(item)" class="banner-item" :auto-play="autoplay">
+        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="onClickLink(item)" class="banner-item" :auto-play="autoplay">
           <w-img :src="item.imgPath"/>
         </cube-slide-item>
       </cube-slide>
@@ -41,10 +41,10 @@
 
     <!-- 新闻 -->
     <div class="news-container">
-      <span class="title">商城头条</span>
-      <div class="list">
-        <cube-slide direction="vertical" :data="news" :show-dots="false" ref="newsSlide">
-          <cube-slide-item v-for="(item, index) in news" :key="'news'+index" @click.native="onClickLink(item)">
+      <span class="title">{{news.title || '商城头条'}}</span>
+      <div class="list" v-if="news && news.list && news.list.length">
+        <cube-slide direction="vertical" :data="news.list" :show-dots="false" ref="newsSlide">
+          <cube-slide-item v-for="(item, index) in news.list" :key="'news'+index" @click.native="onClickLink(item)">
             <div class="item">
               {{item.title}}
             </div>
@@ -90,13 +90,13 @@
 
     <!-- 广告图片 -->
     <div class="banner2" v-if="midAds.imgPath">
-      <w-img :src="midAds.imgPath" alt="" @click="onClickBanner(midAds)"/>
+      <w-img :src="midAds.imgPath" alt="" @click="onClickLink(midAds)"/>
     </div>
     <!-- 广告图片 end -->
 
     <!-- 海报产品列表 -->
     <div class="w-grid-list product-grid2">
-      <div class="product product1" v-if="hotPro1.id">
+      <div class="product product1" v-if="hotPro1.id" @click="toProductDetail(hotPro1.bm)">
         <p class="title">
           {{hotPro1.title}}
         </p>
@@ -114,7 +114,7 @@
       </div>
 
       <div class="right-product">
-        <div class="product product2" v-if="hotPro2.id">
+        <div class="product product2" v-if="hotPro2.id" @click="toProductDetail(hotPro2.bm)">
           <p class="title">
             {{hotPro2.title}}
           </p>
@@ -131,7 +131,7 @@
           <w-img :src="hotPro2.imgPath" alt="" class="bg"/>
         </div>
 
-        <div class="product product3" v-if="hotPro3.id">
+        <div class="product product3" v-if="hotPro3.id" @click="toProductDetail(hotPro3.bm)">
           <p class="title">
             {{hotPro3.title}}
           </p>
@@ -149,7 +149,7 @@
         </div>
       </div>
 
-      <div class="product product2 product4" v-if="hotPro4.id">
+      <div class="product product2 product4" v-if="hotPro4.id" @click="toProductDetail(hotPro4.bm)">
         <p class="title">
           {{hotPro4.title}}
         </p>
@@ -166,7 +166,7 @@
         <w-img :src="hotPro4.imgPath" alt="" class="bg"/>
       </div>
 
-      <div class="product product2 product5" v-if="hotPro5.id">
+      <div class="product product2 product5" v-if="hotPro5.id" @click="toProductDetail(hotPro5.bm)">
         <p class="title">
           {{hotPro5.title}}
         </p>
@@ -363,9 +363,11 @@ export default {
     toSearch() {
       this.$router.push('/market/search');
     },
-    // 点击轮播图
-    onClickBanner(item) {
-      if (!item.url) return;
+    onClickLink(item) {
+      if (!item.url) {
+        Utils.showToast('敬请期待');
+        return;
+      }
       if (item.url.indexOf('http') > -1) {
         try {
           // eslint-disable-next-line
@@ -383,12 +385,6 @@ export default {
 
       this.$router.push(`/market/${item.url}`);
     },
-    // 点击类目
-    onCategoryClick(item) {
-      if (item.url) {
-        this.$router.push(item.url);
-      }
-    },
     // 获取首页第一屏数据
     async getData() {
       Utils.showLoading();
@@ -397,7 +393,7 @@ export default {
       Utils.hideLoading();
       this.banners = result.banner || [];
       this.categoryList = result.category || [];
-      this.news = result.news || [];
+      this.news = result.news || {};
       this.buyingProducts = result.buyingProducts || null;
       this.midAds = result.midAds || {};
       if (this.buyingProducts && this.buyingProducts.endDate) {
@@ -424,13 +420,6 @@ export default {
       this.hotPro3 = this.hotSaleProList.length > 2 ? this.hotSaleProList[2] : {};
       this.hotPro4 = this.hotSaleProList.length > 3 ? this.hotSaleProList[3] : {};
       this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
-    },
-    onClickLink(item) {
-      if (!item.url) {
-        Utils.showToast('敬请期待');
-        return;
-      }
-      this.$router.push(`/market/${item.url}`);
     },
     toProductDetail(id) {
       this.$router.push(`/market/productDetail?bm=${id}`);
@@ -526,7 +515,7 @@ export default {
   // }
 
   .item {
-    width: 25%;
+    width: 20%;
     padding: 0;
     padding-bottom: .08rem;
     position: relative;
