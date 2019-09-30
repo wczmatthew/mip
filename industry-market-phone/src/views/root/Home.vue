@@ -90,7 +90,7 @@
 
     <!-- 广告图片 -->
     <div class="banner2" v-if="midAds.imgPath">
-      <w-img :src="midAds.imgPath" alt="" @click="onClickLink(midAds)"/>
+      <w-img :src="midAds.imgPath" alt="" @click.native="onClickLink(midAds)"/>
     </div>
     <!-- 广告图片 end -->
 
@@ -506,6 +506,7 @@ export default {
   min-height: 1.2rem;
   overflow: hidden;
   padding-top: .44rem;
+  max-height: 1.8rem;
 
   .banner-item {
     padding: .1rem;
@@ -525,6 +526,7 @@ export default {
   display: block;
   border-radius: .05rem;
   overflow: hidden;
+  max-height: 1.8rem;
   img {
     width: 100%;
     display: block;
@@ -571,7 +573,7 @@ export default {
 
     &.big {
       img {
-        height: .42rem;
+        height: .42rem !important;
         margin-top: -.1rem;
       }
     } // end big
