@@ -100,13 +100,7 @@ export default {
   created() {
   },
   mounted() {
-    const _this = this;
     window.history.pushState(null, null, document.URL);
-    window.addEventListener('popstate', () => {
-      if (_this.$route.meta.notBack) {
-        window.history.pushState(null, null, document.URL);
-      }
-    });
   },
   components: {},
   methods: {

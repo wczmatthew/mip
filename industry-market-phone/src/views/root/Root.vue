@@ -94,16 +94,6 @@ export default {
   },
   created() {},
   mounted() {
-    const _this = this;
-    // if (_this.$route.path === '/market') {
-    //   window.history.pushState(null, null, document.URL);
-    // }
-    window.addEventListener('popstate', () => {
-      if (_this.$route.meta.notBack) {
-        window.history.pushState(null, null, document.URL);
-      }
-    });
-
     this.initTabActive();
     if (this.userId) {
       this.$store.dispatch('user/getCartNum');

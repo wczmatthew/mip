@@ -41,6 +41,14 @@ export default {
   },
   created() {},
   mounted() {
+    const _this = this;
+    window.addEventListener('popstate', () => {
+      console.log('1111');
+      if (_this.$route.meta.notBack) {
+        window.history.pushState(null, null, document.URL);
+      }
+    });
+
     if (Utils.checkIsWeixin()) {
       this.$store.dispatch('user/getWxSetting');
     }

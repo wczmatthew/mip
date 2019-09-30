@@ -19,9 +19,9 @@ if (process.env.NODE_ENV === 'production') {
   // 正式版本
   httpHost = getProjectName() || '';
 } else if (process.env.NODE_ENV === 'test-dev' || process.env.NODE_ENV === 'development') {
-  httpHost = '/hw';
+  // httpHost = '/hw';
   // httpHost = '/local';
-  // httpHost = '/test';
+  httpHost = '/test';
   // httpHost = '/prod';
 }
 
