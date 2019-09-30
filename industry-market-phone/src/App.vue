@@ -8,6 +8,8 @@
 </template>
 
 <script>
+import Utils from '@/common/Utils';
+
 export default {
   data() {
     return {
@@ -21,6 +23,11 @@ export default {
   // watch $route 决定使用哪种过渡
   watch: {
     '$route'(to, from) {
+      if (from.path === '/' && to.path === '/login') {
+        this.transitionName = 'none';
+        return;
+      }
+
       if (to.path.indexOf('/index') >= 0) {
         this.transitionName = 'slide-right-half';
       } else if (to.path === '/market') {
@@ -34,6 +41,9 @@ export default {
   },
   created() {},
   mounted() {
+    if (Utils.checkIsWeixin()) {
+      this.$store.dispatch('user/getWxSetting');
+    }
   },
   components: {},
   methods: {

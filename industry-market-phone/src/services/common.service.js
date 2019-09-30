@@ -35,4 +35,29 @@ export default {
     const params = { postId };
     return postHttp({ url: '/contentcenter/post/getActivityItem', params });
   },
+  /**
+   * 获取微信配置
+   * @params url 当前路径
+   */
+  getWxSetting: ({ url }) => {
+    const params = { url };
+    return postHttp({ url: '/usercenter/user/getWxSetting', params });
+  },
+  /**
+   * 获取微信code
+   * @params code 微信code
+   */
+  getWxOpenid: ({ code }) => {
+    const params = { code };
+    return postHttp({ url: '/usercenter/user/getOpenId', params });
+  },
+  /**
+   * 获取微信用户信息
+   * @params openId
+   * @params accessToken
+   */
+  getWxUserInfo: ({ openId, accessToken }) => {
+    const params = { openId, accessToken };
+    return postHttp({ url: '/usercenter/user/getWxUserInfo', params });
+  },
 };

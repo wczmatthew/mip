@@ -20,6 +20,7 @@ export default new Router({
     {
       path: '/login',
       component: Login,
+      meta: { notBack: true },
     },
     {
       path: '/register',
@@ -28,6 +29,7 @@ export default new Router({
     {
       path: '/index',
       component: Index,
+      meta: { notBack: true },
       children: [
         ...search,
       ],

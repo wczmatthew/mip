@@ -44,7 +44,7 @@
           },
         },
         '/prod': {
-          target: 'https://cbp.chint.com:8707',
+          target: 'https://ism.chint.com/marketingcloud',
           changeOrigin: true,
           //路径重写
           pathRewrite: {

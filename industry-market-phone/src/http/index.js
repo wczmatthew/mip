@@ -19,9 +19,10 @@ if (process.env.NODE_ENV === 'production') {
   // 正式版本
   httpHost = getProjectName() || '';
 } else if (process.env.NODE_ENV === 'test-dev' || process.env.NODE_ENV === 'development') {
-  // httpHost = '/hw';
+  httpHost = '/hw';
   // httpHost = '/local';
-  httpHost = '/test';
+  // httpHost = '/test';
+  // httpHost = '/prod';
 }
 
 // console.log('http env: ', process.env.NODE_ENV)
@@ -73,7 +74,10 @@ function handleRes(response, showErrToast) {
  * @param {*} host 
  */
 function handleHttpHost(host) {
-  if (axios.defaults.baseURL === host) {
+  if (axios.defaults.baseURL === host) return;
+
+  if (!host) {
+    axios.defaults.baseURL = httpHost;
     return;
   }
 
@@ -82,7 +86,7 @@ function handleHttpHost(host) {
   } else if (host === '/mock') {
     axios.defaults.baseURL = MOCKHOST;
   } else {
-    axios.defaults.baseURL = httpHost;
+    axios.defaults.baseURL = host;
   }
 }
 

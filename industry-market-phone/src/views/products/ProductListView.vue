@@ -152,6 +152,7 @@ export default {
       this.isLoading = false;
       if (!result) {
         this.noProduct = !this.productList.length;
+        this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
         return;
       }
 

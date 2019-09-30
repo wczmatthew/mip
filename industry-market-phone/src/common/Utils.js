@@ -78,13 +78,17 @@ export default {
    * 获取用户id
    */
   getUserId(_this) {
-    if (!_this.$store.getters['user/userId']) {
+    if (!_this.$store.getters['user/userId'] && !this.getLocalStorageItem('userId')) {
       // userid 为空, 需要重新登录
       _this.$router.push('/login');
       setTimeout(() => {
         this.showToast('登录失效, 请重新登录');
       }, 300);
       return;
+    }
+
+    if (!_this.$store.getters['user/userId']) {
+      _this.$store.commit('user/updateUserId', this.getLocalStorageItem('userId'));
     }
     return _this.$store.getters['user/userId'];
   },
@@ -504,5 +508,37 @@ export default {
     }
     /* 不是微信浏览器 */
     return false;
+  },
+  getCookie(name){  
+    const strcookie = document.cookie;  
+    const arrcookie = strcookie.split("; ");  
+    for(let i = 0; i < arrcookie.length; i++) {  
+      const arr = arrcookie[i].split("=");
+      // 增加对特殊字符的解析
+      if(arr[0] == name) return decodeURIComponent(arr[1]);
+    }  
+    return '';  
+  },
+  addCookie(name, value, expireHours){  
+    var cookieString = name + '=' + escape(value) + '; path=/';  
+    // 判断是否设置过期时间  
+    if (expireHours > 0) {  
+      var date = new Date();  
+      date.setTime(date.getTime() + expireHours * 3600 * 1000);  
+      cookieString = cookieString + '; expire=' + date.toGMTString();  
+    }  
+    document.cookie = cookieString;  
+  },
+  delCookie(name) { // 删除cookie  
+    var exp = new Date();  
+    exp.setTime(exp.getTime() - 1);  
+    var cval = this.getCookie(name);  
+    if(cval != null) document.cookie = name + '=' + cval + '; path=/;expires=' + exp.toGMTString();  
+  },
+  GetQueryString(name) {
+    // alert('name: ' + name);
+    var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if (r != null) return unescape(r[2]); return null;
   },
 }

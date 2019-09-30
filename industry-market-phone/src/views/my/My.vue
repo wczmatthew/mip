@@ -165,7 +165,11 @@ export default {
         maskClosable: true,
         onConfirm: () => {
           this.$store.commit('user/updateUserId', '');
+          Utils.removeLocalStorageItem(this.userid);
           Utils.removeLocalStorageItem('userId');
+          Utils.delCookie('wxopenid');
+          Utils.delCookie('wxaccessToken');
+
           this.$router.push('/login');
         },
       });

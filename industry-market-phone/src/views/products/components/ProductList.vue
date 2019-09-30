@@ -162,8 +162,8 @@ export default {
     }
 
     .img {
-      width: .8rem;
-      height: .8rem;
+      width: .6rem;
+      height: .6rem;
       // border: 1px solid #f3f3f3;
       @include flex-center;
       margin-right: .05rem;

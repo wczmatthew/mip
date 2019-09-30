@@ -19,6 +19,8 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // const Guide = () => import('@/views/root/Guide.vue');
 const customerChat = () => import('@/views/customers/CustomerChat.vue');
 const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
+const invitation = () => import('@/views/my/Invitation.vue');
+const frameView = () => import('@/views/common/FrameView.vue');
 
 export default [
   {
@@ -49,6 +51,14 @@ export default [
         children: [
           ...customer,
         ],
+      },
+      {
+        path: 'invitation',
+        component: invitation,
+      },
+      {
+        path: 'frame/:frameType',
+        component: frameView,
       },
     ],
   },

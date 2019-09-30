@@ -72,17 +72,24 @@ export default {
   watch: {
     '$route'(to, from) {
       this.fromPath = from.path;
-      console.log('route from: ', this.fromPath);
+      // console.log('route from: ', this.fromPath);
 
       if (to.path === '/market') {
         this.initTabActive();
-        this.$store.dispatch('user/getCartNum');
+
+        if (this.userId) {
+          this.$store.dispatch('user/getCartNum');
+        }
       }
+    },
+    userId() {
+      this.$store.dispatch('user/getCartNum');
     },
   },
   computed: {
     ...mapGetters('user', {
       cartNum: 'cartNum',
+      userId: 'userId',
     }),
   },
   created() {},
@@ -98,7 +105,9 @@ export default {
     });
 
     this.initTabActive();
-    this.$store.dispatch('user/getCartNum');
+    if (this.userId) {
+      this.$store.dispatch('user/getCartNum');
+    }
     this.$store.dispatch('keywords/getHotKeywordList');
   },
   components: {

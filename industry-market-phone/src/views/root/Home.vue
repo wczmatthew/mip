@@ -22,15 +22,15 @@
     <div class="banner" v-if="banners && banners.length">
       <cube-slide ref="slide" :data="banners">
         <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="onClickLink(item)" class="banner-item" :auto-play="autoplay">
-          <w-img :src="item.imgPath"/>
+          <w-img :src="item.imgPath" :err-img="bannerErrImg"/>
         </cube-slide-item>
       </cube-slide>
     </div>
     <!-- 轮播图 end -->
 
     <!-- 常用功能 -->
-    <div class="w-grid-list home-category">
-      <div class="item" @click="onClickLink(item)" v-for="(item, index) in categoryList" :key="'category'+index">
+    <div class="w-grid-list home-category" v-if="categoryList && categoryList.length">
+      <div class="item" @click="onClickLink(item)" v-for="(item, index) in categoryList" :key="'category'+index" :class="{'big': index === 2}">
         <w-img :src="item.imgPath" alt=""/>
         <p class="sub-title">
           {{item.title}}
@@ -40,9 +40,9 @@
     <!-- 常用功能 end -->
 
     <!-- 新闻 -->
-    <div class="news-container">
-      <span class="title">{{news.title || '商城头条'}}</span>
-      <div class="list" v-if="news && news.list && news.list.length">
+    <div class="news-container" v-if="news && news.list && news.list.length">
+      <span class="title">{{news.title || '头条'}}</span>
+      <div class="list">
         <cube-slide direction="vertical" :data="news.list" :show-dots="false" ref="newsSlide">
           <cube-slide-item v-for="(item, index) in news.list" :key="'news'+index" @click.native="onClickLink(item)">
             <div class="item">
@@ -58,7 +58,7 @@
     <!-- 新闻 end -->
 
     <!-- 限时抢购 -->
-    <div class="home-row" v-if="buyingProducts">
+    <div class="home-row" v-if="buyingProducts && buyingProducts.list && buyingProducts.list.length">
       <div class="title">
         限时购
         <i class="iconfont icon-shandian"></i>
@@ -80,7 +80,7 @@
               {{item.title}}
             </p>
           </div>
-          <p class="desc">
+          <p class="desc price">
             ￥{{item.price}}
           </p>
         </div>
@@ -95,7 +95,7 @@
     <!-- 广告图片 end -->
 
     <!-- 海报产品列表 -->
-    <div class="w-grid-list product-grid2">
+    <div class="w-grid-list product-grid2" v-if="hotSaleProList && hotSaleProList.length">
       <div class="product product1" v-if="hotPro1.id" @click="toProductDetail(hotPro1.bm)">
         <p class="title">
           {{hotPro1.title}}
@@ -107,7 +107,7 @@
           ￥ {{hotPro1.price}} 起
         </p>
         <div class="label">
-          {{hotPro1.productType}}
+          {{hotPro1.adWord}}
         </div>
 
         <w-img :src="hotPro1.imgPath" alt="" class="bg"/>
@@ -125,7 +125,7 @@
             ￥ {{hotPro2.price}} 起
           </p>
           <div class="label">
-            {{hotPro2.productType}}
+            {{hotPro2.adWord}}
           </div>
 
           <w-img :src="hotPro2.imgPath" alt="" class="bg"/>
@@ -142,7 +142,7 @@
             ￥ {{hotPro3.price}} 起
           </p>
           <div class="label">
-            {{hotPro3.productType}}
+            {{hotPro3.adWord}}
           </div>
 
           <w-img :src="hotPro3.imgPath" alt="" class="bg"/>
@@ -160,7 +160,7 @@
           ￥ {{hotPro4.price}} 起
         </p>
         <div class="label">
-          {{hotPro4.productType}}
+          {{hotPro4.adWord}}
         </div>
 
         <w-img :src="hotPro4.imgPath" alt="" class="bg"/>
@@ -177,7 +177,7 @@
           ￥ {{hotPro5.price}} 起
         </p>
         <div class="label">
-          {{hotPro5.productType}}
+          {{hotPro5.adWord}}
         </div>
 
         <w-img :src="hotPro5.imgPath" alt="" class="bg"/>
@@ -185,55 +185,58 @@
     </div>
     <!-- 海报产品列表 end -->
 
+
     <!-- 产品列表 -->
-    <div class="w-grid-list product-list">
-      <div class="item" v-for="(item, index) in generalProList" :key="'hot'+index" @click="toProductDetail(item.bm)">
-        <div class="img">
-          <w-img :src="item.imgPath" alt=""/>
+    <div v-if="otherProdList && otherProdList.length">
+      <div v-for="(item, index) in otherProdList" :key="'prod'+index">
+        <div class="w-grid-list product-list" v-if="index == 0">
+          <div class="item" @click="toProductDetail(prod.bm)" v-for="(prod, prodIndex) in item.list" :key="'nor'+prodIndex">
+            <div class="img">
+              <w-img :src="prod.imgPath" alt=""/>
+            </div>
+            <p class="title">
+              {{prod.title}}
+            </p>
+            <!-- <p class="desc">
+              最高优惠200
+            </p> -->
+            <p class="price">
+              ￥{{prod.price || 0}}
+            </p>
+          </div>
         </div>
-        <p class="title">
-          {{item.title}}
-        </p>
-        <!-- <p class="desc">
-          最高优惠200
-        </p> -->
-        <p class="price">
-          ￥{{item.price || 0}}
-        </p>
+        <div class="product-bottom" v-if="index > 0">
+          <p class="title">
+            {{item.title}}
+          </p>
+
+          <div class="w-grid-list">
+            <div class="col" v-for="(prod, proIndex) in item.list" :key="'high'+proIndex" @click="toProductDetail(prod.bm)" :class="getProdClass(item.list, proIndex)">
+              <div class="img">
+                <w-img :src="prod.imgPath" alt=""/>
+                <div class="bottom">
+                  {{prod.adWord || prod.typeName}}
+                </div>
+              </div>
+              <p class="sub-title">
+                {{prod.title}}
+              </p>
+              <p class="price">
+                ￥{{prod.price}}
+              </p>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
     <!-- 产品列表 end -->
-
-    <!-- 精品推荐 -->
-    <div class="product-bottom">
-      <p class="title">
-        精品推荐
-      </p>
-
-      <div class="w-grid-list">
-        <div class="col" v-for="(item, index) in highQualityProList" :key="'high'+index" @click="toProductDetail(item.bm)" :class="[index < 2 ? 'col2' : 'col3']">
-          <div class="img">
-            <w-img :src="item.imgPath" alt=""/>
-            <div class="bottom">
-              {{item.productType}}
-            </div>
-          </div>
-          <p class="sub-title">
-            {{item.title}}
-          </p>
-          <p class="price">
-            ￥{{item.price}}
-          </p>
-        </div>
-
-      </div>
-    </div>
-    <!-- 精品推荐 end -->
   </div>
 </template>
 <script>
 import WSearch from '@/components/WSearch.vue';
 import banner from '@/assets/home/banner.png';
+import loading from '@/assets/loading.gif';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
 import { mapGetters } from 'vuex';
@@ -247,6 +250,7 @@ export default {
           title: '图片1',
         },
       ],
+      bannerErrImg: loading,
       buyingProducts: {},
       categoryList: [],
       news: [],
@@ -258,7 +262,7 @@ export default {
       hotPro4: {},
       hotPro5: {},
       generalProList: [], // 热门下面的产品列表
-      highQualityProList: [], // 精品推荐
+      otherProdList: [], // 5个图片下面的内容
       autoplay: true,
       hour: 0,
       minute: 0,
@@ -316,6 +320,19 @@ export default {
     }),
   },
   methods: {
+    // 获取产品列表的布局class
+    getProdClass(list, index) {
+      // 如果满足 第一行两个, 后面3个一行的格式, 这个样式优先
+      if (list.length > 2 && (list.length - 2) % 3 === 0) {
+        if (index < 2) return 'col2';
+
+        return 'col3';
+      }
+
+      if (list.length % 2 === 0) return 'col2';
+
+      return 'col3';
+    },
     updateKeywords() {
       if (!this.keywordsList.length) {
         this.$refs.searchView && this.$refs.searchView.updateKeywords('dz47');
@@ -419,9 +436,9 @@ export default {
     async getOtherData() {
       const result = await indexService.getIndexOtherData({ userid: Utils.getUserId(this) });
       if (!result) return;
-      this.hotSaleProList = [...result.hotSaleProList];
-      this.highQualityProList = [...result.highQualityProList];
-      this.generalProList = [...result.generalProList];
+      this.hotSaleProList = result.hotSaleList || [];
+      this.otherProdList = result.otherList || [];
+      // this.generalProList = [...result.generalProList];
 
       this.hotPro1 = this.hotSaleProList.length > 0 ? this.hotSaleProList[0] : {};
       this.hotPro2 = this.hotSaleProList.length > 1 ? this.hotSaleProList[1] : {};
@@ -446,7 +463,6 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 10;
 
   &::after {
     display: none;
@@ -479,6 +495,12 @@ export default {
   }
 }
 
+.price {
+  @include text-ellipsis();
+  color: $color-red;
+  font-size: 14px;
+}
+
 .banner {
   width: 100%;
   min-height: 1.2rem;
@@ -505,6 +527,7 @@ export default {
   overflow: hidden;
   img {
     width: 100%;
+    display: block;
   }
 }
 
@@ -512,7 +535,7 @@ export default {
   justify-content: space-around;
   background: #fff;
   padding: 0 .15rem;
-  padding-top: .1rem;
+  padding-top: .15rem;
 
   // &::after {
   //   content: ' ';
@@ -527,7 +550,10 @@ export default {
     padding: 0;
     padding-bottom: .08rem;
     position: relative;
-    overflow: hidden;
+    overflow: visible;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 
     img {
       // width: 50%;
@@ -539,9 +565,16 @@ export default {
     .sub-title {
       font-size:  12px;
       text-align: center;
-      color: $color-grey;
+      color: $color-grey-6;
       margin-top: .1rem;
     }
+
+    &.big {
+      img {
+        height: .42rem;
+        margin-top: -.1rem;
+      }
+    } // end big
   }
 }
 
@@ -748,8 +781,6 @@ export default {
     }
 
     .price {
-      font-size: 10px;
-      @include text-ellipsis();
       margin-bottom: .07rem;
     }
 
@@ -812,15 +843,19 @@ export default {
 } // end product-grid2
 
 .product-list {
-  padding: .1rem;
-  justify-content: space-between;
+  width: 100%;
+  padding: .1rem 0;
   background: $color-bg;
+  overflow: auto;
+  flex-wrap: nowrap;
 
   .item {
-    width: 32%;
+    width: 31vw;
     background: #fff;
-    padding: .15rem .1rem;
+    padding: .15rem .1rem .1rem;
     border-radius: .05rem;
+    margin-left: 1.8vw;
+    flex-shrink: 0;
 
     .img {
       width: 90%;
@@ -828,6 +863,7 @@ export default {
       overflow: hidden;
       @include flex-center;
       margin: 0 auto;
+      margin-bottom: .05rem;
 
       img {
         max-width: 100%;
@@ -853,8 +889,6 @@ export default {
     }
 
     .price {
-      font-size: 10px;
-      @include text-ellipsis();
       margin-bottom: .07rem;
       text-align: center;
     }
@@ -871,12 +905,12 @@ export default {
     margin-bottom: .14rem;
   }
 
-  .w-grid-list {
-    padding: 0 3vw;
-  }
+  // .w-grid-list {
+  //   padding: 0 3vw;
+  // }
 
   .col {
-    margin-right: 2vw;
+    margin-left: 2.5vw;
     overflow: hidden;
 
     .img {
@@ -884,8 +918,9 @@ export default {
       @include flex-center;
       position: relative;
       background: #fff;
-      border-radius: .05rem;
+      border-radius: .08rem;
       img {
+        width: auto;
         max-width: 100%;
         max-height: 100%;
       }
@@ -893,14 +928,14 @@ export default {
 
     .bottom {
       width: 100%;
-      height: .26rem;
-      line-height: .26rem;
+      height: .22rem;
+      line-height: .22rem;
       background: #f0f0f0;
       text-align: center;
       color: #fff;
       @include text-ellipsis();
-      color: $color-grey;
-      font-size:  12px;
+      color: $color-grey-6;
+      font-size: 10px;
     }
 
     .sub-title {
@@ -911,10 +946,7 @@ export default {
     }
 
     .price {
-      font-size:  12px;
-      color: $color-red;
       text-align: center;
-      @include text-ellipsis();
       margin: .1rem 0;
     }
   } // end col
@@ -924,42 +956,37 @@ export default {
     .img {
       width: 46vw;
       height: 46vw;
+      padding: .05rem;
+      padding-bottom: .3rem;
     }
 
     .bottom {
-      background: rgba(255, 143, 143, .7);
+      // background: rgba(255, 143, 143, .7);
       position: absolute;
       bottom: 0;
       left: 0;
       z-index: 10;
-      font-size:  12px;
-      color: #fff;
+      // color: #fff;
     }
 
-    &:nth-child(2n) {
-      margin-right: 0;
-      .bottom {
-        background: rgba(109, 188, 255, 0.7);
-      }
-    }
+    // &:nth-child(2n) {
+    //   margin-right: 0;
+    // }
   }
 
   .col3 {
     width: 30vw;
-    margin-left: 2vw;
+    margin-left: 2.5vw;
     margin-right: 0;
 
     .img {
       width: 30vw;
       height: 30vw;
       background: #fff;
+      padding: .05rem;
       padding-bottom: .26rem;
       position: relative;
       margin-right: 0;
-
-      img {
-        display: block;
-      }
 
       .bottom {
         position: absolute;
@@ -967,12 +994,14 @@ export default {
         left: 0;
         z-index: 10;
         font-size:  12px;
+        height: .2rem;
+        line-height: .2rem;
       }
     }
 
-    &:nth-child(3n) {
-      margin-left: 0;
-    }
+    // &:nth-child(3n) {
+    //   margin-left: 0;
+    // }
 
   }
 

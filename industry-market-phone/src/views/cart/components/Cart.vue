@@ -237,6 +237,10 @@ export default {
         }
       });
 
+      if (!this.selectNum) {
+        this.allChecked = false;
+      }
+
       if (!this.allChecked) {
         this.totalPrice = 0;
         this.selectNum = 0;
@@ -425,6 +429,7 @@ export default {
       this.selectNum = 0;
 
       this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
+      this.totalNum = this.productList.length;
       // this.productList.splice(index, 1);
       Utils.showToast('删除成功');
       // 计算选择产品的金额
