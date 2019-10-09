@@ -41,13 +41,16 @@ export default {
    * @param {*} icon 图标
    * @param {*} maskClosable 点击蒙版是否可以关闭
    */
-  showAlert({ title, content, icon, maskClosable }) {
+  showAlert({ title, content, icon, maskClosable, onConfirm }) {
     Dialog.$create({
       type: 'alert',
       title,
       content,
       icon,
       maskClosable: maskClosable || false,
+      onConfirm: () => {
+        onConfirm && onConfirm();
+      },
     }).show();
   },
   /**

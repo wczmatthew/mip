@@ -94,6 +94,8 @@ export default {
         });
       }
 
+      this.noData = this.dataList.length <= 0;
+
       this.$store.commit('address/updateAddress');
     },
   },
@@ -127,6 +129,8 @@ export default {
       if (!result) return;
       this.dataList.splice(index, 1);
       Utils.showToast('删除成功');
+
+      this.noData = this.dataList.length <= 0;
     },
     // 编辑
     onEdit(address, index) {

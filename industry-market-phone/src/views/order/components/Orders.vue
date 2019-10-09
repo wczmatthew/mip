@@ -132,7 +132,7 @@ export default {
     };
   },
   watch: {
-    '$route'(to, from) {
+    '$route'(to) {
       if (to.path !== this.currentPath) return;
 
       if (!this.orderData) return;

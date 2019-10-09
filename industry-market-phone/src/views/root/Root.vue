@@ -43,10 +43,15 @@
         </div>
       </div>
     </template>
+
+    <!-- 绑定手机弹窗 -->
+    <register-modal ref="registerModal"></register-modal>
+    <!-- 绑定手机弹窗 end -->
   </w-container>
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import RegisterModal from '@/components/RegisterModal.vue';
 import Home from './Home.vue';
 import CartTab from '../cart/CartTab.vue';
 import Activity from '../activity/Activity.vue';
@@ -85,11 +90,15 @@ export default {
     userId() {
       this.$store.dispatch('user/getCartNum');
     },
+    isShowRegisterModal() {
+      this.$refs.registerModal && this.$refs.registerModal.toggle(this.isShowRegisterModal);
+    },
   },
   computed: {
     ...mapGetters('user', {
       cartNum: 'cartNum',
       userId: 'userId',
+      isShowRegisterModal: 'isShowRegisterModal',
     }),
   },
   created() {},
@@ -106,6 +115,7 @@ export default {
     Activity,
     ProductCategoryTab,
     My,
+    RegisterModal,
   },
   methods: {
     initTabActive() {

@@ -190,6 +190,7 @@ export default {
   computed: {
     ...mapGetters('user', {
       customerId: 'customerId',
+      isBind: 'isBind',
     }),
   },
   components: {},
@@ -442,6 +443,28 @@ export default {
       const list = this.productList.filter(item => this.selectProducts[item.id]);
       if (!list || !list.length) {
         Utils.showToast('请先选择结算的产品');
+        return;
+      }
+
+      // 判断是否绑定经销商
+      if (!this.customerId) {
+        Utils.showAlert({
+          title: '提醒',
+          content: '您还未绑定经销商, 不能进行下单操作',
+          maskClosable: true,
+        });
+        return;
+      }
+
+      if (!this.isBind) {
+        Utils.showAlert({
+          title: '提醒',
+          content: '请先绑定手机号码',
+          maskClosable: false,
+          onConfirm: () => {
+            this.$store.commit('user/toggleRegisterModal', true);
+          },
+        });
         return;
       }
 

@@ -1,6 +1,8 @@
 import service from '@/services/common.service';
+import userService from '@/services/user.service';
 import Utils from '@/common/Utils';
 import banner from '@/assets/home/banner.png';
+import router from '@/router';
 
 /**
  * 用户相关数据存储区域
@@ -9,11 +11,13 @@ const state = {
   userId: process.env.NODE_ENV === 'production' ? '' : '',
   customerId: process.env.NODE_ENV === 'production' ? '' : '766',
   cartNum: 0,
-  isBind: 0,
+  isBind: 0, // 0 未绑定手机号码
   erweima: 'https://open.weixin.qq.com/qr/code?username=gh_18efc5314db6',
   // userId: '',
   wxSetting: {},
   wxUserInfo: {},
+  key: '', // 经销商的key
+  isShowRegisterModal: false, // 是否显示绑定手机号码弹窗
 };
 
 // getters
@@ -25,6 +29,8 @@ const getters = {
   erweima: state => state.erweima,
   wxUserInfo: state => state.wxUserInfo,
   wxSetting: state => state.wxSetting,
+  isShowRegisterModal: state => state.isShowRegisterModal,
+  key: state => state.key,
 };
 
 // actions -- 接口调用方法
@@ -105,12 +111,20 @@ const actions = {
         // alert(`openid: ${wxRes.openId} , assessToken: ${wxRes.accessToken}`);
         Utils.addCookie('wxopenid', wxRes.openId, 2);
         Utils.addCookie('wxaccessToken', wxRes.accessToken, 2);
+
+        // 获取openid成功, 获取用户信息以及进行登录操作
         dispatch('getWxUserInfo', { openId: wxRes.openId, accessToken: wxRes.accessToken });
-        // if (!wxRes) return;
+
+        // 开始登录/注册
+        dispatch('registerByOpenId', { openId: wxRes.openId });
       }
     } else {
+      // 获取openid成功, 获取用户信息以及进行登录操作
       const wxaccessToken = Utils.getCookie('wxaccessToken');
       dispatch('getWxUserInfo', { openId: wxopenid, accessToken: wxaccessToken });
+
+      // 开始登录/注册
+      dispatch('registerByOpenId', { openId: wxopenid });
     }
   },
   async getWxUserInfo({ commit }, data) {
@@ -121,6 +135,22 @@ const actions = {
       return;
     }
     commit('updateWxUserInfo', result || {});
+  },
+  async registerByOpenId({ commit }, data) {
+    console.log('key: ', state.key);
+    const result = await userService.registerByOpenId({ openId: data.openId, key: state.key });
+    if (!result) return;
+    Utils.hideLoading();
+    // 更新用户id
+    commit('updateUserId', result.userid);
+    commit('updateCustomerId', result.clientId);
+    commit('updateIsBind', result.isBind);
+    // 将数据存储在本地, 自动登录使用
+    Utils.saveLocalStorageItem('userId', result.userid);
+    Utils.saveLocalStorageItem('customerId', result.clientId);
+    Utils.saveLocalStorageItem('isBind', result.isBind);
+    Utils.showToast('登录成功');
+    router.push('/market?tab=home');
   },
 };
 
@@ -146,6 +176,12 @@ const mutations = {
   },
   updateWxUserInfo(state, data) {
     state.wxUserInfo = data;
+  },
+  updateKey(state, data) {
+    state.key = data;
+  },
+  toggleRegisterModal(state, data) {
+    state.isShowRegisterModal = data;
   },
 };
 

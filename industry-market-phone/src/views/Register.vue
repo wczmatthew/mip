@@ -7,8 +7,9 @@
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
+    <register-comp ref="register"></register-comp>
 
-    <div class="logo">
+    <!-- <div class="logo">
       <img src="../assets/common/logo.png" alt="">
     </div>
 
@@ -49,7 +50,7 @@
 
     <p class="tip">
       PS: 密码默认为 123456
-    </p>
+    </p> -->
     <!-- 正文内容 end -->
 
     <template #w-footer>
@@ -60,6 +61,7 @@
   </w-container>
 </template>
 <script>
+import RegisterComp from '@/components/RegisterComp.vue';
 import Utils from '@/common/Utils';
 import service from '@/services/user.service';
 
@@ -77,80 +79,21 @@ export default {
   },
   created() {},
   mounted() {},
-  components: {},
+  components: {
+    RegisterComp,
+  },
   methods: {
-    // 发送验证码
-    async onSendCode() {
-      if (!this.phone) {
-        Utils.showToast('请先输入手机号码');
-        return;
-      }
-
-      if (!Utils.checkPhoneNum(this.phone)) {
-        Utils.showToast('手机号码格式错误');
-        return;
-      }
-
-      if (this.isSendCode) return;
-      this.isSendCode = true;
-
-      this.sendTime = this.defaultSendTime;
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = null;
-      }
-      this.timer = setInterval(() => {
-        this.countDown();
-      }, 1000);
-
-      const result = await service.sendVerifyCode({ mobile: this.phone });
-      if (!result) {
-        // 发送验证码错误
-        clearInterval(this.timer);
-        this.timer = null;
-        return;
-      }
-      Utils.showToast('发送验证码成功');
-    },
-    countDown() {
-      if (this.sendTime > 0) {
-        this.sendTime -= 1;
-        return;
-      }
-
-      clearInterval(this.timer);
-      this.timer = null;
-      this.isSendCode = false;
-    },
     async onConfirm() {
-      Utils.nativeCloseKeyboard();
+      if (!this.$refs.register.validForm()) return;
 
-      if (!this.name) {
-        Utils.showToast('请输入联系人');
-        return;
-      }
-
-      if (!this.phone) {
-        Utils.showToast('请输入联系方式');
-        return;
-      }
-
-      if (!Utils.checkPhoneNum(this.phone)) {
-        Utils.showToast('联系方式格式错误');
-        return;
-      }
-
-      if (!this.code) {
-        Utils.showToast('请输入验证码');
-        return;
-      }
+      const formData = this.$refs.register.getFormData();
 
       Utils.showLoading();
       const params = {
         key: this.$route.query.key || '', // 商家id
-        clientName: this.name, // 客户名称
-        phone: this.phone, // 联系方式
-        code: this.code, // 手机验证码
+        clientName: formData.name, // 客户名称
+        phone: formData.phone, // 联系方式
+        code: formData.code, // 手机验证码
       };
       const result = await service.registerBindUser(params);
       if (!result) return;
@@ -171,63 +114,6 @@ export default {
 
 .w-container {
   background: #fff;
-}
-
-.logo {
-  margin: 0 auto;
-  margin-top: 5vh;
-  width: 50%;
-  min-width: .3rem;
-  min-height: .3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  img {
-    width: 100%;
-  }
-}
-
-.logo-title {
-  text-align: center;
-  line-height: .2rem;
-  color: $color-grey;
-  font-weight: 700;
-  font-size: 12px;
-  margin-top: .05rem;
-  margin-bottom: 5vh;
-}
-
-.w-tableview {
-  margin: 0 .12rem;
-}
-
-.w-tableview .cell {
-  margin-left: 0;
-  padding-left: .12rem;
-}
-
-.w-tableview .cell .title {
-  width: .8rem;
-  font-weight: 700;
-  line-height: 1.3;
-}
-
-.w-tableview .cell .desc {
-  text-align: left;
-  color: $color-black;
-}
-
-.w-tableview .cell .plain-blue-btn {
-  width: .8rem;
-  font-size:  12px;
-  height: .3rem;
-  margin-left: .05rem;
-}
-
-.tip {
-  font-size:  12px;
-  padding: .1rem .12rem;
-  color: $color-grey;
 }
 
 .bottom-btn,

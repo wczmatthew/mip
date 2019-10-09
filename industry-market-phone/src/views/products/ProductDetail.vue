@@ -171,6 +171,7 @@ export default {
       userId: 'userId',
       customerId: 'customerId',
       cartNum: 'cartNum',
+      isBind: 'isBind',
     }),
   },
   components: {
@@ -210,6 +211,18 @@ export default {
         return;
       }
 
+      if (!this.isBind) {
+        Utils.showAlert({
+          title: '提醒',
+          content: '请先绑定手机号码?',
+          maskClosable: false,
+          onConfirm: () => {
+            this.$store.commit('user/toggleRegisterModal', true);
+          },
+        });
+        return;
+      }
+
       if (this.product.store <= 0) return;
       Utils.hideLoading();
       this.$refs.numModal && this.$refs.numModal.show({
@@ -231,6 +244,18 @@ export default {
           title: '提醒',
           content: '您还未绑定经销商, 不能进行下单操作?',
           maskClosable: true,
+        });
+        return;
+      }
+
+      if (!this.isBind) {
+        Utils.showAlert({
+          title: '提醒',
+          content: '请先绑定手机号码?',
+          maskClosable: false,
+          onConfirm: () => {
+            this.$store.commit('user/toggleRegisterModal', true);
+          },
         });
         return;
       }

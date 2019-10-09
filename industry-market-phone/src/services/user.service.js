@@ -16,4 +16,14 @@ export default {
     const params = { ...data };
     return postHttp({ url: '/usercenter/user/registerBindUser', params });
   },
+  // 通过openid注册用户，如果已经注册，返回用户信息
+  registerByOpenId: ({ openId, key }) => {
+    const params = { openId, key };
+    return postHttp({ url: '/usercenter/user/registerByOpenId', params });
+  },
+  // 绑定客户到ecp系统
+  bindClientToEcp: ({ userid, clientName, phone, code }) => {
+    const params = { userid, clientName, phone, code };
+    return postHttp({ url: '/usercenter/user/bindClientToEcp', params });
+  },
 };

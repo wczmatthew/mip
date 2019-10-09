@@ -23,6 +23,10 @@ export default {
   // watch $route 决定使用哪种过渡
   watch: {
     '$route'(to, from) {
+      if (to.query.key) {
+        this.$store.commit('user/updateKey', to.query.key);
+      }
+
       if (from.path === '/' && to.path === '/login') {
         this.transitionName = 'none';
         return;
@@ -43,14 +47,17 @@ export default {
   mounted() {
     const _this = this;
     window.addEventListener('popstate', () => {
-      console.log('1111');
       if (_this.$route.meta.notBack) {
         window.history.pushState(null, null, document.URL);
       }
     });
 
     if (Utils.checkIsWeixin()) {
-      this.$store.dispatch('user/getWxSetting');
+      Utils.showLoading('自动登录中...');
+      setTimeout(() => {
+        this.$store.commit('user/updateKey', this.$route.query.key || '');
+        this.$store.dispatch('user/getWxSetting');
+      }, 500);
     }
   },
   components: {},
@@ -85,13 +92,13 @@ export default {
 
 .slide-up-enter, .slide-down-leave-active {
   opacity: 0;
-  -webkit-transform: translate(0, 30%);
-  transform: translate(0, 30%);
+  -webkit-transform: translate(0, 80%);
+  transform: translate(0, 80%);
 }
 .slide-up-leave-active, .slide-down-enter {
   opacity: 0;
-  -webkit-transform: translate(0, 30%);
-  transform: translate(0, 30%);
+  -webkit-transform: translate(0, 80%);
+  transform: translate(0, 80%);
 }
 
 .slide-left-enter, .slide-right-leave-active {
