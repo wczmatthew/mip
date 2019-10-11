@@ -24,7 +24,10 @@ export default {
   watch: {
     '$route'(to, from) {
       if (to.query.key) {
-        this.$store.commit('user/updateKey', to.query.key);
+        const key = Utils.getLocalStorageItem('marketKey', true);
+        if (!key || key !== to.query.key) {
+          Utils.saveLocalStorageItem('marketKey', this.$route.query.key || '', true);
+        }
       }
 
       if (from.path === '/' && to.path === '/login') {
@@ -52,10 +55,20 @@ export default {
       }
     });
 
+    const userid = Utils.getLocalStorageItem('userId');
+    if (userid) {
+      this.$store.commit('user/updateUserId', userid);
+      this.$store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
+      this.$store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
+    }
+
     if (Utils.checkIsWeixin()) {
       Utils.showLoading('自动登录中...');
       setTimeout(() => {
-        this.$store.commit('user/updateKey', this.$route.query.key || '');
+        const key = Utils.getLocalStorageItem('marketKey', true);
+        if ((!key || key !== this.$route.query.key) && this.$route.query.key) {
+          Utils.saveLocalStorageItem('marketKey', this.$route.query.key || '', true);
+        }
         this.$store.dispatch('user/getWxSetting');
       }, 500);
     }

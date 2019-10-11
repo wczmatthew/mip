@@ -1,4 +1,5 @@
 import Vue from 'vue';
+// import VConsole from 'vconsole';
 import './plugins/axios';
 import './cube-ui';
 import App from './App.vue';
@@ -16,6 +17,11 @@ import WImg from './components/WImg.vue';
 import WScroll from './components/WScroll.vue';
 import WModal from './components/WModal.vue';
 import WHeader from './components/WHeader.vue';
+
+// if (process.env.NODE_ENV === 'production') {
+//   // eslint-disable-next-line
+//   new VConsole();
+// }
 
 Vue.config.productionTip = false;
 

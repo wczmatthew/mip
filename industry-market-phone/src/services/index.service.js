@@ -21,4 +21,8 @@ export default {
     const params = { userid };
     return postHttp({ url: '/productcenter/product/getHomePageCorpPro', params });
   },
+  /**
+   * 获取首页预览数据
+   */
+  getIndexPrevData: () => postHttp({ url: '/contentcenter/post/previewHomePage' }),
 };

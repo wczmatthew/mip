@@ -14,9 +14,8 @@ import productSelectSearch from './products/productSelectRoot';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
-// const Home = () => import('@/views/root/Home.vue');
+const HomePrev = () => import('@/views/home/HomePrev.vue');
 // 导购
-// const Guide = () => import('@/views/root/Guide.vue');
 const customerChat = () => import('@/views/customers/CustomerChat.vue');
 const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
 const invitation = () => import('@/views/my/Invitation.vue');
@@ -61,5 +60,10 @@ export default [
         component: frameView,
       },
     ],
+  },
+  {
+    path: '/homePrev',
+    component: HomePrev,
+    meta: { notBack: true },
   },
 ];

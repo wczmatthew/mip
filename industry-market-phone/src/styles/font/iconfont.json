@@ -223,13 +223,6 @@
       "unicode_decimal": 58890
     },
     {
-      "icon_id": "2127141",
-      "name": "设置",
-      "font_class": "setting",
-      "unicode": "e612",
-      "unicode_decimal": 58898
-    },
-    {
       "icon_id": "2127167",
       "name": "订单",
       "font_class": "order",
@@ -701,7 +694,7 @@
     {
       "icon_id": "8983840",
       "name": "设置",
-      "font_class": "setting1",
+      "font_class": "setting",
       "unicode": "e61b",
       "unicode_decimal": 58907
     },

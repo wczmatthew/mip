@@ -1,6 +1,6 @@
 <!--  -->
 <template lang='html'>
-  <div ref="homeContainer" class="w-scrollview">
+  <div ref="home" class="w-scrollview">
     <!-- 顶部栏 -->
     <header class="w-header home-header">
       <div class="city">
@@ -298,10 +298,10 @@ export default {
   created() {},
   mounted() {
     // 自动登录存储userid有延时, 故这里延时加载
-    setTimeout(() => {
-      this.getData();
-      this.getOtherData();
-    }, 300);
+    // setTimeout(() => {
+    //   this.getData();
+    //   this.getOtherData();
+    // }, 300);
 
     this.keywordsTimer = setInterval(() => {
       this.updateKeywords();
@@ -344,7 +344,8 @@ export default {
       this.$refs.searchView && this.$refs.searchView.updateKeywords(this.keywordsList[index].name);
     },
     scrollTop() {
-      this.$refs.homeContainer.scrollTop = 0;
+      if (!this.$refs.home) return;
+      this.$refs.home.scrollTop = 0;
     },
     refresh() {
       this.getData();
@@ -386,9 +387,12 @@ export default {
       return time;
     },
     toSearch() {
+      if (this.mode === 'prev') return;
       this.$router.push('/market/search');
     },
     onClickLink(item) {
+      if (this.mode === 'prev') return;
+
       if (!item.url) {
         Utils.showToast('敬请期待');
         return;
@@ -409,6 +413,36 @@ export default {
       }
 
       this.$router.push(`/market/${item.url}`);
+    },
+    // 获取首页第一屏数据
+    updateFirstData(result) {
+      this.banners = result.banner || [];
+      this.categoryList = result.category || [];
+      this.news = result.news || {};
+      this.buyingProducts = result.buyingProducts || null;
+      this.midAds = result.midAds || {};
+      if (this.buyingProducts && this.buyingProducts.endDate) {
+        this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
+
+        this.timer && clearInterval(this.timer);
+        this.timer = setInterval(this.calcTime, 1000);
+      }
+      this.$nextTick(() => {
+        this.$refs.slide && this.$refs.slide.refresh();
+        this.$refs.newsSlide && this.$refs.newsSlide.refresh();
+      });
+    },
+    // 获取首页第二屏数据
+    updateOtherData(result) {
+      this.hotSaleProList = result.hotSaleList || [];
+      this.otherProdList = result.otherList || [];
+      // this.generalProList = [...result.generalProList];
+
+      this.hotPro1 = this.hotSaleProList.length > 0 ? this.hotSaleProList[0] : {};
+      this.hotPro2 = this.hotSaleProList.length > 1 ? this.hotSaleProList[1] : {};
+      this.hotPro3 = this.hotSaleProList.length > 2 ? this.hotSaleProList[2] : {};
+      this.hotPro4 = this.hotSaleProList.length > 3 ? this.hotSaleProList[3] : {};
+      this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
     },
     // 获取首页第一屏数据
     async getData() {
@@ -447,13 +481,25 @@ export default {
       this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
     },
     toProductDetail(id) {
+      if (this.mode === 'prev') return;
+
       this.$router.push(`/market/productDetail?bm=${id}`);
+    },
+  },
+  props: {
+    mode: {
+      type: String,
+      default: '', // prev: 预览模式
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/variable.scss';
+
+.w-scrollview {
+  padding-top: .44rem;
+}
 
 .w-header {
   width: 100%;
@@ -505,7 +551,7 @@ export default {
   width: 100%;
   min-height: 1.2rem;
   overflow: hidden;
-  padding-top: .44rem;
+  // padding-top: .44rem;
   max-height: 1.8rem;
 
   .banner-item {
@@ -967,6 +1013,7 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
+      font-size:  12px;
       z-index: 10;
       // color: #fff;
     }

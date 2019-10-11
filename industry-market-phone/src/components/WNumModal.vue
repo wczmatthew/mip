@@ -126,6 +126,7 @@ export default {
     flex-shrink: 0;
     width: .3rem;
     font-size: .3rem;
+    line-height: 1;
   }
 
   input {

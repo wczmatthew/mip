@@ -273,10 +273,10 @@ export default {
           // 直接将产品加入购物单
           const list = [{
             ...this.product,
-            discountPrice: this.product.DJJ,
+            discountPrice: this.product.discountPrice,
             qty: num,
-            discountRate: 0,
-            discountSum: 0,
+            discountRate: this.product.discountRate,
+            discountSum: (parseFloat(this.product.discountPrice || 0) * num).toFixed(2),
             price: this.product.DJJ,
             spec: this.product.XHGG,
           }];

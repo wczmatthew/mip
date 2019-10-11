@@ -224,29 +224,6 @@ export default {
         align-items: flex-end;
         justify-content: space-between;
         margin-top: .1rem;
-        // .num {
-        //   border: 1px solid $color-line;
-        //   width: .9rem;
-        //   height: .25rem;
-        //   display: flex;
-
-        //   .iconfont {
-        //     width: .25rem;
-        //     height: .25rem;
-        //     text-align: center;
-        //     line-height: .25rem;
-        //   }
-
-        //   input {
-        //     flex: 1;
-        //     width: 100%;
-        //     height: 100%;
-        //     border: 0;
-        //     border-left: 1px solid $color-line;
-        //     border-right: 1px solid $color-line;
-        //     text-align: center;
-        //   }
-        // }
 
         .red-btn {
           margin: 0;
@@ -254,6 +231,13 @@ export default {
           width: .25rem;
           height: .25rem;
           border-radius: .25rem;
+          padding: 0;
+
+          .iconfont {
+            display: block;
+            text-align: center;
+            line-height: .25rem;
+          }
         }
       }
 
@@ -287,7 +271,8 @@ export default {
         height: .25rem;
         border-radius: .25rem;
         font-size: 18px;
-        @include flex-center;
+        padding: 0;
+        // @include flex-center;
       }
     }
     .img {

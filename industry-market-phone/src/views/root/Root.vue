@@ -52,7 +52,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import RegisterModal from '@/components/RegisterModal.vue';
-import Home from './Home.vue';
+import Home from '../home/Home.vue';
 import CartTab from '../cart/CartTab.vue';
 import Activity from '../activity/Activity.vue';
 import My from '../my/My.vue';

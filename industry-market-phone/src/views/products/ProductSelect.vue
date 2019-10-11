@@ -688,6 +688,7 @@ export default {
     flex-shrink: 0;
     width: .2rem;
     font-size:  20px;
+    line-height: 1;
   }
 
   input {

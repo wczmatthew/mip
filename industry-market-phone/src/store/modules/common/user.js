@@ -16,7 +16,6 @@ const state = {
   // userId: '',
   wxSetting: {},
   wxUserInfo: {},
-  key: '', // 经销商的key
   isShowRegisterModal: false, // 是否显示绑定手机号码弹窗
 };
 
@@ -30,7 +29,6 @@ const getters = {
   wxUserInfo: state => state.wxUserInfo,
   wxSetting: state => state.wxSetting,
   isShowRegisterModal: state => state.isShowRegisterModal,
-  key: state => state.key,
 };
 
 // actions -- 接口调用方法
@@ -94,37 +92,85 @@ const actions = {
       });
     });
 
-    const wxopenid = Utils.getCookie('wxopenid');
+    dispatch('getWxOpenid', result);
+
+    // const wxopenid = Utils.getLocalStorageItem('wxopenid', true);
+    // // eslint-disable-next-line
+    // // alert(`code: ${accessCode}`);
+    // if (!wxopenid) {
+    //   dispatch('getWxOpenid', result);
+
+    //   // if (!accessCode) {
+    //   //   const fromurl = window.location.href;
+    //   //   // eslint-disable-next-line
+    //   //   const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+ result.appId +'&redirect_uri=' + encodeURIComponent(fromurl) +'&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
+
+    //   //   window.location.href = url;
+    //   // } else {
+    //   //   const wxRes = await service.getWxOpenid({ code: Utils.GetQueryString('code') });
+    //   //   // eslint-disable-next-line
+    //   //   // alert(`openid: ${wxRes.openId} , assessToken: ${wxRes.accessToken}`);
+    //   //   // Utils.addCookie('wxopenid', wxRes.openId, 1.5);
+    //   //   // Utils.addCookie('wxaccessToken', wxRes.accessToken, 1.5);
+    //   //   Utils.saveLocalStorageItem('wxopenid', wxRes.openId, true);
+    //   //   Utils.saveLocalStorageItem('wxaccessToken', wxRes.openId, true);
+    //   //   Utils.saveLocalStorageItem('wxopenid-date', new Date(), true);
+
+    //   //   // 获取openid成功, 获取用户信息以及进行登录操作
+    //   //   dispatch('getWxUserInfo', { openId: wxRes.openId, accessToken: wxRes.accessToken });
+
+    //   //   // 开始登录/注册
+    //   //   dispatch('registerByOpenId', { openId: wxRes.openId });
+    //   // }
+    // } else {
+    //   // 获取openid成功, 获取用户信息以及进行登录操作
+    //   // 判断openid是否过期
+    //   let openidDate = Utils.getLocalStorageItem('wxopenid-date', true);
+    //   if (!openidDate) {
+    //     // 未发现获取openid的时间, 默认已经过期
+    //     dispatch('getWxOpenid', result);
+    //     return;
+    //   }
+
+    //   openidDate = new Date(openidDate);
+    //   const now = new Date();
+    //   const timeDiff = now.getTime() - openidDate.getTime();
+    //   const hour = timeDiff / (3600 * 1000);
+    //   if (hour > 1.9) {
+    //     // 表示超时, 2小时会超时, 未防止时间有点误差, 做1.9小时处理
+    //     return;
+    //   }
+
+    //   // 未超时, 根据原来的token获取数据
+    //   const wxaccessToken = Utils.getLocalStorageItem('wxaccessToken', true);
+    //   dispatch('getWxUserInfo', { openId: wxopenid, accessToken: wxaccessToken });
+
+    //   // 开始登录/注册
+    //   dispatch('registerByOpenId', { openId: wxopenid });
+    // }
+  },
+  // 获取openid和token
+  async getWxOpenid({ dispatch }, data) {
     const accessCode = Utils.GetQueryString('code');
-    // eslint-disable-next-line
-    // alert(`code: ${accessCode}`);
-    if (!wxopenid) {
-      if (!accessCode) {
-        const fromurl = window.location.href;
-        // eslint-disable-next-line
-        const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+ result.appId +'&redirect_uri=' + encodeURIComponent(fromurl) +'&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
+    if (!accessCode) {
+      const fromurl = window.location.href;
+      // eslint-disable-next-line
+      const url = 'https://open.weixin.qq.com/connect/oauth2/authorize?appid='+ data.appId +'&redirect_uri=' + encodeURIComponent(fromurl) +'&response_type=code&scope=snsapi_userinfo&state=STATE%23wechat_redirect&connect_redirect=1#wechat_redirect';
 
-        window.location.href = url;
-      } else {
-        const wxRes = await service.getWxOpenid({ code: Utils.GetQueryString('code') });
-        // eslint-disable-next-line
-        // alert(`openid: ${wxRes.openId} , assessToken: ${wxRes.accessToken}`);
-        Utils.addCookie('wxopenid', wxRes.openId, 2);
-        Utils.addCookie('wxaccessToken', wxRes.accessToken, 2);
-
-        // 获取openid成功, 获取用户信息以及进行登录操作
-        dispatch('getWxUserInfo', { openId: wxRes.openId, accessToken: wxRes.accessToken });
-
-        // 开始登录/注册
-        dispatch('registerByOpenId', { openId: wxRes.openId });
-      }
+      window.location.href = url;
     } else {
+      const wxRes = await service.getWxOpenid({ code: Utils.GetQueryString('code') });
+
+      if (!wxRes) return;
+      Utils.saveLocalStorageItem('wxopenid', wxRes.openId, true);
+      Utils.saveLocalStorageItem('wxaccessToken', wxRes.accessToken, true);
+      Utils.saveLocalStorageItem('wxopenid-date', new Date(), true);
+
       // 获取openid成功, 获取用户信息以及进行登录操作
-      const wxaccessToken = Utils.getCookie('wxaccessToken');
-      dispatch('getWxUserInfo', { openId: wxopenid, accessToken: wxaccessToken });
+      dispatch('getWxUserInfo', { openId: wxRes.openId, accessToken: wxRes.accessToken });
 
       // 开始登录/注册
-      dispatch('registerByOpenId', { openId: wxopenid });
+      dispatch('registerByOpenId', { openId: wxRes.openId });
     }
   },
   async getWxUserInfo({ commit }, data) {
@@ -137,8 +183,15 @@ const actions = {
     commit('updateWxUserInfo', result || {});
   },
   async registerByOpenId({ commit }, data) {
-    console.log('key: ', state.key);
-    const result = await userService.registerByOpenId({ openId: data.openId, key: state.key });
+    const key = Utils.getLocalStorageItem('marketKey', true);
+    console.log('key: ', key);
+
+    const result = await userService.registerByOpenId({ openId: data.openId, key: key });
+
+    // 替换浏览器的地址, 不更新页面
+    const url = `${window.location.origin}${window.location.pathname}${window.location.hash}`;
+    window.history.pushState(null, null, url);
+
     if (!result) return;
     Utils.hideLoading();
     // 更新用户id
@@ -176,9 +229,6 @@ const mutations = {
   },
   updateWxUserInfo(state, data) {
     state.wxUserInfo = data;
-  },
-  updateKey(state, data) {
-    state.key = data;
   },
   toggleRegisterModal(state, data) {
     state.isShowRegisterModal = data;

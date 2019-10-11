@@ -99,9 +99,13 @@ export default {
    * 获取存储在本地的数据
    * @param key key值
    */
-  getLocalStorageItem(key) {
+  getLocalStorageItem(key, isGlobal) {
     if (!localStorage) {
       return '';
+    }
+
+    if (isGlobal) {
+      return localStorage.getItem(key);
     }
 
     if (key === 'userId') {
@@ -119,12 +123,12 @@ export default {
    * @param key
    * @param value
    */
-  saveLocalStorageItem(key, value) {
+  saveLocalStorageItem(key, value, isGlobal) {
     if (!localStorage) {
       return;
     }
     try {
-      if (key === 'userId') {
+      if (key === 'userId' || isGlobal) {
         localStorage.setItem(key, value);
       } else {
         // 存储用户的其他数据
@@ -151,8 +155,8 @@ export default {
    * 删除某个本地存储的数据
    * @param {String}} key 
    */
-  removeLocalStorageItem(key) {
-    if (key !== 'userId') {
+  removeLocalStorageItem(key, isGlobal) {
+    if (key !== 'userId' || !isGlobal) {
       const userId = localStorage.getItem('userId');
       let userData = this.getLocalStorageItem(userId) || {};
       // userData[key] = value;
