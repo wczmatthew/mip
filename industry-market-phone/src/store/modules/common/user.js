@@ -1,7 +1,6 @@
 import service from '@/services/common.service';
 import userService from '@/services/user.service';
 import Utils from '@/common/Utils';
-import banner from '@/assets/home/banner.png';
 import router from '@/router';
 
 /**
@@ -17,6 +16,7 @@ const state = {
   wxSetting: {},
   wxUserInfo: {},
   isShowRegisterModal: false, // 是否显示绑定手机号码弹窗
+  isShowLaunch: false, // 是否显示launch图片
 };
 
 // getters
@@ -29,6 +29,7 @@ const getters = {
   wxUserInfo: state => state.wxUserInfo,
   wxSetting: state => state.wxSetting,
   isShowRegisterModal: state => state.isShowRegisterModal,
+  isShowLaunch: state => state.isShowLaunch,
 };
 
 // actions -- 接口调用方法
@@ -58,16 +59,19 @@ const actions = {
       signature: result.signature, // 必填，签名，见附录1
       jsApiList: [
         'scanQRCode',
+        'updateAppMessageShareData',
+        'updateTimelineShareData',
       ], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
     // 需在用户可能点击分享按钮前就先调用
     // eslint-disable-next-line
     wx.ready(function () {
+      const key = Utils.getLocalStorageItem('marketKey', true);
       const title = '工业超市';
-      const desc = '';
-      const link = `${window.location.origin}${window.location.pathname}#/market?tab=home`;
-      const imgUrl = banner;
+      const desc = '欢迎使用工业超市~';
+      const link = `${window.location.origin}${window.location.pathname}#/market?tab=home&key=${key}`;
+      const imgUrl = 'https://cbp.chint.com:8708/download/logoapp.png';
       // 分享给朋友
       // eslint-disable-next-line
       wx.updateAppMessageShareData({
@@ -150,7 +154,7 @@ const actions = {
     // }
   },
   // 获取openid和token
-  async getWxOpenid({ dispatch }, data) {
+  async getWxOpenid({ dispatch, commit }, data) {
     const accessCode = Utils.GetQueryString('code');
     if (!accessCode) {
       const fromurl = window.location.href;
@@ -165,6 +169,8 @@ const actions = {
       Utils.saveLocalStorageItem('wxopenid', wxRes.openId, true);
       Utils.saveLocalStorageItem('wxaccessToken', wxRes.accessToken, true);
       Utils.saveLocalStorageItem('wxopenid-date', new Date(), true);
+
+      commit('user/toggleLaunch', false);
 
       // 获取openid成功, 获取用户信息以及进行登录操作
       dispatch('getWxUserInfo', { openId: wxRes.openId, accessToken: wxRes.accessToken });
@@ -184,7 +190,7 @@ const actions = {
   },
   async registerByOpenId({ commit }, data) {
     const key = Utils.getLocalStorageItem('marketKey', true);
-    console.log('key: ', key);
+    // console.log('key: ', key);
 
     const result = await userService.registerByOpenId({ openId: data.openId, key: key });
 
@@ -232,6 +238,9 @@ const mutations = {
   },
   toggleRegisterModal(state, data) {
     state.isShowRegisterModal = data;
+  },
+  toggleLaunch(state, data) {
+    state.isShowLaunch = data;
   },
 };
 

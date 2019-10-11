@@ -2,10 +2,10 @@
 <template lang='html'>
   <div class="my">
     <!-- 右上角图标 -->
-    <div class="right-icon1" @click="onLogout()" style="right: .4rem;">
+    <div class="right-icon1" @click="onLogout()" style="right: .4rem;" v-if="!isWeixin">
       <i class="iconfont icon-logout"></i>
     </div>
-    <div class="right-icon1" @click="onSetting()">
+    <div class="right-icon1" @click="onSetting()" v-if="!isWeixin">
       <i class="iconfont icon-setting" style="font-weight: 700; font-size: 22px;"></i>
     </div>
     <!-- 右上角图标 end -->
@@ -130,6 +130,7 @@ export default {
       collectCount: 0, // 我的收藏
       addressCount: 0, // 收货地址数量
       userData: {},
+      isWeixin: false,
     };
   },
   created() {},
@@ -137,6 +138,8 @@ export default {
     Utils.showLoading();
     this.getUserData();
     this.getData();
+
+    this.isWeixin = Utils.checkIsWeixin();
   },
   watch: {
     '$route'(to) {
@@ -167,8 +170,8 @@ export default {
           this.$store.commit('user/updateUserId', '');
           Utils.removeLocalStorageItem(this.userid);
           Utils.removeLocalStorageItem('userId');
-          Utils.delCookie('wxopenid');
-          Utils.delCookie('wxaccessToken');
+          Utils.removeLocalStorageItem('wxopenid', true);
+          Utils.removeLocalStorageItem('wxaccessToken', true);
 
           this.$router.push('/login');
         },

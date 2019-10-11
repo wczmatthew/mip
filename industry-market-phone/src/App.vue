@@ -4,11 +4,14 @@
     <transition :name="transitionName" mode="in-out">
       <router-view></router-view>
     </transition>
+
+    <img src="~@/assets/common/launch.png" alt="" class="launch" v-show="isShowLaunch">
   </div>
 </template>
 
 <script>
 import Utils from '@/common/Utils';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -46,6 +49,11 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapGetters('user', {
+      isShowLaunch: 'isShowLaunch',
+    }),
+  },
   created() {},
   mounted() {
     const _this = this;
@@ -63,6 +71,8 @@ export default {
     }
 
     if (Utils.checkIsWeixin()) {
+      this.$store.commit('user/toggleLaunch', true);
+
       Utils.showLoading('自动登录中...');
       setTimeout(() => {
         const key = Utils.getLocalStorageItem('marketKey', true);
@@ -93,6 +103,15 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.launch {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 888;
 }
 
 .fade-enter-active, .fade-leave-active {
