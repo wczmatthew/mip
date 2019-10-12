@@ -6,12 +6,17 @@
     </transition>
 
     <img src="~@/assets/common/launch.png" alt="" class="launch" v-show="isShowLaunch">
+
+    <!-- 绑定手机弹窗 -->
+    <register-modal ref="registerModal"></register-modal>
+    <!-- 绑定手机弹窗 end -->
   </div>
 </template>
 
 <script>
 import Utils from '@/common/Utils';
 import { mapGetters } from 'vuex';
+import RegisterModal from '@/components/RegisterModal.vue';
 
 export default {
   data() {
@@ -48,10 +53,14 @@ export default {
         this.transitionName = toDepth < fromDepth ? 'slide-right-half' : 'slide-left-half';
       }
     },
+    isShowRegisterModal() {
+      this.$refs.registerModal && this.$refs.registerModal.toggle(this.isShowRegisterModal);
+    },
   },
   computed: {
     ...mapGetters('user', {
       isShowLaunch: 'isShowLaunch',
+      isShowRegisterModal: 'isShowRegisterModal',
     }),
   },
   created() {},
@@ -83,7 +92,9 @@ export default {
       }, 500);
     }
   },
-  components: {},
+  components: {
+    RegisterModal,
+  },
   methods: {
   },
 };

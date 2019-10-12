@@ -61,6 +61,8 @@ const actions = {
         'scanQRCode',
         'updateAppMessageShareData',
         'updateTimelineShareData',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
       ], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
     });
 
@@ -72,28 +74,61 @@ const actions = {
       const desc = '欢迎使用工业超市~';
       const link = `${window.location.origin}${window.location.pathname}#/market?tab=home&key=${key}`;
       const imgUrl = 'https://cbp.chint.com:8708/download/logoapp.png';
-      // 分享给朋友
+      // 分享给朋友 -- updateAppMessageShareData 无效, 不知道为什么
       // eslint-disable-next-line
-      wx.updateAppMessageShareData({
-        title, // 分享标题
-        desc, // 分享描述
-        link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl, // 分享图标
-        success: () => {
-          // 设置成功
-        },
-      });
+      if (!wx.onMenuShareAppMessage) {
+        // eslint-disable-next-line
+        wx.updateAppMessageShareData({
+          title, // 分享标题
+          desc, // 分享描述
+          link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl, // 分享图标
+          success: () => {
+            // 设置成功
+            console.log('新版分享成功');
+          },
+        });
+      } else {
+        // 分享给朋友 旧版
+        // eslint-disable-next-line
+        wx.onMenuShareAppMessage({
+          title, // 分享标题
+          desc, // 分享描述
+          link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl, // 分享图标
+          type: 'link', // 分享类型,music、video或link，不填默认为link
+          success: () => {
+            // 用户点击了分享后执行的回调函数
+            console.log('旧版分享成功');
+          },
+        });
+      }
 
       // 分享到朋友圈
       // eslint-disable-next-line
-      wx.updateTimelineShareData({
-        title, // 分享标题
-        link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
-        imgUrl, // 分享图标
-        success: () => {
-          // 设置成功
-        },
-      });
+      if (!wx.onMenuShareTimeline) {
+        // eslint-disable-next-line
+        wx.updateTimelineShareData({
+          title, // 分享标题
+          link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl, // 分享图标
+          success: () => {
+            // 设置成功
+          },
+        });
+      } else {
+        // 分享给朋友圈 旧版
+        // eslint-disable-next-line
+        wx.onMenuShareTimeline({
+          title, // 分享标题
+          link, // 分享链接，该链接域名或路径必须与当前页面对应的公众号JS安全域名一致
+          imgUrl, // 分享图标
+          success: () => {
+            // 用户点击了分享后执行的回调函数
+            console.log('旧版分享成功');
+          },
+        });
+      }
     });
 
     dispatch('getWxOpenid', result);
@@ -170,7 +205,7 @@ const actions = {
       Utils.saveLocalStorageItem('wxaccessToken', wxRes.accessToken, true);
       Utils.saveLocalStorageItem('wxopenid-date', new Date(), true);
 
-      commit('user/toggleLaunch', false);
+      commit('toggleLaunch', false);
 
       // 获取openid成功, 获取用户信息以及进行登录操作
       dispatch('getWxUserInfo', { openId: wxRes.openId, accessToken: wxRes.accessToken });

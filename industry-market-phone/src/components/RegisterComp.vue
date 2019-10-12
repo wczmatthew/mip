@@ -40,7 +40,7 @@
       </div>
     </div>
 
-    <p class="tip">
+    <p class="tip" v-if="!isModal">
       PS: 密码默认为 123456
     </p>
   </div>
@@ -139,6 +139,12 @@ export default {
         phone: this.phone,
         code: this.code,
       };
+    },
+  },
+  props: {
+    isModal: {
+      type: Boolean,
+      default: false,
     },
   },
 };

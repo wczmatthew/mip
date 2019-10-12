@@ -187,6 +187,11 @@ export default {
       const result = await userService.getUserInfo({ userid: Utils.getUserId(this) });
       if (!result) return;
       this.userData = { ...result };
+
+      if (result.isBind !== undefined) {
+        Utils.saveLocalStorageItem('isBind', result.isBind);
+        this.$store.commit('user/updateIsBind', result.isBind);
+      }
     },
     async getData() {
       const result = await service.getOrderStatisticInfo({ userid: Utils.getUserId(this) });

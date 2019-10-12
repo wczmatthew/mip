@@ -12,7 +12,7 @@
       </header>
 
       <div class="w-content">
-        <register-comp ref="register"></register-comp>
+        <register-comp ref="register" isModal></register-comp>
       </div>
 
       <footer class="w-footer">
@@ -95,5 +95,9 @@ export default {
   position: fixed;
   z-index: 9999;
   background: #fff;
+  -webkit-transform: translateZ(1px);
+  -moz-transform: translateZ(1px);
+  -o-transform: translateZ(1px);
+  transform: translateZ(1px);
 }
 </style>
