@@ -20,8 +20,14 @@ const customerChat = () => import('@/views/customers/CustomerChat.vue');
 const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
 const invitation = () => import('@/views/my/Invitation.vue');
 const frameView = () => import('@/views/common/FrameView.vue');
+const Launch = () => import('@/views/root/Launch.vue');
 
 export default [
+  {
+    path: '/',
+    component: Launch,
+    meta: { notBack: true },
+  },
   {
     path: '/market',
     component: Root,

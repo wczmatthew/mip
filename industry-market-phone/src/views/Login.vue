@@ -15,7 +15,7 @@
 
 
     <div class="logo">
-      <img src="../assets/common/logo.png" alt="" @click.stop="clearCookie()">
+      <img src="../assets/common/logo.png" alt="">
     </div>
 
     <p class="logo-title">
@@ -95,7 +95,6 @@ export default {
       defaultSendTime: 60,
       timer: null,
       loginType: 0, // 0: 密码登录, 1: 验证码登录
-      clickNum: 0,
     };
   },
   created() {
@@ -105,20 +104,6 @@ export default {
   },
   components: {},
   methods: {
-    clearCookie() {
-      this.clickNum += 1;
-
-      if (this.clickNum >= 4) {
-        // 点击了5次, 清除cookie
-        Utils.delCookie('wxopenid');
-        Utils.delCookie('wxaccessToken');
-        Utils.showToast('清除cookie成功');
-      }
-
-      setTimeout(() => {
-        this.clickNum = 0;
-      }, 500);
-    },
     onChangeLoginType() {
       if (this.loginType === 1) {
         this.loginType = 0;

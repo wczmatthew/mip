@@ -24,5 +24,5 @@ export default {
   /**
    * 获取首页预览数据
    */
-  getIndexPrevData: () => postHttp({ url: '/contentcenter/post/previewHomePage' }),
+  getIndexPrevData: ({ corpid }) => postHttp({ url: '/contentcenter/post/previewHomePage', params: { corpid } }),
 };

@@ -1,5 +1,4 @@
 import Vue from 'vue';
-// import VConsole from 'vconsole';
 import './plugins/axios';
 import './cube-ui';
 import App from './App.vue';
@@ -18,11 +17,6 @@ import WScroll from './components/WScroll.vue';
 import WModal from './components/WModal.vue';
 import WHeader from './components/WHeader.vue';
 
-// if (process.env.NODE_ENV === 'production') {
-//   // eslint-disable-next-line
-//   new VConsole();
-// }
-
 Vue.config.productionTip = false;
 
 // 注册全局组件
@@ -38,6 +32,31 @@ Vue.component('w-modal', WModal);
 Vue.component('w-header', WHeader);
 
 router.beforeEach((to, from, next) => {
+  if (Utils.checkIsWeixin()) {
+    // 微信浏览器
+    // console.log(store.state.user.wxSetting.appId);
+    if (to.path === '/') {
+      next();
+      return;
+    }
+
+    const openid = Utils.getLocalStorageItem('wxopenid', true);
+    try {
+      if (openid && store.state.user.wxSetting.appId) {
+        setTimeout(() => {
+          store.commit('user/updateGetOpenid', true);
+        }, 300);
+        next();
+        return;
+      }
+
+      // 未获取openid
+      next('/'); // 确保一定要调用 next()
+    } catch (error) {
+      next('/'); // 确保一定要调用 next()
+    }
+    return;
+  }
   // console.log('beforeEach: ', to.path);
   const userid = Utils.getLocalStorageItem('userId');
   if (userid && to.path === '/login') {

@@ -25,7 +25,7 @@ export default {
     // 获取首页第一屏数据
     async getData() {
       Utils.showLoading();
-      const result = await indexService.getIndexPrevData();
+      const result = await indexService.getIndexPrevData(this.$route.query.corpid);
       if (!result) return;
       Utils.hideLoading();
       this.$refs.homeContainer && this.$refs.homeContainer.updateFirstData(result);
