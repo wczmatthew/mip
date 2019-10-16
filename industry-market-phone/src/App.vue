@@ -67,6 +67,8 @@ export default {
        * 这个bug原因未知, 如果是纯html则无这个问题
        */
 
+
+      console.log('config before url: ', window.location.href);
       // eslint-disable-next-line
       wx.config({
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。

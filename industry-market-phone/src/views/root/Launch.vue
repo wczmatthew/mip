@@ -44,11 +44,17 @@ export default {
   components: {},
   methods: {
     async getWxSetting() {
-      const urlList = window.location.href.split('.html');
+      let urlList = window.location.href.split('.html');
+      if (Utils.is_ios()) {
+        urlList = window.location.href.split('#');
+      }
       // const urlList = window.location.href.split('?code');
       let url = window.location.href;
       if (urlList.length) {
         url = `${urlList[0]}.html`;
+        if (Utils.is_ios()) {
+          url = urlList[0];
+        }
       }
       const result = await service.getWxSetting({ url: encodeURIComponent(url) });
       if (!result) return;
