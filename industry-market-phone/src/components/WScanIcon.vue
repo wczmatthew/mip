@@ -58,9 +58,9 @@ export default {
       }
 
       // // TODO: 测试用
-      // setTimeout(() => {
-      //   this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
-      // }, 300);
+      setTimeout(() => {
+        this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
+      }, 300);
       try {
         // eslint-disable-next-line
         native_listen('scan_product');

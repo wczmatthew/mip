@@ -112,7 +112,7 @@ export default {
       Utils.showLoading();
       const result = await service.inStore(params);
       if (!result) return;
-      Utils.hideToast('入库成功');
+      Utils.showToast('入库成功');
       this.$router.back();
     },
   },
@@ -137,5 +137,17 @@ export default {
   border-radius: 0;
   height: .44rem;
   font-size: 15px;
+}
+
+
+.w-tableview .cell {
+  min-height: .4rem;
+  height: auto;
+  padding-top: .05rem;
+  padding-bottom: .05rem;
+}
+
+.w-tableview .cell .title {
+  max-width: 100%;
 }
 </style>
