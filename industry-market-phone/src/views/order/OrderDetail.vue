@@ -36,6 +36,18 @@
             </div>
           </div>
         </div>
+        <div class="customre-item" v-else-if="clientName">
+          <i class="iconfont icon-location"></i>
+          <div class="detail">
+            <p class="title">
+              {{clientName}}&nbsp;&nbsp;
+              <span>{{clientMobile}}</span>
+            </p>
+            <div class="location">
+              {{clientAddress}}
+            </div>
+          </div>
+        </div>
         <!-- 地址信息 end -->
 
         <!-- 产品信息 -->
@@ -204,6 +216,9 @@ export default {
       orderDetail: {},
       customer: {},
       addressInfo: {},
+      clientName: '',
+      clientMobile: '',
+      clientAddress: '',
     };
   },
   created() {},
@@ -348,6 +363,9 @@ export default {
       this.customer = result.client;
       this.totalNum = result.total;
       this.addressInfo = result.addressInfo || {};
+      this.clientName = result.clientName || '';
+      this.clientMobile = result.clientMobile || '';
+      this.clientAddress = result.clientAddress || '';
     },
   },
 };

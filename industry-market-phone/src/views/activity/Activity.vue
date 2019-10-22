@@ -20,6 +20,11 @@
       </div>
       <!-- 轮播图 end -->
 
+      <div class="analyze-img" v-if="role == 2" @click="toAnalyze()">
+        <img src="~@/assets/common/analyze.png" alt="">
+        <p>数 据 分 析</p>
+      </div>
+
       <!-- <p class="activity-title">
         商城头条
         <span>hot</span>
@@ -59,6 +64,7 @@
 <script>
 import Utils from '@/common/Utils';
 import service from '@/services/common.service';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -82,6 +88,11 @@ export default {
     },
   },
   components: {},
+  computed: {
+    ...mapGetters('user', {
+      role: 'role',
+    }),
+  },
   filters: {
     dateFormat(val) {
       return Utils.dateFormat(new Date(val), 'yyyy-MM-dd HH:mm:ss');
@@ -91,13 +102,31 @@ export default {
     scrollTop() {
       this.$refs.activity.scrollTop = 0;
     },
+    toAnalyze() {
+      Utils.saveLocalStorageItem('beforePath', '/market?tab=gift');
+      this.$router.push({
+        path: '/market/frame',
+        query: {
+          url: 'http://10.10.100.120:8092/dist/index.html#/plan/0111000100',
+          title: '数据分析',
+        },
+      });
+    },
     // 点击轮播图
     onClickBanner(item) {
       if (!item.url) return;
       if (item.url.indexOf('http') > -1) {
         try {
           // eslint-disable-next-line
-          native_listen('goToUrl', { url: item.url });
+          // native_listen('goToUrl', { url: item.url });
+          Utils.saveLocalStorageItem('beforePath', '/market?tab=gift');
+          this.$router.push({
+            path: '/market/frame',
+            query: {
+              url: item.url,
+              title: item.title || '发现',
+            },
+          });
         } catch (error) {
           console.log('error: ', error);
         }
@@ -154,6 +183,29 @@ export default {
       display: block;
       border-radius: .08rem;
     }
+  }
+}
+
+.analyze-img {
+  position: relative;
+
+  img {
+    width: 100%;
+    display: block;
+  }
+
+  p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+    background: rgba($color: #000000, $alpha: .3);
+    color: #fff;
+    font-size: 18px;
+    @include flex-center;
+    font-weight: 700;
   }
 }
 

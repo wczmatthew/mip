@@ -128,7 +128,15 @@ export default {
         try {
           // TODO:
           // eslint-disable-next-line
-          native_listen('goToUrl', { url: item.goUrl });
+          // native_listen('goToUrl', { url: item.goUrl });
+          Utils.saveLocalStorageItem('beforePath', '/market?tab=home');
+          this.$router.push({
+            path: '/market/frame',
+            query: {
+              url: item.goUrl,
+              title: item.title || '发现',
+            },
+          });
         } catch (error) {
           console.log('error: ', error);
         }

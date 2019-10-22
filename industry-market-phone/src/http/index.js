@@ -41,8 +41,6 @@ function getProjectName() {
   return postPath === '/marketingmobile' ? "" : postPath;
 } 
 
-
-
 function handleRes(response, showErrToast) {
   if (parseInt(response.data.code, 10) === LOGOUT) {
     Utils.showToast('退出登录成功');

@@ -18,14 +18,14 @@
           <div class="radio" @click.stop="onToggleChecked(item)">
             <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
           </div>
-          <div class="img">
+          <div class="img" v-if="item.imgPath !== undefined">
             <w-img :src="item.imgPath"></w-img>
           </div>
           <div class="detail">
             <p class="product-title">
               {{item.spec}}
             </p>
-            <p class="desc">
+            <p class="desc" v-if="item.store !== undefined">
               (库存: {{item.store || 0}})
             </p>
             <div class="bottom">
@@ -40,30 +40,6 @@
             </div>
           </div>
         </div>
-        <!-- <div class="cart-item w-underline" v-for="(item, index) in productList" :key="index">
-          <div class="radio" @click="onToggleChecked(item)">
-            <i class="iconfont" :class="[allChecked || selectProducts[item.id] ? 'icon-radio-checked': 'icon-radio']"></i>
-          </div>
-          <div class="detail">
-            <div class="img">
-              <w-img src="~@/assets/home/banner.jpg"/>
-            </div>
-            <p class="title">
-              {{item.spec || '暂无'}}
-            </p>
-            <p class="price">
-              ￥{{item.price || '--'}}
-            </p>
-          </div> -->
-          <!-- <div class="right">
-            <div class="nums">
-              <i class="iconfont icon-circle-reduce" @click.stop="onReduce(item)"></i>
-              <input type="number" v-model="item.qty" @blur="onChangeNum(item)">
-              <i class="iconfont icon-circle-add" @click.stop="onAdd(item)"></i>
-            </div>
-          </div> -->
-        <!-- </div> -->
-
       </w-scroll>
     </div>
     <!-- 购物单信息 end -->
@@ -74,7 +50,7 @@
         <i class="iconfont" :class="[allChecked ? 'icon-radio-checked': 'icon-radio']"></i>全选
       </div>
 
-      <div class="detail">
+      <div class="detail" v-show="!hideBottomPrice">
         <p class="red bold">
           <span>合计: </span>{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
         </p>
@@ -89,56 +65,13 @@
         </div> -->
       </div>
       <button type="button" class="orange-btn" v-show="!isEdit" @click="onPay()">
-        结算({{selectNum}})
+        {{ confirmBtnTxt }}({{selectNum}})
       </button>
       <button type="button" class="red-btn" v-show="isEdit" @click="onDelete()">
         删除
       </button>
     </div>
     <!-- 底部价格 end-->
-
-    <!-- 弹窗内容 -->
-    <w-modal ref="onlinePayModal">
-      <div class="online-pay">
-        <p class="price">
-          ￥{{(totalPrice - discountPrice).toFixed(2)}}
-        </p>
-        <div class="code-list">
-          <div class="code-img">
-            <img src="~@/assets/common/code.png" alt="">
-          </div>
-          <div class="code-img">
-            <img src="~@/assets/common/code.png" alt="">
-          </div>
-        </div>
-      </div>
-    </w-modal>
-
-    <w-modal ref="offlinePayModal">
-      实付金额为<span class="price">￥{{(totalPrice - discountPrice).toFixed(2)}}</span>, 请前往柜台完成付款
-    </w-modal>
-
-    <w-modal ref="resultModal">
-      <div class="pay-success">
-        <div class="icon">
-          <img src="~@/assets/common/order-success.png" alt="">
-        </div>
-        <div class="detail">
-          <p class="title">
-            订单支付成功！
-          </p>
-          <div class="desc">
-            <span class="sub-title">订单号：</span>
-            <span class="black">{{orderDetail.billId || '--'}}</span>
-          </div>
-          <div class="desc">
-            <span class="sub-title">已付款：</span>
-            <span class="price">￥{{orderDetail.totalPrice || '--'}}</span>
-          </div>
-        </div>
-      </div>
-    </w-modal>
-    <!-- 弹窗内容 end -->
   </div>
   <!-- 正文内容 end -->
 </template>
@@ -151,7 +84,6 @@ export default {
   data() {
     return {
       isFirstLoading: true,
-      totalNum: 0,
       pageNum: 1,
       pageSize: 15,
       productList: [],
@@ -177,6 +109,7 @@ export default {
   mounted() {
     // 清空选中的客户信息
     this.$store.commit('customer/resetSelectCustomer');
+    if (this.isReceive) return;
     this.onPullingDown();
   },
   watch: {
@@ -191,10 +124,18 @@ export default {
     ...mapGetters('user', {
       customerId: 'customerId',
       isBind: 'isBind',
+      cartNum: 'cartNum',
+      role: 'role',
     }),
   },
   components: {},
   methods: {
+    // 更新数据
+    updateData(list) {
+      this.productList = list || [];
+      this.noData = !this.productList.length;
+      this.isFirstLoading = false;
+    },
     scrollTop() {
       this.$refs.scroll.scrollTop();
     },
@@ -215,7 +156,7 @@ export default {
         });
 
         this.calcPrice();
-        this.allChecked = this.selectNum === this.totalNum;
+        this.allChecked = this.selectNum === this.cartNum;
       } else if (this.allChecked) {
         // 编辑状态下, 如果是全选就将全部商品选中
         this.productList.forEach((item) => {
@@ -232,7 +173,10 @@ export default {
 
       this.selectNum = 0;
       this.productList.forEach((item) => {
-        if (this.isEdit || Number(item.store || 0) > 0) {
+        if (this.isReceive) {
+          this.selectProducts[item.id] = this.allChecked;
+          this.selectNum += 1;
+        } else if (this.isEdit || Number(item.store || 0) > 0) {
           this.selectProducts[item.id] = this.allChecked;
           this.selectNum += 1;
         }
@@ -253,7 +197,7 @@ export default {
     // 选择或者取消选择产品
     onToggleChecked(item) {
       // 没有库存不可选中结算
-      if (!this.isEdit && Number(item.store || 0) <= 0) return;
+      if (!this.isReceive && !this.isEdit && Number(item.store || 0) <= 0) return;
 
       this.selectProducts[item.id] = !this.selectProducts[item.id];
 
@@ -264,7 +208,11 @@ export default {
         this.allChecked = false;
       }
 
-      if (this.totalNum === this.productList.length) {
+      if (this.isReceive) {
+        // 入库单的相关操作
+        const list = this.productList.filter(product => !this.selectProducts[product.id]);
+        this.allChecked = !!(!list || !list.length);
+      } else if (this.cartNum === this.productList.length) {
         const list = this.productList.filter(product => !this.selectProducts[product.id]);
         if (this.selectProducts[item.id]) {
           // 最后一页, 判断是否已经全部选择
@@ -289,11 +237,19 @@ export default {
     },
     // 下拉刷新
     onPullingDown() {
+      if (this.isReceive) {
+        this.$emit('getData', { pageNum: 1 });
+        return;
+      }
       this.pageNum = 1;
       this.getData();
     },
     // 上拉加载
     onPullingUp() {
+      if (this.isReceive) {
+        this.$emit('getData');
+        return;
+      }
       if (!this.hasNext) {
         // 没有数据
         this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
@@ -336,9 +292,6 @@ export default {
         this.calcPrice();
       }
 
-      this.totalNum = result.total;
-      this.$emit('getTotal', this.totalNum);
-
       this.$refs.productList && this.$refs.productList.updateList(this.productList);
       this.noData = !this.productList.length;
       this.hasNext = this.productList.length < result.total;
@@ -350,6 +303,12 @@ export default {
     // 数量减少1
     async onReduce(item) {
       if (parseInt(item.qty, 10) === 1) return;
+      if (this.isReceive) {
+        // 入库单直接操作
+        item.qty -= 1;
+        return;
+      }
+
       if (item.loading) {
         Utils.showToast('正在调整数量, 请不要重复操作');
         return;
@@ -366,6 +325,11 @@ export default {
     },
     // 数量增加1
     async onAdd(item) {
+      if (this.isReceive) {
+        // 入库单直接操作
+        item.qty += 1;
+        return;
+      }
       if (item.qty >= item.store) return;
 
       if (item.loading) {
@@ -383,6 +347,7 @@ export default {
       this.calcPrice();
     },
     onChangeNum(item) {
+      if (this.isReceive) return;
       Utils.throttle(() => {
         if (this.isChangeNum) return;
         if (item.qty > item.store) {
@@ -412,6 +377,13 @@ export default {
         Utils.showToast('请先选择需要删除的产品');
         return;
       }
+
+      if (this.isReceive) {
+        // 入库单直接操作
+        this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
+        this.noData = !this.productList.length;
+        return;
+      }
       if (this.loading) return;
       this.loading = true;
       // 获取需要删除的产品id
@@ -430,7 +402,8 @@ export default {
       this.selectNum = 0;
 
       this.productList = this.productList.filter(item => !this.selectProducts[item.id]);
-      this.totalNum = this.productList.length;
+      this.noData = !this.productList.length;
+
       // this.productList.splice(index, 1);
       Utils.showToast('删除成功');
       // 计算选择产品的金额
@@ -442,7 +415,13 @@ export default {
     onPay() {
       const list = this.productList.filter(item => this.selectProducts[item.id]);
       if (!list || !list.length) {
-        Utils.showToast('请先选择结算的产品');
+        Utils.showToast('请先选择产品');
+        return;
+      }
+
+      if (this.isReceive) {
+        // 入库单直接操作
+        this.$emit('confirm', list);
         return;
       }
 
@@ -470,9 +449,19 @@ export default {
 
       this.$store.commit('order/updateSelectProducts', list);
 
+      if (this.role === 1) {
+        // 开单员
+        this.$router.push(`${this.currentPath || this.routePath}/confirmSaleOrder`);
+        return;
+      }
+
       this.$router.push(`${this.currentPath || this.routePath}/confirmOrder`);
     },
     toDetail(item) {
+      if (this.isReceive) {
+        // 入库单
+        return;
+      }
       this.$router.push(`${this.currentPath}/productDetail?bm=${item.bm}`);
     },
   },
@@ -480,6 +469,18 @@ export default {
     currentPath: { // 当前路由, 作为组件时需要传
       type: String,
       default: '',
+    },
+    hideBottomPrice: { // 底部价格是否显示
+      type: Boolean,
+      default: false,
+    },
+    isReceive: { // true: 是入库单
+      type: Boolean,
+      default: false,
+    },
+    confirmBtnTxt: {
+      type: String,
+      default: '结算',
     },
   },
 };

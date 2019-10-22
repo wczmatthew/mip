@@ -74,6 +74,12 @@ export default {
       this.fromPath = from.path;
       // console.log('route from: ', this.fromPath);
 
+      if (to.path === '/market' && from.path === '/market/frame') {
+        // iframe里面路由的变化会影响到整体路由, 所以从这个页面返回需要替换下路径
+        window.history.pushState(null, null, window.location.href);
+        console.log('123123');
+      }
+
       if (to.path === '/market') {
         this.initTabActive();
 

@@ -3,7 +3,7 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <template #header-mid>
-      购物单({{totalNum}})
+      购物单({{cartNum}})
     </template>
     <template #header-right>
       <div class="header-right" :class="{'color-active': isEdit }" @click="onEdit()">
@@ -12,19 +12,19 @@
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <cart :current-path="routePath" ref="cart" @getTotal="getTotalNum"></cart>
+    <cart :current-path="routePath" ref="cart"></cart>
     <!-- 正文内容 end -->
   </w-container>
 </template>
 <script>
 import Utils from '@/common/Utils';
+import { mapGetters } from 'vuex';
 import Cart from './components/Cart.vue';
 
 export default {
   data() {
     return {
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'cart' }),
-      totalNum: 0,
       isEdit: false,
     };
   },
@@ -40,7 +40,11 @@ export default {
       }
     },
   },
-  computed: {},
+  computed: {
+    ...mapGetters('user', {
+      cartNum: 'cartNum',
+    }),
+  },
   components: {
     Cart,
   },

@@ -22,7 +22,6 @@ export default {
   created() {},
   mounted() {
     if (this.$route.query.vconsole) {
-      console.log('11111');
       // eslint-disable-next-line
       new VConsole();
     }
@@ -56,7 +55,7 @@ export default {
           url = urlList[0];
         }
       }
-      const result = await service.getWxSetting({ url: encodeURIComponent(url) });
+      const result = await service.getWxSetting({ url: encodeURIComponent(url), key: Utils.getLocalStorageItem('marketKey', true) });
       if (!result) return;
       // Utils.saveLocalStorageItem('wxSetting', JSON.stringify(result || ''), true);
       this.$store.commit('user/updateWxSetting', result);
@@ -73,7 +72,7 @@ export default {
 
         window.location.href = url;
       } else {
-        const wxRes = await service.getWxOpenid({ code: Utils.GetQueryString('code') });
+        const wxRes = await service.getWxOpenid({ code: Utils.GetQueryString('code'), key: Utils.getLocalStorageItem('marketKey', true) });
 
         if (!wxRes) return;
         Utils.saveLocalStorageItem('wxopenid', wxRes.openId, true);
@@ -119,6 +118,7 @@ export default {
       this.$store.commit('user/updateUserId', result.userid);
       this.$store.commit('user/updateCustomerId', result.clientId);
       this.$store.commit('user/updateIsBind', result.isBind);
+      this.$store.commit('user/updateUserRole', result.role);
       // 将数据存储在本地, 自动登录使用
       Utils.saveLocalStorageItem('userId', result.userid);
       Utils.saveLocalStorageItem('customerId', result.clientId);

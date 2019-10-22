@@ -16,6 +16,7 @@ export default {
   mounted() {
     // 自动登录存储userid有延时, 故这里延时加载
     setTimeout(() => {
+      Utils.showLoading();
       this.getData();
       this.getOtherData();
     }, 300);
@@ -29,9 +30,12 @@ export default {
     scrollTop() {
       this.$refs.homeContainer && this.$refs.homeContainer.scrollTop();
     },
+    refresh() {
+      this.getData();
+      this.getOtherData();
+    },
     // 获取首页第一屏数据
     async getData() {
-      Utils.showLoading();
       const result = await indexService.getIndexData({ userid: Utils.getUserId(this) });
       if (!result) return;
       Utils.hideLoading();

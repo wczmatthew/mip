@@ -156,7 +156,7 @@ export default {
    * @param {String}} key 
    */
   removeLocalStorageItem(key, isGlobal) {
-    if (key !== 'userId' || !isGlobal) {
+    if (!isGlobal && key !== 'userId') {
       const userId = localStorage.getItem('userId');
       let userData = this.getLocalStorageItem(userId) || {};
       // userData[key] = value;

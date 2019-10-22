@@ -110,12 +110,30 @@
     </div>
     <!-- 我的订单 end -->
 
+    <!-- 其他功能 -->
+    <div class="w-tableview">
+      <!-- <div class="cell" v-if="role == 1">
+        <span class="title">
+          出入库记录
+        </span>
+        <i class="iconfont icon-arrow-right"></i>
+      </div> -->
+      <div class="cell" v-if="isBind == 0" @click="onBindPhone()">
+        <span class="title">
+          绑定手机号码
+        </span>
+        <i class="iconfont icon-arrow-right"></i>
+      </div>
+    </div>
+    <!-- 其他功能 end -->
+
   </div>
 </template>
 <script>
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
 import userService from '@/services/user.service';
+import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -149,6 +167,12 @@ export default {
       }
     },
   },
+  computed: {
+    ...mapGetters('user', {
+      isBind: 'isBind',
+      role: 'role',
+    }),
+  },
   components: {},
   methods: {
     onSetting() {
@@ -167,11 +191,11 @@ export default {
         content: '确定退出登录?',
         maskClosable: true,
         onConfirm: () => {
-          this.$store.commit('user/updateUserId', '');
-          Utils.removeLocalStorageItem(this.userid);
+          Utils.removeLocalStorageItem(this.userid, true);
           Utils.removeLocalStorageItem('userId');
           Utils.removeLocalStorageItem('wxopenid', true);
           Utils.removeLocalStorageItem('wxaccessToken', true);
+          this.$store.commit('user/updateUserId', '');
 
           this.$router.push('/login');
         },
@@ -221,6 +245,9 @@ export default {
     },
     toCollection() {
       Utils.showToast('敬请期待');
+    },
+    onBindPhone() {
+      this.$store.commit('user/toggleRegisterModal', true);
     },
   },
 };
@@ -433,5 +460,13 @@ export default {
   margin-top: .2rem;
   width: 60%;
   border-radius: .4rem;
+}
+
+.w-tableview {
+  border-radius: .05rem;
+  width: 95%;
+  margin: 0 auto;
+  margin-top: .15rem;
+  box-shadow: 0 0 7px #d4d4d4;
 }
 </style>

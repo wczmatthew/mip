@@ -21,6 +21,7 @@ const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
 const invitation = () => import('@/views/my/Invitation.vue');
 const frameView = () => import('@/views/common/FrameView.vue');
 const Launch = () => import('@/views/root/Launch.vue');
+const ConfirmReceiveProducts = () => import('@/views/products/ConfirmReceiveProducts.vue');
 
 export default [
   {
@@ -62,8 +63,12 @@ export default [
         component: invitation,
       },
       {
-        path: 'frame/:frameType',
+        path: 'frame',
         component: frameView,
+      },
+      {
+        path: 'confirmReceive',
+        component: ConfirmReceiveProducts,
       },
     ],
   },

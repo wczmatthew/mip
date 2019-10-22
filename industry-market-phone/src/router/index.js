@@ -1,7 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import root from './root';
-import mall from './products/mall';
 import search from './products/search';
 
 const Login = () => import('@/views/Login.vue'); // 登录
@@ -35,7 +34,6 @@ export default new Router({
       ],
     },
     ...root,
-    ...mall,
     { // 全不匹配的情况下，返回404，路由按顺序从上到下，依次匹配。最后一个*能匹配全部，
       path: '*',
       component: NotFound,

@@ -172,6 +172,7 @@ export default {
       customerId: 'customerId',
       cartNum: 'cartNum',
       isBind: 'isBind',
+      role: 'role',
     }),
   },
   components: {
@@ -281,6 +282,12 @@ export default {
             spec: this.product.XHGG,
           }];
           this.$store.commit('order/updateSelectProducts', list);
+
+          if (this.role === 1) {
+            // 开单员
+            this.$router.push(`${this.currentPath || this.routePath}/confirmSaleOrder`);
+            return;
+          }
 
           this.$router.push(`${this.currentPath || this.routePath}/confirmOrder`);
         },

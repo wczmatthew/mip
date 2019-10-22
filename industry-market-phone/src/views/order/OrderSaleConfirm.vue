@@ -1,30 +1,32 @@
-<!-- 确认订单 -->
+<!-- 开单员 确认订单 -->
 <template lang='html'>
   <w-container show-header show-back show-footer>
     <!-- 顶部栏 -->
     <template #header-mid>
-      确认订单
+      出库单
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
 
     <!-- 客户信息 -->
-    <div class="customre-item w-underline" @click.stop="onChangeAddress()">
-      <i class="iconfont icon-kehu"></i>
-      <div class="detail" v-if="!selectAddress || !selectAddress.id">
-        请先选择收货地址
-      </div>
-      <div class="detail" v-else>
+    <div class="customre-item w-underline">
+      <p class="customer-title">
+        客户信息
+      </p>
+      <!-- <i class="iconfont icon-kehu"></i> -->
+      <div class="detail">
         <p class="title">
-          {{selectAddress.consignee}}&nbsp;&nbsp;
-          <span>{{selectAddress.telephone}}</span>
+          <input type="text" v-model.trim="customer.name" placeholder="客户名称">
+        </p>
+        <p class="title">
+          <input type="tel" v-model.trim="customer.phone" placeholder="客户联系方式">
         </p>
         <div class="location">
-          <i class="iconfont icon-location"></i>
-          {{selectAddress.province}} {{selectAddress.address}}
+          <!-- <i class="iconfont icon-location"></i> -->
+          <input type="text" v-model.trim="customer.address" placeholder="收货地址">
         </div>
       </div>
-      <i class="iconfont icon-arrow-right"></i>
+      <!-- <i class="iconfont icon-arrow-right"></i> -->
     </div>
     <!-- 客户信息 end -->
 
@@ -159,9 +161,6 @@ export default {
       payPrice: 0, // 付款金额
       payMode: -1,
       payModeOptions: [
-        // { text: '在线支付', value: 1 },
-        // { text: '现金/刷卡', value: 2 },
-        // { text: '赊销', value: 3 },
         { text: '支付宝支付', value: 11 },
         { text: '微信支付', value: 12 },
         { text: '银联支付', value: 13 },
@@ -176,17 +175,18 @@ export default {
       tips: '',
       isCreated: false, // 是否已经创建订单
       orderDetail: {},
+      customer: { // 客户信息
+        name: '',
+        phone: '',
+        address: '',
+      },
     };
   },
   created() {},
   mounted() {
-    this.getDefaultAddress();
     this.calcPrice();
   },
   computed: {
-    ...mapGetters('address', {
-      selectAddress: 'selectAddress',
-    }),
     ...mapGetters('order', {
       selectProducts: 'selectProducts',
     }),
@@ -197,17 +197,6 @@ export default {
   components: {
   },
   methods: {
-    // 获取默认地址
-    async getDefaultAddress() {
-      Utils.showLoading();
-      const result = await service.getDefaultAddress({ userid: Utils.getUserId(this) });
-      if (!result) return;
-      Utils.hideLoading();
-      this.$store.commit('address/updateSelectAddress', result);
-    },
-    onChangeAddress() {
-      this.$router.push(`${this.routePath}/selectAddress`);
-    },
     // 计算总金额
     calcPrice() {
       let total = 0;
@@ -224,10 +213,26 @@ export default {
         return;
       }
 
-      if (!this.selectAddress || !this.selectAddress.id) {
-        Utils.showToast('请先选择收货地址');
+      if (!this.customer.name) {
+        Utils.showToast('请先输入客户名称');
         return;
       }
+
+      if (!this.customer.phone) {
+        Utils.showToast('请先输入客户联系方式');
+        return;
+      }
+
+      if (!Utils.checkPhoneNum(this.customer.phone)) {
+        Utils.showToast('客户联系方式格式不正确, 请重新输入');
+        return;
+      }
+
+      if (!this.customer.address) {
+        Utils.showToast('请先输入客户收货地址');
+        return;
+      }
+
 
       if (this.payMode === -1) {
         Utils.showToast('请先选择付款方式');
@@ -251,7 +256,9 @@ export default {
       });
       const params = {
         clientId: this.customerId,
-        address: this.selectAddress.id,
+        clientName: this.customer.name,
+        clientMobile: this.customer.phone,
+        clientAddress: this.customer.address,
         userid: Utils.getUserId(this),
         itemList: JSON.stringify(itemList),
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）
@@ -260,7 +267,7 @@ export default {
         memo: this.tips || '',
       };
       Utils.showLoading();
-      const result = await service.createAppOrder(params);
+      const result = await service.createSaleOrder(params);
       this.loading = false;
       if (!result) return;
 
@@ -273,7 +280,7 @@ export default {
       const result2 = await service.changeOrderType({ userid: Utils.getUserId(this), orderId: this.orderDetail.billId, type: 1 });
       if (!result2) return;
       Utils.hideLoading();
-      Utils.showToast('确认付款成功');
+      Utils.showToast('出库成功');
       this.$router.back();
     },
   },
@@ -281,6 +288,27 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import './scss/orderConfirm.scss';
+
+.customre-item {
+  display: block;
+}
+
+.customer-title {
+  font-size: 16px;
+  margin-bottom: .05rem;
+}
+
+.customre-item .detail {
+  padding: 0;
+  input {
+    width: 100%;
+    height: .35rem;
+    border: 1px solid $color-line;
+    border-radius: .05rem;
+    padding-left: .05rem;
+  }
+}
+
 </style>
 <style lang="scss">
 .w-tableview .cell .desc {

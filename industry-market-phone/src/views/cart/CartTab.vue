@@ -14,24 +14,28 @@
     </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <cart class="w-content" :current-path="currentPath" ref="cart" @getTotal="getTotalNum"></cart>
+    <cart class="w-content" :current-path="currentPath" ref="cart"></cart>
     <!-- 正文内容 end -->
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Cart from './components/Cart.vue';
 
 export default {
   data() {
     return {
-      totalNum: 0,
       isEdit: false,
     };
   },
   created() {},
   mounted() {
   },
-  computed: {},
+  computed: {
+    ...mapGetters('user', {
+      totalNum: 'cartNum',
+    }),
+  },
   components: {
     Cart,
   },

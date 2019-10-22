@@ -1,6 +1,6 @@
 <!-- 绑定弹窗 -->
 <template lang='html'>
-  <transition :name="slideName">
+  <transition name="slide-up-toggle">
     <div class="w-container" v-show="isShow">
       <header class="w-header">
         <div class="w-header-mid">
@@ -99,5 +99,13 @@ export default {
   -moz-transform: translateZ(1px);
   -o-transform: translateZ(1px);
   transform: translateZ(1px);
+}
+
+.slide-up-toggle-enter-active {
+  transition: all .3s ease;
+}
+.slide-up-toggle-enter, .slide-up-toggle-leave-to
+/* .slide-fade-leave-active for below version 2.1.8 */ {
+  transform: translateY(100%);
 }
 </style>

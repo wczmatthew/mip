@@ -39,16 +39,16 @@ export default {
    * 获取微信配置
    * @params url 当前路径
    */
-  getWxSetting: ({ url }) => {
-    const params = { url };
+  getWxSetting: ({ url, key }) => {
+    const params = { url, key };
     return postHttp({ url: '/usercenter/user/getWxSetting', params });
   },
   /**
    * 获取微信code
    * @params code 微信code
    */
-  getWxOpenid: ({ code }) => {
-    const params = { code };
+  getWxOpenid: ({ code, key }) => {
+    const params = { code, key };
     return postHttp({ url: '/usercenter/user/getOpenId', params });
   },
   /**

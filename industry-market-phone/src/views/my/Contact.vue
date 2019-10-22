@@ -30,7 +30,7 @@
     <p class="contact-title">
       平台应用运维资讯:
     </p>
-    <a href="tel:13777777777" class="tel" style="width: 2rem;">
+    <a href="tel:13777777777" class="tel">
       <i class="iconfont icon-kefu"></i>
       13777777777 转 709377
     </a>
@@ -90,11 +90,14 @@ export default {
   margin: .1rem auto;
   border: 1px solid $color-blue;
   color: $color-blue;
-  width: 1.3rem;
-  height: .25rem;
+  width: fit-content;
+  min-height: .25rem;
   border-radius: .25rem;
   @include flex-center;
   font-size: 16px;
+  padding: .05rem .1rem;
+  max-width: 80%;
+  @include break-word;
 
   .iconfont {
     margin-right: .1rem;

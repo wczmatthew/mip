@@ -241,6 +241,27 @@ export default {
     return postHttp({ url: '/ordercenter/order/createAppOrder', params });
   },
   /**
+   * 开单员创建订单
+   * @param userid 用户id
+   * @param clientId 客户id
+   * @param address 地址id
+   * @param itemList 购物单id,复数用逗号隔开
+   * @param payType 付款方式（1 线上付款，2 现金刷卡）
+   * @param postType 配送方式（1送货上门，2门店自提）
+   * @param memo 备注
+   * @param clientName 客户名称
+   * @param clientMobile 客户联系方式
+   * @param clientAddress 客户地址
+   */
+  createSaleOrder: ({
+    address, userid, itemList, clientId,
+    payType, memo, postType, clientName, clientMobile, clientAddress,
+  }) => {
+    if (!userid) return '';
+    const params = { userid, address, itemList, clientId, payType, memo, postType, clientName, clientMobile, clientAddress };
+    return postHttp({ url: '/ordercenter/order/createSaleOrder', params });
+  },
+  /**
    * 获取订单列表
    * @param userid 用户id
    * @param pageNum 页码
@@ -326,5 +347,23 @@ export default {
   getDefaultAddress: ({ userid }) => {
     const params = { userid };
     return postHttp({ url: '/ordercenter/address/getDefaultAddress', params });
+  },
+  /**
+   * 获取入库单的产品数据
+   * @param url 二维码url
+   */
+  getReceiveOrderItemList: ({ url }) => {
+    const params = { url };
+    return postHttp({ url: '/ordercenter/order/getReceiveOrderItemList', params });
+  },
+  /**
+   * 确认入库单
+   * @param userid 用户id
+   * @param orderId 订单id
+   * @param itemList 入库产品数据
+   */
+  inStore: ({ orderId, userid, itemList }) => {
+    const params = { orderId, userid, itemList };
+    return postHttp({ url: '/ordercenter/order/inStore', params });
   },
 };

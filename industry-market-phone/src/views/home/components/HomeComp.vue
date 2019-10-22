@@ -400,7 +400,15 @@ export default {
       if (item.url.indexOf('http') > -1) {
         try {
           // eslint-disable-next-line
-          native_listen('goToUrl', { url: item.url });
+          // native_listen('goToUrl', { url: item.url });
+          Utils.saveLocalStorageItem('beforePath', '/market?tab=home');
+          this.$router.push({
+            path: '/market/frame',
+            query: {
+              url: item.url,
+              title: item.title || '发现',
+            },
+          });
         } catch (error) {
           console.log('error: ', error);
         }

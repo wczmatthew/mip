@@ -152,6 +152,7 @@ export default {
       this.$store.commit('user/updateUserId', userid);
       this.$store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
       this.$store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
+      this.$store.commit('user/updateUserRole', Utils.getLocalStorageItem('role') || 0);
     }
 
     /**
@@ -201,16 +202,16 @@ export default {
   opacity: 0;
 }
 
-.slide-up-enter, .slide-down-leave-active {
-  opacity: 0;
-  -webkit-transform: translate(0, 80%);
-  transform: translate(0, 80%);
-}
-.slide-up-leave-active, .slide-down-enter {
-  opacity: 0;
-  -webkit-transform: translate(0, 80%);
-  transform: translate(0, 80%);
-}
+// .slide-up-enter, .slide-down-leave-active {
+//   // opacity: 0;
+//   -webkit-transform: translate(0, 30%);
+//   transform: translate(0, 30%);
+// }
+// .slide-up-leave-active, .slide-down-enter {
+//   // opacity: 0;
+//   -webkit-transform: translate(0, 30%);
+//   transform: translate(0, 30%);
+// }
 
 .slide-left-enter, .slide-right-leave-active {
   opacity: 0;

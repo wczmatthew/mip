@@ -64,6 +64,7 @@ router.beforeEach((to, from, next) => {
     store.commit('user/updateUserId', userid);
     store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
     store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
+    store.commit('user/updateUserRole', Utils.getLocalStorageItem('role') || 0);
     // this.$router.push('/market?tab=home');
 
     try {
