@@ -79,6 +79,7 @@
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
 import { mapGetters } from 'vuex';
+import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -449,7 +450,7 @@ export default {
 
       this.$store.commit('order/updateSelectProducts', list);
 
-      if (this.role === 1) {
+      if (this.role === USER_ROLE.seller) {
         // 开单员
         this.$router.push(`${this.currentPath || this.routePath}/confirmSaleOrder`);
         return;

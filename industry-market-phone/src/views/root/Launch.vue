@@ -123,6 +123,7 @@ export default {
       Utils.saveLocalStorageItem('userId', result.userid);
       Utils.saveLocalStorageItem('customerId', result.clientId);
       Utils.saveLocalStorageItem('isBind', result.isBind);
+      Utils.saveLocalStorageItem('role', result.role);
       Utils.showToast('登录成功');
       this.$router.push('/market?tab=home');
     },

@@ -3,7 +3,7 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <template #header-mid>
-      联系我们
+      {{ $route.query.title || '联系我们'}}
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->

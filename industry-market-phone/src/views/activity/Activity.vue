@@ -20,7 +20,7 @@
       </div>
       <!-- 轮播图 end -->
 
-      <div class="analyze-img" v-if="role == 2" @click="toAnalyze()">
+      <div class="analyze-img" v-if="role == viewerRole" @click="toAnalyze()">
         <img src="~@/assets/common/analyze.png" alt="">
         <p>数 据 分 析</p>
       </div>
@@ -65,6 +65,7 @@
 import Utils from '@/common/Utils';
 import service from '@/services/common.service';
 import { mapGetters } from 'vuex';
+import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -72,6 +73,7 @@ export default {
       banners: [],
       categoryList: [],
       activityList: [],
+      viewerRole: USER_ROLE.viewer,
     };
   },
   created() {},
@@ -91,6 +93,7 @@ export default {
   computed: {
     ...mapGetters('user', {
       role: 'role',
+      analyzeUrl: 'analyzeUrl',
     }),
   },
   filters: {
@@ -102,12 +105,15 @@ export default {
     scrollTop() {
       this.$refs.activity.scrollTop = 0;
     },
+    getAnalyzeUrl() {
+      this.$store.dispatch('user/getBigDataUrl');
+    },
     toAnalyze() {
       Utils.saveLocalStorageItem('beforePath', '/market?tab=gift');
       this.$router.push({
         path: '/market/frame',
         query: {
-          url: 'http://10.10.100.120:8092/dist/index.html#/plan/0111000100',
+          url: this.analyzeUrl,
           title: '数据分析',
         },
       });
@@ -136,6 +142,9 @@ export default {
       this.$router.push(item.url);
     },
     async getData() {
+      if (this.role === this.viewerRole) {
+        this.getAnalyzeUrl();
+      }
       const result = await service.getActivityPageItem({ userid: Utils.getUserId(this) });
       if (!result) return;
       this.banners = result.activityAds || [];

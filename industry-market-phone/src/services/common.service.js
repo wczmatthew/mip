@@ -60,4 +60,12 @@ export default {
     const params = { openId, accessToken };
     return postHttp({ url: '/usercenter/user/getWxUserInfo', params });
   },
+  /**
+   * 获取大数据页面url地址
+   * @param userid 用户id
+   */
+  getBigDataUrl: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/ordercenter/data/getBigDataUrl', params });
+  },
 };

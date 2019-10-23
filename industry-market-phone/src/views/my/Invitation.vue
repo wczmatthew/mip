@@ -3,7 +3,12 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <template #header-mid>
-      邀请有礼
+      {{ $route.query.title || '邀请有礼'}}
+    </template>
+    <template #header-right>
+      <div class="header-right" @click="onShare()">
+        <i class="iconfont icon-share"></i>
+      </div>
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
@@ -22,6 +27,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 
 export default {
   data() {
@@ -36,7 +42,16 @@ export default {
     }),
   },
   components: {},
-  methods: {},
+  methods: {
+    onShare() {
+      try {
+        // eslint-disable-next-line
+        native_listen('share', Utils.getLocalStorageItem('marketKey', true));
+      } catch (error) {
+        // console.log('error: ', error);
+      }
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>

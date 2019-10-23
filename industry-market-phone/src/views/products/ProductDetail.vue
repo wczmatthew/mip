@@ -152,6 +152,7 @@ import service from '@/services/product.service';
 import orderService from '@/services/order.service';
 import { mapGetters } from 'vuex';
 import WNumModal from '@/components/WNumModal.vue';
+import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -283,7 +284,7 @@ export default {
           }];
           this.$store.commit('order/updateSelectProducts', list);
 
-          if (this.role === 1) {
+          if (this.role === USER_ROLE.seller) {
             // 开单员
             this.$router.push(`${this.currentPath || this.routePath}/confirmSaleOrder`);
             return;

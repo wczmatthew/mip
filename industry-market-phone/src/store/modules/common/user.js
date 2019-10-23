@@ -18,6 +18,7 @@ const state = {
   wxUserInfo: {},
   isShowRegisterModal: false, // 是否显示绑定手机号码弹窗
   isGetOpenid: false, // 是否显示launch图片
+  analyzeUrl: '', // 大数据平台url
 };
 
 // getters
@@ -32,6 +33,7 @@ const getters = {
   wxSetting: state => state.wxSetting,
   isShowRegisterModal: state => state.isShowRegisterModal,
   isGetOpenid: state => state.isGetOpenid,
+  analyzeUrl: state => state.analyzeUrl,
 };
 
 // actions -- 接口调用方法
@@ -46,6 +48,11 @@ const actions = {
     const result = await service.getSdShopcarCount({ userid: this.state.user.userId });
     if (!result) return;
     commit('updateErweima', result || 0);
+  },
+  async getBigDataUrl({ commit }) {
+    const result = await service.getBigDataUrl({ userid: this.state.user.userId });
+    if (!result) return;
+    commit('updateAnalyzeUrl', result || '');
   },
 };
 
@@ -80,6 +87,9 @@ const mutations = {
   },
   updateGetOpenid(state, data) {
     state.isGetOpenid = data;
+  },
+  updateAnalyzeUrl(state, data) {
+    state.analyzeUrl = data;
   },
 };
 

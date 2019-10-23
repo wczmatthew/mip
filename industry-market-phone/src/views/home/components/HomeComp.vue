@@ -3,11 +3,14 @@
   <div ref="home" class="w-scrollview">
     <!-- 顶部栏 -->
     <header class="w-header home-header">
-      <div class="city">
+      <div class="header-left">
+        <img src="~@/assets/logo.png" alt="">
+      </div>
+      <!-- <div class="city">
         <i class="iconfont icon-location"></i>
         温州
         <i class="iconfont icon-triangle-down"></i>
-      </div>
+      </div> -->
 
       <div class="w-header-mid">
         <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .1rem;" ref="searchView" placeholder="dz47"></w-search>
@@ -106,7 +109,7 @@
         <p class="price">
           ￥ {{hotPro1.price}} 起
         </p>
-        <div class="label">
+        <div class="label" v-if="hotPro1.adWord">
           {{hotPro1.adWord}}
         </div>
 
@@ -124,7 +127,7 @@
           <p class="price">
             ￥ {{hotPro2.price}} 起
           </p>
-          <div class="label">
+          <div class="label" v-if="hotPro2.adWord">
             {{hotPro2.adWord}}
           </div>
 
@@ -141,7 +144,7 @@
           <p class="price">
             ￥ {{hotPro3.price}} 起
           </p>
-          <div class="label">
+          <div class="label" v-if="hotPro3.adWord">
             {{hotPro3.adWord}}
           </div>
 
@@ -159,7 +162,7 @@
         <p class="price">
           ￥ {{hotPro4.price}} 起
         </p>
-        <div class="label">
+        <div class="label" v-if="hotPro4.adWord">
           {{hotPro4.adWord}}
         </div>
 
@@ -176,7 +179,7 @@
         <p class="price">
           ￥ {{hotPro5.price}} 起
         </p>
-        <div class="label">
+        <div class="label" v-if="hotPro5.adWord">
           {{hotPro5.adWord}}
         </div>
 
@@ -323,14 +326,16 @@ export default {
     // 获取产品列表的布局class
     getProdClass(list, index) {
       // 如果满足 第一行两个, 后面3个一行的格式, 这个样式优先
-      if (list.length > 2 && (list.length - 2) % 3 === 0) {
-        if (index < 2) return 'col2';
+      // if (list.length > 2 && (list.length - 2) % 3 === 0) {
+      //   if (index < 2) return 'col2';
 
-        return 'col3';
-      }
+      //   return 'col3';
+      // }
 
       if (list.length % 2 === 0) return 'col2';
+      if (list.length % 3 === 0) return 'col3';
 
+      if (index < 2) return 'col2';
       return 'col3';
     },
     updateKeywords() {
@@ -416,11 +421,17 @@ export default {
       }
 
       if (item.url.indexOf('/market') === 0) {
-        this.$router.push(item.url);
+        this.$router.push({
+          path: item.url,
+          query: { title: item.title },
+        });
         return;
       }
 
-      this.$router.push(`/market/${item.url}`);
+      this.$router.push({
+        path: `/market/${item.url}`,
+        query: { title: item.title },
+      });
     },
     // 获取首页第一屏数据
     updateFirstData(result) {
@@ -451,6 +462,11 @@ export default {
       this.hotPro3 = this.hotSaleProList.length > 2 ? this.hotSaleProList[2] : {};
       this.hotPro4 = this.hotSaleProList.length > 3 ? this.hotSaleProList[3] : {};
       this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
+      this.hotPro1.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
+      this.hotPro2.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
+      this.hotPro3.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
+      this.hotPro4.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
+      this.hotPro5.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
     },
     // 获取首页第一屏数据
     async getData() {
@@ -517,6 +533,15 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
+  padding-left: .54rem;
+
+  .header-left {
+    img {
+      height: 70%;
+      display: block;
+      margin: 15% auto;
+    }
+  }
 
   &::after {
     display: none;
@@ -815,6 +840,7 @@ export default {
     padding: .15rem .15rem .1rem;
     position: relative;
     margin-bottom: .05rem;
+    background: #fff;
 
     p {
       position: relative;
@@ -850,11 +876,11 @@ export default {
     }
 
     img.bg {
-      width: 100%;
-      height: 100%;
+      width: 20vw;
+      height: 20vw;
       position: absolute;
-      top: 0;
-      left: 0;
+      bottom: 0;
+      right: 0;
       z-index: 1;
     }
   } // end product
@@ -862,8 +888,16 @@ export default {
   .product1 {
     width: 49%;
     border-top-left-radius: .1rem;
-    background: #e4feff;
+    // background: #e4feff;
     min-height: 2.45rem;
+
+    img.bg {
+      width: 30vw;
+      height: 30vw;
+      right: 50%;
+      bottom: 10%;
+      margin-right: -15vw;
+    }
   } // end product1
 
   .right-product {
@@ -872,25 +906,25 @@ export default {
   } // right-product
 
   .product2 {
-    background: #f4fcff;
+    // background: #f4fcff;
     border-top-right-radius: .1rem;
     height: 1.2rem;
     overflow: hidden;
   } // end product2
 
   .product3 {
-    background: #eff1fe;
+    // background: #eff1fe;
     height: 1.2rem;
     overflow: hidden;
   } // end product3
 
   .product4 {
-    background: #e7ffff;
+    // background: #e7ffff;
     width: 49%;
   }
 
   .product5 {
-    background: #ffe9fe;
+    // background: #ffe9fe;
     width: 49%;
     margin-left: 2%;
     border-radius: 0;
