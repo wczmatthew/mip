@@ -12,7 +12,7 @@ const state = {
   cartNum: 0,
   role: 0, // 用户角色: 0 普通用户，1 开单员, 2 查看数据员
   isBind: 0, // 0 未绑定手机号码
-  erweima: 'https://open.weixin.qq.com/qr/code?username=gh_18efc5314db6',
+  erweima: '',
   // userId: '',
   wxSetting: {},
   wxUserInfo: {},
@@ -45,9 +45,9 @@ const actions = {
     commit('updateCartNum', result.shopcarCount || 0);
   },
   async getErweima({ commit }) {
-    const result = await service.getSdShopcarCount({ userid: this.state.user.userId });
+    const result = await service.getWxPlatQR({ userid: this.state.user.userId });
     if (!result) return;
-    commit('updateErweima', result || 0);
+    commit('updateErweima', result || '');
   },
   async getBigDataUrl({ commit }) {
     const result = await service.getBigDataUrl({ userid: this.state.user.userId });
@@ -74,7 +74,7 @@ const mutations = {
     state.cartNum = data;
   },
   updateErweima(state, data) {
-    state.erweima = data;
+    state.erweima = data || 'https://open.weixin.qq.com/qr/code?username=gh_18efc5314db6';
   },
   updateWxSetting(state, data) {
     state.wxSetting = data;

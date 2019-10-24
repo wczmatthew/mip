@@ -57,9 +57,19 @@ export default {
   data() {
     return {
       tablist: [
-        { title: '首页', icon: 'icon-shouye', tab: 'home' },
+        {
+          title: '首页',
+          icon: 'icon-shouye',
+          tab: 'home',
+          doubleRefresh: true,
+        },
         { title: '分类', icon: 'icon-cgdh', tab: 'category' },
-        { title: '发现', icon: 'icon-faxian1', tab: 'gift' },
+        {
+          title: '发现',
+          icon: 'icon-faxian1',
+          tab: 'gift',
+          doubleRefresh: true,
+        },
         { title: '购物单', icon: 'icon-gouwuche', tab: 'cart' },
         { title: '我的', icon: 'icon-my', tab: 'my' },
       ],
@@ -105,6 +115,7 @@ export default {
       this.$store.dispatch('user/getCartNum');
     }
     this.$store.dispatch('keywords/getHotKeywordList');
+    this.$store.dispatch('user/getErweima');
   },
   components: {
     Home,
@@ -149,8 +160,9 @@ export default {
     },
     refreshViews(item) {
       this.clickNum = 0;
-      if (item.tab === 'home') {
-        this.$refs.home && this.$refs.home.refresh();
+      if (item.doubleRefresh) {
+        this.$refs[item.tab] && this.$refs[item.tab].refresh();
+        // this.$refs.home && this.$refs.home.refresh();
       }
     },
   },

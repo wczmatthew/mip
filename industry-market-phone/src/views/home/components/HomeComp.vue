@@ -113,7 +113,7 @@
           {{hotPro1.adWord}}
         </div>
 
-        <w-img :src="hotPro1.imgPath" alt="" class="bg"/>
+        <w-img :src="hotPro1.imgPath || prod.proImgPath" alt="" class="bg"/>
       </div>
 
       <div class="right-product">
@@ -131,7 +131,7 @@
             {{hotPro2.adWord}}
           </div>
 
-          <w-img :src="hotPro2.imgPath" alt="" class="bg"/>
+          <w-img :src="hotPro2.imgPath || prod.proImgPath" alt="" class="bg"/>
         </div>
 
         <div class="product product3" v-if="hotPro3.id" @click="toProductDetail(hotPro3.bm)">
@@ -148,11 +148,11 @@
             {{hotPro3.adWord}}
           </div>
 
-          <w-img :src="hotPro3.imgPath" alt="" class="bg"/>
+          <w-img :src="hotPro3.imgPath || prod.proImgPath" alt="" class="bg"/>
         </div>
       </div>
 
-      <div class="product product2 product4" v-if="hotPro4.id" @click="toProductDetail(hotPro4.bm)">
+      <div class="product product4" v-if="hotPro4.id" @click="toProductDetail(hotPro4.bm)">
         <p class="title">
           {{hotPro4.title}}
         </p>
@@ -166,10 +166,10 @@
           {{hotPro4.adWord}}
         </div>
 
-        <w-img :src="hotPro4.imgPath" alt="" class="bg"/>
+        <w-img :src="hotPro4.imgPath || prod.proImgPath" alt="" class="bg"/>
       </div>
 
-      <div class="product product2 product5" v-if="hotPro5.id" @click="toProductDetail(hotPro5.bm)">
+      <div class="product product5" v-if="hotPro5.id" @click="toProductDetail(hotPro5.bm)">
         <p class="title">
           {{hotPro5.title}}
         </p>
@@ -183,7 +183,7 @@
           {{hotPro5.adWord}}
         </div>
 
-        <w-img :src="hotPro5.imgPath" alt="" class="bg"/>
+        <w-img :src="hotPro5.imgPath || prod.proImgPath" alt="" class="bg"/>
       </div>
     </div>
     <!-- 海报产品列表 end -->
@@ -195,7 +195,7 @@
         <div class="w-grid-list product-list" v-if="index == 0">
           <div class="item" @click="toProductDetail(prod.bm)" v-for="(prod, prodIndex) in item.list" :key="'nor'+prodIndex">
             <div class="img">
-              <w-img :src="prod.imgPath" alt=""/>
+              <w-img :src="prod.imgPath || prod.proImgPath" alt=""/>
             </div>
             <p class="title">
               {{prod.title}}
@@ -216,7 +216,7 @@
           <div class="w-grid-list">
             <div class="col" v-for="(prod, proIndex) in item.list" :key="'high'+proIndex" @click="toProductDetail(prod.bm)" :class="getProdClass(item.list, proIndex)">
               <div class="img">
-                <w-img :src="prod.imgPath" alt=""/>
+                <w-img :src="prod.imgPath || prod.proImgPath" alt=""/>
                 <div class="bottom">
                   {{prod.adWord || prod.typeName}}
                 </div>
@@ -462,11 +462,6 @@ export default {
       this.hotPro3 = this.hotSaleProList.length > 2 ? this.hotSaleProList[2] : {};
       this.hotPro4 = this.hotSaleProList.length > 3 ? this.hotSaleProList[3] : {};
       this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
-      this.hotPro1.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
-      this.hotPro2.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
-      this.hotPro3.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
-      this.hotPro4.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
-      this.hotPro5.imgPath = 'https://newsdc.chint.com:8442/sdc-image/LNR/CJX1.jpg';
     },
     // 获取首页第一屏数据
     async getData() {
@@ -849,7 +844,6 @@ export default {
 
     .title {
       @include text-overflow-muli(2);
-      @include break-word;
       margin-bottom: .07rem;
       position: relative;
       z-index: 2;
@@ -873,6 +867,8 @@ export default {
       padding: .05rem .08rem;
       border-radius: .05rem;
       display: inline-block;
+      max-width: 45%;
+      max-height: .28rem;
     }
 
     img.bg {
@@ -888,8 +884,13 @@ export default {
   .product1 {
     width: 49%;
     border-top-left-radius: .1rem;
-    // background: #e4feff;
+    // background: #f0f2ff;
     min-height: 2.45rem;
+    @include background-top-gradient(#ecf2fe, #f2f6ff);
+
+    // .title {
+    //   color: #2a96e8;
+    // }
 
     img.bg {
       width: 30vw;
@@ -906,21 +907,38 @@ export default {
   } // right-product
 
   .product2 {
-    // background: #f4fcff;
+    // background: #ebfdfd;
     border-top-right-radius: .1rem;
     height: 1.2rem;
     overflow: hidden;
+    @include background-top-gradient(#e5fafd, #f1fdfd);
+
+    // .title {
+    //   color: #2b959a;
+    // }
   } // end product2
 
   .product3 {
     // background: #eff1fe;
     height: 1.2rem;
     overflow: hidden;
+    @include background-top-gradient(#f0fbff, #f4fcff);
+
+    // .title {
+    //   color: #f16959;
+    // }
   } // end product3
 
   .product4 {
     // background: #e7ffff;
     width: 49%;
+    height: 1.2rem;
+    overflow: hidden;
+    @include background-top-gradient(#e7e4f5, #f3f2fa);
+
+    // .title {
+    //   color: #9876de;
+    // }
   }
 
   .product5 {
@@ -928,13 +946,20 @@ export default {
     width: 49%;
     margin-left: 2%;
     border-radius: 0;
+    height: 1.2rem;
+    overflow: hidden;
+    @include background-top-gradient(#f0fbff, #f4fcff);
+
+    // .title {
+    //   color: #4598da;
+    // }
   }
 
 } // end product-grid2
 
 .product-list {
   width: 100%;
-  padding: .1rem 0;
+  padding: .05rem 0;
   background: $color-bg;
   overflow: auto;
   flex-wrap: nowrap;
@@ -992,7 +1017,7 @@ export default {
   .title {
     font-size:  18px;
     text-align: center;
-    margin-bottom: .14rem;
+    margin-bottom: .1rem;
   }
 
   // .w-grid-list {

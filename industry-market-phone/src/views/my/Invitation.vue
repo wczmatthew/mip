@@ -35,7 +35,9 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.$store.dispatch('user/getErweima');
+  },
   computed: {
     ...mapGetters('user', {
       erweima: 'erweima',
@@ -46,7 +48,7 @@ export default {
     onShare() {
       try {
         // eslint-disable-next-line
-        native_listen('share', Utils.getLocalStorageItem('marketKey', true));
+        native_listen('share', { userid: Utils.getUserId(this) , key: Utils.getLocalStorageItem('marketKey', true)});
       } catch (error) {
         // console.log('error: ', error);
       }

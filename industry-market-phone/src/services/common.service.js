@@ -68,4 +68,12 @@ export default {
     const params = { userid };
     return postHttp({ url: '/ordercenter/data/getBigDataUrl', params });
   },
+  /**
+   * 获取公众平台二维码图片地址
+   * @param userid 用户id
+   */
+  getWxPlatQR: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/usercenter/user/getWxPlatQR', params });
+  },
 };

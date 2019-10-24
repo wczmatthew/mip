@@ -3,7 +3,7 @@
   <w-container show-header show-back show-footer>
     <!-- 顶部栏 -->
     <template #header-mid>
-      出库单
+      销售单
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->

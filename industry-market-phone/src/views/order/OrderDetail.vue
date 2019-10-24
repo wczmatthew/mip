@@ -117,7 +117,7 @@
               发票
             </span>
             <span class="desc" v-else-if="orderDetail.certType == 3">
-              出库单
+              销售单
             </span>
             <span class="desc" v-else>
               不需要

@@ -102,6 +102,10 @@ export default {
     },
   },
   methods: {
+    refresh() {
+      this.scrollTop();
+      this.getData();
+    },
     scrollTop() {
       this.$refs.activity.scrollTop = 0;
     },
@@ -109,6 +113,7 @@ export default {
       this.$store.dispatch('user/getBigDataUrl');
     },
     toAnalyze() {
+      this.getAnalyzeUrl();
       Utils.saveLocalStorageItem('beforePath', '/market?tab=gift');
       this.$router.push({
         path: '/market/frame',

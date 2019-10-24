@@ -18,7 +18,7 @@
       </div>
     </div>
     <!-- 正文内容 -->
-    <cart :current-path="routePath" ref="cart" hide-bottom-price @getData="getData" is-receive confirmBtnTxt="入库" @confirm="onConfirm"></cart>
+    <cart :current-path="routePath" ref="cart" hide-bottom-price @getData="getData" is-receive confirmBtnTxt="提交" @confirm="onConfirm"></cart>
     <!-- 正文内容 end -->
   </w-container>
 </template>
@@ -89,6 +89,7 @@ export default {
       this.orderId = result.orderId || '';
 
       this.$refs.cart && this.$refs.cart.updateData(result.itemList);
+      this.$refs.cart && this.$refs.cart.onToggleAllChecked();
       this.totalNum = result.itemList && result.itemList.length ? result.itemList.length : 0;
     },
     // 确认入库
