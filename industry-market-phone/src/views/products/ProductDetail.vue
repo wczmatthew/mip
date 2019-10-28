@@ -147,10 +147,10 @@
   </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/product.service';
 import orderService from '@/services/order.service';
-import { mapGetters } from 'vuex';
 import WNumModal from '@/components/WNumModal.vue';
 import { USER_ROLE } from '@/common/Constants';
 

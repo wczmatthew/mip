@@ -18,8 +18,8 @@
   </w-container>
 </template>
 <script>
-import Utils from '@/common/Utils';
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 import AddressForm from './components/AddressForm.vue';
 import service from '@/services/order.service';
 

@@ -4,10 +4,10 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import VConsole from 'vconsole';
 import service from '@/services/common.service';
 import userService from '@/services/user.service';
 import Utils from '@/common/Utils';
-import VConsole from 'vconsole';
 
 export default {
   data() {

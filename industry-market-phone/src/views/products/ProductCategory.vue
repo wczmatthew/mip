@@ -5,9 +5,11 @@
     <template #header-mid>
       <w-search class="search" disabled show-scan @input-click="toSearch()"></w-search>
     </template>
-    <!-- <div class="header-right" slot="header-right">
-      <w-cart-icon currentPath="market"></w-cart-icon>
-    </div> -->
+    <template #header-right>
+      <div class="header-right">
+        <w-scan-icon :current-path="routePath"></w-scan-icon>
+      </div>
+    </template>
     <!-- 顶部栏 end -->
 
     <!-- 正文内容 -->

@@ -4,6 +4,9 @@
     <!-- 顶部栏 -->
     <w-header>
       <template #header-mid>
+        <div class="header-left">
+          <w-scan-icon current-path="/market"></w-scan-icon>
+        </div>
         购物单({{totalNum}})
       </template>
       <template #header-right>

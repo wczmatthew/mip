@@ -142,7 +142,21 @@
 
       .desc.price {
         // color: $color-black;
+        max-width: 70%;
         color: $color-red;
+        display: flex;
+        align-items: center;
+
+        .real-price {
+          text-decoration: line-through;
+          color: #999;
+          margin-left: .05rem;
+        }
+
+        button {
+          margin-left: .05rem;
+          height: .2rem;
+        }
       }
     } // end row
   }

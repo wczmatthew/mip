@@ -113,7 +113,7 @@
           {{hotPro1.adWord}}
         </div>
 
-        <w-img :src="hotPro1.imgPath || prod.proImgPath" alt="" class="bg"/>
+        <w-img :src="hotPro1.imgPath || hotPro1.proImgPath" alt="" class="bg"/>
       </div>
 
       <div class="right-product">
@@ -131,7 +131,7 @@
             {{hotPro2.adWord}}
           </div>
 
-          <w-img :src="hotPro2.imgPath || prod.proImgPath" alt="" class="bg"/>
+          <w-img :src="hotPro2.imgPath || hotPro2.proImgPath" alt="" class="bg"/>
         </div>
 
         <div class="product product3" v-if="hotPro3.id" @click="toProductDetail(hotPro3.bm)">
@@ -148,7 +148,7 @@
             {{hotPro3.adWord}}
           </div>
 
-          <w-img :src="hotPro3.imgPath || prod.proImgPath" alt="" class="bg"/>
+          <w-img :src="hotPro3.imgPath || hotPro3.proImgPath" alt="" class="bg"/>
         </div>
       </div>
 
@@ -166,7 +166,7 @@
           {{hotPro4.adWord}}
         </div>
 
-        <w-img :src="hotPro4.imgPath || prod.proImgPath" alt="" class="bg"/>
+        <w-img :src="hotPro4.imgPath || hotPro4.proImgPath" alt="" class="bg"/>
       </div>
 
       <div class="product product5" v-if="hotPro5.id" @click="toProductDetail(hotPro5.bm)">
@@ -183,32 +183,32 @@
           {{hotPro5.adWord}}
         </div>
 
-        <w-img :src="hotPro5.imgPath || prod.proImgPath" alt="" class="bg"/>
+        <w-img :src="hotPro5.imgPath || hotPro5.proImgPath" alt="" class="bg"/>
       </div>
     </div>
     <!-- 海报产品列表 end -->
 
 
     <!-- 产品列表 -->
+    <div class="w-grid-list product-list">
+      <div class="item" @click="toProductDetail(prod.bm)" v-for="(prod, index) in generalProList" :key="'gen'+index">
+        <div class="img">
+          <w-img :src="prod.imgPath || prod.proImgPath" alt=""/>
+        </div>
+        <p class="title">
+          {{prod.title}}
+        </p>
+        <!-- <p class="desc">
+          最高优惠200
+        </p> -->
+        <p class="price">
+          ￥{{prod.price || 0}}
+        </p>
+      </div>
+    </div>
     <div v-if="otherProdList && otherProdList.length">
       <div v-for="(item, index) in otherProdList" :key="'prod'+index">
-        <div class="w-grid-list product-list" v-if="index == 0">
-          <div class="item" @click="toProductDetail(prod.bm)" v-for="(prod, prodIndex) in item.list" :key="'nor'+prodIndex">
-            <div class="img">
-              <w-img :src="prod.imgPath || prod.proImgPath" alt=""/>
-            </div>
-            <p class="title">
-              {{prod.title}}
-            </p>
-            <!-- <p class="desc">
-              最高优惠200
-            </p> -->
-            <p class="price">
-              ￥{{prod.price || 0}}
-            </p>
-          </div>
-        </div>
-        <div class="product-bottom" v-if="index > 0">
+        <div class="product-bottom">
           <p class="title">
             {{item.title}}
           </p>
@@ -237,12 +237,12 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import WSearch from '@/components/WSearch.vue';
 import banner from '@/assets/home/banner.png';
 import loading from '@/assets/loading.gif';
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
-import { mapGetters } from 'vuex';
 
 export default {
   data() {
@@ -278,6 +278,7 @@ export default {
   watch: {
     '$route'(to) {
       this.timer && clearInterval(this.timer);
+      this.keywordsTimer && clearInterval(this.keywordsTimer);
       if (to.path === '/market' && to.query.tab === 'home') {
         this.autoplay = true;
         this.timer = setInterval(() => {
@@ -288,6 +289,10 @@ export default {
           this.$refs.slide && this.$refs.slide.refresh();
           this.$refs.newsSlide && this.$refs.newsSlide.refresh();
         });
+
+        this.keywordsTimer = setInterval(() => {
+          this.updateKeywords();
+        }, 5000);
       } else {
         // this.autoplay = false;
       }
@@ -455,7 +460,7 @@ export default {
     updateOtherData(result) {
       this.hotSaleProList = result.hotSaleList || [];
       this.otherProdList = result.otherList || [];
-      // this.generalProList = [...result.generalProList];
+      this.generalProList = result.generalList || [];
 
       this.hotPro1 = this.hotSaleProList.length > 0 ? this.hotSaleProList[0] : {};
       this.hotPro2 = this.hotSaleProList.length > 1 ? this.hotSaleProList[1] : {};
@@ -491,7 +496,7 @@ export default {
       if (!result) return;
       this.hotSaleProList = result.hotSaleList || [];
       this.otherProdList = result.otherList || [];
-      // this.generalProList = [...result.generalProList];
+      this.generalProList = result.generalList || [];
 
       this.hotPro1 = this.hotSaleProList.length > 0 ? this.hotSaleProList[0] : {};
       this.hotPro2 = this.hotSaleProList.length > 1 ? this.hotSaleProList[1] : {};
@@ -600,9 +605,10 @@ export default {
   display: block;
   border-radius: .05rem;
   overflow: hidden;
-  max-height: 1.8rem;
+  max-height: .8rem;
   img {
     width: 100%;
+    max-height: .8rem;
     display: block;
   }
 }

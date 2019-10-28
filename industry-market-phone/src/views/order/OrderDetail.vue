@@ -171,7 +171,7 @@
           <div class="row row2">
             <span class="title">实付金额: </span>
             <span class="price">
-              ￥{{orderDetail.totalPrice || '0'}}
+              ￥{{orderDetail.totalDiscountPrice || '0'}}
             </span>
           </div>
         </div>

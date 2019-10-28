@@ -30,9 +30,9 @@
   </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import WSearch from '@/components/WSearch.vue';
 import Utils from '@/common/Utils';
-import { mapGetters } from 'vuex';
 
 export default {
   data() {

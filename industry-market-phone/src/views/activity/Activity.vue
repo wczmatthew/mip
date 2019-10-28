@@ -53,7 +53,7 @@
             {{item.memo}}
           </p>
           <p class="desc" style="font-size: 10px;">
-            {{item.createTime | dateFormat}} ~ {{item.activityEndTime | dateFormat}}
+            {{item.createTime | dateFormat}}
           </p>
         </div>
       </div>
@@ -62,9 +62,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/common.service';
-import { mapGetters } from 'vuex';
 import { USER_ROLE } from '@/common/Constants';
 
 export default {
@@ -295,7 +295,7 @@ export default {
 
     .img {
       width: 100%;
-      height: 1.45rem;
+      height: 1.3rem;
       border-radius: .1rem;
       overflow: hidden;
       @include flex-center;

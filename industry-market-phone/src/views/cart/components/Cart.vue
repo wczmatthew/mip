@@ -76,9 +76,9 @@
   <!-- 正文内容 end -->
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
-import { mapGetters } from 'vuex';
 import { USER_ROLE } from '@/common/Constants';
 
 export default {

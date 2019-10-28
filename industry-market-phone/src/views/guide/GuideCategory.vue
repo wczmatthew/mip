@@ -57,8 +57,8 @@
   </w-container>
 </template>
 <script>
-import WSearch from '@/components/WSearch.vue';
 import { mapGetters } from 'vuex';
+import WSearch from '@/components/WSearch.vue';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 

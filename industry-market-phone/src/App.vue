@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import Utils from '@/common/Utils';
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 import RegisterModal from '@/components/RegisterModal.vue';
 
 export default {

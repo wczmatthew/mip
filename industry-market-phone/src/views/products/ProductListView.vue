@@ -6,7 +6,9 @@
       <w-search class="search" disabled show-scan @input-click="toSearch()" ref="search"></w-search>
     </template>
     <template #header-right>
-      <div class="header-right"></div>
+      <div class="header-right">
+        <w-scan-icon :current-path="routePath"></w-scan-icon>
+      </div>
     </template>
     <!-- 顶部栏 end -->
 
@@ -35,12 +37,12 @@
   </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import WSearch from '@/components/WSearch.vue';
 import service from '@/services/product.service';
 import Utils from '@/common/Utils';
 import ProductList from './components/ProductList.vue';
 import SortTab from './components/SortTab.vue';
-import { mapGetters } from 'vuex';
 import WNumModal from '@/components/WNumModal.vue';
 
 export default {

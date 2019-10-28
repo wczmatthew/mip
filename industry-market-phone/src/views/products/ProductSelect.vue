@@ -126,10 +126,10 @@
   </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/product.service';
 import orderService from '@/services/order.service';
-import { mapGetters } from 'vuex';
 
 export default {
   data() {

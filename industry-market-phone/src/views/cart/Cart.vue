@@ -17,8 +17,8 @@
   </w-container>
 </template>
 <script>
-import Utils from '@/common/Utils';
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 import Cart from './components/Cart.vue';
 
 export default {

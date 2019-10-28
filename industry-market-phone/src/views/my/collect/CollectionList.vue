@@ -31,11 +31,11 @@
   </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import WNumModal from '@/components/WNumModal.vue';
 import service from '@/services/order.service';
 import Utils from '@/common/Utils';
 import ProductList from '@/views/products/components/ProductList.vue';
-import { mapGetters } from 'vuex';
 
 export default {
   data() {

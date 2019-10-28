@@ -64,7 +64,13 @@
           <div class="row">
             <span class="desc">X{{product.qty || 0}}</span>
             <span class="desc price">
-              ￥{{product.price}}
+              ￥{{product.discountPrice || product.price}}
+              <span class="real-price">
+                {{ product.price }}
+              </span>
+              <button type="button" class="gradient-btn" @click.stop="onChangePrice(product, productIndex)">
+                改价
+              </button>
             </span>
           </div>
         </div>
@@ -118,6 +124,13 @@
         </span>
       </div>
 
+      <div class="cell">
+        <span class="title">
+          抹零金额
+        </span>
+        <input type="number" class="desc" v-model="reducePrice">
+      </div>
+
       <div class="cell textarea-cell">
         <span class="title">
           备注
@@ -138,7 +151,7 @@
           <p class="red bold">
             <span>实付: </span>
             <small>￥</small>
-            {{(payPrice).toFixed(2)}}
+            {{(payPrice - reducePrice).toFixed(2)}}
           </p>
         </div>
         <button type="button" class="orange-btn" @click="onPay()">
@@ -160,6 +173,7 @@ export default {
       totalPrice: 0, // 实际金额
       payPrice: 0, // 付款金额
       payMode: -1,
+      reducePrice: 0, // 抹零金额
       payModeOptions: [
         { text: '支付宝支付', value: 11 },
         { text: '微信支付', value: 12 },
@@ -196,7 +210,26 @@ export default {
   },
   components: {
   },
+  watch: {},
   methods: {
+    onChangePrice(item, index) {
+      Utils.showPrompt({
+        title: '调整单价',
+        placeholder: (item.discountPrice || item.price).toString(),
+        value: item.discountPrice || '',
+        onConfirm: ({ promptValue }) => {
+          this.$store.commit('order/updateSelectProductsByIndex', {
+            index,
+            product: {
+              ...item,
+              discountPrice: promptValue,
+            },
+          });
+
+          this.calcPrice();
+        },
+      });
+    },
     // 计算总金额
     calcPrice() {
       let total = 0;
@@ -265,6 +298,7 @@ export default {
         // certType: this.fileMsg, // 相关文件（1资质证书，2发票，3出库单）
         payType: this.payMode,
         memo: this.tips || '',
+        oddment: this.reducePrice,
       };
       Utils.showLoading();
       const result = await service.createSaleOrder(params);

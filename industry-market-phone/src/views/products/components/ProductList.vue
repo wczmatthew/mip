@@ -41,9 +41,9 @@
   <!-- 商品列表 end -->
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
-import { mapGetters } from 'vuex';
 
 export default {
   data() {

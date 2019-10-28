@@ -75,7 +75,7 @@
 
             <!-- 订单总计 -->
             <div class="order-total">
-              共{{item.totalCount || 0}}件商品 合计: <span class="price">￥{{item.totalPrice}}</span>
+              共{{item.totalCount || 0}}件商品 合计: <span class="price">￥{{item.totalDiscountPrice}}</span>
             </div>
             <!-- 订单总计 end -->
 
@@ -102,9 +102,9 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import service from '@/services/order.service';
 import Utils from '@/common/Utils';
-import { mapGetters } from 'vuex';
 
 export default {
   data() {

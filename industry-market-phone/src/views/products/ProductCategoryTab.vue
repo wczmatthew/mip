@@ -4,6 +4,9 @@
     <!-- 顶部栏 -->
     <w-header>
       <template #header-mid>
+        <div class="header-left">
+          <w-scan-icon current-path="/market"></w-scan-icon>
+        </div>
         <w-search class="search" disabled show-scan @input-click="toSearch()"></w-search>
       </template>
       <template #header-right>

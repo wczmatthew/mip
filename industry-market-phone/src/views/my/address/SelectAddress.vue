@@ -11,8 +11,8 @@
   </w-container>
 </template>
 <script>
-import Utils from '@/common/Utils';
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 import Address from './components/Address.vue';
 
 export default {

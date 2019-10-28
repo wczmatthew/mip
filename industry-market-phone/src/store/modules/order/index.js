@@ -20,7 +20,14 @@ const actions = {
 const mutations = {
   // 更新选中的产品信息
   updateSelectProducts(state, data) {
-    state.selectProducts = [...data];
+    state.selectProducts = data || [];
+  },
+  // 更新选中产品中某个产品信息
+  updateSelectProductsByIndex(state, data) {
+    if (data.index < 0 && data.index >= state.selectProducts.length) return;
+    const list = [...state.selectProducts];
+    list[data.index] = data.product;
+    state.selectProducts = list;
   },
   // 更新查看的订单信息
   updateOrderData(state, data) {

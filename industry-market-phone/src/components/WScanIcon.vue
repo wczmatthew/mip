@@ -6,8 +6,8 @@
   </div>
 </template>
 <script>
-import Utils from '@/common/Utils';
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 import service from '@/services/order.service';
 
 export default {
@@ -57,10 +57,11 @@ export default {
         return;
       }
 
-      // // TODO: 测试用
-      // setTimeout(() => {
-      //   this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
-      // }, 300);
+      // TODO: 测试用
+      setTimeout(() => {
+        this.handleScan('0054374648900700028');
+        // this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
+      }, 300);
       try {
         // eslint-disable-next-line
         native_listen('scan_product');
@@ -69,43 +70,57 @@ export default {
       }
     },
     handleScan(data) {
-      const obj = JSON.parse(data);
-      if (typeof obj !== 'object') {
-        // 返回的是产品编码
-        if (Number(this.role) === 1) {
-          // 开单员直接加入采购单
-          this.addToCart(obj);
-          // this.$router.push(`${this.currentPath}/confirmReceive`);
-          return;
+      if (!data) return;
+      try {
+        if (typeof JSON.parse(data) === 'object') {
+          const obj = JSON.parse(data);
+          // 返回的是对象格式
+          if (Number(obj.type) === 1) {
+            // 入库单操作
+            Utils.saveLocalStorageItem('receiveUrl', obj.url || '');
+            this.$router.push({
+              path: `${this.currentPath}/confirmReceive`,
+              query: {
+                orderId: obj.orderId || '',
+                vendorId: obj.vendorId || '',
+              },
+            });
+          }
+        } else {
+          // 返回的不是jsonobj格式
+          this.handleScanProduct(data);
         }
+      } catch (error) {
+        // 解析失败, 返回的不是jsonobj格式
+        this.handleScanProduct(data);
+      }
+    },
+    // 扫码获取的是产品信息
+    async handleScanProduct(data) {
+      // 先查询产品信息
+      const proRes = await service.scanBarcode({ userid: this.userId, code: data });
+      if (!proRes) return;
 
-        // 其他用户查看产品详情
-        this.$router.push(`${this.currentPath}/productDetail?bm=${obj}`);
+      // 返回的是产品编码
+      if (Number(this.role) === 1) {
+        // 开单员直接加入采购单
+        this.addToCart(proRes);
         return;
       }
 
-      // 返回的是对象格式
-      if (Number(obj.type) === 1) {
-        // 入库单操作
-        Utils.saveLocalStorageItem('receiveUrl', obj.url || '');
-        this.$router.push({
-          path: `${this.currentPath}/confirmReceive`,
-          query: {
-            orderId: obj.orderId || '',
-            vendorId: obj.vendorId || '',
-          },
-        });
-      }
+      // 其他用户查看产品详情
+      this.$router.push(`${this.currentPath}/productDetail?bm=${proRes.prodId}`);
     },
     // 加入购物单
-    async addToCart(bm) {
+    async addToCart(proRes) {
       if (this.loading) {
         Utils.showToast('正在加入购物单, 请勿频繁操作');
         return;
       }
       this.loading = true;
+
       Utils.showLoading();
-      const result = await service.addToShopCarWithClient({ userid: this.userId, bm, qty: 1, clientId: this.customerId });
+      const result = await service.addToShopCarWithClient({ userid: this.userId, bm: proRes.prodId, qty: proRes.qty || 1, clientId: this.customerId });
       this.loading = false;
       if (!result) return;
       Utils.hideLoading();

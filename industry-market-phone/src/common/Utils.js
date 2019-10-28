@@ -37,6 +37,31 @@ export default {
   /**
    * 显示提示窗, 就一个按钮
    * @param {*} title 标题
+   * @param {*} placeholder 输入框预置内容
+   * @param {*} value 输入框显示内容
+   * @param {*} maskClosable 点击蒙版是否可以关闭
+   * @param {*} onConfirm 确定回调
+   */
+  showPrompt({ title, placeholder, value, maskClosable, onConfirm }) {
+    Dialog.$create({
+      type: 'prompt',
+      title,
+      prompt: {
+        value: value || '',
+        placeholder: placeholder || '请输入',
+      },
+      maskClosable: maskClosable || false,
+      onConfirm: (e, promptValue) => {
+        onConfirm && onConfirm({e, promptValue});
+      },
+    }).show();
+
+    // 修改prompt显示的值
+    Dialog.promptValue = value;
+  },
+  /**
+   * 显示提示窗, 就一个按钮
+   * @param {*} title 标题
    * @param {*} content 内容
    * @param {*} icon 图标
    * @param {*} maskClosable 点击蒙版是否可以关闭

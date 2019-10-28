@@ -252,13 +252,14 @@ export default {
    * @param clientName 客户名称
    * @param clientMobile 客户联系方式
    * @param clientAddress 客户地址
+   * @param oddment 抹零金额
    */
   createSaleOrder: ({
-    address, userid, itemList, clientId,
+    address, userid, itemList, clientId, oddment,
     payType, memo, postType, clientName, clientMobile, clientAddress,
   }) => {
     if (!userid) return '';
-    const params = { userid, address, itemList, clientId, payType, memo, postType, clientName, clientMobile, clientAddress };
+    const params = { userid, address, itemList, clientId, payType, memo, postType, clientName, clientMobile, clientAddress, oddment };
     return postHttp({ url: '/ordercenter/order/createSaleOrder', params });
   },
   /**
@@ -365,5 +366,16 @@ export default {
   inStore: ({ orderId, userid, itemList }) => {
     const params = { orderId, userid, itemList };
     return postHttp({ url: '/ordercenter/order/inStore', params });
+  },
+  /**
+   * 开单员扫码获取产品西悉尼
+   * @param userid 用户id
+   * @param code 扫码获取的数据
+   */
+  scanBarcode: ({ code, userid }) => {
+    const params = {
+      code, userid,
+    };
+    return postHttp({ url: '/ordercenter/order/scanBarcode', params });
   },
 };
