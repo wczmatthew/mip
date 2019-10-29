@@ -1,4 +1,4 @@
-import customer from '../customer';
+import customer from '../customer/select';
 import selectAddress from '../address/select';
 
 const OrderConfirm = () => import('@/views/order/OrderConfirm.vue');
@@ -16,6 +16,8 @@ export default [
   {
     path: 'confirmSaleOrder', // 开单员的确认订单界面
     component: OrderSaleConfirm,
-    children: [],
+    children: [
+      ...customer,
+    ],
   },
 ];

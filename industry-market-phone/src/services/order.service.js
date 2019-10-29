@@ -253,13 +253,14 @@ export default {
    * @param clientMobile 客户联系方式
    * @param clientAddress 客户地址
    * @param oddment 抹零金额
+   * @param saleClientId 选择的客户id
    */
   createSaleOrder: ({
-    address, userid, itemList, clientId, oddment,
+    address, userid, itemList, clientId, oddment, saleClientId,
     payType, memo, postType, clientName, clientMobile, clientAddress,
   }) => {
     if (!userid) return '';
-    const params = { userid, address, itemList, clientId, payType, memo, postType, clientName, clientMobile, clientAddress, oddment };
+    const params = { userid, address, itemList, clientId, payType, memo, postType, clientName, clientMobile, clientAddress, oddment, saleClientId };
     return postHttp({ url: '/ordercenter/order/createSaleOrder', params });
   },
   /**
@@ -377,5 +378,45 @@ export default {
       code, userid,
     };
     return postHttp({ url: '/ordercenter/order/scanBarcode', params });
+  },
+  /**
+   * 新增客户
+   * @param userid 用户id
+   * @param phone 联系方式
+   * @param address 地址
+   * @param name 客户名称
+   */
+  addSaleClient: ({ phone, address, userid, name }) => {
+    const params = {
+      phone, userid, address, name,
+    };
+    return postHttp({ url: '/ordercenter/client/addSaleClient', params });
+  },
+  /**
+   * 编辑客户
+   * @param userid 用户id
+   * @param phone 联系方式
+   * @param address 地址
+   * @param name 客户名称
+   * @param clientId 客户id
+   */
+  editSaleClient: ({ phone, address, userid, name, clientId }) => {
+    const params = {
+      phone, address, userid, name, clientId,
+    };
+    return postHttp({ url: '/ordercenter/client/editSaleClient', params });
+  },
+  /**
+   * 获取客户列表
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示数量
+   * @param keyword 查询关键字
+   */
+  getSaleClientList: ({ pageNum, pageSize, userid, keyword }) => {
+    const params = {
+      pageNum, pageSize, userid, keyword,
+    };
+    return postHttp({ url: '/ordercenter/client/getSaleClientList', params });
   },
 };

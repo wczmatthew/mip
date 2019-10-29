@@ -58,10 +58,10 @@ export default {
       }
 
       // TODO: 测试用
-      setTimeout(() => {
-        this.handleScan('0054374648900700028');
-        // this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
-      }, 300);
+      // setTimeout(() => {
+      //   this.handleScan('0054374648900700028');
+      //   // this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
+      // }, 300);
       try {
         // eslint-disable-next-line
         native_listen('scan_product');
@@ -100,11 +100,12 @@ export default {
       // 先查询产品信息
       const proRes = await service.scanBarcode({ userid: this.userId, code: data });
       if (!proRes) return;
-
+      Utils.hideLoading();
       // 返回的是产品编码
       if (Number(this.role) === 1) {
         // 开单员直接加入采购单
-        this.addToCart(proRes);
+        Utils.showToast('加入购物单成功');
+        // this.addToCart(proRes);
         return;
       }
 

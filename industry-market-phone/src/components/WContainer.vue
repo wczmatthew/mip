@@ -20,7 +20,7 @@
 
     <!-- 中间内容 -->
     <slot name="w-content" v-if="editContent" ref="rootContainer"></slot>
-    <div class="w-content w-scroll" v-else>
+    <div class="w-content w-scroll" v-else ref="wContent">
       <slot></slot>
     </div>
     <!-- 中间内容 end -->
@@ -69,7 +69,14 @@ export default {
   created() {},
   mounted() {},
   components: {},
-  methods: {},
+  methods: {
+    getContentScrollTop() {
+      return this.$refs.wContent.scrollTop;
+    },
+    updateContentScrollTop(scrollTop) {
+      this.$refs.wContent.scrollTop = scrollTop;
+    },
+  },
   props: {
     showBack: { // 是否显示返回键
       type: Boolean,

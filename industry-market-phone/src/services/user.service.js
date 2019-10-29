@@ -26,4 +26,9 @@ export default {
     const params = { userid, clientName, phone, code };
     return postHttp({ url: '/usercenter/user/bindClientToEcp', params });
   },
+  // 名片扫描
+  uploadImageData: ({ imgData }) => {
+    const params = { imgData };
+    return postHttp({ url: '/usercenter/user/uploadImageData', params });
+  },
 };

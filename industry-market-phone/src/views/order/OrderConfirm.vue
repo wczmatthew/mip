@@ -8,7 +8,7 @@
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
 
-    <!-- 客户信息 -->
+    <!-- 收货地址信息 -->
     <div class="customre-item w-underline" @click.stop="onChangeAddress()">
       <i class="iconfont icon-kehu"></i>
       <div class="detail" v-if="!selectAddress || !selectAddress.id">
@@ -26,7 +26,7 @@
       </div>
       <i class="iconfont icon-arrow-right"></i>
     </div>
-    <!-- 客户信息 end -->
+    <!-- 收货地址信息 end -->
 
     <!-- 产品列表 -->
     <div class="product-img-list" @click.stop="isOpen = !isOpen" :class="{'open': isOpen}">
@@ -182,6 +182,17 @@ export default {
   mounted() {
     this.getDefaultAddress();
     this.calcPrice();
+
+    // 添加 resize 绑定事件
+    window.addEventListener('resize', () => {
+      // alert(document.documentElement.clientHeight);
+      if (this.windowHeight === document.documentElement.clientHeight) {
+        // 键盘收起恢复原状
+        this.$refs.saleContainer.updateContentScrollTop(this.scrollTop);
+      } else {
+        this.scrollTop = this.$refs.saleContainer.getContentScrollTop();
+      }
+    }, false);
   },
   computed: {
     ...mapGetters('address', {

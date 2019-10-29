@@ -49,15 +49,14 @@ export default {
       prompt: {
         value: value || '',
         placeholder: placeholder || '请输入',
+        type: 'number',
       },
       maskClosable: maskClosable || false,
       onConfirm: (e, promptValue) => {
+        Dialog.promptValue = '';
         onConfirm && onConfirm({e, promptValue});
       },
-    }).show();
-
-    // 修改prompt显示的值
-    Dialog.promptValue = value;
+    }, false).show();
   },
   /**
    * 显示提示窗, 就一个按钮

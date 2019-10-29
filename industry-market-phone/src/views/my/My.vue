@@ -55,7 +55,7 @@
             </p>
             <p class="tip">
               <!-- <i class="iconfont icon-qian"></i> -->
-              收货地址
+              {{ role == 1 ? '客户管理' : '收货地址' }}
             </p>
           </div>
         </div>
@@ -112,12 +112,26 @@
 
     <!-- 其他功能 -->
     <div class="w-tableview">
-      <!-- <div class="cell" v-if="role == 1">
-        <span class="title">
-          出入库记录
-        </span>
-        <i class="iconfont icon-arrow-right"></i>
-      </div> -->
+      <template  v-if="role == viewer || role == seller">
+        <div class="cell" @click="toScan()">
+          <span class="title">
+            库存盘点
+          </span>
+          <i class="iconfont icon-arrow-right"></i>
+        </div>
+        <div class="cell">
+          <span class="title">
+            出入库记录
+          </span>
+          <i class="iconfont icon-arrow-right"></i>
+        </div>
+        <div class="cell">
+          <span class="title">
+            库存信息
+          </span>
+          <i class="iconfont icon-arrow-right"></i>
+        </div>
+      </template>
       <div class="cell" v-if="isBind == 0" @click="onBindPhone()">
         <span class="title">
           绑定手机号码
@@ -134,6 +148,7 @@ import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
 import userService from '@/services/user.service';
+import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -149,6 +164,8 @@ export default {
       addressCount: 0, // 收货地址数量
       userData: {},
       isWeixin: false,
+      viewer: USER_ROLE.viewer, // 数据查看员权限值
+      seller: USER_ROLE.seller, // 开单员权限值
     };
   },
   created() {},
@@ -175,6 +192,48 @@ export default {
   },
   components: {},
   methods: {
+    // 库存盘点
+    toScan() {
+      // TODO: 测试用
+      // setTimeout(() => {
+      //   this.handleScan('0054374648900700028');
+      //   // this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
+      // }, 300);
+
+      if (Utils.checkIsWeixin()) {
+        // 调用微信扫一扫
+        // eslint-disable-next-line
+        wx.scanQRCode({
+          desc: '扫一扫',
+          needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+          success: (res) => {
+            // 回调
+            if (!res.resultStr) return;
+            // this.$router.push(`${this.currentPath}/productDetail?bm=${res.resultStr}`);
+            this.handleScan(res.resultStr);
+          },
+          error: (res) => {
+            if (res.errMsg.indexOf('function_not_exist') > 0) {
+              Utils.showToast('版本过低请升级');
+            }
+          },
+        });
+        return;
+      }
+
+      try {
+        // eslint-disable-next-line
+        native_listen('scan_product');
+      } catch (error) {
+        Utils.showToast('敬请期待');
+      }
+    },
+    // 获取产品信息, 并且调整库存
+    handleScan(data) {
+      // 获取产品信息, 并且调整库存
+      console.log(data);
+    },
     onSetting() {
       // 调用设置界面
       try {
@@ -202,7 +261,12 @@ export default {
       });
     },
     toAddress() {
-      this.$router.push('/market/address');
+      if (this.role === USER_ROLE.user) {
+        this.$router.push('/market/address');
+      } else if (this.role === USER_ROLE.seller || this.role === USER_ROLE.viewer) {
+        // 开单员/数据查看员
+        this.$router.push('/market/customer');
+      }
     },
     toCollect() {
       this.$router.push('/market/collections');

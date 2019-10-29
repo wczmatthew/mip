@@ -46,7 +46,7 @@ export default {
       Utils.hideLoading();
       this.title = result.title;
       this.creator = result.creatorName;
-      this.date = `${Utils.dateFormat(new Date(result.createTime))} ~ ${Utils.dateFormat(new Date(result.activityEndTime))}`;
+      this.date = result.createTime ? Utils.dateFormat(new Date(result.createTime)) : '';
       this.detail = result.memo;
     },
   },

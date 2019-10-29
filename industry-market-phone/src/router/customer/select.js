@@ -1,15 +1,16 @@
-// 客户列表
+
 import search from './search';
 
-const customer = () => import('@/views/my/customer/CustomerList.vue');
+const selectCustomer = () => import('@/views/my/customer/SelectCustomer.vue');
 const customerCreate = () => import('@/views/my/customer/CustomerCreate.vue');
 const customerEdit = () => import('@/views/my/customer/CustomerEdit.vue');
 
 export default [
   {
-    path: 'customer',
-    component: customer,
+    path: 'selectCustomer',
+    component: selectCustomer,
     children: [
+      ...search,
       {
         path: 'new',
         component: customerCreate,
@@ -18,7 +19,6 @@ export default [
         path: 'edit',
         component: customerEdit,
       },
-      ...search,
     ],
   },
 ];

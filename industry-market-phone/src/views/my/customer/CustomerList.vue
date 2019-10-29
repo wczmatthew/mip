@@ -3,11 +3,11 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <template #header-mid>
-      选择客户
+      客户列表
     </template>
     <template #header-right>
-      <div class="header-right" :class="{'color-blue': isEdit }" @click="onEdit()">
-        {{ isEdit ? '完成' : '管理' }}
+      <div class="header-right">
+        <i class="iconfont icon-search" @click="onSearch()"></i>
       </div>
     </template>
     <!-- 顶部栏 end -->
@@ -22,36 +22,26 @@ import Customer from './components/Customer.vue';
 export default {
   data() {
     return {
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'customers' }),
-      isEdit: false,
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'customer' }),
     };
   },
   created() {
   },
   mounted() {
-    this.$nextTick(() => {
-      this.$refs.customer.onPullingDown();
-    });
+    this.$refs.customer && this.$refs.customer.onPullingDown();
   },
   components: {
     Customer,
   },
   methods: {
-    onEdit() {
-      this.isEdit = !this.isEdit;
-      this.$refs.customer && this.$refs.customer.onEditList(this.isEdit);
+    onSearch() {
+      this.$router.push(`${this.routePath}/search`);
     },
   },
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
-.header-right {
-  font-size:  12px;
-  color: $color-grey;
-}
-
-.color-blue {
-  color: $color-blue;
+.w-header .header-right .iconfont {
+  font-size: .2rem;
 }
 </style>

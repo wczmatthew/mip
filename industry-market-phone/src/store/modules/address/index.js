@@ -2,8 +2,8 @@
  * 收货地址相关数据存储区域
  */
 const state = {
-  selectAddress: {},
-  updateAddress: {},
+  selectAddress: {}, // 选择的地址信息
+  updateAddress: {}, // 编辑/需要更新的地址信息
 };
 
 // getters

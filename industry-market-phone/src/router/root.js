@@ -15,8 +15,6 @@ import productSelectSearch from './products/productSelectRoot';
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
 const HomePrev = () => import('@/views/home/HomePrev.vue');
-// 导购
-const customerChat = () => import('@/views/customers/CustomerChat.vue');
 const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
 const invitation = () => import('@/views/my/Invitation.vue');
 const frameView = () => import('@/views/common/FrameView.vue');
@@ -50,13 +48,6 @@ export default [
       {
         path: 'activieyDetail',
         component: activityDetail,
-      },
-      {
-        path: 'chat',
-        component: customerChat,
-        children: [
-          ...customer,
-        ],
       },
       {
         path: 'invitation',

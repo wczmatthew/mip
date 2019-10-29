@@ -1,6 +1,6 @@
 <!-- 开单员 确认订单 -->
 <template lang='html'>
-  <w-container show-header show-back show-footer>
+  <w-container show-header show-back show-footer ref="saleContainer">
     <!-- 顶部栏 -->
     <template #header-mid>
       销售单
@@ -9,11 +9,29 @@
     <!-- 正文内容 -->
 
     <!-- 客户信息 -->
-    <div class="customre-item w-underline">
+    <div class="customre-item w-underline" @click.stop="onChangeCustomer()">
+      <i class="iconfont icon-kehu"></i>
+      <div class="detail" v-if="!selectCustomer || !selectCustomer.id">
+        请先选择客户信息
+      </div>
+      <div class="detail" v-else>
+        <p class="title">
+          {{selectCustomer.name}}&nbsp;&nbsp;
+          <span>{{selectCustomer.phone}}</span>
+        </p>
+        <div class="location">
+          <i class="iconfont icon-location"></i>
+          {{selectCustomer.address}}
+        </div>
+      </div>
+      <i class="iconfont icon-arrow-right"></i>
+    </div>
+    <!-- 客户信息 end -->
+    <!-- 客户信息 -->
+    <!-- <div class="customre-item w-underline">
       <p class="customer-title">
         客户信息
       </p>
-      <!-- <i class="iconfont icon-kehu"></i> -->
       <div class="detail">
         <p class="title">
           <input type="text" v-model.trim="customer.name" placeholder="客户名称">
@@ -22,12 +40,10 @@
           <input type="tel" v-model.trim="customer.phone" placeholder="客户联系方式">
         </p>
         <div class="location">
-          <!-- <i class="iconfont icon-location"></i> -->
           <input type="text" v-model.trim="customer.address" placeholder="收货地址">
         </div>
       </div>
-      <!-- <i class="iconfont icon-arrow-right"></i> -->
-    </div>
+    </div> -->
     <!-- 客户信息 end -->
 
     <!-- 产品列表 -->
@@ -169,7 +185,7 @@ import service from '@/services/order.service';
 export default {
   data() {
     return {
-      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'confirmOrder' }), // 获取当前路由
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'confirmSaleOrder' }), // 获取当前路由
       totalPrice: 0, // 实际金额
       payPrice: 0, // 付款金额
       payMode: -1,
@@ -194,13 +210,30 @@ export default {
         phone: '',
         address: '',
       },
+      windowHeight: 0,
+      scrollTop: 0,
     };
   },
   created() {},
   mounted() {
     this.calcPrice();
+    this.windowHeight = document.documentElement.clientHeight;
+    // alert(this.windowHeight); CODE_128%2C
+    // 添加 resize 绑定事件
+    window.addEventListener('resize', () => {
+      // alert(document.documentElement.clientHeight);
+      if (this.windowHeight === document.documentElement.clientHeight) {
+        // 键盘收起恢复原状
+        this.$refs.saleContainer.updateContentScrollTop(this.scrollTop);
+      } else {
+        this.scrollTop = this.$refs.saleContainer.getContentScrollTop();
+      }
+    }, false);
   },
   computed: {
+    ...mapGetters('customer', {
+      selectCustomer: 'selectCustomer',
+    }),
     ...mapGetters('order', {
       selectProducts: 'selectProducts',
     }),
@@ -212,12 +245,16 @@ export default {
   },
   watch: {},
   methods: {
+    onChangeCustomer() {
+      this.$router.push(`${this.routePath}/selectCustomer`);
+    },
     onChangePrice(item, index) {
       Utils.showPrompt({
         title: '调整单价',
         placeholder: (item.discountPrice || item.price).toString(),
-        value: item.discountPrice || '',
+        value: '',
         onConfirm: ({ promptValue }) => {
+          if (!promptValue) return;
           this.$store.commit('order/updateSelectProductsByIndex', {
             index,
             product: {
@@ -246,25 +283,30 @@ export default {
         return;
       }
 
-      if (!this.customer.name) {
-        Utils.showToast('请先输入客户名称');
+      if (!this.selectCustomer || !this.selectCustomer.id) {
+        Utils.showToast('请先选择客户');
         return;
       }
 
-      if (!this.customer.phone) {
-        Utils.showToast('请先输入客户联系方式');
-        return;
-      }
+      // if (!this.customer.name) {
+      //   Utils.showToast('请先输入客户名称');
+      //   return;
+      // }
 
-      if (!Utils.checkPhoneNum(this.customer.phone)) {
-        Utils.showToast('客户联系方式格式不正确, 请重新输入');
-        return;
-      }
+      // if (!this.customer.phone) {
+      //   Utils.showToast('请先输入客户联系方式');
+      //   return;
+      // }
 
-      if (!this.customer.address) {
-        Utils.showToast('请先输入客户收货地址');
-        return;
-      }
+      // if (!Utils.checkPhoneNum(this.customer.phone)) {
+      //   Utils.showToast('客户联系方式格式不正确, 请重新输入');
+      //   return;
+      // }
+
+      // if (!this.customer.address) {
+      //   Utils.showToast('请先输入客户收货地址');
+      //   return;
+      // }
 
 
       if (this.payMode === -1) {
@@ -289,9 +331,9 @@ export default {
       });
       const params = {
         clientId: this.customerId,
-        clientName: this.customer.name,
-        clientMobile: this.customer.phone,
-        clientAddress: this.customer.address,
+        // clientName: this.customer.name,
+        // clientMobile: this.customer.phone,
+        // clientAddress: this.customer.address,
         userid: Utils.getUserId(this),
         itemList: JSON.stringify(itemList),
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）
@@ -299,6 +341,7 @@ export default {
         payType: this.payMode,
         memo: this.tips || '',
         oddment: this.reducePrice,
+        saleClientId: this.selectCustomer.id,
       };
       Utils.showLoading();
       const result = await service.createSaleOrder(params);
@@ -323,25 +366,25 @@ export default {
 <style lang="scss" scoped>
 @import './scss/orderConfirm.scss';
 
-.customre-item {
-  display: block;
-}
+// .customre-item {
+//   display: block;
+// }
 
-.customer-title {
-  font-size: 16px;
-  margin-bottom: .05rem;
-}
+// .customer-title {
+//   font-size: 16px;
+//   margin-bottom: .05rem;
+// }
 
-.customre-item .detail {
-  padding: 0;
-  input {
-    width: 100%;
-    height: .35rem;
-    border: 1px solid $color-line;
-    border-radius: .05rem;
-    padding-left: .05rem;
-  }
-}
+// .customre-item .detail {
+//   padding: 0;
+//   input {
+//     width: 100%;
+//     height: .35rem;
+//     border: 1px solid $color-line;
+//     border-radius: .05rem;
+//     padding-left: .05rem;
+//   }
+// }
 
 </style>
 <style lang="scss">

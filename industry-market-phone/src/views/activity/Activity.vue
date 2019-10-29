@@ -49,10 +49,8 @@
           <p class="title">
             {{item.title}}
           </p>
-          <p class="desc">
-            {{item.memo}}
-          </p>
-          <p class="desc" style="font-size: 10px;">
+          <div class="desc" v-html="cutout(item.memo)"></div>
+          <p class="desc" style="font-size: 10px;" v-if="item.createTime">
             {{item.createTime | dateFormat}}
           </p>
         </div>
@@ -98,10 +96,15 @@ export default {
   },
   filters: {
     dateFormat(val) {
+      if (!val) return '';
       return Utils.dateFormat(new Date(val), 'yyyy-MM-dd HH:mm:ss');
     },
   },
   methods: {
+    cutout(html) {
+      // eslint-disable-next-line
+      return html.replace(/\,/g, '</br>');
+    },
     refresh() {
       this.scrollTop();
       this.getData();
@@ -315,9 +318,11 @@ export default {
     .desc {
       color: $color-grey;
       font-size:  12px;
-      @include text-ellipsis;
       line-height: .16rem;
       margin-top: .05rem;
+      height: .16rem;
+      @include text-ellipsis;
+      // display: flex;
     }
   }
 }
