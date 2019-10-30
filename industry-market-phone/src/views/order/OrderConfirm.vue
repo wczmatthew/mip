@@ -7,9 +7,22 @@
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
+    <div class="w-tableview">
+      <div class="cell">
+        <span class="title">
+          提货方式
+        </span>
+        <cube-select
+          class="select desc"
+          placeholder="请选择提货方式"
+          v-model="sendType"
+          :options="sendTypeOptions">
+        </cube-select>
+      </div>
+    </div>
 
     <!-- 收货地址信息 -->
-    <div class="customre-item w-underline" @click.stop="onChangeAddress()">
+    <div class="customre-item w-underline" @click.stop="onChangeAddress()" v-show="showAddress">
       <i class="iconfont icon-kehu"></i>
       <div class="detail" v-if="!selectAddress || !selectAddress.id">
         请先选择收货地址
@@ -62,7 +75,10 @@
           <div class="row">
             <span class="desc">X{{product.qty || 0}}</span>
             <span class="desc price">
-              ￥{{product.price}}
+              ￥{{product.discountPrice || product.price}}
+              <span class="real-price">
+                {{ product.price }}
+              </span>
             </span>
           </div>
         </div>
@@ -81,18 +97,6 @@
           placeholder="请选择支付方式"
           v-model="payMode"
           :options="payModeOptions">
-        </cube-select>
-      </div>
-
-      <div class="cell">
-        <span class="title">
-          提货方式
-        </span>
-        <cube-select
-          class="select desc"
-          placeholder="请选择提货方式"
-          v-model="sendType"
-          :options="sendTypeOptions">
         </cube-select>
       </div>
 
@@ -122,7 +126,7 @@
         </span>
         <div class="desc">
           <!-- <textarea placeholder="请输入备注"></textarea> -->
-          <cube-textarea placeholder="请输入备注" :maxlength="200" v-model="tips"></cube-textarea>
+          <cube-textarea placeholder="请输入备注" :maxlength="200" v-model="tips" @blur="onBlur()"></cube-textarea>
         </div>
       </div>
     </div>
@@ -166,7 +170,7 @@ export default {
         { text: '微信支付', value: 12 },
         { text: '银联支付', value: 13 },
       ],
-      sendType: -1,
+      sendType: 1,
       sendTypeOptions: [
         { text: '送货上门', value: 1 },
         { text: '门店自提', value: 2 },
@@ -176,6 +180,7 @@ export default {
       tips: '',
       isCreated: false, // 是否已经创建订单
       orderDetail: {},
+      showAddress: true,
     };
   },
   created() {},
@@ -184,15 +189,22 @@ export default {
     this.calcPrice();
 
     // 添加 resize 绑定事件
-    window.addEventListener('resize', () => {
-      // alert(document.documentElement.clientHeight);
-      if (this.windowHeight === document.documentElement.clientHeight) {
-        // 键盘收起恢复原状
-        this.$refs.saleContainer.updateContentScrollTop(this.scrollTop);
-      } else {
-        this.scrollTop = this.$refs.saleContainer.getContentScrollTop();
-      }
-    }, false);
+    // window.addEventListener('resize', () => {
+    //   // alert(document.documentElement.clientHeight);
+    //   if (this.windowHeight === document.documentElement.clientHeight) {
+    //     // 键盘收起恢复原状
+    //     this.$refs.saleContainer.updateContentScrollTop(this.scrollTop);
+    //     document.body.scrollTop = 0;
+    //     document.scrollingElement.scrollTop = 0;
+    //   } else {
+    //     this.scrollTop = this.$refs.saleContainer.getContentScrollTop();
+    //   }
+    // }, false);
+  },
+  watch: {
+    sendType() {
+      this.showAddress = this.sendType !== 2;
+    },
   },
   computed: {
     ...mapGetters('address', {
@@ -208,6 +220,9 @@ export default {
   components: {
   },
   methods: {
+    onBlur() {
+      Utils.resetWindowScrollTop(document.documentElement.clientHeight);
+    },
     // 获取默认地址
     async getDefaultAddress() {
       Utils.showLoading();
@@ -235,18 +250,20 @@ export default {
         return;
       }
 
-      if (!this.selectAddress || !this.selectAddress.id) {
-        Utils.showToast('请先选择收货地址');
+      if (this.sendType === -1) {
+        Utils.showToast('请先选择配送方式');
         return;
+      }
+
+      if (this.showAddress) {
+        if (!this.selectAddress || !this.selectAddress.id) {
+          Utils.showToast('请先选择收货地址');
+          return;
+        }
       }
 
       if (this.payMode === -1) {
         Utils.showToast('请先选择付款方式');
-        return;
-      }
-
-      if (this.sendType === -1) {
-        Utils.showToast('请先选择配送方式');
         return;
       }
 
@@ -262,7 +279,7 @@ export default {
       });
       const params = {
         clientId: this.customerId,
-        address: this.selectAddress.id,
+        address: this.showAddress ? this.selectAddress.id : '',
         userid: Utils.getUserId(this),
         itemList: JSON.stringify(itemList),
         postType: this.sendType, // 配送方式（1送货上门，2门店自提）

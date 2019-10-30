@@ -20,7 +20,7 @@
         <div class="modal-content">
           <div class="nums">
             <i class="iconfont icon-circle-reduce" @click.stop="onReduce()"></i>
-            <input type="number" v-model="number">
+            <w-input type="number" v-model="number"/>
             <i class="iconfont icon-circle-add" @click.stop="onAdd()"></i>
           </div>
         </div>

@@ -50,13 +50,22 @@
             </p>
           </div>
           <div class="item" @click="toAddress()">
-            <p class="top-num">
-              {{addressCount || 0}}
-            </p>
-            <p class="tip">
-              <!-- <i class="iconfont icon-qian"></i> -->
-              {{ role == 1 ? '客户管理' : '收货地址' }}
-            </p>
+            <template v-if="role === user">
+              <p class="top-num">
+                {{addressCount || 0}}
+              </p>
+              <p class="tip">
+                收货地址
+              </p>
+            </template>
+            <template v-else>
+              <p class="top-num">
+                {{saleClientCount || 0}}
+              </p>
+              <p class="tip">
+                客户管理
+              </p>
+            </template>
           </div>
         </div>
       </div>
@@ -119,13 +128,13 @@
           </span>
           <i class="iconfont icon-arrow-right"></i>
         </div>
-        <div class="cell">
+        <!-- <div class="cell">
           <span class="title">
             出入库记录
           </span>
           <i class="iconfont icon-arrow-right"></i>
-        </div>
-        <div class="cell">
+        </div> -->
+        <div class="cell" @click="toStorageList()">
           <span class="title">
             库存信息
           </span>
@@ -162,10 +171,12 @@ export default {
       waitPostCount: 0, // 订单-待发货数量
       collectCount: 0, // 我的收藏
       addressCount: 0, // 收货地址数量
+      saleClientCount: 0, // 客户数量
       userData: {},
       isWeixin: false,
       viewer: USER_ROLE.viewer, // 数据查看员权限值
       seller: USER_ROLE.seller, // 开单员权限值
+      user: USER_ROLE.user, // 开单员权限值
     };
   },
   created() {},
@@ -192,13 +203,16 @@ export default {
   },
   components: {},
   methods: {
+    toStorageList() {
+      this.$router.push('/market/storageList');
+    },
     // 库存盘点
     toScan() {
       // TODO: 测试用
       // setTimeout(() => {
       //   this.handleScan('0054374648900700028');
-      //   // this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
       // }, 300);
+      // return;
 
       if (Utils.checkIsWeixin()) {
         // 调用微信扫一扫
@@ -230,9 +244,34 @@ export default {
       }
     },
     // 获取产品信息, 并且调整库存
-    handleScan(data) {
+    async handleScan(data) {
       // 获取产品信息, 并且调整库存
-      console.log(data);
+      Utils.showLoading();
+      const result = await service.getProductStore({ userid: Utils.getUserId(this), code: data });
+      if (!result) return;
+      Utils.hideLoading();
+
+      Utils.showPrompt({
+        title: `${result.spec}`,
+        placeholder: (result.qty).toString(),
+        value: '',
+        onConfirm: ({ promptValue }) => {
+          if (!promptValue) return;
+          console.log(promptValue);
+          this.changeStore(result, promptValue);
+        },
+      });
+    },
+    async changeStore(item, qty) {
+      Utils.showLoading();
+      const itemList = [{
+        inveQty: qty,
+        storeQty: item.qty,
+        prodId: item.prodId,
+      }];
+      const result = await service.checkWareHouse({ userid: Utils.getUserId(this), itemList: JSON.stringify(itemList) });
+      if (!result) return;
+      Utils.showToast(`${item.spec}库存盘点成功`);
     },
     onSetting() {
       // 调用设置界面
@@ -276,6 +315,12 @@ export default {
       if (!result) return;
       this.userData = { ...result };
 
+      if (result.role !== undefined) {
+        // 更新用户信息 -- 用户角色
+        this.$store.commit('user/updateUserRole', result.role);
+        Utils.saveLocalStorageItem('role', result.role);
+      }
+
       if (result.isBind !== undefined) {
         Utils.saveLocalStorageItem('isBind', result.isBind);
         this.$store.commit('user/updateIsBind', result.isBind);
@@ -288,17 +333,18 @@ export default {
       // this.todayPrice = (result.todayPrice || 0).toFixed(2);
       // this.totalPrice = (result.totalPrice || 0).toFixed(2);
       // this.totalCount = result.totalCount || 0;
-      // this.finishCount = result.finishCount || 0;
-      // this.waitGetCount = result.waitGetCount || 0;
-      // this.waitPayCount = result.waitPayCount || 0;
-      // this.waitPostCount = result.waitPostCount || 0;
+      this.finishCount = result.finishCount || 0;
+      this.waitGetCount = result.waitGetCount || 0;
+      this.waitPayCount = result.waitPayCount || 0;
+      this.waitPostCount = result.waitPostCount || 0;
       this.collectCount = result.collectCount || 0; // 我的收藏
       this.addressCount = result.addressCount || 0; // 收货地址数量
+      this.saleClientCount = result.saleClientCount || 0; // 客户数量
 
-      // if (this.finishCount > 99) this.finishCount = '99+';
-      // if (this.waitGetCount > 99) this.waitGetCount = '99+';
-      // if (this.waitPayCount > 99) this.waitPayCount = '99+';
-      // if (this.waitPostCount > 99) this.waitPostCount = '99+';
+      if (this.finishCount > 99) this.finishCount = '99+';
+      if (this.waitGetCount > 99) this.waitGetCount = '99+';
+      if (this.waitPayCount > 99) this.waitPayCount = '99+';
+      if (this.waitPostCount > 99) this.waitPostCount = '99+';
     },
     toOrders(status) {
       if (!status) {

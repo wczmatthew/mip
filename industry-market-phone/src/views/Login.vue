@@ -31,24 +31,25 @@
           <div class="form1"  v-show="loginType == 0">
             <div class="input-item">
               <!-- <i class="iconfont icon-my"></i> -->
-              <input type="text" placeholder="请输入您的账号" v-model.trim="username">
+              <!-- <input type="text" placeholder="请输入您的账号" v-model.trim="username"> -->
+              <w-input type="text" placeholder="请输入您的账号" v-model.trim="username"></w-input>
             </div>
 
             <div class="input-item">
               <!-- <i class="iconfont icon-mima"></i> -->
-              <input type="password" placeholder="请输入6-16位字符的密码" v-model="pwd" @keyup.enter="onLogin()">
+              <w-input type="password" placeholder="请输入6-16位字符的密码" v-model="pwd" @keyup.enter.native="onLogin()"/>
             </div>
           </div>
 
           <div class="form2" v-show="loginType == 1">
             <div class="input-item">
               <!-- <i class="iconfont icon-my"></i> -->
-              <input type="tel" placeholder="请输入您的手机号" v-model="phone">
+              <w-input type="tel" placeholder="请输入您的手机号" v-model="phone"/>
             </div>
 
             <div class="input-item">
               <!-- <i class="iconfont icon-mima"></i> -->
-              <input type="text" placeholder="请输入验证码" v-model.trim="code" @keyup.enter="onLogin()">
+              <w-input type="text" placeholder="请输入验证码" v-model.trim="code" @keyup.enter.native="onLogin()"/>
               <button type="button" class="plain-blue-btn" @click.stop="onSendCode()">
                 <template v-if="sendTime == -1">
                   发送验证码

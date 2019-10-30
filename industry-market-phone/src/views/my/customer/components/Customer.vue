@@ -110,21 +110,20 @@ export default {
       this.isEdit = isEdit;
     },
     // 点击删除按钮
-    onDelete(address, index) {
+    onDelete(data, index) {
       Utils.showConfirm({
         title: '提示',
         content: '确定删除该客户?',
         onConfirm: () => {
-          this.delete(address, index);
+          this.delete(data, index);
         },
         maskClosable: true,
       });
     },
     // 删除
-    async delete(address, index) {
+    async delete(data, index) {
       Utils.showLoading();
-      const result = await service.deleteAddress({ userid: Utils.getUserId(this), addressId: address.id });
-      Utils.hideLoading();
+      const result = await service.delSaleClient({ userid: Utils.getUserId(this), saleClientId: data.id });
       if (!result) return;
       this.dataList.splice(index, 1);
       Utils.showToast('删除成功');
@@ -194,7 +193,7 @@ export default {
       if (this.hasNext) {
         this.pageNum += 1;
       }
-      this.$refs.scroll.forceUpdate(true);
+      this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
     },
   },
   props: {

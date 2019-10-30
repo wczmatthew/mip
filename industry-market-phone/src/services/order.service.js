@@ -419,4 +419,50 @@ export default {
     };
     return postHttp({ url: '/ordercenter/client/getSaleClientList', params });
   },
+  /**
+   * 库存盘点--查询库存接口
+   * @param userid 用户id
+   * @param code 条码
+   */
+  getProductStore: ({ code, userid }) => {
+    const params = {
+      code, userid,
+    };
+    return postHttp({ url: '/ordercenter/store/getProductStore', params });
+  },
+  /**
+   * 盘点库存(修改库存)-- 盘库接口
+   * @param userid 用户id
+   * @param itemList 产品列表 JSON字符串 [{“inveQty”: 盘点量, “storeQty”: 库存数量, “prodId”: 产品id}]
+   */
+  checkWareHouse: ({ itemList, userid }) => {
+    const params = {
+      itemList, userid,
+    };
+    return postHttp({ url: '/ordercenter/store/checkWareHouse', params });
+  },
+  /**
+   * 获取库存列表信息
+   * @param userid 用户id
+   * @param pageNum 页码
+   * @param pageSize 一页显示数量
+   * @param keyword 查询关键字
+   */
+  getStoreInfoList: ({ pageNum, pageSize, userid, keyword }) => {
+    const params = {
+      pageNum, pageSize, userid, keyword,
+    };
+    return postHttp({ url: '/ordercenter/store/getStoreInfoList', params });
+  },
+  /**
+   * 删除客户信息
+   * @param userid 用户id
+   * @param saleClientId 客户id
+   */
+  delSaleClient: ({ saleClientId, userid }) => {
+    const params = {
+      saleClientId, userid,
+    };
+    return postHttp({ url: '/ordercenter/client/delSaleClient', params });
+  },
 };

@@ -5,14 +5,14 @@
       <span class="title">
         联系人
       </span>
-      <input type="text" class="desc" placeholder="请输入联系人" v-model.trim="name">
+      <w-input type="text" class="desc" placeholder="请输入联系人" v-model.trim="name"/>
     </div>
 
     <div class="cell">
       <span class="title">
         联系方式
       </span>
-      <input type="tel" class="desc" placeholder="请输入联系方式" v-model.trim="phone">
+      <w-input type="tel" class="desc" placeholder="请输入联系方式" v-model.trim="phone"/>
     </div>
 
     <div class="cell">
@@ -24,24 +24,8 @@
 
     <div class="cell">
       <span class="title">详细地址</span>
-      <input type="text" class="desc" placeholder="请输入详细地址" v-model.trim="addressDetail">
+      <w-input type="text" class="desc" placeholder="请输入详细地址" v-model.trim="addressDetail"/>
     </div>
-
-    <!-- <div class="cell">
-      <span class="title">
-        邮政编码
-      </span>
-      <input type="number" class="desc" placeholder="请输入邮政编码" v-model.trim="zipcode">
-    </div> -->
-
-    <!-- <div class="cell">
-      <span class="title">
-        设为默认地址
-      </span>
-      <div class="desc">
-        <cube-switch v-model="isDefault" style="justify-content: flex-end;"></cube-switch>
-      </div>
-    </div> -->
   </div>
 </template>
 <script>
@@ -96,7 +80,7 @@ export default {
         }
 
         if (res.item.indexOf('地址') > -1) {
-          this.address = res.value;
+          this.addressDetail = res.value;
         }
       });
 

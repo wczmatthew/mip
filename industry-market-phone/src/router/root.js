@@ -11,6 +11,7 @@ import collect from './collect';
 import cart from './order/cart';
 import contact from './my/contact';
 import productSelectSearch from './products/productSelectRoot';
+import storage from './my/storage';
 
 const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
@@ -45,6 +46,7 @@ export default [
       ...cart,
       ...contact,
       ...productSelectSearch,
+      ...storage,
       {
         path: 'activieyDetail',
         component: activityDetail,

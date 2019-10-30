@@ -2,7 +2,7 @@
 <template lang='html'>
   <div class="w-scan" @click.stop="stopProp()">
     <i class="iconfont icon-card-scan" :class="[color]"></i>
-    <input type="file" accept="image/*" @change="chagneFile" ref="file">
+    <input type="file" accept="image/*" @change="chagneFile" ref="file" v-if="!isWeixin">
   </div>
 </template>
 <script>
@@ -12,13 +12,34 @@ import service from '@/services/user.service';
 export default {
   data() {
     return {
+      isWeixin: false,
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.isWeixin = Utils.checkIsWeixin();
+  },
   components: {},
   methods: {
-    stopProp() {}, // 阻止事件冒泡
+    stopProp() {
+      if (!this.isWeixin) return;
+      // 微信浏览器调用微信的方法
+      try {
+        const _this = this;
+        // eslint-disable-next-line
+        wx.chooseImage({
+          count: 1, // 默认9
+          sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+          sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+          success: (res) => {
+            const localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+            _this.uploadImageData(localIds);
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }, // 阻止事件冒泡
     chagneFile(e) {
       try {
         Utils.showLoading();
@@ -32,6 +53,7 @@ export default {
           // 下面压缩处理
           Utils.canvasDataURL({
             path: dataURL,
+            options: { quality: 0.9 },
             callback: (res) => {
               this.uploadImageData(res);
             },

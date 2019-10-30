@@ -14,21 +14,21 @@
         <span class="title">
           联系人姓名
         </span>
-        <input type="text" class="desc" placeholder="请输入联系人姓名" v-model.trim="name">
+        <w-input type="text" class="desc" placeholder="请输入联系人姓名" v-model.trim="name"/>
       </div>
 
       <div class="cell">
         <span class="title">
           手机号码
         </span>
-        <input type="text" class="desc" placeholder="请输入手机号码" v-model.trim="phone">
+        <w-input type="text" class="desc" placeholder="请输入手机号码" v-model.trim="phone"/>
       </div>
 
       <div class="cell">
         <span class="title">
           验证码
         </span>
-        <input type="text" class="desc" placeholder="请输入验证码" v-model.trim="code">
+        <w-input type="text" class="desc" placeholder="请输入验证码" v-model.trim="code"/>
         <button class="plain-blue-btn" @click.stop="onSendCode()">
           <template v-if="sendTime == -1">
             发送验证码

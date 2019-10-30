@@ -55,7 +55,6 @@ export default {
       this.$refs.registerModal && this.$refs.registerModal.toggle(this.isShowRegisterModal);
     },
     isGetOpenid() {
-      console.log('isGetOpenid', this.isGetOpenid);
       if (!this.isGetOpenid) return;
 
       const wxSetting = this.wxSetting;
@@ -66,8 +65,6 @@ export default {
        * 不然安卓就无法自定义分享内容
        * 这个bug原因未知, 如果是纯html则无这个问题
        */
-
-
       console.log('config before url: ', window.location.href);
       // eslint-disable-next-line
       wx.config({
@@ -82,6 +79,7 @@ export default {
           'onMenuShareAppMessage',
           'updateAppMessageShareData',
           'updateTimelineShareData',
+          'chooseImage',
         ], // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       });
 

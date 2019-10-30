@@ -485,11 +485,11 @@ export default {
   /**
    * 压缩图片, 重新绘制图片
    * @param {*} path 图片地址
-   * @param {*} obj 文件压缩的后宽度，宽度越小，字节越小 { width, height, quality }
+   * @param {*} options 文件压缩的后宽度，宽度越小，字节越小 { width, height, quality }
    * @param {*} callback 成功回调
    */
-  canvasDataURL({ path, obj, callback }){
-    obj = obj || {};
+  canvasDataURL({ path, options, callback }){
+    options = options || {};
     let img = new Image();
     img.src = path;
     img.onload = function() {
@@ -498,8 +498,8 @@ export default {
       let w = that.width,
         h = that.height,
         scale = w / h;
-      w = obj.width || w;
-      h = obj.height || (w / scale);
+      w = options.width || w;
+      h = options.height || (w / scale);
       let quality = 0.7;  // 默认图片质量为0.7
       //生成canvas
       let canvas = document.createElement('canvas');
@@ -513,8 +513,8 @@ export default {
       canvas.setAttributeNode(anh);
       ctx.drawImage(that, 0, 0, w, h);
       // 图像质量
-      if(obj.quality && obj.quality <= 1 && obj.quality > 0){
-        quality = obj.quality;
+      if(options.quality && options.quality <= 1 && options.quality > 0){
+        quality = options.quality;
       }
       // quality值越小，所绘制出的图像越模糊
       let base64 = canvas.toDataURL('image/jpeg', quality);
@@ -576,5 +576,9 @@ export default {
   is_ios() {
     var browserName = navigator.userAgent.toLowerCase();
     return /(iphone|ipod|ipad)/i.test(browserName);
+  },
+  // 键盘收起后页面未回弹 IOS 会出现这个问题, 将这个方法绑定到input等的blur上
+  resetWindowScrollTop() {
+    window.scrollTo(0, 0);
   },
 }

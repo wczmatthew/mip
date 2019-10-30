@@ -29,12 +29,17 @@
               (库存: {{item.store || 0}})
             </p>
             <div class="bottom">
-              <p class="price">
-                <small>￥</small>{{item.price || '0'}}
-              </p>
+              <div class="price">
+                <div>
+                  <small>￥</small>{{item.discountPrice || '0'}}
+                </div>
+                <div class="grey">
+                  <small>￥</small>{{item.price || '0'}}
+                </div>
+              </div>
               <div class="num" @click.stop="stopProp()">
                 <i class="iconfont icon-jian" :class="{'disabled': item.qty == 1}" @click.stop="onReduce(item)"></i>
-                <input type="number" v-model="item.qty" @keyup="onChangeNum(item)">
+                <w-input type="number" v-model="item.qty" @keyup="onChangeNum(item)"/>
                 <i class="iconfont icon-jia" :class="{'disabled': item.qty >= item.store}" @click.stop="onAdd(item)"></i>
               </div>
             </div>
@@ -60,9 +65,6 @@
             优惠: {{discountPrice.toFixed(2)}}
           </p>
         </div>
-        <!-- <div class="mid">
-          抹零: <input type="number" v-model="reducePrice">
-        </div> -->
       </div>
       <button type="button" class="orange-btn" v-show="!isEdit" @click="onPay()">
         {{ confirmBtnTxt }}({{selectNum}})
@@ -228,13 +230,16 @@ export default {
     // 计算总金额
     calcPrice() {
       let total = 0;
+      let totalDiscountPrice = 0;
       this.productList.forEach((item) => {
-        const discountPrice = item.discountPrice || item.price || 0;
         if (this.selectProducts[item.id]) {
-          total += parseFloat(discountPrice || 0) * parseInt(item.qty || 1, 10);
+          total += parseFloat(item.price || 0) * parseInt(item.qty || 1, 10);
+          const discountPrice = item.discountPrice || item.price || 0;
+          totalDiscountPrice += parseFloat(discountPrice || 0) * parseInt(item.qty || 1, 10);
         }
       });
-      this.totalPrice = total;
+      this.totalPrice = totalDiscountPrice;
+      this.discountPrice = total - totalDiscountPrice;
     },
     // 下拉刷新
     onPullingDown() {

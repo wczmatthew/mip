@@ -144,7 +144,7 @@
         <span class="title">
           抹零金额
         </span>
-        <input type="number" class="desc" v-model="reducePrice">
+        <w-input type="number" class="desc" v-model="reducePrice"/>
       </div>
 
       <div class="cell textarea-cell">
@@ -153,9 +153,9 @@
         </span>
         <div class="desc">
           <!-- <textarea placeholder="请输入备注"></textarea> -->
-          <cube-textarea placeholder="请输入备注" :maxlength="200" v-model="tips"></cube-textarea>
+          <cube-textarea placeholder="请输入备注" :maxlength="200" v-model="tips" @blur="onBlur()"></cube-textarea>
+          </div>
         </div>
-      </div>
     </div>
     <!-- 其他内容 end -->
 
@@ -217,18 +217,17 @@ export default {
   created() {},
   mounted() {
     this.calcPrice();
-    this.windowHeight = document.documentElement.clientHeight;
     // alert(this.windowHeight); CODE_128%2C
     // 添加 resize 绑定事件
-    window.addEventListener('resize', () => {
-      // alert(document.documentElement.clientHeight);
-      if (this.windowHeight === document.documentElement.clientHeight) {
-        // 键盘收起恢复原状
-        this.$refs.saleContainer.updateContentScrollTop(this.scrollTop);
-      } else {
-        this.scrollTop = this.$refs.saleContainer.getContentScrollTop();
-      }
-    }, false);
+    // window.addEventListener('resize', () => {
+    //   // alert(document.documentElement.clientHeight);
+    //   if (this.windowHeight === document.documentElement.clientHeight) {
+    //     // 键盘收起恢复原状
+    //     this.$refs.saleContainer.updateContentScrollTop(this.scrollTop);
+    //   } else {
+    //     this.scrollTop = this.$refs.saleContainer.getContentScrollTop();
+    //   }
+    // }, false);
   },
   computed: {
     ...mapGetters('customer', {
@@ -245,6 +244,9 @@ export default {
   },
   watch: {},
   methods: {
+    onBlur() {
+      Utils.resetWindowScrollTop(document.documentElement.clientHeight);
+    },
     onChangeCustomer() {
       this.$router.push(`${this.routePath}/selectCustomer`);
     },

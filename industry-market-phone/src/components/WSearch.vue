@@ -2,8 +2,8 @@
 <template lang='html'>
   <div class="w-search-bar">
     <div class="search-content"  ref="searchView" @click.stop="onInputClick()">
-      <input type="search" :disabled="disabled" v-model="keywords"
-        :placeholder="placeholder" @keyup.enter="startSearch()">
+      <w-input type="search" :disabled="disabled" v-model="keywords"
+        :placeholder="placeholder" @keyup.enter.native="startSearch()"/>
       <i class="iconfont icon-search"></i>
       <slot name="right-icon"></slot>
     </div>

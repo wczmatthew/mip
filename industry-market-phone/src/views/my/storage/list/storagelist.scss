@@ -1,0 +1,36 @@
+@import '~@/styles/variable.scss';
+
+.storage-header {
+  width: 100%;
+  display: flex;
+  background: #fff;
+  height: .35rem;
+  line-height: .35rem;
+
+  .row1,
+  .row2 {
+    color: $color-default;
+    font-size: 12px;
+    text-align: center;
+    position: relative;
+  }
+
+  .row1 {
+    width: 48%;
+  }
+
+  .row2 {
+    width: 26%;
+
+    &::before {
+      content: ' ';
+      display: block;
+      width: 1px;
+      height: 50%;
+      position: absolute;
+      top: 25%;
+      left: 0;
+      background: $color-line;
+    }
+  }
+} // storage-header

@@ -39,7 +39,7 @@
             <div class="item">
               <div class="nums">
                 <i class="iconfont icon-circle-reduce2" @click.stop="onReduce()"></i>
-                <input type="number" v-model="number">
+                <w-input type="number" v-model="number"/>
                 <i class="iconfont icon-circle-add2" @click.stop="onAdd()"></i>
               </div>
             </div>

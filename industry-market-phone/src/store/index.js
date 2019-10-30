@@ -9,6 +9,7 @@ import product from './modules/product';
 import keywords from './modules/product/keywords';
 import address from './modules/address';
 import order from './modules/order';
+import storage from './modules/storage';
 
 Vue.use(Vuex);
 
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     address,
     order,
     keywords,
+    storage,
   },
   strict: debug,
   // plugins: debug ? [createLogger()] : []

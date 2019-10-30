@@ -5,8 +5,8 @@
       :style="{'margin-right': marginRight}">
       <div class="search-content" :style="{'width': inputWidth + 'px', transition: inputTransition}">
         <i class="iconfont icon-search-l"></i>
-        <input type="text" :disabled="disabled" v-model="keywords"
-          :placeholder="placeholder" @focus="inputFocus" @blur="inputBlur">
+        <w-input type="text" :disabled="disabled" v-model="keywords"
+          :placeholder="placeholder" @focus.native="inputFocus" @blur="inputBlur"/>
       </div>
       <button class="txt" ref="searchBtn" @click="startSearch">搜索</button>
     </div>

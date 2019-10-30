@@ -16,6 +16,7 @@ import WImg from './components/WImg.vue';
 import WScroll from './components/WScroll.vue';
 import WModal from './components/WModal.vue';
 import WHeader from './components/WHeader.vue';
+import WInput from './components/WInput.vue';
 
 Vue.config.productionTip = false;
 
@@ -30,9 +31,14 @@ Vue.component('w-img', WImg);
 Vue.component('w-scroll', WScroll); // 上拉下拉组件
 Vue.component('w-modal', WModal);
 Vue.component('w-header', WHeader);
+Vue.component('w-input', WInput);
 
 router.beforeEach((to, from, next) => {
   if (Utils.checkIsWeixin()) {
+    if (process.env.NODE_ENV !== 'production') {
+      next();
+      return;
+    }
     // 微信浏览器
     // console.log(store.state.user.wxSetting.appId);
     if (to.path === '/') {
