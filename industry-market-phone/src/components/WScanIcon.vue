@@ -97,6 +97,9 @@ export default {
     },
     // 扫码获取的是产品信息
     async handleScanProduct(data) {
+      if (data.indexOf('CODE_128%2C') === 0) {
+        data = data.substr('CODE_128%2C'.length);
+      }
       // 先查询产品信息
       const proRes = await service.scanBarcode({ userid: this.userId, code: data });
       if (!proRes) return;

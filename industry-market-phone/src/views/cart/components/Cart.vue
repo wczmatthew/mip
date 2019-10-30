@@ -57,7 +57,7 @@
 
       <div class="detail" v-show="!hideBottomPrice">
         <p class="red bold">
-          <span>合计: </span>{{(totalPrice - discountPrice - reducePrice).toFixed(2)}}
+          <span>合计: </span>{{(totalPrice).toFixed(2)}}
         </p>
         <div class="msg">
           <!-- <p class="bold grey">合计: {{totalPrice.toFixed(2)}}</p> -->

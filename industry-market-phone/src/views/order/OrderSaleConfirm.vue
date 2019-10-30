@@ -329,6 +329,7 @@ export default {
           discountPrice: item.discountPrice,
           discountRate: item.discountRate,
           discountSum: item.discountSum,
+          normPrice: item.price,
         });
       });
       const params = {

@@ -167,6 +167,12 @@
             </span>
             <span class="desc">￥{{orderDetail.totalPrice || '0'}}</span>
           </div>
+          <div class="row">
+            <span class="title">
+              优惠金额:
+            </span>
+            <span class="desc">￥{{orderDetail.totalPrice - orderDetail.totalDiscountPrice}}</span>
+          </div>
           <div class="w-underline height-1"></div>
           <div class="row row2">
             <span class="title">实付金额: </span>
