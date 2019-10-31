@@ -100,6 +100,9 @@ export default {
       if (data.indexOf('CODE_128%2C') === 0) {
         data = data.substr('CODE_128%2C'.length);
       }
+      if (data.indexOf('CODE_128=') === 0) {
+        data = data.substr('CODE_128='.length);
+      }
       // 先查询产品信息
       const proRes = await service.scanBarcode({ userid: this.userId, code: data });
       if (!proRes) return;

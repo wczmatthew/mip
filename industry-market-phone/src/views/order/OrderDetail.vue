@@ -71,7 +71,10 @@
                     x {{item.qty}}
                   </div>
                   <p class="price">
-                    ￥{{item.normSum || '0'}}
+                    ￥{{item.discountSum || '0'}}
+                    <span class="grey">
+                      {{item.normSum}}
+                    </span>
                   </p>
                 </div>
               </div>
@@ -171,7 +174,9 @@
             <span class="title">
               优惠金额:
             </span>
-            <span class="desc">￥{{orderDetail.totalPrice - orderDetail.totalDiscountPrice}}</span>
+            <span class="desc">
+              ￥{{(orderDetail.totalPrice - orderDetail.totalDiscountPrice).toFixed(2)}}
+            </span>
           </div>
           <div class="w-underline height-1"></div>
           <div class="row row2">
@@ -462,6 +467,13 @@ export default {
         .nums {
           max-width: 30%;
           color: $color-grey;
+        }
+
+        .price .grey {
+          text-decoration: line-through;
+          color: $color-grey;
+          font-size: 10px;
+          margin-left: .05rem;
         }
       } // end bottom
     } // end detail

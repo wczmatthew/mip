@@ -248,6 +248,9 @@ export default {
       if (data.indexOf('CODE_128%2C') === 0) {
         data = data.substr('CODE_128%2C'.length);
       }
+      if (data.indexOf('CODE_128=') === 0) {
+        data = data.substr('CODE_128='.length);
+      }
       // 获取产品信息, 并且调整库存
       Utils.showLoading();
       const result = await service.getProductStore({ userid: Utils.getUserId(this), code: data });
