@@ -93,7 +93,7 @@ export default {
 
 .w-container {
   position: fixed;
-  z-index: 9999;
+  z-index: 200;
   background: #fff;
   -webkit-transform: translateZ(1px);
   -moz-transform: translateZ(1px);
