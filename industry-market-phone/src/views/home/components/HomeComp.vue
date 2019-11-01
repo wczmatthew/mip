@@ -61,7 +61,7 @@
     <!-- 新闻 end -->
 
     <!-- 限时抢购 -->
-    <div class="home-row" v-if="buyingProducts && buyingProducts.list && buyingProducts.list.length">
+    <div class="home-row" v-if="buyingProducts && buyingProducts.rows && buyingProducts.rows.length">
       <div class="title">
         热卖
         <i class="iconfont icon-hot"></i>
@@ -76,17 +76,17 @@
       </div>
 
       <div class="w-grid-list product-grid">
-        <div class="item" v-for="(item, index) in buyingProducts.list" :key="index" @click="toProductDetail(item.bm)">
+        <div class="item" v-for="(item, index) in buyingProducts.rows" :key="index" @click="toProductDetail(item.BM)">
           <div class="detail">
             <div class="img">
               <w-img :src="item.imgPath" alt=""/>
             </div>
             <p class="product-title">
-              {{item.title}}
+              {{item.XHGG}}
             </p>
           </div>
           <p class="desc price">
-            ￥{{item.price}}
+            ￥{{item.DJJ}}
           </p>
         </div>
       </div>
