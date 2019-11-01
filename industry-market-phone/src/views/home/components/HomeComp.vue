@@ -54,23 +54,25 @@
           </cube-slide-item>
         </cube-slide>
       </div>
-      <!-- <span class="desc">
+      <span class="desc" @click="toMore()">
         更多
-      </span> -->
+      </span>
     </div>
     <!-- 新闻 end -->
 
     <!-- 限时抢购 -->
     <div class="home-row" v-if="buyingProducts && buyingProducts.list && buyingProducts.list.length">
       <div class="title">
-        限时购
-        <i class="iconfont icon-shandian"></i>
-        <span class="time">{{hour}}</span>
+        热卖
+        <i class="iconfont icon-hot"></i>
+        <!-- 限时购 -->
+        <!-- <i class="iconfont icon-shandian"></i> -->
+        <!-- <span class="time">{{hour}}</span>
         <span class="time">{{minute}}</span>
         <span class="time">{{second}}</span>
         <span class="tip">
           后结束
-        </span>
+        </span> -->
       </div>
 
       <div class="w-grid-list product-grid">
@@ -395,6 +397,10 @@ export default {
         time = `0${time}`;
       }
       return time;
+    },
+    toMore() {
+      if (this.mode === 'prev') return;
+      this.$router.push('/market?tab=gift');
     },
     toSearch() {
       if (this.mode === 'prev') return;
@@ -722,11 +728,10 @@ export default {
     align-items: center;
     justify-content: center;
     font-size:  16px;
-    font-weight: 700;
     margin-bottom: .1rem;
     color: #525252;
 
-    .icon-shandian {
+    .iconfont {
       color: #fb4b2e;
       font-size:  20px;
       margin: 0 .05rem;

@@ -128,6 +128,8 @@ export default {
     },
     // 点击轮播图
     onClickBanner(item) {
+      if (this.$route.path === '/activityPrev') return;
+
       if (!item.url) return;
       if (item.url.indexOf('http') > -1) {
         try {
@@ -164,6 +166,7 @@ export default {
       });
     },
     toCategory(item) {
+      if (this.$route.path === '/activityPrev') return;
       if (!item.url) {
         Utils.showToast('敬请期待');
         return;
@@ -171,6 +174,7 @@ export default {
       this.$router.push(`/market/${item.url}`);
     },
     toActivity(item) {
+      if (this.$route.path === '/activityPrev') return;
       this.$router.push(`/market/activieyDetail?id=${item.id}`);
     },
   },

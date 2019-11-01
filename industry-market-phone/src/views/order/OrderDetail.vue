@@ -175,7 +175,15 @@
               优惠金额:
             </span>
             <span class="desc">
-              ￥{{(orderDetail.totalPrice - orderDetail.totalDiscountPrice).toFixed(2)}}
+              ￥{{(orderDetail.totalPrice - orderDetail.totalDiscountPrice - orderDetail.oddment).toFixed(2)}}
+            </span>
+          </div>
+          <div class="row">
+            <span class="title">
+              抹零金额:
+            </span>
+            <span class="desc">
+              ￥{{(orderDetail.oddment || 0).toFixed(2)}}
             </span>
           </div>
           <div class="w-underline height-1"></div>

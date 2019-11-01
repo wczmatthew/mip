@@ -17,6 +17,7 @@ const Root = () => import('@/views/root/Root.vue'); // tabbar navigation
 // 首页
 const HomePrev = () => import('@/views/home/HomePrev.vue');
 const activityDetail = () => import('@/views/activity/ActivityDetail.vue');
+const activity = () => import('@/views/activity/Activity.vue');
 const invitation = () => import('@/views/my/Invitation.vue');
 const frameView = () => import('@/views/common/FrameView.vue');
 const Launch = () => import('@/views/root/Launch.vue');
@@ -68,6 +69,11 @@ export default [
   {
     path: '/homePrev',
     component: HomePrev,
+    meta: { notBack: true },
+  },
+  {
+    path: '/activityPrev',
+    component: activity,
     meta: { notBack: true },
   },
 ];

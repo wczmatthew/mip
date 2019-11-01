@@ -62,6 +62,13 @@
       "unicode_decimal": 58910
     },
     {
+      "icon_id": "563533",
+      "name": "hot",
+      "font_class": "hot",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
       "icon_id": "827644",
       "name": "列表",
       "font_class": "liebiao",

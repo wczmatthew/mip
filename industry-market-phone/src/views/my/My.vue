@@ -274,6 +274,7 @@ export default {
         inveQty: qty,
         storeQty: item.qty,
         prodId: item.prodId,
+        spec: item.spec,
       }];
       const result = await service.checkWareHouse({ userid: Utils.getUserId(this), itemList: JSON.stringify(itemList) });
       if (!result) return;
