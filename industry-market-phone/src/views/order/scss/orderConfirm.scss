@@ -3,7 +3,7 @@
 .customre-item {
   display: flex;
   align-items: center;
-  padding: .1rem .12rem;
+  padding: .1rem $spacing-lr;
   margin-bottom: .1rem;
   background: #fff;
 
@@ -38,7 +38,7 @@
 
 .product-img-list {
   margin-bottom: .1rem;
-  padding: .1rem 0 .1rem .12rem;
+  padding: .1rem 0 .1rem $spacing-lr;
   background: #fff;
   display: flex;
 
@@ -104,7 +104,7 @@
 
 .product-item {
   display: flex;
-  padding: 0 .15rem .1rem;
+  padding: 0 .1rem .1rem;
 
   .img {
     width: .4rem;
@@ -166,7 +166,7 @@
 .w-tableview {
   .cell {
     margin-left: 0;
-    padding-left: .12rem;
+    padding-left: $spacing-lr;
   }
 
   .cell .title {
@@ -190,7 +190,7 @@
 
   .textarea-cell {
     height: auto;
-    padding: .1rem .12rem;
+    padding: .1rem $spacing-lr;
     textarea {
       height: .6rem;
       border: 0;
@@ -234,7 +234,7 @@
     display: flex;
     justify-content: center;
     flex-direction: column;
-    padding: 0 .12rem;
+    padding: 0 $spacing-lr;
 
     p {
       @include text-ellipsis;

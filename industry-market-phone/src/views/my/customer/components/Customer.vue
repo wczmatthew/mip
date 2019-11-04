@@ -223,7 +223,7 @@ export default {
   .item {
     width: 100%;
     background: #fff;
-    padding: .05rem .1rem;
+    padding: .05rem $spacing-lr;
     margin-bottom: .1rem;
     position: relative;
     overflow: hidden;

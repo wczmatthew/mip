@@ -61,7 +61,7 @@ export default {
   @include break-word;
   margin-bottom: .05rem;
   text-align: center;
-  padding: .1rem .12rem;
+  padding: .1rem $spacing-lr;
 }
 
 .desc {
@@ -75,7 +75,7 @@ export default {
   }
 }
 .news-detail {
-  padding: 0 .12rem;
+  padding: 0 $spacing-lr;
   img {
     display: block;
     width: 100%;

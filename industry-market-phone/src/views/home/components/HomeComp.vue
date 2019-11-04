@@ -13,7 +13,7 @@
       </div> -->
 
       <div class="w-header-mid">
-        <w-search class="home-search" disabled show-scan @input-click="toSearch()" style="padding-right: .1rem;" ref="searchView" placeholder="dz47"></w-search>
+        <w-search class="home-search" disabled show-scan @input-click="toSearch()" ref="searchView" placeholder="dz47"></w-search>
       </div>
       <div class="header-right">
         <w-scan-icon current-path="/market"></w-scan-icon>
@@ -87,6 +87,9 @@
           </div>
           <p class="desc price">
             ￥{{item.DJJ}}
+          </p>
+          <p class="desc">
+            月销({{item.pc || 0}})
           </p>
         </div>
       </div>
@@ -275,28 +278,26 @@ export default {
       endDate: '2019-6-17 20:00:00',
       timer: null,
       keywordsTimer: null,
+      showKeywords: '', // 展示的关键字
+      keywords: '', // 随机到的关键字
     };
   },
   watch: {
     '$route'(to) {
-      this.timer && clearInterval(this.timer);
-      this.keywordsTimer && clearInterval(this.keywordsTimer);
+      // this.timer && clearInterval(this.timer);
+      this.keywordsTimer && clearTimeout(this.keywordsTimer);
       if (to.path === '/market' && to.query.tab === 'home') {
         this.autoplay = true;
-        this.timer = setInterval(() => {
-          this.calcTime();
-        }, 1000);
+        // this.timer = setInterval(() => {
+        //   this.calcTime();
+        // }, 1000);
 
         this.$nextTick(() => {
           this.$refs.slide && this.$refs.slide.refresh();
           this.$refs.newsSlide && this.$refs.newsSlide.refresh();
         });
 
-        this.keywordsTimer = setInterval(() => {
-          this.updateKeywords();
-        }, 5000);
-      } else {
-        // this.autoplay = false;
+        this.updateKeywords();
       }
       // console.log('autoplay: ', this.autoplay);
       // this.$refs.slide && this.$refs.slide.refresh();
@@ -312,16 +313,12 @@ export default {
     //   this.getData();
     //   this.getOtherData();
     // }, 300);
-
-    this.keywordsTimer = setInterval(() => {
-      this.updateKeywords();
-    }, 5000);
   },
   components: {
     WSearch,
   },
   destroyed() {
-    clearInterval(this.keywordsTimer);
+    clearTimeout(this.keywordsTimer);
     this.keywordsTimer = null;
   },
   computed: {
@@ -345,15 +342,47 @@ export default {
       if (index < 2) return 'col2';
       return 'col3';
     },
-    updateKeywords() {
+    // 选择展示关键字
+    chooseKeywords() {
       if (!this.keywordsList.length) {
-        this.$refs.searchView && this.$refs.searchView.updateKeywords('dz47');
-        clearInterval(this.keywordsTimer);
-        this.keywordsTimer = null;
+        this.keywords = 'dz47';
+        // this.$refs.searchView && this.$refs.searchView.updateKeywords('dz47');
+        // clearInterval(this.keywordsTimer);
+        // this.keywordsTimer = null;
         return;
       }
       const index = Math.floor(Math.random() * this.keywordsList.length);
-      this.$refs.searchView && this.$refs.searchView.updateKeywords(this.keywordsList[index].name);
+      this.keywords = this.keywordsList[index].name;
+      // this.$refs.searchView && this.$refs.searchView.updateKeywords(this.keywordsList[index].name);
+    },
+    updateKeywords() {
+      const isFirst = !this.keywords;
+      if (!this.keywords) {
+        this.chooseKeywords();
+      }
+
+      if (isFirst) {
+        this.$refs.searchView && this.$refs.searchView.updateKeywords('_');
+      } else {
+        // 已经挑选好展示的关键字, 开始打字机动画
+        this.showKeywords = this.keywords.substr(0, Math.min(this.showKeywords.length + 1, this.keywords.length));
+        this.$refs.searchView && this.$refs.searchView.updateKeywords(`${this.showKeywords}_`);
+      }
+
+      if (this.showKeywords === this.keywords) {
+        this.$refs.searchView && this.$refs.searchView.updateKeywords(`${this.showKeywords}`);
+        // 已经全部显示完毕
+        this.showKeywords = '';
+        this.keywords = '';
+        this.keywordsTimer = setTimeout(() => {
+          this.updateKeywords();
+        }, 5000);
+        return;
+      }
+
+      this.keywordsTimer = setTimeout(() => {
+        this.updateKeywords();
+      }, 150);
     },
     scrollTop() {
       if (!this.$refs.home) return;
@@ -451,12 +480,12 @@ export default {
       this.news = result.news || {};
       this.buyingProducts = result.buyingProducts || null;
       this.midAds = result.midAds || {};
-      if (this.buyingProducts && this.buyingProducts.endDate) {
-        this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
+      // if (this.buyingProducts && this.buyingProducts.endDate) {
+      //   this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
 
-        this.timer && clearInterval(this.timer);
-        this.timer = setInterval(this.calcTime, 1000);
-      }
+      //   this.timer && clearInterval(this.timer);
+      //   this.timer = setInterval(this.calcTime, 1000);
+      // }
       this.$nextTick(() => {
         this.$refs.slide && this.$refs.slide.refresh();
         this.$refs.newsSlide && this.$refs.newsSlide.refresh();
@@ -485,12 +514,12 @@ export default {
       this.news = result.news || {};
       this.buyingProducts = result.buyingProducts || null;
       this.midAds = result.midAds || {};
-      if (this.buyingProducts && this.buyingProducts.endDate) {
-        this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
+      // if (this.buyingProducts && this.buyingProducts.endDate) {
+      //   this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
 
-        this.timer && clearInterval(this.timer);
-        this.timer = setInterval(this.calcTime, 1000);
-      }
+      //   this.timer && clearInterval(this.timer);
+      //   this.timer = setInterval(this.calcTime, 1000);
+      // }
       this.$nextTick(() => {
         this.$refs.slide && this.$refs.slide.refresh();
         this.$refs.newsSlide && this.$refs.newsSlide.refresh();
@@ -539,7 +568,7 @@ export default {
   position: fixed;
   top: 0;
   left: 0;
-  padding-left: .54rem;
+  padding-left: .44rem;
 
   .header-left {
     img {
@@ -594,7 +623,7 @@ export default {
   max-height: 1.8rem;
 
   .banner-item {
-    padding: .1rem;
+    padding: .1rem $spacing-lr;
     height: 1.45rem;
     @include flex-center;
     img {
@@ -607,7 +636,7 @@ export default {
 }
 
 .banner2 {
-  margin: .1rem;
+  margin: .1rem $spacing-lr;
   display: block;
   border-radius: .05rem;
   overflow: hidden;
@@ -622,7 +651,7 @@ export default {
 .home-category {
   justify-content: space-around;
   background: #fff;
-  padding: 0 .15rem;
+  padding: 0 $spacing-lr;
   padding-top: .15rem;
 
   // &::after {
@@ -670,15 +699,15 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  padding: .1rem .12rem;
+  padding: .1rem $spacing-lr;
   background: #fff;
 
   &::before {
     content: ' ';
     position: absolute;
     top: 0;
-    left: 3%;
-    width: 94%;
+    left: 1.5%;
+    width: 97%;
     height: 1px;
     background: $color-line;
     transform: scaleY(.5);
@@ -798,7 +827,7 @@ export default {
       padding: 0;
       flex-shrink: 0;
       overflow: hidden;
-      margin-left: .1rem;
+      margin-left: $spacing-lr;
 
       .detail {
         background: #fff;
@@ -830,10 +859,15 @@ export default {
       } // end detail
 
       .desc {
-        color: $color-red;
         margin-top: .05rem;
         text-align: center;
         @include text-ellipsis();
+        color: $color-grey-6;
+        font-size: 10px;
+      }
+
+      .desc.price {
+        color: $color-red;
         font-size:  12px;
       }
     } // end item
@@ -841,7 +875,7 @@ export default {
 } // end home-row
 
 .product-grid2 {
-  padding: 0 .1rem;
+  padding: 0 $spacing-lr;
   .product {
     padding: .15rem .15rem .1rem;
     position: relative;
@@ -1036,7 +1070,7 @@ export default {
   // }
 
   .col {
-    margin-left: 2.5vw;
+    margin-left: 1.5vw;
     overflow: hidden;
 
     .img {
@@ -1078,10 +1112,10 @@ export default {
   } // end col
 
   .col2 {
-    width: 46vw;
+    width: 47.6vw;
     .img {
-      width: 46vw;
-      height: 46vw;
+      width: 47.6vw;
+      height: 47.6vw;
       padding: .05rem;
       padding-bottom: .3rem;
     }
@@ -1102,13 +1136,13 @@ export default {
   }
 
   .col3 {
-    width: 30vw;
-    margin-left: 2.5vw;
+    width: 31.3vw;
+    margin-left: 1.5vw;
     margin-right: 0;
 
     .img {
-      width: 30vw;
-      height: 30vw;
+      width: 31.3vw;
+      height: 31.3vw;
       background: #fff;
       padding: .05rem;
       padding-bottom: .26rem;

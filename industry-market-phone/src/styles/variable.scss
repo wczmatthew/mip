@@ -21,6 +21,7 @@ $color-hover-blue: #e6f7ff;
 $color-gold: #c5995b;
 
 $line-scale: 0.5;
+$spacing-lr: .05rem; // 左右间距
 
 // 背景渐变色 从左到右
 @mixin background-left-gradient($color1, $color2) {

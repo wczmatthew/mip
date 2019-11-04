@@ -167,7 +167,7 @@ export default {
 }
 
 .hot-search {
-  padding: 0 .05rem 0 .15rem;
+  padding: 0 $spacing-lr;
   background: #fff;
 
   .title {
@@ -203,7 +203,7 @@ export default {
 }
 
 .search-result {
-  padding: .1rem .15rem;
+  padding: .1rem $spacing-lr;
   display: flex;
   align-items: center;
   justify-content: flex-end;

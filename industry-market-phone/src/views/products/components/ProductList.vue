@@ -156,7 +156,7 @@ export default {
   position: relative;
   .item {
     width: 100%;
-    padding: .1rem .15rem;
+    padding: .1rem $spacing-lr;
     display: flex;
     align-items: center;
     background: #fff;

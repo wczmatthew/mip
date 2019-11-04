@@ -146,7 +146,7 @@ export default {
     .row1 {
       width: 48%;
       @include break-word();
-      padding-left: .12rem;
+      padding-left: $spacing-lr;
     }
 
     .row2 {

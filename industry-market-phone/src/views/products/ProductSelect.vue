@@ -519,7 +519,7 @@ export default {
   .product-title {
     // font-weight: 700;
     @include break-word;
-    padding: .1rem .12rem .05rem;
+    padding: .1rem $spacing-lr;
     background: #fff;
     font-size: 18px;
   }
@@ -540,7 +540,6 @@ export default {
       font-size: 14px;
       height: .25rem;
       padding-left: .05rem;
-      margin-left: .05rem;
       position: relative;
       // font-weight: 700;
       display: flex;
@@ -559,7 +558,7 @@ export default {
       align-items: center;
       margin-top: .05rem;
       flex-wrap: wrap;
-      padding-left: .2rem;
+      padding-left: .1rem;
 
       .item {
         margin-bottom: .05rem;

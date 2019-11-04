@@ -86,9 +86,10 @@ export default {
     height: .26rem;
     line-height: .26rem;
     // border: 1px solid $color-line;
-    border-radius: .05rem;
     display: flex;
     transition: all .3s ease;
+    border-radius: .26rem;
+    padding-right: .05rem;
   }
 
   .iconfont {
@@ -107,7 +108,7 @@ export default {
     background: transparent !important;
     font-size: 12px;
     display: block;
-    padding-left: .1rem;
+    padding-left: .15rem;
   }
 
   .txt {

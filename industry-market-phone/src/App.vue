@@ -181,6 +181,10 @@ export default {
 @import '~@/styles/common.css';
 @import '~@/styles/cube.scss';
 
+.w-tableview .cell {
+  margin-left: .05rem;
+}
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

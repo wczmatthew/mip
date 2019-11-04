@@ -165,7 +165,7 @@ export default {
 <style lang="scss">
 .collect-container {
   .product-list .item {
-    width: 95%;
+    width: 97%;
     margin: .1rem auto 0;
     border-radius: .1rem;
     border-bottom: 1px solid #e3e3e3;

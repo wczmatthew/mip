@@ -1,7 +1,7 @@
 <!-- 消息图标 -->
 <template lang='html'>
   <div class="w-icon" @click.stop="toScan()">
-    <i class="iconfont icon-scan" :class="[color]"></i>
+    <i class="iconfont icon-scan-blod" :class="[color]"></i>
     <!-- <p>扫一扫</p> -->
   </div>
 </template>
@@ -9,6 +9,7 @@
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/order.service';
+import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -59,8 +60,8 @@ export default {
 
       // TODO: 测试用
       // setTimeout(() => {
-      //   this.handleScan('0054374648900700028');
-      //   // this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
+      //   // this.handleScan('0054374648900700028');
+      //   this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
       // }, 300);
       try {
         // eslint-disable-next-line
@@ -108,7 +109,7 @@ export default {
       if (!proRes) return;
       Utils.hideLoading();
       // 返回的是产品编码
-      if (Number(this.role) === 1) {
+      if (Number(this.role) !== USER_ROLE.user) {
         // 开单员直接加入采购单
         Utils.showToast('加入购物单成功');
         // this.addToCart(proRes);

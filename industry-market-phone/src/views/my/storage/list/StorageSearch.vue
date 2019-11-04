@@ -3,7 +3,7 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <template #header-mid>
-      <w-search class="search" show-scan @search="toSearch" ref="search"></w-search>
+      <w-search class="search" show-scan @search="toSearch" ref="search" placeholder="请输入您想搜索的产品型号"></w-search>
     </template>
     <!-- 顶部栏 end -->
 

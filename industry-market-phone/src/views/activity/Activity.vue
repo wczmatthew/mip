@@ -193,7 +193,7 @@ export default {
   overflow: hidden;
 
   .banner-item {
-    padding: .1rem;
+    padding: .1rem $spacing-lr;
     // height: 1.45rem;
     @include flex-center;
     overflow: hidden;
@@ -289,13 +289,13 @@ export default {
   margin-top: .1rem;
   .item {
     margin-bottom: .1rem;
-    padding: 0 .12rem;
+    padding: 0 $spacing-lr;
     position: relative;
 
     .icon {
       position: absolute;
       top: 0;
-      left: .12rem;
+      left: $spacing-lr;
       z-index: 10;
       width: .5rem;
     }

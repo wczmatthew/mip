@@ -423,7 +423,7 @@ export default {
   .store {
     display: flex;
     align-items: center;
-    padding-left: .1rem;
+    padding-left: $spacing-lr;
     color: $color-grey-6;
     @include text-ellipsis;
     height: .3rem;
@@ -444,7 +444,7 @@ export default {
 
   .product-item {
     display: flex;
-    padding: 0 .1rem;
+    padding: 0 $spacing-lr;
     align-items: center;
     padding-top: .05rem;
 
@@ -494,7 +494,7 @@ export default {
   border-top: .1rem solid $color-bg;
 
   .w-underline {
-    margin: 0 .12rem;
+    margin: 0 $spacing-lr;
     margin-bottom: .1rem;
   }
 
@@ -504,7 +504,7 @@ export default {
     justify-content: space-between;
     @include text-ellipsis;
     height: .2rem;
-    padding: 0 .1rem;
+    padding: 0 $spacing-lr;
     margin-bottom: .05rem;
 
     .title {
@@ -598,7 +598,7 @@ export default {
     display: flex;
     align-items: center;
     border-bottom: .06rem solid $color-bg;
-    padding: 0 .12rem;
+    padding: 0 $spacing-lr;
 
     .icon-location {
       font-size:  20px;
@@ -637,7 +637,7 @@ export default {
 
   .w-tableview {
     padding: .05rem 0;
-    padding-left: .12rem;
+    padding-left: $spacing-lr;
     .cell {
       margin: 0;
       height: .25rem;

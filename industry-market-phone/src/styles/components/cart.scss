@@ -49,7 +49,7 @@
 
   .item {
     // width: 95%;
-    margin: 0 .1rem;
+    margin: 0 $spacing-lr;
     // padding: .1rem .12rem .1rem 0;
     // border-bottom: 1px solid $color-line;
     display: flex;
@@ -273,12 +273,12 @@
 
   .radio {
     width: .7rem;
-    padding-left: .15rem;
     height: 100%;
     display: flex;
+    padding-left: .16rem;
     flex-shrink: 0;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     font-size:  12px;
     color: $color-grey;
 

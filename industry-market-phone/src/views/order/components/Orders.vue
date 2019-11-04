@@ -324,7 +324,7 @@ export default {
 }
 
 .order-list {
-  width: 93%;
+  width: 97%;
   margin: 0 auto;
 
   .item {
