@@ -120,7 +120,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 .header-right {
   font-size:  13px;
   color: $color-grey;

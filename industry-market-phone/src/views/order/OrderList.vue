@@ -38,7 +38,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 .header-right {
   font-size:  12px;
   color: $color-grey;

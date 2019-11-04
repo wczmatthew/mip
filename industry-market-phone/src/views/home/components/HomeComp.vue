@@ -554,7 +554,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 
 .w-scrollview {
   padding-top: .44rem;

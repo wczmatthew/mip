@@ -30,7 +30,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 .w-sort-area {
   background: $color-bg;
 }

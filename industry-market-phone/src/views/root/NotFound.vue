@@ -41,7 +41,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 
 .logo {
   margin: 0 auto;

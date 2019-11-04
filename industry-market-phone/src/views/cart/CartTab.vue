@@ -72,7 +72,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 .header-right {
   font-size:  14px;
 }

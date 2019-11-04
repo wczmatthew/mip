@@ -155,7 +155,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 .w-tabbar {
   background: #fff;
   border: 0;

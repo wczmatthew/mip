@@ -93,7 +93,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 .modal-container {
   position: fixed;
   top: 0;

@@ -148,7 +148,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 
 .w-icon {
   width: .4rem;

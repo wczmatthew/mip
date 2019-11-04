@@ -53,7 +53,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 .activity-title {
   font-size: .16rem;
   font-weight: 700;
@@ -76,6 +76,14 @@ export default {
 }
 .news-detail {
   padding: 0 $spacing-lr;
+  img {
+    display: block;
+    width: 100%;
+  }
+}
+</style>
+<style lang="scss">
+.news-detail {
   img {
     display: block;
     width: 100%;

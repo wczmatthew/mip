@@ -71,7 +71,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 
 .w-search-bar {
   width: 100%;

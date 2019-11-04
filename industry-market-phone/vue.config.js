@@ -2,6 +2,11 @@
     publicPath: './',
     css: {
       loaderOptions: {
+        // 给 sass-loader 传递选项 -- 全局引入scss
+        scss: {
+          // 注意：在 sass-loader v7 中，这个选项名是 "data", V7之后为 'prependData'
+          prependData: `@import '~@/styles/variable.scss';`
+        },
         stylus: {
           'resolve url': true,
           'import': [

@@ -186,7 +186,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 
 .search {
   padding-left: .44rem;

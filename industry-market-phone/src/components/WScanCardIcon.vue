@@ -99,7 +99,7 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-@import '~@/styles/variable.scss';
+
 
 .w-scan {
   width: .4rem;
