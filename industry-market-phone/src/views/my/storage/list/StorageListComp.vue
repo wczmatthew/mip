@@ -134,8 +134,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-
 .storage-list {
   .item {
     display: flex;

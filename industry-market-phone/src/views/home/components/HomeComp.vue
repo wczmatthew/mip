@@ -554,8 +554,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-
 .w-scrollview {
   padding-top: .44rem;
 }
@@ -619,7 +617,7 @@ export default {
   width: 100%;
   min-height: 1.2rem;
   overflow: hidden;
-  // padding-top: .44rem;
+  background: #fff;
   max-height: 1.8rem;
 
   .banner-item {

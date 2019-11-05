@@ -121,7 +121,7 @@
 
     <!-- 其他功能 -->
     <div class="w-tableview">
-      <template  v-if="role == viewer || role == seller">
+      <template v-if="role == viewer || role == seller">
         <div class="cell" @click="toScan()">
           <span class="title">
             库存盘点
@@ -500,7 +500,7 @@ export default {
 .card {
   background: #fff;
   border-radius: .05rem;
-  width: 95%;
+  width: 97%;
   margin: 0 auto;
   margin-top: .1rem;
   padding: 0 .1rem;
@@ -581,7 +581,7 @@ export default {
 
 .w-tableview {
   border-radius: .05rem;
-  width: 95%;
+  width: 97%;
   margin: 0 auto;
   margin-top: .15rem;
   box-shadow: 0 0 7px #d4d4d4;
