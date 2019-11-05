@@ -35,11 +35,14 @@ export default {
       totalNum: 0,
       vendorName: '',
       orderId: '',
+      url: '',
     };
   },
   created() {},
   mounted() {
+    this.url = Utils.getLocalStorageItem('receiveUrl');
     this.getData();
+    Utils.removeLocalStorageItem('receiveUrl');
   },
   watch: {
     '$route'(to) {
@@ -75,21 +78,20 @@ export default {
     async getData() {
       Utils.showLoading();
       const params = {
-        url: Utils.getLocalStorageItem('receiveUrl'),
+        url: this.url,
       };
       const result = await service.getReceiveOrderItemList(params);
       if (!result) {
         this.$refs.cart && this.$refs.cart.updateData([]);
         return;
       }
-      Utils.removeLocalStorageItem('receiveUrl');
       Utils.hideLoading();
       // 供应商名称
       this.vendorName = result.vendorName || '';
       this.orderId = result.orderId || '';
 
       this.$refs.cart && this.$refs.cart.updateData(result.itemList);
-      this.$refs.cart && this.$refs.cart.onToggleAllChecked();
+      this.$refs.cart && this.$refs.cart.updateAllChecked();
       this.totalNum = result.itemList && result.itemList.length ? result.itemList.length : 0;
     },
     // 确认入库

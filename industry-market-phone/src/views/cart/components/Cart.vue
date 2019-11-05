@@ -138,6 +138,8 @@ export default {
       this.productList = list || [];
       this.noData = !this.productList.length;
       this.isFirstLoading = false;
+
+      this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
     },
     scrollTop() {
       this.$refs.scroll.scrollTop();
@@ -168,6 +170,10 @@ export default {
         this.selectNum = this.productList.length;
         this.calcPrice();
       }
+    },
+    updateAllChecked() {
+      this.allChecked = false;
+      this.onToggleAllChecked();
     },
     // 全选或者取消全选
     onToggleAllChecked() {

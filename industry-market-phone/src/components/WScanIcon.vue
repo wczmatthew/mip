@@ -61,7 +61,7 @@ export default {
       // TODO: 测试用
       // setTimeout(() => {
       //   // this.handleScan('0054374648900700028');
-      //   this.handleScan(JSON.stringify({ type: 1, url: 'http://10.1.110.24:8080/ECP2/json/getReceiptBillInfo?deptId=CQZT0100000000000001&billNo=CGS190617000004' }));
+      //   this.handleScan(JSON.stringify({ type: 1, url: 'http://10.10.10.20/json/getReceiptBillInfo?deptId=dzswcs00000000000001&billNo=CGS181117000002' }));
       // }, 300);
       try {
         // eslint-disable-next-line
@@ -148,8 +148,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-
 .w-icon {
   width: .4rem;
   height: 100%;

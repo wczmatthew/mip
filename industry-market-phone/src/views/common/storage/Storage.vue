@@ -32,9 +32,9 @@
     <div class="w-tableview">
       <div class="top-title">
         今日入库
-        <span class="more">
+        <!-- <span class="more">
           更多>
-        </span>
+        </span> -->
       </div>
       <div class="cell" v-for="(item, index) in todayList" :key="'today'+index">
         <div class="title">
@@ -51,9 +51,9 @@
     <div class="w-tableview">
       <div class="top-title">
         本月入库
-        <span class="more">
+        <!-- <span class="more">
           更多>
-        </span>
+        </span> -->
       </div>
       <div class="cell" v-for="(item, index) in monthList" :key="'month'+index">
         <div class="title">
