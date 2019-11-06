@@ -76,4 +76,12 @@ export default {
     const params = { userid };
     return postHttp({ url: '/usercenter/user/getWxPlatQR', params });
   },
+  /**
+   * 预览活动页内容
+   * @param corpid 商家id
+   */
+  previewActivity: ({ corpid }) => {
+    const params = { corpid };
+    return postHttp({ url: '/contentcenter/post/previewActivity', params });
+  },
 };

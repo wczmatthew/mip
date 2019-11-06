@@ -431,7 +431,7 @@ export default {
     },
     toMore() {
       if (this.mode === 'prev') return;
-      this.$router.push('/market/gift');
+      this.$router.push('/market/activity');
     },
     toSearch() {
       if (this.mode === 'prev') return;
@@ -448,7 +448,7 @@ export default {
         try {
           // eslint-disable-next-line
           // native_listen('goToUrl', { url: item.url });
-          Utils.saveLocalStorageItem('beforePath', this.routePath);
+          Utils.saveLocalStorageItem('beforePath', `${this.routePath}/home`);
           this.$router.push({
             path: `${this.routePath}/frame`,
             query: {

@@ -74,6 +74,11 @@ export default {
   },
   created() {},
   mounted() {
+    if (this.$route.path === '/activityPrev') {
+      this.getPrevData();
+      return;
+    }
+
     this.getData();
   },
   watch: {
@@ -122,7 +127,7 @@ export default {
     },
     toAnalyze() {
       this.getAnalyzeUrl();
-      Utils.saveLocalStorageItem('beforePath', this.routePath);
+      Utils.saveLocalStorageItem('beforePath', '/market/activity');
       this.$router.push({
         path: '/market/frame',
         query: {
@@ -140,7 +145,7 @@ export default {
         try {
           // eslint-disable-next-line
           // native_listen('goToUrl', { url: item.url });
-          Utils.saveLocalStorageItem('beforePath', this.routePath);
+          Utils.saveLocalStorageItem('beforePath', '/market/activity');
           this.$router.push({
             path: '/market/frame',
             query: {
@@ -162,6 +167,25 @@ export default {
       }
       const result = await service.getActivityPageItem({ userid: Utils.getUserId(this) });
       if (!result) return;
+      this.banners = result.activityAds || [];
+      this.categoryList = result.categoryList || [];
+      this.activityList = result.activityList || [];
+
+      this.$nextTick(() => {
+        this.$refs.slide && this.$refs.slide.refresh();
+      });
+    },
+    // 获取预览页面的数据
+    async getPrevData() {
+      if (!this.$route.query.corpid) {
+        Utils.showToast('缺少商家信息');
+        return;
+      }
+      Utils.showLoading();
+      const result = await service.previewActivity({ corpid: this.$route.query.corpid });
+      if (!result) return;
+      Utils.hideLoading();
+
       this.banners = result.activityAds || [];
       this.categoryList = result.categoryList || [];
       this.activityList = result.activityList || [];

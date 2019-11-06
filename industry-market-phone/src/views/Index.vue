@@ -129,7 +129,7 @@ export default {
           // TODO:
           // eslint-disable-next-line
           // native_listen('goToUrl', { url: item.goUrl });
-          Utils.saveLocalStorageItem('beforePath', '/market/home');
+          Utils.saveLocalStorageItem('beforePath', '/market/index');
           this.$router.push({
             path: '/market/frame',
             query: {

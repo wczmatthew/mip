@@ -47,6 +47,10 @@ export default {
         this.transitionName = 'slide-right-half';
       } else if (to.path === '/market') {
         this.transitionName = 'none';
+      } else if (to.meta.isTabbar) {
+        this.transitionName = 'none';
+      } else if (from.meta.isTabbar) {
+        this.transitionName = 'slide-right-half';
       } else {
         const toDepth = to.path.split('/').length;
         const fromDepth = from.path.split('/').length;
