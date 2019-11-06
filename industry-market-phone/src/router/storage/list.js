@@ -1,6 +1,6 @@
 
-const StorageList = () => import('@/views/my/storage/list/StorageList.vue');
-const StorageSearch = () => import('@/views/my/storage/list/StorageSearch.vue');
+const StorageList = () => import('@/views/common/storage/list/StorageList.vue');
+const StorageSearch = () => import('@/views/common/storage/list/StorageSearch.vue');
 
 export default [
   {

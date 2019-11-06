@@ -465,4 +465,24 @@ export default {
     };
     return postHttp({ url: '/ordercenter/client/delSaleClient', params });
   },
+  /**
+   * 获取当月入库列表信息
+   * @param userid 用户id
+   */
+  getStoreStatisticsMonth: ({ userid }) => {
+    const params = {
+      userid,
+    };
+    return postHttp({ url: '/ordercenter/store/getStoreStatisticsMonth', params });
+  },
+  /**
+   * 获取今日的入库列表信息
+   * @param userid 用户id
+   */
+  getStoreStatisticsToday: ({ userid }) => {
+    const params = {
+      userid,
+    };
+    return postHttp({ url: '/ordercenter/store/getStoreStatisticsToday', params });
+  },
 };

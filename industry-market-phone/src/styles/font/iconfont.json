@@ -69,6 +69,13 @@
       "unicode_decimal": 58943
     },
     {
+      "icon_id": "603724",
+      "name": "库存",
+      "font_class": "kucun1",
+      "unicode": "e640",
+      "unicode_decimal": 58944
+    },
+    {
       "icon_id": "827644",
       "name": "列表",
       "font_class": "liebiao",
@@ -214,6 +221,13 @@
       "font_class": "file",
       "unicode": "e603",
       "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "2060379",
+      "name": "盘点",
+      "font_class": "pandian",
+      "unicode": "e641",
+      "unicode_decimal": 58945
     },
     {
       "icon_id": "2075250",
@@ -433,11 +447,32 @@
       "unicode_decimal": 58941
     },
     {
+      "icon_id": "5462945",
+      "name": "扫码",
+      "font_class": "saoma",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
       "icon_id": "5519007",
       "name": "收 藏 (1)",
       "font_class": "notcollect",
       "unicode": "e643",
       "unicode_decimal": 58947
+    },
+    {
+      "icon_id": "5932309",
+      "name": "入库",
+      "font_class": "ruku",
+      "unicode": "e647",
+      "unicode_decimal": 58951
+    },
+    {
+      "icon_id": "6038837",
+      "name": "盘点",
+      "font_class": "pandian1",
+      "unicode": "e646",
+      "unicode_decimal": 58950
     },
     {
       "icon_id": "6068430",
@@ -473,6 +508,13 @@
       "font_class": "arrowleft",
       "unicode": "e626",
       "unicode_decimal": 58918
+    },
+    {
+      "icon_id": "6370206",
+      "name": "出库",
+      "font_class": "chuku",
+      "unicode": "e64f",
+      "unicode_decimal": 58959
     },
     {
       "icon_id": "6521814",
@@ -746,6 +788,20 @@
       "font_class": "arrow-down",
       "unicode": "e711",
       "unicode_decimal": 59153
+    },
+    {
+      "icon_id": "9225556",
+      "name": "扫码入库",
+      "font_class": "scan-ruku",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "9225607",
+      "name": "扫码出库",
+      "font_class": "scan_chuku",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
     },
     {
       "icon_id": "9397332",

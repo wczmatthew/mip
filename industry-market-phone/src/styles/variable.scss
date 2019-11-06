@@ -23,19 +23,24 @@ $color-gold: #c5995b;
 $line-scale: 0.5;
 $spacing-lr: .05rem; // 左右间距
 
+// 背景渐变色
+@mixin background-gradient($direction, $color1, $color2) {
+  background: linear-gradient($direction, $color1, $color2);
+}
+
 // 背景渐变色 从左到右
 @mixin background-left-gradient($color1, $color2) {
-  background: -webkit-linear-gradient(left, $color1, $color2);
-  background: -o-linear-gradient(right, $color1, $color2);
-  background: -moz-linear-gradient(right, $color1, $color2);
+  // background: -webkit-linear-gradient(right, $color1, $color2);
+  // background: -o-linear-gradient(right, $color1, $color2);
+  // background: -moz-linear-gradient(right, $color1, $color2);
   background: linear-gradient(to right, $color1, $color2);
 }
 
 // 背景渐变色 从上到下
 @mixin background-top-gradient($color1, $color2) {
-  background: -webkit-linear-gradient(bottom, $color1, $color2);
-  background: -o-linear-gradient(bottom, $color1, $color2);
-  background: -moz-linear-gradient(bottom, $color1, $color2);
+  // background: -webkit-linear-gradient(bottom, $color1, $color2);
+  // background: -o-linear-gradient(bottom, $color1, $color2);
+  // background: -moz-linear-gradient(bottom, $color1, $color2);
   background: linear-gradient(to bottom, $color1, $color2);
 }
 

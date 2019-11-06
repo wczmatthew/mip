@@ -12,7 +12,8 @@ import cart from './cart/cart';
 import cartTab from './cart';
 import contact from './my/contact';
 import productSelectSearch from './products/productSelectRoot';
-import storage from './my/storage';
+import storageIndex from './storage';
+import storage from './storage/list';
 
 import home from './home';
 import productCategoryTab from './products/productCategoryTab';
@@ -28,7 +29,7 @@ const invitation = () => import('@/views/my/Invitation.vue');
 const frameView = () => import('@/views/common/FrameView.vue');
 const Launch = () => import('@/views/root/Launch.vue');
 const ConfirmReceiveProducts = () => import('@/views/products/ConfirmReceiveProducts.vue');
-const Storage = () => import('@/views/common/storage/Storage.vue');
+// const Storage = () => import('@/views/common/storage/Storage.vue');
 
 export default [
   {
@@ -62,6 +63,7 @@ export default [
       ...contact,
       ...productSelectSearch,
       ...storage,
+      ...storageIndex,
       {
         path: 'invitation',
         component: invitation,
@@ -73,10 +75,6 @@ export default [
       {
         path: 'confirmReceive',
         component: ConfirmReceiveProducts,
-      },
-      {
-        path: 'storage',
-        component: Storage,
       },
       {
         path: 'activieyDetail',

@@ -18,11 +18,37 @@
     <!-- 轮播图 end -->
 
     <!-- 常用功能 -->
-    <div class="w-grid-list home-category" v-if="categoryList && categoryList.length">
-      <div class="item" @click="onClickLink(item)" v-for="(item, index) in categoryList" :key="'category'+index" :class="{'big': index === 2}">
-        <w-img :src="item.imgPath" alt=""/>
+    <div class="w-grid-list home-category">
+      <div class="item" @click="onScan(1)">
+        <div class="img">
+          <i class="iconfont icon-ruku"></i>
+        </div>
         <p class="sub-title">
-          {{item.title}}
+          扫码入库
+        </p>
+      </div>
+      <div class="item" @click="toCart()">
+        <div class="img">
+          <i class="iconfont icon-chuku"></i>
+        </div>
+        <p class="sub-title">
+          产品出库
+        </p>
+      </div>
+      <div class="item" @click="onScan(2)">
+        <div class="img">
+          <i class="iconfont icon-pandian1"></i>
+        </div>
+        <p class="sub-title">
+          扫码盘点
+        </p>
+      </div>
+      <div class="item" @click="toList(1)">
+        <div class="img">
+          <i class="iconfont icon-kucun1"></i>
+        </div>
+        <p class="sub-title">
+          库存信息
         </p>
       </div>
     </div>
@@ -71,34 +97,82 @@
 <script>
 import Utils from '@/common/Utils';
 import indexService from '@/services/index.service';
+import service from '@/services/order.service';
 import loading from '@/assets/loading.gif';
 
 export default {
   data() {
     return {
-      categoryList: [],
+      categoryList: [
+        { title: '扫码入库', icon: 'icon-ruku' },
+        { title: '产品出库', icon: 'icon-chuku' },
+        { title: '扫码盘点', icon: 'icon-pandian1' },
+        { title: '库存信息', icon: 'icon-kucun1' },
+      ],
       banners: [],
       bannerErrImg: loading,
       todayList: [],
       monthList: [],
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'storage' }), // 获取当前路由
+      scanType: 1, // 1: 入库 2: 盘点
     };
   },
   created() {},
   mounted() {
     this.getData();
 
-    this.todayList = [
-      { spec: 'DZ47 WSXISNGK xiSINFO', qty: 200 },
-      { spec: 'DZ47 WSXISNGK xiSINFO2', qty: 5000 },
-      { spec: 'DZ47 WSXISNGK xiSINFO3', qty: 20000 },
-      { spec: 'DZ47 WSXISNGK xiSINFO4', qty: 160 },
-      { spec: 'DZ47 WSXISNGK xiSINFO5', qty: 20 },
-    ];
+    this.getTodayStorageData();
+    this.getMonthStorageData();
 
-    this.monthList = this.todayList;
+    window.nativeToProductDetail = (data) => {
+      if (!data) return;
+      if (this.scanType === 1) {
+        // 入库
+        this.handleRukuScan(data);
+      } else {
+        // 盘点
+        this.handlePanDianScan(data);
+      }
+    };
   },
   components: {},
   methods: {
+    onClickLink(item) {
+      if (!item.url) {
+        Utils.showToast('敬请期待');
+        return;
+      }
+      if (item.url.indexOf('http') > -1) {
+        try {
+          // eslint-disable-next-line
+          // native_listen('goToUrl', { url: item.url });
+          Utils.saveLocalStorageItem('beforePath', `${this.routePath}/home`);
+          this.$router.push({
+            path: `${this.routePath}/frame`,
+            query: {
+              url: item.url,
+              title: item.title || '发现',
+            },
+          });
+        } catch (error) {
+          console.log('error: ', error);
+        }
+        return;
+      }
+
+      if (item.url.indexOf('/market') === 0) {
+        this.$router.push({
+          path: item.url,
+          query: { title: item.title },
+        });
+        return;
+      }
+
+      this.$router.push({
+        path: `${this.routePath}/${item.url}`,
+        query: { title: item.title },
+      });
+    },
     // 获取首页第一屏数据
     async getData() {
       Utils.showLoading();
@@ -106,17 +180,154 @@ export default {
       if (!result) return;
       Utils.hideLoading();
       this.banners = result.banner || [];
-      this.categoryList = result.category || [];
-      // if (this.buyingProducts && this.buyingProducts.endDate) {
-      //   this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
-
-      //   this.timer && clearInterval(this.timer);
-      //   this.timer = setInterval(this.calcTime, 1000);
-      // }
       this.$nextTick(() => {
         this.$refs.slide && this.$refs.slide.refresh();
-        this.$refs.newsSlide && this.$refs.newsSlide.refresh();
       });
+    },
+    async getMonthStorageData() {
+      const result = await service.getStoreStatisticsMonth({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      this.monthList = result || [];
+    },
+    async getTodayStorageData() {
+      const result = await service.getStoreStatisticsToday({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      this.todayList = result || [];
+    },
+    // 库存盘点
+    onScan(type) {
+      this.scanType = type;
+      if (Utils.checkIsWeixin()) {
+        // 调用微信扫一扫
+        // eslint-disable-next-line
+        wx.scanQRCode({
+          desc: '扫一扫',
+          needResult: 1, // 默认为0，扫描结果由微信处理，1则直接返回扫描结果，
+          scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+          success: (res) => {
+            // 回调
+            if (!res.resultStr) return;
+            // this.$router.push(`${this.currentPath}/productDetail?bm=${res.resultStr}`);
+            if (type === 1) {
+              // 入库
+              this.handleRukuScan(res.resultStr);
+            } else {
+              // 盘点
+              this.handlePanDianScan(res.resultStr);
+            }
+          },
+          error: (res) => {
+            if (res.errMsg.indexOf('function_not_exist') > 0) {
+              Utils.showToast('版本过低请升级');
+            }
+          },
+        });
+        return;
+      }
+
+      // TODO: 测试用
+      setTimeout(() => {
+        if (type === 1) {
+          // 入库
+          this.handleRukuScan(JSON.stringify({ type: 1, url: 'http://10.10.10.20/json/getReceiptBillInfo?deptId=dzswcs00000000000001&billNo=CGS181117000002' }));
+        } else {
+          // 盘点
+          this.handlePanDianScan('0054374648900700028');
+        }
+      }, 300);
+
+      try {
+        // eslint-disable-next-line
+        native_listen('scan_product');
+      } catch (error) {
+        Utils.showToast('敬请期待');
+      }
+    },
+    handleRukuScan(data) {
+      if (!data) return;
+      try {
+        if (typeof JSON.parse(data) === 'object') {
+          const obj = JSON.parse(data);
+          // 返回的是对象格式
+          if (Number(obj.type) === 1) {
+            // 入库单操作
+            Utils.saveLocalStorageItem('receiveUrl', obj.url || '');
+            this.$router.push({
+              path: `${this.routePath}/confirmReceive`,
+              query: {
+                orderId: obj.orderId || '',
+                vendorId: obj.vendorId || '',
+              },
+            });
+          }
+        } else {
+          // 返回的不是jsonobj格式
+          this.handleScanProduct(data);
+        }
+      } catch (error) {
+        // 解析失败, 返回的不是jsonobj格式
+        this.handleScanProduct(data);
+      }
+    },
+    // 入库操作: 扫码获取的是产品信息
+    async handleScanProduct(data) {
+      if (data.indexOf('CODE_128%2C') === 0) {
+        data = data.substr('CODE_128%2C'.length);
+      }
+      if (data.indexOf('CODE_128=') === 0) {
+        data = data.substr('CODE_128='.length);
+      }
+      // 先查询产品信息
+      const proRes = await service.scanBarcode({ userid: this.userId, code: data });
+      if (!proRes) return;
+      Utils.hideLoading();
+      // 开单员直接加入采购单
+      Utils.showToast('加入购物单成功');
+    },
+    // 盘点操作: 获取产品信息, 并且调整库存
+    async handlePanDianScan(data) {
+      if (data.indexOf('CODE_128%2C') === 0) {
+        data = data.substr('CODE_128%2C'.length);
+      }
+      if (data.indexOf('CODE_128=') === 0) {
+        data = data.substr('CODE_128='.length);
+      }
+      // 获取产品信息, 并且调整库存
+      Utils.showLoading();
+      const result = await service.getProductStore({ userid: Utils.getUserId(this), code: data });
+      if (!result) return;
+      Utils.hideLoading();
+
+      Utils.showPrompt({
+        title: `${result.spec}`,
+        placeholder: (result.qty).toString(),
+        value: '',
+        onConfirm: ({ promptValue }) => {
+          if (!promptValue) return;
+          console.log(promptValue);
+          this.changeStore(result, promptValue);
+        },
+      });
+    },
+    async changeStore(item, qty) {
+      Utils.showLoading();
+      const itemList = [{
+        inveQty: qty,
+        storeQty: item.qty,
+        prodId: item.prodId,
+        spec: item.spec,
+      }];
+      const result = await service.checkWareHouse({ userid: Utils.getUserId(this), itemList: JSON.stringify(itemList) });
+      if (!result) return;
+      Utils.showToast(`${item.spec}库存盘点成功`);
+    },
+    toCart() {
+      this.$router.push(`${this.routePath}/cart`);
+    },
+    toList() {
+      this.$router.push(`${this.routePath}/storageList`);
     },
   },
 };
@@ -160,6 +371,7 @@ export default {
   .item {
     width: 20%;
     padding: 0;
+    padding-top: .01rem;
     padding-bottom: .08rem;
     position: relative;
     overflow: visible;
@@ -167,11 +379,34 @@ export default {
     flex-direction: column;
     justify-content: center;
 
-    img {
-      // width: 50%;
-      height: .32rem;
-      display: block;
+    .img {
+      width: 11vw;
+      height: 11vw;
       margin: 0 auto;
+      border-radius: 11vw;
+      @include flex-center;
+      @include background-gradient(135deg, #fa71cd, #c471f5);
+
+      .iconfont {
+        font-size: .2rem;
+        color: #fff;
+      }
+    }
+
+    &:nth-child(4n+1) .img {
+      @include background-gradient(135deg, #fa71cd, #c471f5);
+    }
+
+    &:nth-child(4n+2) .img {
+      @include background-gradient(135deg, #fee140, #fa709a);
+    }
+
+    &:nth-child(4n+3) .img {
+      @include background-gradient(135deg, #00f2fe, #4facfe);
+    }
+
+    &:nth-child(4n+4) .img {
+      @include background-gradient(135deg, #38f9d7, #43e97b);
     }
 
     .sub-title {
