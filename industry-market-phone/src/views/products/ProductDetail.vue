@@ -181,7 +181,7 @@ export default {
   },
   methods: {
     toIndex() {
-      this.$router.push('/market?tab=home');
+      this.$router.push('/market/home');
     },
     async getData() {
       if (!this.$route.query.bm) {

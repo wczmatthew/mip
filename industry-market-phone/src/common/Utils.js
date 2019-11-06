@@ -289,16 +289,19 @@ export default {
    * @param className  滚动到改className的顶部, 优先级高
    * @param idName 滚动到该id的顶部
    */
-  scrollToTop({ className, idName }) {
+  scrollToTop({ className, idName, ref }) {
     //设置定时器
     const timer = setInterval(function(){
       //获取滚动条距离顶部高度
       let osTop = 0;
       let scrollContainer;
-      if (!className && !idName) {
+      if (!className && !idName && !ref) {
         const container = document.getElementsByClassName('w-content');
         osTop = container && container.length ? container[container.length - 1].scrollTop : 0;
         scrollContainer = osTop ? container[container.length - 1] : scrollContainer;
+      } else if (ref) {
+        osTop = ref.scrollTop || 0;
+        scrollContainer = ref;
       } else if (className) {
         const container = document.getElementsByClassName(className);
         osTop = container && container.length ? container[container.length - 1].scrollTop : 0;

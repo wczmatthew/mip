@@ -284,6 +284,7 @@ a {
   -ms-flex: 1;
   flex: 1;
   overflow: auto;
+  overflow-x: hidden;
   position: relative;
 }
 

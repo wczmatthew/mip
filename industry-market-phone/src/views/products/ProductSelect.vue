@@ -177,7 +177,7 @@ export default {
       this.number += 1;
     },
     toIndex() {
-      this.$router.push('/market?tab=home');
+      this.$router.push('/market/home');
     },
     // 获取初始数据
     async getData() {

@@ -1,63 +1,60 @@
 <!-- 发现 -->
 <template lang='html'>
-  <div class="w-container">
+  <w-container show-header ref="activityContainer">
     <!-- 顶部栏 -->
-    <header class="w-header">
-      <div class="w-header-mid">
-        发现
-      </div>
-    </header>
+    <template #header-mid>
+      发现
+    </template>
     <!-- 顶部栏 end -->
 
-    <div class="w-content" ref="activity">
-      <!-- 轮播图 -->
-      <div class="banner" v-if="banners && banners.length">
-        <cube-slide ref="slide" :data="banners">
-          <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="onClickBanner(item)" class="banner-item">
-            <w-img :src="item.imgPath"/>
-          </cube-slide-item>
-        </cube-slide>
-      </div>
-      <!-- 轮播图 end -->
-
-      <div class="analyze-img" v-if="role == viewerRole" @click="toAnalyze()">
-        <img src="~@/assets/common/analyze.png" alt="">
-        <p>数 据 分 析</p>
-      </div>
-
-      <!-- <p class="activity-title">
-        商城头条
-        <span>hot</span>
-      </p> -->
-
-      <!-- 类目列表 -->
-      <!-- <div class="category-list">
-        <div class="item" v-for="(item, index) in categoryList" :key="'ca' + index" @click="toCategory(item)">
-          <w-img :src="item.imgPath" alt="" class="bg"/>
-          <p>{{item.title}}</p>
-        </div>
-      </div> -->
-      <!-- 类目列表 end -->
-
-      <!-- 活动列表 -->
-      <div class="activity-list">
-        <div class="item" v-for="(item, index) in activityList" :key="index"  @click="toActivity(item)">
-          <img src="~@/assets/common/out.png" alt="" class="icon" v-if="item.validFlag == 0">
-          <div class="img">
-            <w-img :src="item.url" alt=""/>
-          </div>
-          <p class="title">
-            {{item.title}}
-          </p>
-          <div class="desc" v-html="cutout(item.memo)"></div>
-          <p class="desc" style="font-size: 10px;" v-if="item.createTime">
-            {{item.createTime | dateFormat}}
-          </p>
-        </div>
-      </div>
-      <!-- 活动列表 end -->
+    <!-- 轮播图 -->
+    <div class="banner" v-if="banners && banners.length">
+      <cube-slide ref="slide" :data="banners">
+        <cube-slide-item v-for="(item, index) in banners" :key="index" @click.native="onClickBanner(item)" class="banner-item">
+          <w-img :src="item.imgPath"/>
+        </cube-slide-item>
+      </cube-slide>
     </div>
-  </div>
+    <!-- 轮播图 end -->
+
+    <div class="analyze-img" v-if="role == viewerRole" @click="toAnalyze()">
+      <img src="~@/assets/common/analyze.png" alt="">
+      <p>数 据 分 析</p>
+    </div>
+
+    <!-- <p class="activity-title">
+      商城头条
+      <span>hot</span>
+    </p> -->
+
+    <!-- 类目列表 -->
+    <!-- <div class="category-list">
+      <div class="item" v-for="(item, index) in categoryList" :key="'ca' + index" @click="toCategory(item)">
+        <w-img :src="item.imgPath" alt="" class="bg"/>
+        <p>{{item.title}}</p>
+      </div>
+    </div> -->
+    <!-- 类目列表 end -->
+
+    <!-- 活动列表 -->
+    <div class="activity-list">
+      <div class="item" v-for="(item, index) in activityList" :key="index"  @click="toActivity(item)">
+        <img src="~@/assets/common/out.png" alt="" class="icon" v-if="item.validFlag == 0">
+        <div class="img">
+          <w-img :src="item.url" alt=""/>
+        </div>
+        <p class="title">
+          {{item.title}}
+        </p>
+        <div class="desc" v-html="cutout(item.memo)"></div>
+        <p class="desc" style="font-size: 10px;" v-if="item.createTime">
+          {{item.createTime | dateFormat}}
+        </p>
+      </div>
+    </div>
+    <!-- 活动列表 end -->
+
+  </w-container>
 </template>
 <script>
 import { mapGetters } from 'vuex';
@@ -72,6 +69,7 @@ export default {
       categoryList: [],
       activityList: [],
       viewerRole: USER_ROLE.viewer,
+      routePath: '/market', // 下一级页面路由前缀
     };
   },
   created() {},
@@ -80,11 +78,15 @@ export default {
   },
   watch: {
     '$route'(to) {
-      if (to.path === '/market' && to.query.tab === 'gift') {
+      if (to.path === '/market/activity') {
         this.$nextTick(() => {
           this.$refs.slide && this.$refs.slide.refresh();
         });
       }
+    },
+    refreshView() {
+      if (this.refreshView !== '/market/activity') return;
+      this.refresh();
     },
   },
   components: {},
@@ -92,6 +94,7 @@ export default {
     ...mapGetters('user', {
       role: 'role',
       analyzeUrl: 'analyzeUrl',
+      refreshView: 'refreshView',
     }),
   },
   filters: {
@@ -108,16 +111,18 @@ export default {
     refresh() {
       this.scrollTop();
       this.getData();
+      this.$store.commit('user/updateRefreshView', '');
     },
     scrollTop() {
-      this.$refs.activity.scrollTop = 0;
+      // this.$refs.activityContainer.$refs.wContent.scrollTop = 0;
+      Utils.scrollToTop({ ref: this.$refs.activityContainer.$refs.wContent });
     },
     getAnalyzeUrl() {
       this.$store.dispatch('user/getBigDataUrl');
     },
     toAnalyze() {
       this.getAnalyzeUrl();
-      Utils.saveLocalStorageItem('beforePath', '/market?tab=gift');
+      Utils.saveLocalStorageItem('beforePath', this.routePath);
       this.$router.push({
         path: '/market/frame',
         query: {
@@ -135,7 +140,7 @@ export default {
         try {
           // eslint-disable-next-line
           // native_listen('goToUrl', { url: item.url });
-          Utils.saveLocalStorageItem('beforePath', '/market?tab=gift');
+          Utils.saveLocalStorageItem('beforePath', this.routePath);
           this.$router.push({
             path: '/market/frame',
             query: {
@@ -171,11 +176,11 @@ export default {
         Utils.showToast('敬请期待');
         return;
       }
-      this.$router.push(`/market/${item.url}`);
+      this.$router.push(`${this.routePath}/${item.url}`);
     },
     toActivity(item) {
       if (this.$route.path === '/activityPrev') return;
-      this.$router.push(`/market/activieyDetail?id=${item.id}`);
+      this.$router.push(`${this.routePath}/activieyDetail?id=${item.id}`);
     },
   },
 };

@@ -229,7 +229,7 @@ export default {
       Utils.saveLocalStorageItem('marketKey', result.key || '', true);
 
       Utils.showToast('登录成功');
-      this.$router.push('/market?tab=home');
+      this.$router.push('/market/home');
 
       try {
         // eslint-disable-next-line

@@ -101,7 +101,7 @@ export default {
   created() {},
   mounted() {
     this.caterotyList = [
-      { icon: icon1, title: '电器超市', url: '/market?tab=home' },
+      { icon: icon1, title: '电器超市', url: '/market/home' },
       { icon: icon8, title: '阳光采购', url: '' },
       { icon: icon2, title: '网上商店' },
       { icon: icon3, title: '帮助文档' },
@@ -129,7 +129,7 @@ export default {
           // TODO:
           // eslint-disable-next-line
           // native_listen('goToUrl', { url: item.goUrl });
-          Utils.saveLocalStorageItem('beforePath', '/market?tab=home');
+          Utils.saveLocalStorageItem('beforePath', '/market/home');
           this.$router.push({
             path: '/market/frame',
             query: {

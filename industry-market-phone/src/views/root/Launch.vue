@@ -125,7 +125,7 @@ export default {
       Utils.saveLocalStorageItem('isBind', result.isBind);
       Utils.saveLocalStorageItem('role', result.role);
       Utils.showToast('登录成功');
-      this.$router.push('/market?tab=home');
+      this.$router.push('/market/home');
     },
   },
 };

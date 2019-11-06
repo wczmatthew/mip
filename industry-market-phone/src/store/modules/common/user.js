@@ -19,6 +19,7 @@ const state = {
   isShowRegisterModal: false, // 是否显示绑定手机号码弹窗
   isGetOpenid: false, // 是否显示launch图片
   analyzeUrl: '', // 大数据平台url
+  refreshView: '', // 刷新页面的url
 };
 
 // getters
@@ -34,6 +35,7 @@ const getters = {
   isShowRegisterModal: state => state.isShowRegisterModal,
   isGetOpenid: state => state.isGetOpenid,
   analyzeUrl: state => state.analyzeUrl,
+  refreshView: state => state.refreshView,
 };
 
 // actions -- 接口调用方法
@@ -90,6 +92,9 @@ const mutations = {
   },
   updateAnalyzeUrl(state, data) {
     state.analyzeUrl = data;
+  },
+  updateRefreshView(state, data) {
+    state.refreshView = data;
   },
 };
 

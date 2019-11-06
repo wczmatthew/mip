@@ -71,7 +71,7 @@ router.beforeEach((to, from, next) => {
     store.commit('user/updateCustomerId', Utils.getLocalStorageItem('customerId') || '');
     store.commit('user/updateIsBind', Utils.getLocalStorageItem('isBind') || 0);
     store.commit('user/updateUserRole', Utils.getLocalStorageItem('role') || 0);
-    // this.$router.push('/market?tab=home');
+    // this.$router.push('/market/home');
 
     try {
       // eslint-disable-next-line
@@ -79,7 +79,7 @@ router.beforeEach((to, from, next) => {
     } catch (error) {
       // Utils.showToast('敬请期待');
     }
-    next('/market?tab=home'); // 确保一定要调用 next()
+    next('/market/home'); // 确保一定要调用 next()
     return;
   }
   next(); // 确保一定要调用 next()

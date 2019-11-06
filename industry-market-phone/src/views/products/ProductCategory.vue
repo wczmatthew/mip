@@ -1,6 +1,6 @@
 <!-- 产品货架页面 -->
 <template lang='html'>
-  <w-container showHeader showBack>
+  <w-container showHeader :showBack="showBack">
     <!-- 顶部栏 -->
     <template #header-mid>
       <w-search class="search" disabled show-scan @input-click="toSearch()"></w-search>
@@ -30,10 +30,12 @@ export default {
     return {
       categoryData: null,
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'category' }), // 获取当前路由
+      showBack: true,
     };
   },
   created() {},
   mounted() {
+    this.showBack = this.$route.path !== '/market/categoryTab';
     // this.$store.commit('product/updateKeywords', '');
     // if (this.$route.query.tab === 'select') {
     //   this.getSortList();
@@ -42,19 +44,6 @@ export default {
       this.getSortList();
     }, 400);
   },
-  // watch: {
-  //   '$route'(to) {
-  //     if (to.path === '/market' && to.query.tab === 'select') {
-  //       // 返回到当前界面
-  //       this.$store.commit('product/updateKeywords', '');
-  //       // this.$refs.productCategory && this.$refs.productCategory.updateData(this.categoryData);
-
-  //       if (!this.categoryData) {
-  //         this.getSortList();
-  //       }
-  //     }
-  //   },
-  // },
   components: {
     WSearch,
     ProductCategoryScroll,

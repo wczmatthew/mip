@@ -1,18 +1,20 @@
 <!-- 其他页面 -->
 <template lang='html'>
-  <w-container show-header>
+  <div>
     <!-- 顶部栏 -->
-    <template #header-mid>
-      <i class="iconfont icon-back header-left" @click="onBack()"></i>
-      {{title}}
-    </template>
+    <w-header>
+      <template #header-mid>
+        {{title}}
+      </template>
+    </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <iframe :src="url" scrolling="auto" allowfullscreen="true" frameborder="0" class="frame-view" id="iframe" @load="onLoad"></iframe>
+    <iframe :src="analyzeUrl" scrolling="auto" allowfullscreen="true" frameborder="0" class="frame-view" @load="onLoad"></iframe>
     <!-- 正文内容 end -->
-  </w-container>
+  </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 
 export default {
@@ -24,20 +26,21 @@ export default {
   },
   created() {},
   mounted() {
-    this.url = this.$route.query.url;
-    this.title = this.$route.query.title || '发现';
+    this.title = '大数据分析';
     Utils.showLoading();
     // 如果iframe一直没有 onload 那就 10秒后自动关闭loading
     setTimeout(() => {
       Utils.hideLoading();
     }, 10000);
   },
+  computed: {
+    ...mapGetters('user', {
+      role: 'role',
+      analyzeUrl: 'analyzeUrl',
+    }),
+  },
   components: {},
   methods: {
-    onBack() {
-      const beforePath = Utils.getLocalStorageItem('beforePath') || '/market/home';
-      this.$router.replace(beforePath);
-    },
     onLoad() {
       setTimeout(() => {
         Utils.hideLoading();

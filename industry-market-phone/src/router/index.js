@@ -14,7 +14,7 @@ export default new Router({
   routes: [
     // {
     //   path: '/',
-    //   redirect: '/market?tab=home',
+    //   redirect: '/market/home',
     // },
     {
       path: '/login',

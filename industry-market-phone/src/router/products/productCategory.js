@@ -1,4 +1,5 @@
-import cart from '../order/cart';
+// 产品分类 路由
+import cart from '../cart/cart';
 import productDetail from './detail';
 
 const productCategory = () => import('@/views/products/ProductCategory.vue');

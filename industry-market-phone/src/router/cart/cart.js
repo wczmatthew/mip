@@ -1,5 +1,5 @@
 import customer from '../customer';
-import confirmOrder from './confirmOrder';
+import confirmOrder from '../order/confirmOrder';
 
 const Cart = () => import('@/views/cart/Cart.vue');
 

@@ -1,7 +1,7 @@
 import productList from './productList';
 import productDetail from './detail';
 import productCategory from './productCategory';
-import cart from '../order/cart';
+import cart from '../cart/cart';
 
 const searchView = () => import('@/views/products/SearchView.vue');
 

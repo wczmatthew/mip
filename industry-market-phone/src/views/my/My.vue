@@ -1,6 +1,6 @@
 <!-- 我的 -->
 <template lang='html'>
-  <div class="my">
+  <w-container class="my">
     <!-- 右上角图标 -->
     <div class="right-icon1" @click="onLogout()" style="right: .4rem;" v-if="!isWeixin">
       <i class="iconfont icon-logout"></i>
@@ -150,7 +150,7 @@
     </div>
     <!-- 其他功能 end -->
 
-  </div>
+  </w-container>
 </template>
 <script>
 import { mapGetters } from 'vuex';
@@ -177,6 +177,7 @@ export default {
       viewer: USER_ROLE.viewer, // 数据查看员权限值
       seller: USER_ROLE.seller, // 开单员权限值
       user: USER_ROLE.user, // 开单员权限值
+      routePath: '/market', // 获取当前路由
     };
   },
   created() {},
@@ -189,22 +190,28 @@ export default {
   },
   watch: {
     '$route'(to) {
-      if (to.path === '/market' && to.query.tab === 'my') {
+      if (to.path === '/market/my') {
         // 进入页面, 重新获取数据
         this.getData();
       }
+    },
+    refreshView() {
+      if (this.refreshView !== '/market/my') return;
+      this.getUserData();
+      this.getData();
     },
   },
   computed: {
     ...mapGetters('user', {
       isBind: 'isBind',
       role: 'role',
+      refreshView: 'refreshView',
     }),
   },
   components: {},
   methods: {
     toStorageList() {
-      this.$router.push('/market/storageList');
+      this.$router.push(`${this.routePath}/storageList`);
     },
     // 库存盘点
     toScan() {
@@ -308,14 +315,14 @@ export default {
     },
     toAddress() {
       if (this.role === USER_ROLE.user) {
-        this.$router.push('/market/address');
+        this.$router.push(`${this.routePath}/address`);
       } else if (this.role === USER_ROLE.seller || this.role === USER_ROLE.viewer) {
         // 开单员/数据查看员
-        this.$router.push('/market/customer');
+        this.$router.push(`${this.routePath}/customer`);
       }
     },
     toCollect() {
-      this.$router.push('/market/collections');
+      this.$router.push(`${this.routePath}/collections`);
     },
     async getUserData() {
       const result = await userService.getUserInfo({ userid: Utils.getUserId(this) });
@@ -355,10 +362,10 @@ export default {
     },
     toOrders(status) {
       if (!status) {
-        this.$router.push('/market/order');
+        this.$router.push(`${this.routePath}/order`);
         return;
       }
-      this.$router.push(`/market/order?status=${status}`);
+      this.$router.push(`${this.routePath}/order?status=${status}`);
     },
     toCollection() {
       Utils.showToast('敬请期待');

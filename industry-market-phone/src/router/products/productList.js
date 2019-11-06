@@ -1,6 +1,6 @@
 // 产品列表页面
 import detail from './detail';
-import cart from '../order/cart';
+import cart from '../cart/cart';
 import productCategory from './productCategory';
 
 const ProductList = () => import('@/views/products/ProductListView.vue');

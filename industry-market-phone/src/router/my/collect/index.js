@@ -1,5 +1,5 @@
 
-import productDetail from '../products/detail';
+import productDetail from '../../products/detail';
 
 const CollectionList = () => import('@/views/my/collect/CollectionList.vue');
 

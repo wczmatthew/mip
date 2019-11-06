@@ -1,9 +1,11 @@
 <template>
-  <div id="app">
-    <!-- 使用动态的 transition name -->
-    <transition :name="transitionName" mode="in-out">
-      <router-view></router-view>
-    </transition>
+  <div id="app" class="w-container">
+    <div class="w-content">
+      <!-- 使用动态的 transition name -->
+      <transition :name="transitionName" mode="in-out">
+        <router-view></router-view>
+      </transition>
+    </div>
 
     <!-- 绑定手机弹窗 -->
     <register-modal ref="registerModal"></register-modal>
@@ -194,6 +196,7 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+  overflow-x: hidden;
 }
 
 .fade-enter-active, .fade-leave-active {

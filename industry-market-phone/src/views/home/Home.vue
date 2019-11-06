@@ -1,8 +1,11 @@
 <!--  -->
 <template lang='html'>
-  <home-comp ref="homeContainer"></home-comp>
+  <w-container>
+    <home-comp ref="homeContainer"></home-comp>
+  </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import HomeComp from './components/HomeComp.vue';
 import indexService from '@/services/index.service';
@@ -25,6 +28,15 @@ export default {
     HomeComp,
   },
   computed: {
+    ...mapGetters('user', {
+      refreshView: 'refreshView',
+    }),
+  },
+  watch: {
+    refreshView() {
+      if (this.refreshView !== '/market/home') return;
+      this.refresh();
+    },
   },
   methods: {
     scrollTop() {
@@ -33,6 +45,8 @@ export default {
     refresh() {
       this.getData();
       this.getOtherData();
+      this.scrollTop();
+      this.$store.commit('user/updateRefreshView', '');
     },
     // 获取首页第一屏数据
     async getData() {

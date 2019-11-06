@@ -1,25 +1,23 @@
 <!--  -->
 <template lang='html'>
-  <div class="w-container">
+  <w-container show-header>
     <!-- 顶部栏 -->
-    <w-header>
-      <template #header-mid>
-        <div class="header-left">
-          <w-scan-icon current-path="/market"></w-scan-icon>
-        </div>
-        购物单({{totalNum}})
-      </template>
-      <template #header-right>
-        <div class="header-right" :class="{'color-active': isEdit }" @click="onEdit()">
-          {{ isEdit ? '完成' : '管理' }}
-        </div>
-      </template>
-    </w-header>
+    <template #header-mid>
+      <div class="header-left">
+        <w-scan-icon current-path="/market"></w-scan-icon>
+      </div>
+      购物单({{totalNum}})
+    </template>
+    <template #header-right>
+      <div class="header-right" :class="{'color-active': isEdit }" @click="onEdit()">
+        {{ isEdit ? '完成' : '管理' }}
+      </div>
+    </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <cart class="w-content" :current-path="currentPath" ref="cart"></cart>
+    <cart class="w-content" :current-path="routePath" ref="cart"></cart>
     <!-- 正文内容 end -->
-  </div>
+  </w-container>
 </template>
 <script>
 import { mapGetters } from 'vuex';
@@ -29,6 +27,7 @@ export default {
   data() {
     return {
       isEdit: false,
+      routePath: '/market', // 下一级页面路由前缀
     };
   },
   created() {},
@@ -37,6 +36,7 @@ export default {
   computed: {
     ...mapGetters('user', {
       totalNum: 'cartNum',
+      refreshView: 'refreshView',
     }),
   },
   components: {
@@ -44,11 +44,15 @@ export default {
   },
   watch: {
     '$route'(to) {
-      if (to.path === '/market' && to.query.tab === 'cart' && this.$refs.cart) {
+      if (to.path === '/market/cartTab' && this.$refs.cart) {
         // 重新进入页面
         this.$refs.cart.$data.isFirstLoading = true;
         this.$refs.cart.onPullingDown();
       }
+    },
+    refreshView() {
+      if (this.refreshView !== '/market/cartTab') return;
+      this.scrollTop();
     },
   },
   methods: {
@@ -61,12 +65,6 @@ export default {
     onEdit() {
       this.isEdit = !this.isEdit;
       this.$refs.cart.onEdit(this.isEdit);
-    },
-  },
-  props: {
-    currentPath: {
-      type: String,
-      default: '',
     },
   },
 };

@@ -16,7 +16,7 @@
         <w-search class="home-search" disabled show-scan @input-click="toSearch()" ref="searchView" placeholder="dz47"></w-search>
       </div>
       <div class="header-right">
-        <w-scan-icon current-path="/market"></w-scan-icon>
+        <w-scan-icon :current-path="routePath"></w-scan-icon>
       </div>
     </header>
     <!-- 顶部栏 end -->
@@ -280,13 +280,15 @@ export default {
       keywordsTimer: null,
       showKeywords: '', // 展示的关键字
       keywords: '', // 随机到的关键字
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'market' }), // 获取当前路由
+      homeRoutePath: '/market/home',
     };
   },
   watch: {
     '$route'(to) {
       // this.timer && clearInterval(this.timer);
       this.keywordsTimer && clearTimeout(this.keywordsTimer);
-      if (to.path === '/market' && to.query.tab === 'home') {
+      if (to.path === this.homeRoutePath) {
         this.autoplay = true;
         // this.timer = setInterval(() => {
         //   this.calcTime();
@@ -386,7 +388,7 @@ export default {
     },
     scrollTop() {
       if (!this.$refs.home) return;
-      this.$refs.home.scrollTop = 0;
+      Utils.scrollToTop({ ref: this.$refs.home });
     },
     refresh() {
       this.getData();
@@ -429,11 +431,11 @@ export default {
     },
     toMore() {
       if (this.mode === 'prev') return;
-      this.$router.push('/market?tab=gift');
+      this.$router.push('/market/gift');
     },
     toSearch() {
       if (this.mode === 'prev') return;
-      this.$router.push('/market/search');
+      this.$router.push(`${this.routePath}/search`);
     },
     onClickLink(item) {
       if (this.mode === 'prev') return;
@@ -446,9 +448,9 @@ export default {
         try {
           // eslint-disable-next-line
           // native_listen('goToUrl', { url: item.url });
-          Utils.saveLocalStorageItem('beforePath', '/market?tab=home');
+          Utils.saveLocalStorageItem('beforePath', this.routePath);
           this.$router.push({
-            path: '/market/frame',
+            path: `${this.routePath}/frame`,
             query: {
               url: item.url,
               title: item.title || '发现',
@@ -469,7 +471,7 @@ export default {
       }
 
       this.$router.push({
-        path: `/market/${item.url}`,
+        path: `${this.routePath}/${item.url}`,
         query: { title: item.title },
       });
     },
@@ -542,7 +544,7 @@ export default {
     toProductDetail(id) {
       if (this.mode === 'prev') return;
 
-      this.$router.push(`/market/productDetail?bm=${id}`);
+      this.$router.push(`${this.routePath}/productDetail?bm=${id}`);
     },
   },
   props: {
