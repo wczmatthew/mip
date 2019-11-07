@@ -228,15 +228,15 @@ export default {
       }
 
       // TODO: 测试用
-      setTimeout(() => {
-        if (type === 1) {
-          // 入库
-          this.handleRukuScan(JSON.stringify({ type: 1, url: 'http://10.10.10.20/json/getReceiptBillInfo?deptId=dzswcs00000000000001&billNo=CGS181117000002' }));
-        } else {
-          // 盘点
-          this.handlePanDianScan('0054374648900700028');
-        }
-      }, 300);
+      // setTimeout(() => {
+      //   if (type === 1) {
+      //     // 入库
+      //     this.handleRukuScan(JSON.stringify({ type: 1, url: 'http://10.10.10.20/json/getReceiptBillInfo?deptId=dzswcs00000000000001&billNo=CGS181117000002' }));
+      //   } else {
+      //     // 盘点
+      //     this.handlePanDianScan('0054374648900700028');
+      //   }
+      // }, 300);
 
       try {
         // eslint-disable-next-line

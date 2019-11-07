@@ -13,7 +13,7 @@
       </template>
       <template v-else>
         <i class="iconfont" :class="[item.icon]">
-          <i class="num" v-if="item.url == '/market/cart' && cartNum > 0">{{cartNum}}</i>
+          <i class="num" v-if="item.url == '/market/cartTab' && cartNum > 0">{{cartNum}}</i>
         </i>
         <p>{{item.title}}</p>
       </template>

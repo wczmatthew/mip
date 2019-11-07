@@ -126,7 +126,6 @@ export default {
 
       if (item.goUrl.indexOf('http') > -1) {
         try {
-          // TODO:
           // eslint-disable-next-line
           // native_listen('goToUrl', { url: item.goUrl });
           Utils.saveLocalStorageItem('beforePath', '/market/index');

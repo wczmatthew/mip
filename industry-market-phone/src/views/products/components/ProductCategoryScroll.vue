@@ -26,6 +26,12 @@
           v-for="(data, i) in dataList"
           :key="'parent' + i"
           :class="'product' + i">
+
+          <!-- 广告 -->
+          <div class="banner">
+            <w-img :src="banner.advImgPath" v-for="(banner, adIndex) in data.advInfo" :key="'ad'+adIndex" @load.native="updateMenuY()"></w-img>
+          </div>
+          <!-- 广告 end -->
           <div
             v-for="(item, index) in data.childList"
             :key="item.sid + index"
@@ -100,6 +106,7 @@ export default {
         });
 
         this.dataList.push({
+          advInfo: item.advInfo || [],
           childList: item.childList || [],
         });
       });
@@ -113,6 +120,9 @@ export default {
       this.scrollTop();
       // this.onChangeShelf(this.selectMenu, 0);
 
+      this.updateMenuY();
+    },
+    updateMenuY() {
       // 延时300毫秒再去计算高度, 不然会有误差, 暂时还不知道什么原因, 可能是渲染有点延时
       this.$nextTick(() => {
         const container = Utils.getLastElementByClassName('productCategoryContainer');
@@ -126,8 +136,6 @@ export default {
             this.menuYList.push(0);
           }
         }
-
-        // console.log(this.menuYList);
 
         // 判断最后一个类目是否填充满整屏, 若没有填充满那么最后一个类目无法选中, 需要手动填充到整屏
         if (!Utils.getLastElementByClassName(`product${this.dataList.length - 1}`, container)) return;
@@ -191,6 +199,18 @@ export default {
     border-bottom: 0;
     box-shadow: none;
   } // end product-list
+
+  .banner {
+    width: 100%;
+    padding-top: .06rem;
+
+    img {
+      width: 95%;
+      margin: 0 auto;
+      display: block;
+      border-radius: .05rem;
+    }
+  }
 } // end product-container
 </style>
 
