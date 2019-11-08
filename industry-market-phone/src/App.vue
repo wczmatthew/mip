@@ -146,7 +146,7 @@ export default {
   mounted() {
     const _this = this;
     window.addEventListener('popstate', () => {
-      if (_this.$route.meta.notBack) {
+      if (_this.$route.meta.notBack || _this.$route.meta.isTabbar) {
         window.history.pushState(null, null, document.URL);
       }
     });

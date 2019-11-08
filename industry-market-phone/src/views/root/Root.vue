@@ -30,7 +30,9 @@ export default {
     '$route'(to, from) {
       this.checkTabbar();
 
-      // console.log('route from: ', this.fromPath);
+      if (to.meta.isTabbar) {
+        window.history.pushState(null, null, document.URL);
+      }
 
       if (to.path === '/market' && from.path === '/market/frame') {
         // iframe里面路由的变化会影响到整体路由, 所以从这个页面返回需要替换下路径
@@ -47,7 +49,7 @@ export default {
         this.transitionName = toDepth < fromDepth ? 'slide-right-half' : 'slide-left-half';
       }
 
-      console.log('transitionName: ', this.transitionName);
+      // console.log('transitionName: ', this.transitionName);
     },
     userId() {
       this.$store.dispatch('user/getCartNum');

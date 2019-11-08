@@ -29,7 +29,7 @@ const invitation = () => import('@/views/my/Invitation.vue');
 const frameView = () => import('@/views/common/FrameView.vue');
 const Launch = () => import('@/views/root/Launch.vue');
 const ConfirmReceiveProducts = () => import('@/views/products/ConfirmReceiveProducts.vue');
-// const Storage = () => import('@/views/common/storage/Storage.vue');
+const AnalyzeView = () => import('@/views/common/AnalyzeView.vue');
 
 export default [
   {
@@ -49,7 +49,6 @@ export default [
       ...activity,
       ...my,
       ...cartTab,
-
       ...customer,
       ...search,
       ...detail,
@@ -79,6 +78,11 @@ export default [
       {
         path: 'activieyDetail',
         component: activityDetail,
+      },
+      {
+        path: 'analyzeTab',
+        component: AnalyzeView,
+        meta: { keepAlive: true, isTabbar: true, notBack: true },
       },
     ],
   },

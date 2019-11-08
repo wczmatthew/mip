@@ -9,6 +9,7 @@ import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import HomeComp from './components/HomeComp.vue';
 import indexService from '@/services/index.service';
+import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -21,7 +22,9 @@ export default {
     setTimeout(() => {
       Utils.showLoading();
       this.getData();
-      this.getOtherData();
+      if (this.role !== USER_ROLE.viewer) {
+        this.getOtherData();
+      }
     }, 300);
   },
   components: {
@@ -30,6 +33,7 @@ export default {
   computed: {
     ...mapGetters('user', {
       refreshView: 'refreshView',
+      role: 'role',
     }),
   },
   watch: {
@@ -44,7 +48,9 @@ export default {
     },
     refresh() {
       this.getData();
-      this.getOtherData();
+      if (this.role !== USER_ROLE.viewer) {
+        this.getOtherData();
+      }
       this.scrollTop();
       this.$store.commit('user/updateRefreshView', '');
     },

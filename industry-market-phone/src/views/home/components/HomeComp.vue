@@ -102,6 +102,14 @@
     </div>
     <!-- 广告图片 end -->
 
+    <!-- 老板广告列表 -->
+    <div v-if="bossHomePageAds && bossHomePageAds.length">
+      <div class="banner2" v-for="(item, index) in bossHomePageAds" :key="'boss'+index">
+        <w-img :src="item.imgPath" alt="" @click.native="onClickLink(item)"/>
+      </div>
+    </div>
+    <!-- 老板广告列表 end -->
+
     <!-- 海报产品列表 -->
     <div class="w-grid-list product-grid2" v-if="hotSaleProList && hotSaleProList.length">
       <div class="product product1" v-if="hotPro1.id" @click="toProductDetail(hotPro1.bm)">
@@ -259,6 +267,7 @@ export default {
         },
       ],
       bannerErrImg: loading,
+      bossHomePageAds: [],
       buyingProducts: {},
       categoryList: [],
       news: [],
@@ -482,6 +491,7 @@ export default {
       this.news = result.news || {};
       this.buyingProducts = result.buyingProducts || null;
       this.midAds = result.midAds || {};
+      this.bossHomePageAds = result.bossHomePageAds || [];
       // if (this.buyingProducts && this.buyingProducts.endDate) {
       //   this.endDate = Utils.dateFormat(new Date(this.buyingProducts.endDate), 'yyyy-MM-dd HH:mm:ss');
 
@@ -641,6 +651,8 @@ export default {
   border-radius: .05rem;
   overflow: hidden;
   max-height: .8rem;
+  @include flex-center;
+  background: #fff;
   img {
     width: 100%;
     max-height: .8rem;

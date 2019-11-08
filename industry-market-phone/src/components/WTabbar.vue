@@ -34,6 +34,7 @@ export default {
           doubleRefresh: true,
         },
         { title: '分类', icon: 'icon-cgdh', url: '/market/categoryTab' },
+        // { title: '分析', icon: 'icon-fenxi', url: '/market/analyzeTab' },
         {
           title: '发现',
           icon: 'icon-faxian1',
@@ -74,7 +75,7 @@ export default {
       }
 
       this.$router.push(item.url);
-      window.history.pushState(null, null, document.URL);
+      // console.log(document.URL);
     },
     refreshViews() {
       this.clickNum = 0;

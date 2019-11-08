@@ -1,6 +1,6 @@
 <!-- 其他页面 -->
 <template lang='html'>
-  <div>
+  <div class="w-container">
     <!-- 顶部栏 -->
     <w-header>
       <template #header-mid>
@@ -9,7 +9,9 @@
     </w-header>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <iframe :src="analyzeUrl" scrolling="auto" allowfullscreen="true" frameborder="0" class="frame-view" @load="onLoad"></iframe>
+    <div class="w-content">
+      <iframe :src="analyzeUrl" scrolling="auto" allowfullscreen="true" frameborder="0" class="frame-view" id="iframe" @load="onLoad"></iframe>
+    </div>
     <!-- 正文内容 end -->
   </div>
 </template>
@@ -26,6 +28,8 @@ export default {
   },
   created() {},
   mounted() {
+    this.$store.dispatch('user/getBigDataUrl');
+
     this.title = '大数据分析';
     Utils.showLoading();
     // 如果iframe一直没有 onload 那就 10秒后自动关闭loading
