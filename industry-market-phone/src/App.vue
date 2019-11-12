@@ -38,6 +38,13 @@ export default {
         }
       }
 
+      if (to.query.recId) {
+        const recId = Utils.getLocalStorageItem('marketRecId', true);
+        if (!recId || recId !== to.query.recId) {
+          Utils.saveLocalStorageItem('marketRecId', this.$route.query.recId || '', true);
+        }
+      }
+
       if (from.path === '/' && to.path === '/login') {
         this.transitionName = 'none';
         return;
@@ -101,7 +108,7 @@ export default {
         const key = Utils.getLocalStorageItem('marketKey', true);
         const title = '工业超市';
         const desc = '欢迎使用工业超市~';
-        const link = `${window.location.origin}${window.location.pathname}#/?key=${key}`;
+        const link = `${window.location.origin}${window.location.pathname}#/?key=${key}&recId=${Utils.getUserId(this)}`;
         const imgUrl = 'https://ism.chint.com/logoapp.png';
         // 分享给朋友 -- updateAppMessageShareData 无效, 不知道为什么
         // eslint-disable-next-line

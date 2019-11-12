@@ -48,7 +48,7 @@ export default {
     onShare() {
       try {
         // eslint-disable-next-line
-        native_listen('share', { userid: Utils.getUserId(this) , key: Utils.getLocalStorageItem('marketKey', true)});
+        native_listen('share', { userid: Utils.getUserId(this) , key: Utils.getLocalStorageItem('marketKey', true) });
       } catch (error) {
         // console.log('error: ', error);
       }

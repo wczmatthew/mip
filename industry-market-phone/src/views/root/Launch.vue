@@ -33,6 +33,11 @@ export default {
       if ((!key || key !== this.$route.query.key) && this.$route.query.key) {
         Utils.saveLocalStorageItem('marketKey', this.$route.query.key || '', true);
       }
+
+      const recId = Utils.getLocalStorageItem('marketRecId', true);
+      if ((!recId || key !== this.$route.query.recId) && this.$route.query.recId) {
+        Utils.saveLocalStorageItem('marketRecId', this.$route.query.recId || '', true);
+      }
       // this.$store.dispatch('user/getWxSetting');
       this.getWxSetting();
     } else {
@@ -104,9 +109,10 @@ export default {
     },
     async registerByOpenId(data) {
       const key = Utils.getLocalStorageItem('marketKey', true);
+      const recId = Utils.getLocalStorageItem('marketRecId', true);
       // console.log('key: ', key);
 
-      const result = await userService.registerByOpenId({ openId: data.openId, key: key });
+      const result = await userService.registerByOpenId({ openId: data.openId, key, recId });
 
       // 替换浏览器的地址, 不更新页面
       const url = `${window.location.origin}${window.location.pathname}${window.location.hash}`;

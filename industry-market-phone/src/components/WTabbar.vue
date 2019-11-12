@@ -22,6 +22,9 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
+import service from '@/services/common.service';
+import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -44,19 +47,42 @@ export default {
         { title: '购物单', icon: 'icon-gouwuche', url: '/market/cartTab' },
         { title: '我的', icon: 'icon-my', url: '/market/my' },
       ],
+      initTabList: [],
       clickNum: 0,
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.initTabList = this.tablist;
+    if (this.role === USER_ROLE.viewer) {
+      this.getTabbar();
+    }
+  },
   computed: {
     ...mapGetters('user', {
       cartNum: 'cartNum',
       userId: 'userId',
+      role: 'role',
     }),
   },
   components: {},
   methods: {
+    async getTabbar() {
+      const result = await service.getNavigationList({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      if (result.navigation && result.navigation.length) {
+        this.tablist = [];
+        result.navigation.forEach((item) => {
+          const tabs = this.initTabList.filter(tab => tab.url === item.url);
+          this.tablist.push({
+            title: item.title,
+            icon: tabs && tabs.length ? tabs[0].icon : 'icon-fenxi',
+            url: item.url,
+            doubleRefresh: true,
+          });
+        });
+      }
+    },
     onChangeTab(index, item) {
       // 判断是否是双击
       this.clickNum += 1;

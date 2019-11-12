@@ -17,8 +17,8 @@ export default {
     return postHttp({ url: '/usercenter/user/registerBindUser', params });
   },
   // 通过openid注册用户，如果已经注册，返回用户信息
-  registerByOpenId: ({ openId, key }) => {
-    const params = { openId, key };
+  registerByOpenId: ({ openId, key, recId }) => {
+    const params = { openId, key, recId };
     return postHttp({ url: '/usercenter/user/registerByOpenId', params });
   },
   // 绑定客户到ecp系统

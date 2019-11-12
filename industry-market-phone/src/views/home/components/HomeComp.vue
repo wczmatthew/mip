@@ -33,7 +33,7 @@
 
     <!-- 常用功能 -->
     <div class="w-grid-list home-category" v-if="categoryList && categoryList.length">
-      <div class="item" @click="onClickLink(item)" v-for="(item, index) in categoryList" :key="'category'+index" :class="{'big': index === 2}">
+      <div class="item" @click="onClickLink(item)" v-for="(item, index) in categoryList" :key="'category'+index" :class="{'big': checkCategoryClass(item, index)}">
         <w-img :src="item.imgPath" alt=""/>
         <p class="sub-title">
           {{item.title}}
@@ -338,6 +338,10 @@ export default {
     }),
   },
   methods: {
+    checkCategoryClass(item, index) {
+      const isToProduct = item.url.indexOf('/market/productList') >= 0 || item.url.indexOf('/market/productDetail') >= 0;
+      return isToProduct && index === 2;
+    },
     // 获取产品列表的布局class
     getProdClass(list, index) {
       // 如果满足 第一行两个, 后面3个一行的格式, 这个样式优先

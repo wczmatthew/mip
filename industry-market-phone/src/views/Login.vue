@@ -227,6 +227,7 @@ export default {
       Utils.saveLocalStorageItem('isBind', result.isBind);
       Utils.saveLocalStorageItem('role', result.role);
       Utils.saveLocalStorageItem('marketKey', result.key || '', true);
+      Utils.saveLocalStorageItem('marketRecId', result.userid || '', true);
 
       Utils.showToast('登录成功');
       this.$router.push('/market/home');

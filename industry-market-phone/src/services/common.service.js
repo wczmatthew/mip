@@ -84,4 +84,12 @@ export default {
     const params = { corpid };
     return postHttp({ url: '/contentcenter/post/previewActivity', params });
   },
+  /**
+   * 获取底部栏信息
+   * @param userid 用户id
+   */
+  getNavigationList: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/contentcenter/post/getNavigationList', params });
+  },
 };
