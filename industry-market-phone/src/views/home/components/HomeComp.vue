@@ -339,8 +339,11 @@ export default {
   },
   methods: {
     checkCategoryClass(item, index) {
-      const isToProduct = item.url.indexOf('/market/productList') >= 0 || item.url.indexOf('/market/productDetail') >= 0;
-      return isToProduct && index === 2;
+      let isProduct = false;
+      if (item.url) {
+        isProduct = item.url.indexOf('/market/productList') >= 0 || item.url.indexOf('/market/productDetail') >= 0;
+      }
+      return isProduct && index === 2;
     },
     // 获取产品列表的布局class
     getProdClass(list, index) {
@@ -454,7 +457,7 @@ export default {
       if (this.mode === 'prev') return;
 
       if (!item.url) {
-        Utils.showToast('敬请期待');
+        // Utils.showToast('敬请期待');
         return;
       }
       if (item.url.indexOf('http') > -1) {

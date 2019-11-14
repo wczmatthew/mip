@@ -29,7 +29,7 @@
 
           <!-- 广告 -->
           <div class="banner">
-            <w-img :src="banner.advImgPath" v-for="(banner, adIndex) in data.advInfo" :key="'ad'+adIndex" @load.native="updateMenuY()"></w-img>
+            <w-img :src="banner.advImgPath" v-for="(banner, adIndex) in data.advInfo" :key="'ad'+adIndex" @load.native="updateMenuY()" @click.native="onClickLink(banner)"></w-img>
           </div>
           <!-- 广告 end -->
           <div
@@ -77,6 +77,42 @@ export default {
   mounted() {},
   components: {},
   methods: {
+    onClickLink(item) {
+      if (!item.url) {
+        // Utils.showToast('敬请期待');
+        return;
+      }
+      if (item.url.indexOf('http') > -1) {
+        try {
+          // eslint-disable-next-line
+          // native_listen('goToUrl', { url: item.url });
+          Utils.saveLocalStorageItem('beforePath', `${this.routePath}/home`);
+          this.$router.push({
+            path: `${this.routePath}/frame`,
+            query: {
+              url: item.url,
+              title: item.title || '发现',
+            },
+          });
+        } catch (error) {
+          console.log('error: ', error);
+        }
+        return;
+      }
+
+      if (item.url.indexOf('/market') === 0) {
+        this.$router.push({
+          path: item.url,
+          query: { title: item.title },
+        });
+        return;
+      }
+
+      this.$router.push({
+        path: `${this.routePath}/${item.url}`,
+        query: { title: item.title },
+      });
+    },
     onScrollHandle(pos) {
       // console.log(pos.y);
       let selectMenuIndex = 0;

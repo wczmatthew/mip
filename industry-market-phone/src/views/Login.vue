@@ -145,6 +145,7 @@ export default {
         // 发送验证码错误
         clearInterval(this.timer);
         this.timer = null;
+        this.isSendCode = false;
         return;
       }
       Utils.showToast('发送验证码成功');

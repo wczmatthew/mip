@@ -106,9 +106,10 @@ export default {
       // eslint-disable-next-line
       wx.ready(function () {
         const key = Utils.getLocalStorageItem('marketKey', true);
+        const userid = Utils.getLocalStorageItem('userId');
         const title = '工业超市';
         const desc = '欢迎使用工业超市~';
-        const link = `${window.location.origin}${window.location.pathname}#/?key=${key}&recId=${Utils.getUserId(this)}`;
+        const link = `${window.location.origin}${window.location.pathname}#/?key=${key}&recId=${userid}`;
         const imgUrl = 'https://ism.chint.com/logoapp.png';
         // 分享给朋友 -- updateAppMessageShareData 无效, 不知道为什么
         // eslint-disable-next-line
@@ -147,6 +148,7 @@ export default {
       isGetOpenid: 'isGetOpenid',
       isShowRegisterModal: 'isShowRegisterModal',
       wxSetting: 'wxSetting',
+      userid: 'userid',
     }),
   },
   created() {},

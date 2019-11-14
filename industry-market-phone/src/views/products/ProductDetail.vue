@@ -103,6 +103,16 @@
     </div>
     <!-- 产品参数 -->
 
+    <!-- 详情 -->
+    <div class="product-detail" v-if="product.detail">
+      <p class="title">
+        产品详情
+      </p>
+
+      <div class="detail" v-html="product.detail"></div>
+    </div>
+    <!-- 详情 end -->
+
 
     <!-- 正文内容 end -->
 
@@ -462,6 +472,22 @@ export default {
 
   .w-tableview .cell .desc.red {
     color: $color-red;
+  }
+
+  .product-detail {
+    background: #fff;
+
+    .title {
+      padding: .1rem .12rem;
+    }
+
+    .detail {
+      padding-top: .1rem;
+      img {
+        display: block;
+        width: 100%;
+      }
+    }
   }
 
   .footer {

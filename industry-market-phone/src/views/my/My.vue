@@ -367,9 +367,6 @@ export default {
       }
       this.$router.push(`${this.routePath}/order?status=${status}`);
     },
-    toCollection() {
-      Utils.showToast('敬请期待');
-    },
     onBindPhone() {
       this.$store.commit('user/toggleRegisterModal', true);
     },

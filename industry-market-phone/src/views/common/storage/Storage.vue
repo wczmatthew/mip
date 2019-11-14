@@ -139,7 +139,7 @@ export default {
   methods: {
     onClickLink(item) {
       if (!item.url) {
-        Utils.showToast('敬请期待');
+        // Utils.showToast('敬请期待');
         return;
       }
       if (item.url.indexOf('http') > -1) {

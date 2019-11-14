@@ -17,10 +17,10 @@
     </div>
     <!-- 轮播图 end -->
 
-    <div class="analyze-img" v-if="role == viewerRole" @click="toAnalyze()">
+    <!-- <div class="analyze-img" v-if="role == viewerRole" @click="toAnalyze()">
       <img src="~@/assets/common/analyze.png" alt="">
       <p>数 据 分 析</p>
-    </div>
+    </div> -->
 
     <!-- <p class="activity-title">
       商城头条
@@ -46,7 +46,7 @@
         <p class="title">
           {{item.title}}
         </p>
-        <div class="desc" v-html="cutout(item.memo)"></div>
+        <!-- <div class="desc" v-html="cutout(item.memo)"></div> -->
         <p class="desc" style="font-size: 10px;" v-if="item.createTime">
           {{item.createTime | dateFormat}}
         </p>
@@ -197,7 +197,7 @@ export default {
     toCategory(item) {
       if (this.$route.path === '/activityPrev') return;
       if (!item.url) {
-        Utils.showToast('敬请期待');
+        // Utils.showToast('敬请期待');
         return;
       }
       this.$router.push(`${this.routePath}/${item.url}`);
@@ -210,8 +210,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-
-
 .w-container {
   background: #fff;
 }
@@ -338,7 +336,7 @@ export default {
       background: $color-bg;
 
       img {
-        height: 100%;
+        width: 100%;
       }
     }
 

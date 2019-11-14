@@ -24,7 +24,7 @@
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import service from '@/services/common.service';
-import { USER_ROLE } from '@/common/Constants';
+// import { USER_ROLE } from '@/common/Constants';
 
 export default {
   data() {
@@ -54,9 +54,7 @@ export default {
   created() {},
   mounted() {
     this.initTabList = this.tablist;
-    if (this.role === USER_ROLE.viewer) {
-      this.getTabbar();
-    }
+    this.getTabbar();
   },
   computed: {
     ...mapGetters('user', {
