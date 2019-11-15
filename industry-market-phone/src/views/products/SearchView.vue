@@ -6,7 +6,7 @@
       <w-search class="search" show-scan @search="toSearch" ref="search"></w-search>
     </template>
     <template #header-right>
-      <div class="header-right">
+      <div class="header-right" v-permission="'cart'">
         <w-cart-icon :current-path="routePath"></w-cart-icon>
       </div>
     </template>
@@ -56,6 +56,9 @@ export default {
   created() {},
   mounted() {
     this.$store.dispatch('keywords/getHotKeywordList');
+  },
+  destroyed() {
+    console.log('search view destroyed');
   },
   components: {
     WSearch,

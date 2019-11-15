@@ -22,7 +22,7 @@ export default {
     setTimeout(() => {
       Utils.showLoading();
       this.getData();
-      if (this.role !== USER_ROLE.viewer) {
+      if (this.role !== USER_ROLE.manager) {
         this.getOtherData();
       }
     }, 300);
@@ -48,7 +48,7 @@ export default {
     },
     refresh() {
       this.getData();
-      if (this.role !== USER_ROLE.viewer) {
+      if (this.role !== USER_ROLE.manager) {
         this.getOtherData();
       }
       this.scrollTop();

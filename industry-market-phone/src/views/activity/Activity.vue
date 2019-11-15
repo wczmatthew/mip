@@ -68,7 +68,7 @@ export default {
       banners: [],
       categoryList: [],
       activityList: [],
-      viewerRole: USER_ROLE.viewer,
+      viewerRole: USER_ROLE.manager,
       routePath: '/market', // 下一级页面路由前缀
     };
   },
@@ -149,7 +149,7 @@ export default {
           this.$router.push({
             path: '/market/frame',
             query: {
-              url: item.url,
+              url: 'item.url',
               title: item.title || '发现',
             },
           });

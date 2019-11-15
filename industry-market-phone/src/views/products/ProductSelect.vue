@@ -6,7 +6,7 @@
       产品选型
     </template>
     <template #header-right>
-      <div class="header-right">
+      <div class="header-right" v-permission="'cart'">
         <w-cart-icon :current-path="routePath"></w-cart-icon>
       </div>
     </template>
@@ -36,7 +36,7 @@
                 </span>
               </div>
             </div>
-            <div class="item">
+            <div class="item" v-permission="'product-select-edit-num'">
               <div class="nums">
                 <i class="iconfont icon-circle-reduce2" @click.stop="onReduce()"></i>
                 <w-input type="number" v-model="number"/>
@@ -111,7 +111,7 @@
           </p>
         </div>
 
-        <div class="btns">
+        <div class="btns" v-permission="'order'">
           <button @click="onAddCart()" :class="[product.store > 0 ? 'red-btn' : 'grey-btn']">
             {{ product.store > 0 ? '加入购物单' : '无库存' }}
           </button>

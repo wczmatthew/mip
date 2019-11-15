@@ -30,7 +30,7 @@
             <input type="number">
             <i class="iconfont icon-jia"></i>
           </div> -->
-          <button class="red-btn" @click.stop="onAddCart(item)">
+          <button class="red-btn" @click.stop="onAddCart(item)" v-permission="'cart'">
             <!-- <span v-show="listType == 'list'">加入购物单</span> -->
             <i class="iconfont icon-cart"></i>
           </button>

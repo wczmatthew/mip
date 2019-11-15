@@ -33,6 +33,19 @@ Vue.component('w-modal', WModal);
 Vue.component('w-header', WHeader);
 Vue.component('w-input', WInput);
 
+// 引入directives文件夹下面的指令
+Vue.use((Vue) => {
+  ((requireContext) => {
+    const arr = requireContext.keys().map(requireContext);
+    (arr || []).forEach((directive) => {
+      directive = directive.__esModule && directive.default ? directive.default : directive;
+      Object.keys(directive).forEach((key) => {
+        Vue.directive(key, directive[key]);
+      });
+    });
+  })(require.context('./directives', false, /^\.\/.*\.js$/));
+});
+
 router.beforeEach((to, from, next) => {
   if (Utils.checkIsWeixin()) {
     if (process.env.NODE_ENV !== 'production') {

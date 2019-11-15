@@ -73,7 +73,7 @@
     <!-- 个人信息 end -->
 
     <!-- 我的订单 -->
-    <div class="card my-order">
+    <div class="card my-order" v-permission="'order-list'">
       <div class="title-row">
         <div class="title">
           我的订单
@@ -121,7 +121,7 @@
 
     <!-- 其他功能 -->
     <div class="w-tableview">
-      <template v-if="role == viewer || role == seller">
+      <template v-if="role == seller">
         <div class="cell" @click="toScan()">
           <span class="title">
             库存盘点
@@ -174,7 +174,7 @@ export default {
       saleClientCount: 0, // 客户数量
       userData: {},
       isWeixin: false,
-      viewer: USER_ROLE.viewer, // 数据查看员权限值
+      viewer: USER_ROLE.manager, // 数据查看员权限值
       seller: USER_ROLE.seller, // 开单员权限值
       user: USER_ROLE.user, // 开单员权限值
       routePath: '/market', // 获取当前路由
@@ -316,7 +316,7 @@ export default {
     toAddress() {
       if (this.role === USER_ROLE.user) {
         this.$router.push(`${this.routePath}/address`);
-      } else if (this.role === USER_ROLE.seller || this.role === USER_ROLE.viewer) {
+      } else if (this.role === USER_ROLE.seller || this.role === USER_ROLE.manager) {
         // 开单员/数据查看员
         this.$router.push(`${this.routePath}/customer`);
       }

@@ -9,7 +9,7 @@
         <w-search class="search" disabled show-scan @input-click="toSearch()"></w-search>
       </template>
       <template #header-right>
-        <div class="header-right">
+        <div class="header-right" v-permission="'cart'">
           <w-cart-icon :currentPath="routePath"></w-cart-icon>
         </div>
       </template>

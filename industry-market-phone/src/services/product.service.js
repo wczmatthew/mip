@@ -25,8 +25,9 @@ export default {
    * @param seriesId 系列id
    * @param orderByColumn 排序的字段名
    * @param isAsc 升序降序
+   * @param userid 用户id
    */
-  getNewProductList: ({ pageNum, pageSize, keyword, seriesId, orderByColumn, isAsc }) => {
+  getNewProductList: ({ pageNum, pageSize, keyword, seriesId, orderByColumn, isAsc, userid }) => {
     const params = {
       pageNum,
       pageSize: pageSize || 10,
@@ -34,6 +35,7 @@ export default {
       keyword: keyword || '',
       orderByColumn,
       isAsc,
+      userid,
     };
     return postHttp({ url: '/productcenter/product/newSearch', params });
   },

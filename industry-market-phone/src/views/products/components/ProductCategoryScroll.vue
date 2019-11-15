@@ -186,6 +186,7 @@ export default {
       this.$refs.productScroll.scrollTo(0, -this.menuYList[index], 300, 'ease');
     },
     toSelect(item) {
+      this.$store.commit('product/updateKeywords', '');
       this.$router.push(`${this.currentPath}/${this.nextPath}?seriesId=${item.sid}`);
     },
   },

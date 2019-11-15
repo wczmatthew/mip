@@ -8,7 +8,7 @@
       </div>
       <p class="header-mid"></p>
 
-      <div class="header-right">
+      <div class="header-right" v-permission="'cart'">
         <!-- <div class="circle">
           <w-msg-icon class="msg-icon"></w-msg-icon>
         </div> -->
@@ -139,7 +139,7 @@
           </div>
         </div>
 
-        <div class="btns">
+        <div class="btns" v-permission="'order'">
           <button @click="onAddCart()"  :class="[product.store > 0 ? 'orange-btn' : 'grey-btn']">
             加入购物单
           </button>
@@ -294,7 +294,7 @@ export default {
           }];
           this.$store.commit('order/updateSelectProducts', list);
 
-          if (this.role === USER_ROLE.seller || this.role === USER_ROLE.viewer) {
+          if (this.role === USER_ROLE.seller || this.role === USER_ROLE.manager) {
             // 开单员/数据查看员
             this.$router.push(`${this.currentPath || this.routePath}/confirmSaleOrder`);
             return;

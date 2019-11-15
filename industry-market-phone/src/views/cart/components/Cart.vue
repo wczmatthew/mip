@@ -461,7 +461,7 @@ export default {
 
       this.$store.commit('order/updateSelectProducts', list);
 
-      if (this.role === USER_ROLE.seller || this.role === USER_ROLE.viewer) {
+      if (this.role === USER_ROLE.seller || this.role === USER_ROLE.manager) {
         // 开单员/数据查看员
         this.$router.push(`${this.currentPath || this.routePath}/confirmSaleOrder`);
         return;

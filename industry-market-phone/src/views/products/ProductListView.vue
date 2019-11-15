@@ -149,7 +149,7 @@ export default {
     },
     async getData() {
       // Utils.showLoading();
-      const params = { pageNum: this.pageNum, pageSize: this.pageSize, keyword: this.keywords, seriesId: this.seriesId, orderByColumn: this.orderByColumn, isAsc: this.isAsc };
+      const params = { pageNum: this.pageNum, pageSize: this.pageSize, keyword: this.keywords, seriesId: this.seriesId, orderByColumn: this.orderByColumn, isAsc: this.isAsc, userid: Utils.getUserId(this) };
       const result = await service.getNewProductList(params);
       this.isLoading = false;
       if (!result) {
