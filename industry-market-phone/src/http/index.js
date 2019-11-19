@@ -7,7 +7,7 @@ import Utils from '@/common/Utils';
 
 import {
   LOGINERR,
-  LOGOUT,
+  ERROR,
   SUCCESS,
   MOCKHOST,
   EASEMOCKHOST,
@@ -42,17 +42,16 @@ function getProjectName() {
 } 
 
 function handleRes(response, showErrToast) {
-  if (parseInt(response.data.code, 10) === LOGOUT) {
-    Utils.showToast('退出登录成功');
-    router.push('/');
-    return '';
-  }
+  // if (parseInt(response.data.code, 10) === LOGOUT) {
+  //   Utils.showToast('退出登录成功');
+  //   router.push('/login');
+  //   return '';
+  // }
 
-  if (parseInt(response.data.code, 10) === LOGINERR) {
-    // localStorage.clear();
-    // console.log('clear local');
+  if (parseInt(response.data.code, 10) === LOGINERR || parseInt(response.data.code, 10) === ERROR) {
+    Utils.clearLocalStorage();
     Utils.showToast(response.data.msg || '登录超时, 请重新登录');
-    router.push('/');
+    router.push('/login');
     return '';
   }
 

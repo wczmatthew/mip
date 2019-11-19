@@ -71,7 +71,7 @@ export default {
       menuList: [],
       menuIndex: 0,
       dataList: [],
-      selectMenu: {},
+      selectMenu: { sid: '' },
       loadingShelf: false,
       current: '',
       menuYList: [], // 存放菜单栏对应的产品list的Y值
