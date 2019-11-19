@@ -299,7 +299,6 @@ export default {
   /**
    * 获取订单相关统计数据
    * @param userid 用户id
-   * @param orderId 订单号
    */
   getOrderStatisticInfo: ({ userid }) => {
     if (!userid) return '';

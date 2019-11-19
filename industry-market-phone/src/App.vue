@@ -7,9 +7,20 @@
       </transition>
     </div>
 
+    <!-- 分享按钮 -->
+    <div class="share-btn" @click="onShare()" v-if="isWeixin">
+      分享<br/>海报
+    </div>
+    <!-- 分享按钮 end -->
+
     <!-- 绑定手机弹窗 -->
     <register-modal ref="registerModal"></register-modal>
     <!-- 绑定手机弹窗 end -->
+
+    <!-- 分享海报弹窗 -->
+    <share-modal ref="shareModal"></share-modal>
+    <!-- 分享海报弹窗 end -->
+
   </div>
 </template>
 
@@ -17,6 +28,7 @@
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import RegisterModal from '@/components/RegisterModal.vue';
+import ShareModal from '@/components/ShareModal.vue';
 
 export default {
   data() {
@@ -26,6 +38,7 @@ export default {
       filterUrls: [
         '/register',
       ],
+      isWeixin: Utils.checkIsWeixin(),
     };
   },
   // watch $route 决定使用哪种过渡
@@ -185,8 +198,12 @@ export default {
   },
   components: {
     RegisterModal,
+    ShareModal,
   },
   methods: {
+    onShare() {
+      this.$refs.shareModal.toggle(true);
+    },
   },
 };
 </script>
@@ -210,6 +227,21 @@ export default {
   top: 0;
   left: 0;
   overflow-x: hidden;
+}
+
+.share-btn {
+  background: rgba($color: #000000, $alpha: .4);
+  color: #fff;
+  position: fixed;
+  top: 15vh;
+  right: .1rem;
+  width: .4rem;
+  height: .4rem;
+  border-radius: .4rem;
+  @include break-word;
+  overflow: hidden;
+  z-index: 99;
+  @include flex-center;
 }
 
 .fade-enter-active, .fade-leave-active {

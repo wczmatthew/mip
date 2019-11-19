@@ -31,4 +31,13 @@ export default {
     const params = { imgData };
     return postHttp({ url: '/usercenter/user/uploadImageData', params });
   },
+  /**
+   * 获取老板角色相关统计数据
+   * @param userid 用户id
+   */
+  getBossStatistic: ({ userid }) => {
+    if (!userid) return '';
+    const params = { userid };
+    return postHttp({ url: '/usercenter/user/getBossStatistic', params });
+  },
 };

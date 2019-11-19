@@ -33,26 +33,24 @@
           </div> -->
           <div class="item" @click="toCollect()">
             <p class="top-num">
-              {{collectCount || 0}}
+              {{ role == manager ? todayOrderNum : (collectCount || 0) }}
             </p>
             <p class="tip">
-              <!-- <i class="iconfont icon-shuliang"></i> -->
-              我的收藏
+              {{ role == manager ? '今日成交单数' : '我的收藏' }}
             </p>
           </div>
           <div class="item">
             <p class="top-num">
-              0
+              {{ role == manager ? todaySaleNum : 0 }}
             </p>
             <p class="tip">
-              <!-- <i class="iconfont icon-shuliang"></i> -->
-              最近浏览
+              {{ role == manager ? '今日销售额' : '最近浏览' }}
             </p>
           </div>
           <div class="item" @click="toAddress()">
             <template v-if="role === user">
               <p class="top-num">
-                {{addressCount || 0}}
+                {{ addressCount || 0 }}
               </p>
               <p class="tip">
                 收货地址
@@ -60,10 +58,10 @@
             </template>
             <template v-else>
               <p class="top-num">
-                {{saleClientCount || 0}}
+                {{ role == manager ? todayCustomerNum : (saleClientCount || 0) }}
               </p>
               <p class="tip">
-                客户管理
+                {{ role == manager ? '今日新增用户' : '客户管理' }}
               </p>
             </template>
           </div>
@@ -172,9 +170,12 @@ export default {
       collectCount: 0, // 我的收藏
       addressCount: 0, // 收货地址数量
       saleClientCount: 0, // 客户数量
+      todayOrderNum: 0, // 今日成交单数
+      todaySaleNum: 0, // 今日销售额
+      todayCustomerNum: 0, // 今日新增客户
       userData: {},
       isWeixin: false,
-      viewer: USER_ROLE.manager, // 数据查看员权限值
+      manager: USER_ROLE.manager, // 数据查看员权限值
       seller: USER_ROLE.seller, // 开单员权限值
       user: USER_ROLE.user, // 开单员权限值
       routePath: '/market', // 获取当前路由
@@ -341,6 +342,12 @@ export default {
       }
     },
     async getData() {
+      if (this.role === this.manager) {
+        // 老板角色
+        this.getBossData();
+        return;
+      }
+
       const result = await service.getOrderStatisticInfo({ userid: Utils.getUserId(this) });
       Utils.hideLoading();
       if (!result) return;
@@ -359,6 +366,20 @@ export default {
       if (this.waitGetCount > 99) this.waitGetCount = '99+';
       if (this.waitPayCount > 99) this.waitPayCount = '99+';
       if (this.waitPostCount > 99) this.waitPostCount = '99+';
+    },
+    // 获取老板相关统计数据
+    async getBossData() {
+      const result = await userService.getBossStatistic({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+
+      this.todayOrderNum = result.todayOrderCount || 0; // 今日成交单数
+      this.todaySaleNum = result.todayPrice || 0; // 今日销售额
+      this.todayCustomerNum = result.todayNewClientCount || 0; // 今日新增客户
+
+      if (this.todayOrderNum > 99) this.finishCount = '99+';
+      if (this.todaySaleNum > 99) this.waitGetCount = '99+';
+      if (this.todayCustomerNum > 99) this.waitPayCount = '99+';
     },
     toOrders(status) {
       if (!status) {

@@ -37,6 +37,11 @@
             :key="item.sid + index"
             :label="item.sid + index"
             :title="item.bname">
+            <!-- 广告 -->
+            <div class="banner">
+              <w-img :src="itemBanner.advImgPath" v-for="(itemBanner, itemBannerIndex) in item.advInfo" :key="'ad'+itemBannerIndex" @load.native="updateMenuY()" @click.native="onClickLink(itemBanner)"></w-img>
+            </div>
+            <!-- 广告 end -->
             <p class="title">
               {{ item.bname }}
             </p>
