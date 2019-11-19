@@ -55,15 +55,6 @@ export default {
   },
   created() {},
   mounted() {
-    this.$nextTick(() => {
-      this.qrcode = new QRCode(this.$refs.qrcodeDiv, {
-        colorDark: '#000000',
-        colorLight: '#ffffff',
-        width: 256,
-        height: 256,
-        correctLevel: QRCode.CorrectLevel.L,
-      });
-    });
   },
   components: {
   },
@@ -75,7 +66,10 @@ export default {
       this.slideName = isShow ? 'slide-up' : 'slide-down';
       if (this.isShow) {
         Utils.showLoading();
-        this.createQrcode();
+
+        setTimeout(() => {
+          this.createQrcode();
+        }, 300);
       }
     },
     onClose() {
@@ -83,14 +77,32 @@ export default {
     },
     // 生成二维码
     createQrcode() {
+      if (!this.qrcode) {
+        this.qrcode = new QRCode(this.$refs.qrcodeDiv, {
+          colorDark: '#000000',
+          colorLight: '#ffffff',
+          width: this.$refs.qrcodeDiv.clientWidth - 5,
+          height: this.$refs.qrcodeDiv.clientWidth - 5,
+          correctLevel: QRCode.CorrectLevel.L,
+        });
+      }
       const key = Utils.getLocalStorageItem('marketKey', true);
       const userid = Utils.getLocalStorageItem('userId');
       this.qrcode.clear();
-      this.qrcode.makeCode(`${document.URL}?key=${key}&recId=${userid}`);
 
-      setTimeout(() => {
-        this.createPoster();
-      }, 500);
+      if (document.URL.indexOf('?') > -1) {
+        // 已经带参数了
+        this.qrcode.makeCode(`${document.URL}&key=${key}&recId=${userid}`);
+      } else {
+        // 没有带参数
+        this.qrcode.makeCode(`${document.URL}?key=${key}&recId=${userid}`);
+      }
+
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.createPoster();
+        }, 500);
+      });
     },
     // 生成海报
     createPoster() {
@@ -207,7 +219,7 @@ export default {
     border: 1px solid #e6e6e6;
     display: block;
     margin: .2rem auto .1rem;
-    padding: .02rem;
+    padding: 2.5px;
 
     img {
       display: block;

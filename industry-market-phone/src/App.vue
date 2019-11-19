@@ -38,7 +38,8 @@ export default {
       filterUrls: [
         '/register',
       ],
-      isWeixin: Utils.checkIsWeixin(),
+      // isWeixin: Utils.checkIsWeixin(),
+      isWeixin: true,
     };
   },
   // watch $route 决定使用哪种过渡

@@ -48,12 +48,15 @@ function handleRes(response, showErrToast) {
   //   return '';
   // }
 
-  if (parseInt(response.data.code, 10) === LOGINERR || parseInt(response.data.code, 10) === ERROR) {
-    Utils.clearLocalStorage();
-    Utils.showToast(response.data.msg || '登录超时, 请重新登录');
-    router.push('/login');
-    return '';
+  if (!Utils.checkIsWeixin()) {
+    if (parseInt(response.data.code, 10) === LOGINERR || parseInt(response.data.code, 10) === ERROR) {
+      Utils.clearLocalStorage();
+      Utils.showToast(response.data.msg || '登录超时, 请重新登录');
+      router.push('/login');
+      return '';
+    }
   }
+
 
   if (showErrToast && parseInt(response.data.code, 10) !== SUCCESS) {
     Utils.showToast(response.data.msg || '请求失败, 请重试');

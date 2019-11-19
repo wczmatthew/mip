@@ -28,8 +28,8 @@
           :class="'product' + i">
 
           <!-- 广告 -->
-          <div class="banner">
-            <w-img :src="banner.advImgPath" v-for="(banner, adIndex) in data.advInfo" :key="'ad'+adIndex" @load.native="updateMenuY()" @click.native="onClickLink(banner)"></w-img>
+          <div class="banner" v-for="(banner, adIndex) in data.advInfo" :key="'ad'+adIndex">
+            <w-img :src="banner.advImgPath" @load.native="updateMenuY()" @click.native="onClickLink(banner)"></w-img>
           </div>
           <!-- 广告 end -->
           <div
@@ -38,8 +38,8 @@
             :label="item.sid + index"
             :title="item.bname">
             <!-- 广告 -->
-            <div class="banner">
-              <w-img :src="itemBanner.advImgPath" v-for="(itemBanner, itemBannerIndex) in item.advInfo" :key="'ad'+itemBannerIndex" @load.native="updateMenuY()" @click.native="onClickLink(itemBanner)"></w-img>
+            <div class="banner" v-for="(itemBanner, itemBannerIndex) in item.advInfo" :key="'ad'+itemBannerIndex" @load.native="updateMenuY()" >
+              <w-img :src="itemBanner.advImgPath" @click.native="onClickLink(itemBanner)"></w-img>
             </div>
             <!-- 广告 end -->
             <p class="title">
