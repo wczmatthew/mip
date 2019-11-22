@@ -75,7 +75,7 @@ export default {
   }
 }
 .news-detail {
-  padding: 0 $spacing-lr;
+  padding: 0 $spacing-img-lr;
   img {
     display: block;
     width: 100%;

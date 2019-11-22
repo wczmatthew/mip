@@ -21,8 +21,8 @@ if (process.env.NODE_ENV === 'production') {
 } else if (process.env.NODE_ENV === 'test-dev' || process.env.NODE_ENV === 'development') {
   // httpHost = '/hw';
   // httpHost = '/local';
-  httpHost = '/test';
-  // httpHost = '/prod';
+  // httpHost = '/test';
+  httpHost = '/prod';
 }
 
 // console.log('http env: ', process.env.NODE_ENV)

@@ -21,7 +21,8 @@ $color-hover-blue: #e6f7ff;
 $color-gold: #c5995b;
 
 $line-scale: 0.5;
-$spacing-lr: .05rem; // 左右间距
+$spacing-lr: .1rem; // 左右间距
+$spacing-img-lr: .05rem; // 左右间距
 
 // 背景渐变色
 @mixin background-gradient($direction, $color1, $color2) {

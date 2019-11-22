@@ -639,7 +639,7 @@ export default {
   max-height: 1.8rem;
 
   .banner-item {
-    padding: .1rem $spacing-lr;
+    padding: .1rem $spacing-img-lr;
     height: 1.45rem;
     @include flex-center;
     img {
@@ -652,7 +652,7 @@ export default {
 }
 
 .banner2 {
-  margin: .1rem $spacing-lr;
+  margin: .1rem $spacing-img-lr;
   display: block;
   border-radius: .05rem;
   overflow: hidden;
@@ -669,7 +669,7 @@ export default {
 .home-category {
   justify-content: space-around;
   background: #fff;
-  padding: 0 $spacing-lr;
+  padding: 0 $spacing-img-lr;
   padding-top: .15rem;
 
   // &::after {
@@ -893,7 +893,7 @@ export default {
 } // end home-row
 
 .product-grid2 {
-  padding: 0 $spacing-lr;
+  padding: 0 $spacing-img-lr;
   .product {
     padding: .15rem .15rem .1rem;
     position: relative;

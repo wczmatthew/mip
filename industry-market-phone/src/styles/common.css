@@ -568,7 +568,7 @@ a {
   -ms-justify-content: space-between;
   -o-justify-content: space-between;
   justify-content: space-between;
-  height: .4rem;
+  min-height: .4rem;
   margin-left: .12rem;
   padding-right: .12rem;
   position: relative;

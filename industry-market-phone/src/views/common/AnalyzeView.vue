@@ -2,11 +2,11 @@
 <template lang='html'>
   <div class="w-container">
     <!-- 顶部栏 -->
-    <w-header>
+    <!-- <w-header>
       <template #header-mid>
         {{title}}
       </template>
-    </w-header>
+    </w-header> -->
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="w-content">

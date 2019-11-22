@@ -8,9 +8,9 @@
     </div>
 
     <!-- 分享按钮 -->
-    <div class="share-btn" @click="onShare()" v-if="isWeixin">
+    <!-- <div class="share-btn" @click="onShare()" v-if="isWeixin">
       分享<br/>海报
-    </div>
+    </div> -->
     <!-- 分享按钮 end -->
 
     <!-- 绑定手机弹窗 -->

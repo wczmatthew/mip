@@ -1,4 +1,3 @@
-<!-- 消息图标 -->
 <template lang='html'>
   <input :type="type" @blur="onBlur()" :value="value" @keyup="onChange" :placeholder="placeholder" :disabled="disabled">
 </template>

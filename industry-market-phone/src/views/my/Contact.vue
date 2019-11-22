@@ -1,4 +1,4 @@
-<!--  -->
+<!-- 联系我们 -->
 <template lang='html'>
   <w-container show-header show-back>
     <!-- 顶部栏 -->
@@ -6,54 +6,102 @@
       {{ $route.query.title || '联系我们'}}
     </template>
     <!-- 顶部栏 end -->
-    <!-- 正文内容 -->
-    <div class="logo">
-      <img src="~@/assets/logo.png" alt="">
+    <div v-if="role == manager">
+      <!-- 老板界面 -->
+      <div class="logo">
+        <img src="~@/assets/common/logo.png" alt="">
+      </div>
+
+      <p class="logo-title">
+        渠道信息化支持团队
+      </p>
+
+      <p class="contact-title">
+        服务时间: 法定工作日 8:00 ~ 16:00
+      </p>
+
+      <p class="contact-title">
+        平台应用运维咨询:
+      </p>
+      <a href="tel:13777777777" class="tel">
+        <i class="iconfont icon-kefu"></i>
+        13777777777 转 709377
+      </a>
+
+      <button class="blue-btn concat-btn" @click="toContact()">留言</button>
     </div>
+    <div v-else>
+      <!-- 非管理员/老板界面 -->
+      <div class="logo" style="width: 20%">
+        <img src="~@/assets/logo2.png" alt="">
+      </div>
 
-    <p class="logo-title">
-      {{ companyName }}
-    </p>
+      <p class="logo-title">
+        {{ companyName }}
+      </p>
 
-    <p class="contact-title">
-      服务时间: 法定工作日 8:00 ~ 16:00
-    </p>
+      <p class="contact-title">
+        服务时间: 法定工作日 8:00 ~ 16:00
+      </p>
 
-    <p class="contact-title" style="margin-top: .3rem">
-      售前/售后咨询:
-    </p>
-    <a href="tel:4008177777" class="tel">
-      <i class="iconfont icon-kefu"></i>
-      400 817 7777
-    </a>
+      <p class="contact-title" style="margin-top: .3rem">
+        售前/售后咨询:
+      </p>
+      <a href="tel:4008177777" class="tel">
+        <i class="iconfont icon-kefu"></i>
+        400 817 7777
+      </a>
 
-    <p class="contact-title">
-      平台应用运维资讯:
-    </p>
-    <a href="tel:13777777777" class="tel">
-      <i class="iconfont icon-kefu"></i>
-      13777777777 转 709377
-    </a>
-    <!-- 正文内容 end -->
+      <p class="contact-title">
+        平台应用运维咨询:
+      </p>
+      <a href="tel:13777777777" class="tel">
+        <i class="iconfont icon-kefu"></i>
+        13777777777 转 709377
+      </a>
+    </div>
   </w-container>
 </template>
 <script>
+import { mapGetters } from 'vuex';
+import { USER_ROLE } from '@/common/Constants';
+import Utils from '@/common/Utils';
+
 export default {
   data() {
     return {
+      manager: USER_ROLE.manager,
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'contact' }), // 获取当前路由
     };
   },
   created() {},
   mounted() {},
+  computed: {
+    ...mapGetters('user', {
+      role: 'role',
+    }),
+  },
   components: {},
-  methods: {},
+  methods: {
+    toContact() {
+      this.$router.push(`${this.routePath}/createFeedback`);
+    },
+  },
 };
 </script>
 <style lang="scss" scoped>
-
+@import '~@/styles/components/button.scss';
 .w-container {
   background: #fff;
 }
+
+.concat-btn {
+  width: 50%;
+  font-size: 16px;
+  margin-top: .3rem;
+}
+
+
 .logo {
   margin: 0 auto;
   margin-top: 5vh;

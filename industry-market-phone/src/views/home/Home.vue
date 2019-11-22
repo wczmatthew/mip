@@ -38,7 +38,6 @@ export default {
   },
   watch: {
     refreshView() {
-      console.log('refreshView');
       if (this.refreshView !== '/market/home') return;
       this.refresh();
     },

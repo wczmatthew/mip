@@ -47,7 +47,7 @@
           {{item.title}}
         </p>
         <!-- <div class="desc" v-html="cutout(item.memo)"></div> -->
-        <p class="desc" style="font-size: 10px;" v-if="item.createTime">
+        <p class="desc" v-if="item.createTime">
           {{item.createTime | dateFormat}}
         </p>
       </div>
@@ -220,7 +220,7 @@ export default {
   overflow: hidden;
 
   .banner-item {
-    padding: .1rem $spacing-lr;
+    padding: .1rem $spacing-img-lr;
     // height: 1.45rem;
     @include flex-center;
     overflow: hidden;
@@ -316,13 +316,13 @@ export default {
   margin-top: .1rem;
   .item {
     margin-bottom: .1rem;
-    padding: 0 $spacing-lr;
+    padding: 0 $spacing-img-lr;
     position: relative;
 
     .icon {
       position: absolute;
       top: 0;
-      left: $spacing-lr;
+      left: $spacing-img-lr;
       z-index: 10;
       width: .5rem;
     }
@@ -344,6 +344,8 @@ export default {
       @include text-ellipsis;
       padding-top: .1rem;
       line-height: .16rem;
+      padding-left: .07rem;
+      padding-right: .07rem;
     }
 
     .desc {
@@ -353,6 +355,8 @@ export default {
       margin-top: .05rem;
       height: .16rem;
       @include text-ellipsis;
+      padding-left: .07rem;
+      padding-right: .07rem;
       // display: flex;
     }
   }

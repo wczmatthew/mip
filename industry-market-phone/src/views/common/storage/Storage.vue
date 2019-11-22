@@ -342,7 +342,7 @@ export default {
   background: #fff;
 
   .banner-item {
-    padding: .1rem $spacing-lr;
+    padding: .1rem $spacing-img-lr;
     height: 1.45rem;
     @include flex-center;
     img {
@@ -357,7 +357,7 @@ export default {
 .home-category {
   justify-content: space-around;
   background: #fff;
-  padding: 0 $spacing-lr;
+  padding: 0 $spacing-img-lr;
   padding-top: .15rem;
 
   // &::after {
@@ -431,7 +431,7 @@ export default {
   .top-title {
     color: $color-default;
     padding: 0 $spacing-lr;
-    padding-left: .1rem;
+    padding-left: .18rem;
     height: .4rem;
     display: flex;
     justify-content: space-between;
