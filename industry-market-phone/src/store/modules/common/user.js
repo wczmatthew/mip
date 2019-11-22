@@ -1,6 +1,6 @@
 import service from '@/services/common.service';
-// import userService from '@/services/user.service';
-// import Utils from '@/common/Utils';
+import userService from '@/services/user.service';
+import Utils from '@/common/Utils';
 // import router from '@/router';
 
 /**
@@ -10,6 +10,7 @@ const state = {
   userId: process.env.NODE_ENV === 'production' ? '' : '',
   customerId: process.env.NODE_ENV === 'production' ? '' : '766',
   cartNum: 0,
+  userData: {}, // 用户信息
   role: 0, // 用户角色: 0 普通用户，1 开单员, 2 查看数据员
   isBind: 0, // 0 未绑定手机号码
   erweima: '',
@@ -20,11 +21,13 @@ const state = {
   isGetOpenid: false, // 是否显示launch图片
   analyzeUrl: '', // 大数据平台url
   refreshView: '', // 刷新页面的url
+  refreshAllTab: false, // 是否全部刷新
 };
 
 // getters
 const getters = {
   role: state => state.role,
+  userData: state => state.userData,
   userId: state => state.userId,
   customerId: state => state.customerId,
   isBind: state => state.isBind,
@@ -36,6 +39,7 @@ const getters = {
   isGetOpenid: state => state.isGetOpenid,
   analyzeUrl: state => state.analyzeUrl,
   refreshView: state => state.refreshView,
+  refreshAllTab: state => state.refreshAllTab,
 };
 
 // actions -- 接口调用方法
@@ -56,12 +60,33 @@ const actions = {
     if (!result) return;
     commit('updateAnalyzeUrl', result || '');
   },
+  // 获取用户信息
+  async getUserData({ commit }) {
+    const result = await userService.getUserInfo({ userid: this.state.user.userId });
+    if (!result) return;
+
+    commit('updateUserData', result);
+
+    if (result.role !== undefined) {
+      // 更新用户信息 -- 用户角色
+      commit('updateUserRole', result.role);
+      Utils.saveLocalStorageItem('role', result.role);
+    }
+
+    if (result.isBind !== undefined) {
+      Utils.saveLocalStorageItem('isBind', result.isBind);
+      commit('updateIsBind', result.isBind);
+    }
+  },
 };
 
 // mutations -- 数据更新/存储方法
 const mutations = {
   updateUserId(state, data) {
     state.userId = data;
+  },
+  updateUserData(state, data) {
+    state.userData = data || {};
   },
   updateUserRole(state, data) {
     state.role = data;
@@ -95,6 +120,9 @@ const mutations = {
   },
   updateRefreshView(state, data) {
     state.refreshView = data;
+  },
+  updateRefreshAllTab(state, data) {
+    state.refreshAllTab = data;
   },
 };
 

@@ -12,7 +12,7 @@
     <!-- 个人信息 -->
     <div class="my-msg">
       <div class="my-card">
-        <div class="msg">
+        <div class="msg" :style="{'margin-top': role == manager ? '.2rem' : 0}">
           <img src="~@/assets/common/user-logo.png" alt="" class="logo">
           <div class="detail">
             <p class="title">
@@ -24,27 +24,21 @@
             </p>
           </div>
         </div>
-        <div class="grid-list">
-          <!-- <div class="item">
-            <i class="iconfont icon-notcollect">
-              <i class="num">99</i>
-            </i>
-            <p class="tip">我的收藏</p>
-          </div> -->
+        <div class="grid-list" v-if="role != manager">
           <div class="item" @click="toCollect()">
             <p class="top-num">
-              {{ role == manager ? todayOrderNum : (collectCount || 0) }}
+              {{ collectCount || 0 }}
             </p>
             <p class="tip">
-              {{ role == manager ? '今日成交单数' : '我的收藏' }}
+              我的收藏
             </p>
           </div>
           <div class="item">
             <p class="top-num">
-              {{ role == manager ? todaySaleNum : 0 }}
+              0
             </p>
             <p class="tip">
-              {{ role == manager ? '今日销售额' : '最近浏览' }}
+              最近浏览
             </p>
           </div>
           <div class="item" @click="toAddress()">
@@ -58,10 +52,10 @@
             </template>
             <template v-else>
               <p class="top-num">
-                {{ role == manager ? todayCustomerNum : (saleClientCount || 0) }}
+                {{ saleClientCount || 0 }}
               </p>
               <p class="tip">
-                {{ role == manager ? '今日新增用户' : '客户管理' }}
+                客户管理
               </p>
             </template>
           </div>
@@ -69,6 +63,44 @@
       </div>
     </div>
     <!-- 个人信息 end -->
+
+    <!-- 老板界面相关数据 -->
+    <div class="card my-order" v-if="role === manager" style="margin-top: -.15rem">
+      <div class="title-row">
+        <div class="title">
+          移动业务统计
+        </div>
+      </div>
+
+      <div class="grid-list">
+        <div class="item">
+          <p class="top-num">
+            {{ todayOrderNum || 0 }}
+          </p>
+          <p class="tip">
+            今日成交单数
+          </p>
+        </div>
+        <div class="item">
+          <p class="top-num">
+            {{ todaySaleNum || 0 }}
+          </p>
+          <p class="tip">
+            今日销售额
+          </p>
+        </div>
+        <div class="item">
+          <p class="top-num">
+            {{ todayCustomerNum || 0 }}
+          </p>
+          <p class="tip">
+            今日新增用户
+          </p>
+        </div>
+      </div>
+
+    </div>
+    <!-- 老板界面相关数据 end -->
 
     <!-- 我的订单 -->
     <div class="card my-order" v-permission="'order-list'">
@@ -173,7 +205,6 @@ export default {
       todayOrderNum: 0, // 今日成交单数
       todaySaleNum: 0, // 今日销售额
       todayCustomerNum: 0, // 今日新增客户
-      userData: {},
       isWeixin: false,
       manager: USER_ROLE.manager, // 数据查看员权限值
       seller: USER_ROLE.seller, // 开单员权限值
@@ -184,8 +215,9 @@ export default {
   created() {},
   mounted() {
     Utils.showLoading();
-    this.getUserData();
     this.getData();
+
+    this.$store.dispatch('user/getUserData');
 
     this.isWeixin = Utils.checkIsWeixin();
   },
@@ -198,7 +230,7 @@ export default {
     },
     refreshView() {
       if (this.refreshView !== '/market/my') return;
-      this.getUserData();
+      this.$store.dispatch('user/getUserData');
       this.getData();
     },
   },
@@ -207,6 +239,7 @@ export default {
       isBind: 'isBind',
       role: 'role',
       refreshView: 'refreshView',
+      userData: 'userData',
     }),
   },
   components: {},
@@ -315,6 +348,8 @@ export default {
       });
     },
     toAddress() {
+      if (this.role === this.manager) return;
+
       if (this.role === USER_ROLE.user) {
         this.$router.push(`${this.routePath}/address`);
       } else if (this.role === USER_ROLE.seller || this.role === USER_ROLE.manager) {
@@ -323,23 +358,8 @@ export default {
       }
     },
     toCollect() {
+      if (this.role === this.manager) return;
       this.$router.push(`${this.routePath}/collections`);
-    },
-    async getUserData() {
-      const result = await userService.getUserInfo({ userid: Utils.getUserId(this) });
-      if (!result) return;
-      this.userData = { ...result };
-
-      if (result.role !== undefined) {
-        // 更新用户信息 -- 用户角色
-        this.$store.commit('user/updateUserRole', result.role);
-        Utils.saveLocalStorageItem('role', result.role);
-      }
-
-      if (result.isBind !== undefined) {
-        Utils.saveLocalStorageItem('isBind', result.isBind);
-        this.$store.commit('user/updateIsBind', result.isBind);
-      }
     },
     async getData() {
       if (this.role === this.manager) {
@@ -396,7 +416,6 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
-
 .header {
   background: transparent;
   box-shadow: none;

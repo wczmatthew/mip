@@ -69,6 +69,7 @@ export default {
     this.checkTabbar();
     this.$store.dispatch('keywords/getHotKeywordList');
     this.$store.dispatch('user/getErweima');
+    this.$store.dispatch('user/getUserData');
   },
   components: {
     WTabbar,

@@ -350,7 +350,6 @@ export default {
       // 如果满足 第一行两个, 后面3个一行的格式, 这个样式优先
       // if (list.length > 2 && (list.length - 2) % 3 === 0) {
       //   if (index < 2) return 'col2';
-
       //   return 'col3';
       // }
 
@@ -718,7 +717,7 @@ export default {
   position: relative;
   display: flex;
   align-items: center;
-  padding: .1rem $spacing-lr;
+  padding: .1rem .15rem;
   background: #fff;
 
   &::before {
@@ -887,7 +886,7 @@ export default {
 
       .desc.price {
         color: $color-red;
-        font-size:  12px;
+        font-size: 14px;
       }
     } // end item
   } // end product-grid

@@ -8,11 +8,11 @@
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
     <div class="logo">
-      <img src="~@/assets/common/logo.png" alt="">
+      <img src="~@/assets/logo.png" alt="">
     </div>
 
     <p class="logo-title">
-      智慧能源解决方案供应商
+      {{ companyName }}
     </p>
 
     <p class="contact-title">

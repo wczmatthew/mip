@@ -49,6 +49,7 @@ export default {
       ],
       initTabList: [],
       clickNum: 0,
+      refreshViewsPath: [],
     };
   },
   created() {},
@@ -61,7 +62,15 @@ export default {
       cartNum: 'cartNum',
       userId: 'userId',
       role: 'role',
+      refreshAllTab: 'refreshAllTab',
     }),
+  },
+  watch: {
+    refreshAllTab() {
+      if (this.refreshAllTab) {
+        this.refreshViewsPath = this.initTabList.map(item => item.url);
+      }
+    },
   },
   components: {},
   methods: {
@@ -99,7 +108,26 @@ export default {
       }
 
       this.$router.push(item.url);
+
+      setTimeout(() => {
+        // 等待转场动画结束后请求接口
+        this.checkRefresh();
+      }, 300);
       // console.log(document.URL);
+    },
+    // 绑定手机号码后需要刷新界面: 检查是否需要更新
+    checkRefresh() {
+      if (!this.refreshViewsPath.length) return;
+      if (this.refreshViewsPath.includes(this.$route.path)) {
+        // 当前页面需要刷新
+        this.refreshViews();
+        this.refreshViewsPath = this.refreshViewsPath.filter(item => item !== this.$route.path);
+
+        if (!this.refreshViewsPath.length) {
+          // 全部刷新完毕
+          this.$store.commit('user/updateRefreshAllTab', false);
+        }
+      }
     },
     refreshViews() {
       this.clickNum = 0;

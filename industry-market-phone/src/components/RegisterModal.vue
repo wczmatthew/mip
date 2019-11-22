@@ -37,7 +37,8 @@ export default {
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+  },
   components: {
     RegisterComp,
   },
@@ -73,6 +74,8 @@ export default {
       // 自动登录
       Utils.saveLocalStorageItem('isBind', result.isBind);
       this.$store.commit('user/updateIsBind', result.isBind);
+      // 绑定手机号后重新获取数据
+      this.$store.commit('user/updateRefreshAllTab', true);
       this.$store.commit('user/toggleRegisterModal', false);
     },
   },
