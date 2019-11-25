@@ -22,6 +22,7 @@ const state = {
   analyzeUrl: '', // 大数据平台url
   refreshView: '', // 刷新页面的url
   refreshAllTab: false, // 是否全部刷新
+  feedback: {},
 };
 
 // getters
@@ -40,6 +41,7 @@ const getters = {
   analyzeUrl: state => state.analyzeUrl,
   refreshView: state => state.refreshView,
   refreshAllTab: state => state.refreshAllTab,
+  feedback: state => state.feedback,
 };
 
 // actions -- 接口调用方法
@@ -123,6 +125,9 @@ const mutations = {
   },
   updateRefreshAllTab(state, data) {
     state.refreshAllTab = data;
+  },
+  updateFeedback(state, data) {
+    state.feedback = data;
   },
 };
 

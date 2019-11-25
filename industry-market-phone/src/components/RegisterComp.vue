@@ -140,6 +140,11 @@ export default {
         code: this.code,
       };
     },
+    reset() {
+      this.name = '';
+      this.phone = '';
+      this.code = '';
+    },
   },
   props: {
     isModal: {

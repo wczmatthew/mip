@@ -1,7 +1,7 @@
 <!-- 扫码推荐 -->
 <template lang='html'>
-  <div class="share-container" ref="posterHtml">
-    <img src="@/assets/home/banner.png" alt="" class="banner">
+  <div class="share-container2" ref="posterHtml">
+    <img :src="companyShareImg" alt="" class="banner">
     <p class="title">
       营销云平台
     </p>
@@ -9,25 +9,29 @@
       一站式购物平台, 更多优惠尽在官方微信公众号
     </p>
 
-    <div class="code-container">
+    <div class="code-container2">
       <div class="item">
-        <img src="@/assets/home/banner.png" alt="">
+        <div class="img">
+          <img :src="wxPlatQrImg" alt="">
+        </div>
         <p class="tips">
           公众号
         </p>
       </div>
 
       <div class="item">
-        <img src="@/assets/home/banner.png" alt="">
+        <div class="img">
+          <img :src="appDownUrl" alt="">
+        </div>
         <p class="tips">
           APP下载
         </p>
       </div>
 
       <div class="item">
-        <img src="@/assets/home/banner.png" alt="">
+        <div class="img" ref="qrcodeDiv"></div>
         <p class="tips">
-          推荐分析
+          扫码分享
         </p>
       </div>
     </div>
@@ -37,6 +41,7 @@
 import QRCode from 'qrcodejs2';
 import html2canvas from 'html2canvas';
 import Utils from '@/common/Utils';
+import service from '@/services/user.service';
 
 export default {
   data() {
@@ -45,17 +50,30 @@ export default {
       isShow: false,
       posterImg: '', // 最终生成的海报图片
       qrcode: null,
+      companyShareImg: '', // 公司图片
+      appDownUrl: '', // app下载
+      wxPlatQrImg: '', // 公众号
     };
   },
   created() {},
   mounted() {
-    // this.createQrcode();
+    this.createQrcode();
+    this.getData();
   },
   components: {
   },
   computed: {
   },
   methods: {
+    async getData() {
+      Utils.showLoading();
+      const result = await service.getBossShareInfo({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      this.companyShareImg = result.companyShareImg;
+      this.appDownUrl = result.appDownUrl;
+      this.wxPlatQrImg = result.wxPlatQrImg;
+    },
     onClose() {
       this.toggle(false);
     },
@@ -74,13 +92,8 @@ export default {
       const userid = Utils.getLocalStorageItem('userId');
       this.qrcode.clear();
 
-      if (document.URL.indexOf('?') > -1) {
-        // 已经带参数了
-        this.qrcode.makeCode(`${document.URL}&key=${key}&recId=${userid}`);
-      } else {
-        // 没有带参数
-        this.qrcode.makeCode(`${document.URL}?key=${key}&recId=${userid}`);
-      }
+      const link = `${window.location.origin}${window.location.pathname}#/?key=${key}&recId=${userid}`;
+      this.qrcode.makeCode(link);
 
       this.$nextTick(() => {
         setTimeout(() => {
@@ -107,8 +120,6 @@ export default {
       }).then((canvas) => {
         // 在微信里,可长按保存或转发
         vm.posterImg = canvas.toDataURL('image/png');
-
-        Utils.hideLoading();
       });
     },
   },
@@ -139,18 +150,22 @@ export default {
 }
 
 
-.code-container {
+.code-container2 {
   display: flex;
   padding-top: .2rem;
 
   .item {
     flex: 1;
 
-    img {
+    .img {
       display: block;
-      width: 80%;
-      background: #f5f5f5;
+      width: 27vw;
+      height: 27vw;
       margin: 0 auto;
+
+      img {
+        width: 100%;
+      }
     }
 
     .tips {
@@ -162,7 +177,7 @@ export default {
   }
 }
 
-.share-container {
+.share-container2 {
   width: 100%;
   background: #fff;
   padding-bottom: .3rem;
@@ -184,6 +199,16 @@ export default {
   .desc {
     font-size: 12px;
     text-align: center;
+  }
+}
+</style>
+<style lang="scss">
+.code-container2 {
+  .item .img {
+    img {
+      width: 100%;
+      margin: 0;
+    }
   }
 }
 </style>

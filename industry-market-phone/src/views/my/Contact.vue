@@ -17,18 +17,35 @@
       </p>
 
       <p class="contact-title">
-        服务时间: 法定工作日 8:00 ~ 16:00
+        服务时间: 法定工作日 8:00 ~ 16:30
       </p>
 
       <p class="contact-title">
-        平台应用运维咨询:
+        日常运维咨询
       </p>
-      <a href="tel:13777777777" class="tel">
+      <w-img :src="contactData.headImg" class="contact-img"></w-img>
+      <p class="contact-title">
+        {{contactData.name}}
+      </p>
+      <a :href="'tel:'+contactData.phone" class="tel">
         <i class="iconfont icon-kefu"></i>
-        13777777777 转 709377
+        {{contactData.phone}}
+        <template v-if="contactData.shortTel">
+          转 {{contactData.shortTel}}
+        </template>
       </a>
 
-      <button class="blue-btn concat-btn" @click="toContact()">留言</button>
+      <!-- <p class="contact-title">
+        非服务时间运维咨询: {{contactData.name}}
+      </p>
+      <w-img :src="contactData.headImg" class="contact-img"></w-img>
+      <a href="tel:13777777777" class="tel">
+        <i class="iconfont icon-kefu"></i>
+        {{contactData.phone}}
+      </a> -->
+
+
+      <button class="gradient-blue-btn concat-btn" @click="toContact()">留言</button>
     </div>
     <div v-else>
       <!-- 非管理员/老板界面 -->
@@ -66,16 +83,22 @@
 import { mapGetters } from 'vuex';
 import { USER_ROLE } from '@/common/Constants';
 import Utils from '@/common/Utils';
+import service from '@/services/user.service';
 
 export default {
   data() {
     return {
       manager: USER_ROLE.manager,
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'contact' }), // 获取当前路由
+      contactData: {},
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    if (this.role === this.manager) {
+      this.getData();
+    }
+  },
   computed: {
     ...mapGetters('user', {
       role: 'role',
@@ -84,7 +107,14 @@ export default {
   components: {},
   methods: {
     toContact() {
-      this.$router.push(`${this.routePath}/createFeedback`);
+      this.$router.push(`${this.routePath}/feedback`);
+    },
+    async getData() {
+      Utils.showLoading();
+      const result = await service.getOperationsPhone({ userid: Utils.getUserId(this) });
+      if (!result) return;
+      Utils.hideLoading();
+      this.contactData = result || {};
     },
   },
 };
@@ -98,9 +128,14 @@ export default {
 .concat-btn {
   width: 50%;
   font-size: 16px;
-  margin-top: .3rem;
+  margin-top: .2rem;
 }
 
+.contact-img {
+  width: 20%;
+  display: block;
+  margin: .1rem auto 0;
+}
 
 .logo {
   margin: 0 auto;

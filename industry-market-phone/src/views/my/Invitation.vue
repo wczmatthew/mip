@@ -3,7 +3,7 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <template #header-mid>
-      {{ $route.query.title || '邀请有礼'}}
+      {{ $route.query.title || '扫码推荐'}}
     </template>
     <template #header-right>
       <div class="header-right" @click="onShare()">

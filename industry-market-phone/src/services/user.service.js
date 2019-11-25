@@ -51,4 +51,25 @@ export default {
     const params = { loginName, problem, title, qq };
     return postHttp({ url: '/usercenter/feedback/submitFeedback', params });
   },
+  /**
+   * 获取运维信息
+   * @param userid 用户账号
+   */
+  getOperationsPhone: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/usercenter/user/getOperationsPhone', params });
+  },
+  /**
+   * 获取反馈列表
+   * @param loginName 账号
+   * @param pageNo 页码
+   */
+  getFeedbackList: ({ loginName, pageNo }) => {
+    const params = { loginName, pageNo };
+    return postHttp({ url: '/usercenter/feedback/getFeedbackList', params });
+  },
+  getBossShareInfo: ({ userid }) => {
+    const params = { userid };
+    return postHttp({ url: '/usercenter/user/getBossShareInfo ', params });
+  },
 };

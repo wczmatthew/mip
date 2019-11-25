@@ -53,6 +53,7 @@ export default {
       this.slideName = isShow ? 'slide-up' : 'slide-down';
     },
     onClose() {
+      this.$refs.register && this.$refs.register.reset();
       this.$store.commit('user/toggleRegisterModal', false);
     },
     async onConfirm() {

@@ -40,6 +40,11 @@
   background: $color-blue-light;
 }
 
+// 蓝色渐变色
+.gradient-blue-btn {
+  @include background-left-gradient(#306cff, #01d1fd);
+}
+
 /* 渐变色 - 实心 */
 .gradient-btn {
   @include background-left-gradient($color-gradient1, $color-gradient2);

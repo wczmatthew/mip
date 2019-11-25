@@ -47,7 +47,7 @@
 
     </form>
     <!-- 正文内容 end -->
-    <button slot="w-footer" class="bottom-btn blue-btn" @click="onConfirm()">
+    <button slot="w-footer" class="bottom-btn gradient-blue-btn" @click="onConfirm()">
       提交
     </button>
   </w-container>

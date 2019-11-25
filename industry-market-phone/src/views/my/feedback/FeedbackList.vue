@@ -11,44 +11,39 @@
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <form autocomplete="off">
-      <div class="w-tableview">
-        <!-- <div class="cell">
-          <span class="title">
-            姓名
-          </span>
-          <w-input type="text" class="desc" placeholder="请输入姓名" v-model.trim="name"/>
-        </div> -->
+    <w-scroll
+      ref="scroll"
+      @pulling-down="onPullingDown"
+      @pulling-up="onPullingUp">
 
-        <div class="cell">
-          <span class="title">
-            QQ
+      <!-- 列表 -->
+      <no-data v-if="noData"></no-data>
+      <w-loading-row v-if="isFirstLoading"></w-loading-row>
+
+      <div style="height: .1rem;"></div>
+
+      <div class="feedback-card" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
+        <div class="row1 w-underline">
+          <span class="name">
+            {{ item.acceptPerson }}
           </span>
-          <w-input type="text" class="desc" placeholder="请输入QQ" v-model.trim="qq"/>
+          <span class="status">
+            {{ item.finnishFlagName }}
+          </span>
         </div>
-
-        <div class="cell">
-          <span class="title">
-            标题
-          </span>
-          <w-input type="text" class="desc" placeholder="请输入标题" v-model.trim="title"/>
+        <div class="title">
+          {{ item.problemTitle }}
         </div>
-
-        <div class="cell textarea-cell">
-          <span class="title">
-            描述
-          </span>
-          <div class="desc" style="padding: .05rem 0;">
-            <cube-textarea placeholder="请输入描述" :maxlength="200" v-model="content" @blur="onBlur()"></cube-textarea>
-          </div>
+        <div class="content">
+          {{ item.problem }}
         </div>
-
       </div>
+      <!-- 列表 end -->
 
-    </form>
+    </w-scroll>
     <!-- 正文内容 end -->
-    <button slot="w-footer" class="bottom-btn blue-btn" @click="onConfirm()">
-      提交
+    <button slot="w-footer" class="bottom-btn gradient-blue-btn" @click="onContact()">
+      新增留言
     </button>
   </w-container>
 </template>
@@ -60,14 +55,19 @@ import service from '@/services/user.service';
 export default {
   data() {
     return {
-      content: '', // 描述
-      qq: '',
-      name: '',
-      title: '',
+      pageNum: 1,
+      noData: false,
+      dataList: [],
+      hasNext: false,
+      isFirstLoading: true,
+      routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'feedback' }), // 获取当前路由
     };
   },
   created() {},
-  mounted() {},
+  mounted() {
+    // Utils.showLoading();
+    this.onPullingDown();
+  },
   computed: {
     ...mapGetters('user', {
       userData: 'userData',
@@ -75,46 +75,86 @@ export default {
   },
   components: {},
   methods: {
-    onBlur() {
-      Utils.resetWindowScrollTop(document.documentElement.clientHeight);
+    onContact() {
+      this.$router.push(`${this.routePath}/createFeedback`);
     },
-    async onConfirm() {
-      if (!this.qq) {
-        Utils.showToast('请输入qq');
+    toDetail(item) {
+      this.$store.commit('user/updateFeedback', item);
+      this.$router.push(`${this.routePath}/detail`);
+    },
+    // 下拉刷新
+    onPullingDown() {
+      this.pageNum = 1;
+      this.isFirstLoading = true;
+      this.$refs.scroll && this.$refs.scroll.scrollTop();
+      this.getData();
+    },
+    // 上拉加载
+    onPullingUp() {
+      if (!this.hasNext) {
+        // 没有数据
+        this.$refs.scroll.forceUpdate(true);
+        return;
+      }
+      this.getData();
+    },
+    async getData() {
+      // Utils.showLoading();
+      const params = { pageNo: this.pageNum, loginName: this.userData.loginName };
+      const result = await service.getFeedbackList(params);
+      this.isFirstLoading = false;
+      if (!result) {
+        this.noData = !this.dataList.length;
         return;
       }
 
-      if (!this.title) {
-        Utils.showToast('请输入标题');
-        return;
+      if (this.pageNum === 1) {
+        // 第一页
+        this.dataList = result.result || [];
+      } else {
+        this.dataList = this.dataList.concat([...result.result]);
       }
 
-      if (!this.content) {
-        Utils.showToast('请输入描述');
-        return;
+      this.noData = !this.dataList.length;
+      this.hasNext = result.hasNext;
+      if (this.hasNext) {
+        this.pageNum += 1;
       }
-
-      Utils.showLoading();
-      const result = await service.submitFeedback({
-        loginName: this.userData.loginName,
-        problem: this.content,
-        title: this.title,
-        qq: this.qq,
+      this.$nextTick(() => {
+        this.$refs.scroll && this.$refs.scroll.forceUpdate(true);
       });
-      if (!result) return;
-      Utils.showToast('留言成功');
-      this.$router.back();
     },
   },
 };
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
-.w-tableview .cell textarea.desc {
-  border: 0;
-  height: .5rem;
-  background-color: transparent;
-  resize: none;
-  margin: .08rem 0;
+.feedback-card {
+  width: 96%;
+  margin: 0 auto .1rem;
+  background: #fff;
+  box-shadow: 0 0 5px #ccc;
+  padding: 0 $spacing-lr;
+  border-radius: .05rem;
+  padding-bottom: .1rem;
+
+  .row1 {
+    display: flex;
+    justify-content: space-between;
+    @include text-ellipsis;
+    padding: .1rem 0;
+
+    .status {
+      color: $color-blue;
+    }
+  }
+
+  .title {
+    padding: .1rem 0;
+  }
+
+  .content {
+    @include text-overflow-muli(2);
+  }
 }
 </style>
