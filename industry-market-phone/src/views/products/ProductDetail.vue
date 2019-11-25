@@ -30,6 +30,10 @@
     <!-- 产品价格, 名称 -->
     <div class="price">
       ￥{{product.DJJ || 0}}
+
+      <div class="share" @click="onShare()">
+        <i class="iconfont icon-share2"></i>分享
+      </div>
     </div>
     <div class="product-title">
       {{product.XHGG || '暂无'}} <small>({{product.JNR + product.BNR}})</small>
@@ -154,6 +158,10 @@
     <!-- 数量弹窗 -->
     <w-num-modal ref="numModal"></w-num-modal>
     <!-- 数量弹窗 end -->
+
+    <!-- 分享海报弹窗 -->
+    <share-modal ref="shareModal" ></share-modal>
+    <!-- 分享海报弹窗 end -->
   </w-container>
 </template>
 <script>
@@ -163,6 +171,7 @@ import service from '@/services/product.service';
 import orderService from '@/services/order.service';
 import WNumModal from '@/components/WNumModal.vue';
 import { USER_ROLE } from '@/common/Constants';
+import ShareModal from '@/components/ShareModal.vue';
 
 export default {
   data() {
@@ -188,8 +197,12 @@ export default {
   },
   components: {
     WNumModal,
+    ShareModal,
   },
   methods: {
+    onShare() {
+      this.$refs.shareModal && this.$refs.shareModal.toggle(true);
+    },
     toIndex() {
       this.$router.push('/market/home');
     },
@@ -436,6 +449,30 @@ export default {
     padding: 0 .12rem;
     background: #fff;
     padding-top: .1rem;
+    position: relative;
+    line-height: 1.5;
+  }
+
+  .price .share {
+    position: absolute;
+    right: 0;
+    top: .06rem;
+    height: .2rem;
+    background: $color-line;
+    border-top-left-radius: .1rem;
+    border-bottom-left-radius: .1rem;
+    color: $color-grey;
+    font-size: 12px;
+    padding: 0 .08rem;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    .iconfont {
+      margin-right: .03rem;
+      font-size: 14px;
+    }
   }
 
   .product-title {
@@ -457,6 +494,7 @@ export default {
   }
 
   .w-tableview .cell {
+    min-height: .25rem;
     height: .25rem;
   }
 

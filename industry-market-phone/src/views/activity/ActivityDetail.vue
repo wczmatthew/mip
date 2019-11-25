@@ -3,7 +3,9 @@
   <w-container show-header show-back>
     <!-- 顶部栏 -->
     <template #header-mid>
-      发现详情
+      <div class="header-mid">
+        {{title}}
+      </div>
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
@@ -53,6 +55,11 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+
+.header-mid {
+  padding-left: .4rem;
+  @include text-ellipsis();
+}
 
 .activity-title {
   font-size: .16rem;

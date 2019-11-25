@@ -1,46 +1,40 @@
 <!-- 扫码推荐 -->
 <template lang='html'>
-  <transition name="slide-up-toggle">
-    <div class="w-container" v-show="isShow">
-      <div class="header-right" @click="onClose()">
-        <i class="iconfont icon-close"></i>
+  <div class="share-container" ref="posterHtml">
+    <img src="@/assets/home/banner.png" alt="" class="banner">
+    <p class="title">
+      营销云平台
+    </p>
+    <p class="desc">
+      一站式购物平台, 更多优惠尽在官方微信公众号
+    </p>
+
+    <div class="code-container">
+      <div class="item">
+        <img src="@/assets/home/banner.png" alt="">
+        <p class="tips">
+          公众号
+        </p>
       </div>
 
-      <div class="w-content">
-        <div style="position: relative;">
-          <div class="share-container" ref="posterHtml">
-            <img src="@/assets/home/banner.png" alt="" class="banner">
-            <p class="title">
-              营销云平台
-            </p>
-            <p class="desc">
-              一站式购物平台, 更多优惠尽在官方微信公众号
-            </p>
-            <div class="code-img" ref="qrcodeDiv">
-            </div>
-
-            <p class="tip">
-              扫码立即查看
-            </p>
-          </div>
-
-          <img :src="posterImg" alt="" class="poster-img" v-show="posterImg">
-
-        </div>
-
-        <p class="bottom-title">
-          长按图片保存
+      <div class="item">
+        <img src="@/assets/home/banner.png" alt="">
+        <p class="tips">
+          APP下载
         </p>
-        <p class="bottom-desc">
-          您的朋友会为购买到优质的产品而感谢您
+      </div>
+
+      <div class="item">
+        <img src="@/assets/home/banner.png" alt="">
+        <p class="tips">
+          推荐分析
         </p>
       </div>
     </div>
-  </transition>
+  </div>
 </template>
 <script>
 import QRCode from 'qrcodejs2';
-// import DomToImage from 'dom-to-image';
 import html2canvas from 'html2canvas';
 import Utils from '@/common/Utils';
 
@@ -55,23 +49,13 @@ export default {
   },
   created() {},
   mounted() {
+    // this.createQrcode();
   },
   components: {
   },
   computed: {
   },
   methods: {
-    toggle(isShow) {
-      this.isShow = isShow;
-      this.slideName = isShow ? 'slide-up' : 'slide-down';
-      if (this.isShow) {
-        Utils.showLoading();
-
-        setTimeout(() => {
-          this.createQrcode();
-        }, 300);
-      }
-    },
     onClose() {
       this.toggle(false);
     },
@@ -106,13 +90,6 @@ export default {
     },
     // 生成海报
     createPoster() {
-      // DomToImage.toPng(this.$refs.posterHtml).then((dataUrl) => {
-      //   this.posterImg = dataUrl;
-      //   Utils.hideLoading();
-      // }).catch((error) => {
-      //   console.error('oops, something went wrong!', error);
-      //   Utils.hideLoading();
-      // });
       const vm = this;
       // // const domObj = document.getElementById('posterHtml');
       html2canvas(this.$refs.posterHtml, {
@@ -140,30 +117,6 @@ export default {
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
 
-.slide-up-toggle-enter-active {
-  transition: all .3s ease;
-}
-.slide-up-toggle-enter, .slide-up-toggle-leave-to
-/* .slide-fade-leave-active for below version 2.1.8 */ {
-  transform: translateY(100%);
-}
-
-.header-right {
-  width: .3rem;
-  height: .3rem;
-  border-radius: .3rem;
-  line-height: .3rem;
-  font-size: .18rem;
-  border: 1px solid $color-grey-6;
-  overflow: hidden;
-  text-align: center;
-  color: $color-grey-6;
-  position: fixed;
-  right: .1rem;
-  top: .1rem;
-  z-index: 10;
-}
-
 .bottom-title {
   text-align: center;
   font-size: 16px;
@@ -179,19 +132,38 @@ export default {
 .poster-img {
   position: absolute;
   top: 0;
-  left: 10%;
-  width: 80%;
+  left: 0;
+  width: 100%;
   display: block;
   z-index: 10;
 }
 
-</style>
 
-<style lang="scss">
+.code-container {
+  display: flex;
+  padding-top: .2rem;
+
+  .item {
+    flex: 1;
+
+    img {
+      display: block;
+      width: 80%;
+      background: #f5f5f5;
+      margin: 0 auto;
+    }
+
+    .tips {
+      font-size: 10px;
+      color: #666;
+      text-align: center;
+      margin-top: .1rem;
+    }
+  }
+}
+
 .share-container {
-  width: 80%;
-  margin: 8vh auto 0;
-  box-shadow: 0 0 5px #ccc;
+  width: 100%;
   background: #fff;
   padding-bottom: .3rem;
   position: relative;
@@ -211,25 +183,6 @@ export default {
 
   .desc {
     font-size: 12px;
-    text-align: center;
-  }
-
-  .code-img {
-    width: 40%;
-    border: 1px solid #e6e6e6;
-    display: block;
-    margin: .2rem auto .1rem;
-    padding: 2.5px;
-
-    img {
-      display: block;
-      width: 100%;
-    }
-  }
-
-  .tip {
-    font-size: 10px;
-    color: #666;
     text-align: center;
   }
 }

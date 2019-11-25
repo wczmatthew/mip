@@ -14,7 +14,7 @@
 
     <!-- 菜单页面 -->
     <template #header-other>
-      <sort-tab :tab-list="tabList" @select="onSelectTab" @change-list-type="onChangeListType"></sort-tab>
+      <sort-tab :tab-list="tabList" @select="onSelectTab" @change-list-type="onChangeListType" @share="onShare()"></sort-tab>
     </template>
     <!-- 菜单页面 end -->
 
@@ -34,6 +34,10 @@
     <!-- 数量弹窗 -->
     <w-num-modal ref="numModal"></w-num-modal>
     <!-- 数量弹窗 end -->
+
+    <!-- 分享海报弹窗 -->
+    <share-modal ref="shareModal" ></share-modal>
+    <!-- 分享海报弹窗 end -->
   </w-container>
 </template>
 <script>
@@ -44,6 +48,7 @@ import Utils from '@/common/Utils';
 import ProductList from './components/ProductList.vue';
 import SortTab from './components/SortTab.vue';
 import WNumModal from '@/components/WNumModal.vue';
+import ShareModal from '@/components/ShareModal.vue';
 
 export default {
   data() {
@@ -89,6 +94,7 @@ export default {
     ProductList,
     SortTab,
     WNumModal,
+    ShareModal,
   },
   computed: {
     ...mapGetters('product', {
@@ -96,6 +102,9 @@ export default {
     }),
   },
   methods: {
+    onShare() {
+      this.$refs.shareModal && this.$refs.shareModal.toggle(true);
+    },
     onChangeListType(listType) {
       this.$refs.productList && this.$refs.productList.changeListType(listType);
     },

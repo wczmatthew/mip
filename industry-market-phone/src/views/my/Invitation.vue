@@ -12,15 +12,23 @@
     </template>
     <!-- 顶部栏 end -->
     <!-- 正文内容 -->
-    <div class="logo">
-      <img src="~@/assets/common/logo.png" alt="">
+    <div v-if="role == manager">
+      <!-- 老板界面 -->
+      <share></share>
+    </div>
+    <div v-else>
+      <div class="logo" style="width: 20%;">
+        <img src="~@/assets/logo2.png" alt="">
+      </div>
+
+      <!-- <p class="logo-title">
+        渠道信息化支持团队
+      </p> -->
+
+      <img :src="erweima" alt="" class="erweima">
+
     </div>
 
-    <p class="logo-title">
-      智慧能源解决方案供应商
-    </p>
-
-    <img :src="erweima" alt="" class="erweima">
 
     <!-- 正文内容 end -->
   </w-container>
@@ -28,10 +36,13 @@
 <script>
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
+import { USER_ROLE } from '@/common/Constants';
+import Share from '@/components/Share.vue';
 
 export default {
   data() {
     return {
+      manager: USER_ROLE.manager,
     };
   },
   created() {},
@@ -41,9 +52,12 @@ export default {
   computed: {
     ...mapGetters('user', {
       erweima: 'erweima',
+      role: 'role',
     }),
   },
-  components: {},
+  components: {
+    Share,
+  },
   methods: {
     onShare() {
       try {
@@ -63,7 +77,7 @@ export default {
 }
 .logo {
   margin: 0 auto;
-  margin-top: 15vh;
+  margin-top: 10vh;
   width: 50%;
   min-width: .3rem;
   min-height: .3rem;

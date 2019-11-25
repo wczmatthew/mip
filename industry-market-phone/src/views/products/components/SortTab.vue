@@ -10,6 +10,9 @@
     <div class="item icon-item" @click="changeListType()">
       <i class="iconfont" :class="[listType == 'list' ? 'icon-liebiao': 'icon-apps']"></i>
     </div>
+    <div class="item icon-item" @click="onShare()">
+      <i class="iconfont icon-share2"></i>
+    </div>
   </div>
 </template>
 <script>
@@ -25,6 +28,9 @@ export default {
   },
   components: {},
   methods: {
+    onShare() {
+      this.$emit('share');
+    },
     // 修改列表显示模式
     changeListType() {
       this.listType = this.listType === 'list' ? 'grid' : 'list';

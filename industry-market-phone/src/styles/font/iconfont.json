@@ -188,6 +188,13 @@
       "unicode_decimal": 58971
     },
     {
+      "icon_id": "1610826",
+      "name": "分享",
+      "font_class": "share2",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
       "icon_id": "1638230",
       "name": "报表",
       "font_class": "baobiao",

@@ -40,4 +40,15 @@ export default {
     const params = { userid };
     return postHttp({ url: '/usercenter/user/getBossStatistic', params });
   },
+  /**
+   * 提交反馈问题
+   * @param loginName 用户账号
+   * @param problem 问题内容
+   * @param title 标题
+   * @param qq qq
+   */
+  submitFeedback: ({ loginName, problem, title, qq }) => {
+    const params = { loginName, problem, title, qq };
+    return postHttp({ url: '/usercenter/feedback/submitFeedback', params });
+  },
 };

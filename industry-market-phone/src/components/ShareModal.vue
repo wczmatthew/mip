@@ -1,7 +1,7 @@
 <!-- 绑定弹窗 -->
 <template lang='html'>
   <transition name="slide-up-toggle">
-    <div class="w-container" v-show="isShow">
+    <div class="w-container modal-container" v-show="isShow">
       <div class="header-right" @click="onClose()">
         <i class="iconfont icon-close"></i>
       </div>
@@ -74,6 +74,7 @@ export default {
     },
     onClose() {
       this.toggle(false);
+      this.$emit('close');
     },
     // 生成二维码
     createQrcode() {
@@ -139,6 +140,11 @@ export default {
 </script>
 <style lang="scss" scoped>
 @import '~@/styles/components/button.scss';
+@import '~@/styles/components/modal.scss';
+
+.modal-container {
+  background: #fff;
+}
 
 .slide-up-toggle-enter-active {
   transition: all .3s ease;

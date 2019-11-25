@@ -149,7 +149,7 @@ export default {
           this.$router.push({
             path: '/market/frame',
             query: {
-              url: 'item.url',
+              url: item.url,
               title: item.title || '发现',
             },
           });

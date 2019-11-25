@@ -16,11 +16,6 @@
     <!-- 绑定手机弹窗 -->
     <register-modal ref="registerModal"></register-modal>
     <!-- 绑定手机弹窗 end -->
-
-    <!-- 分享海报弹窗 -->
-    <share-modal ref="shareModal"></share-modal>
-    <!-- 分享海报弹窗 end -->
-
   </div>
 </template>
 
@@ -28,7 +23,6 @@
 import { mapGetters } from 'vuex';
 import Utils from '@/common/Utils';
 import RegisterModal from '@/components/RegisterModal.vue';
-import ShareModal from '@/components/ShareModal.vue';
 
 export default {
   data() {
@@ -38,8 +32,6 @@ export default {
       filterUrls: [
         '/register',
       ],
-      isWeixin: Utils.checkIsWeixin(),
-      // isWeixin: true,
     };
   },
   // watch $route 决定使用哪种过渡
@@ -199,12 +191,8 @@ export default {
   },
   components: {
     RegisterModal,
-    ShareModal,
   },
   methods: {
-    onShare() {
-      this.$refs.shareModal.toggle(true);
-    },
   },
 };
 </script>
@@ -215,7 +203,7 @@ export default {
 @import '~@/styles/cube.scss';
 
 .w-tableview .cell {
-  margin-left: .05rem;
+  margin-left: .1rem;
 }
 
 #app {
