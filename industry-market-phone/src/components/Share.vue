@@ -42,6 +42,7 @@ import QRCode from 'qrcodejs2';
 import html2canvas from 'html2canvas';
 import Utils from '@/common/Utils';
 import service from '@/services/user.service';
+import banner from '@/assets/home/banner.png';
 
 export default {
   data() {
@@ -70,7 +71,7 @@ export default {
       const result = await service.getBossShareInfo({ userid: Utils.getUserId(this) });
       if (!result) return;
       Utils.hideLoading();
-      this.companyShareImg = result.companyShareImg;
+      this.companyShareImg = result.companyShareImg || banner;
       this.appDownUrl = result.appDownUrl;
       this.wxPlatQrImg = result.wxPlatQrImg;
     },
@@ -83,8 +84,8 @@ export default {
         this.qrcode = new QRCode(this.$refs.qrcodeDiv, {
           colorDark: '#000000',
           colorLight: '#ffffff',
-          width: this.$refs.qrcodeDiv.clientWidth - 5,
-          height: this.$refs.qrcodeDiv.clientWidth - 5,
+          width: this.$refs.qrcodeDiv.clientWidth,
+          height: this.$refs.qrcodeDiv.clientWidth,
           correctLevel: QRCode.CorrectLevel.L,
         });
       }

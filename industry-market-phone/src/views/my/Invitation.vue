@@ -17,7 +17,7 @@
       <share></share>
     </div>
     <div v-else>
-      <div class="logo" style="width: 20%;">
+      <div class="logo" style="width: 20%; margin-bottom: .2rem;">
         <img src="~@/assets/logo2.png" alt="">
       </div>
 

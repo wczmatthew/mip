@@ -37,7 +37,7 @@
     <!-- 类目列表 end -->
 
     <!-- 活动列表 -->
-    <div class="activity-list">
+    <div class="activity-list" ref="activityList">
       <div class="item" v-for="(item, index) in activityList" :key="index"  @click="toActivity(item)">
         <img src="~@/assets/common/out.png" alt="" class="icon" v-if="item.validFlag == 0">
         <div class="img">
@@ -70,6 +70,7 @@ export default {
       activityList: [],
       viewerRole: USER_ROLE.manager,
       routePath: '/market', // 下一级页面路由前缀
+      containerScrollTop: 0,
     };
   },
   created() {},
@@ -80,6 +81,11 @@ export default {
     }
 
     this.getData();
+  },
+  activated() {
+    this.$nextTick(() => {
+      this.$refs.activityContainer.updateContentScrollTop(this.activityScrollTop);
+    });
   },
   watch: {
     '$route'(to) {
@@ -100,6 +106,7 @@ export default {
       role: 'role',
       analyzeUrl: 'analyzeUrl',
       refreshView: 'refreshView',
+      activityScrollTop: 'activityScrollTop',
     }),
   },
   filters: {
@@ -120,12 +127,18 @@ export default {
     },
     scrollTop() {
       // this.$refs.activityContainer.$refs.wContent.scrollTop = 0;
+      this.$store.commit('user/updateActivityScrollTop', 0);
       Utils.scrollToTop({ ref: this.$refs.activityContainer.$refs.wContent });
+    },
+    saveScrollTop() {
+      this.$store.commit('user/updateActivityScrollTop', this.$refs.activityContainer.getContentScrollTop());
     },
     getAnalyzeUrl() {
       this.$store.dispatch('user/getBigDataUrl');
     },
     toAnalyze() {
+      this.saveScrollTop();
+
       this.getAnalyzeUrl();
       Utils.saveLocalStorageItem('beforePath', '/market/activity');
       this.$router.push({
@@ -138,6 +151,7 @@ export default {
     },
     // 点击轮播图
     onClickBanner(item) {
+      this.saveScrollTop();
       if (this.$route.path === '/activityPrev') return;
 
       if (!item.url) return;
@@ -195,6 +209,7 @@ export default {
       });
     },
     toCategory(item) {
+      this.saveScrollTop();
       if (this.$route.path === '/activityPrev') return;
       if (!item.url) {
         // Utils.showToast('敬请期待');
@@ -203,6 +218,8 @@ export default {
       this.$router.push(`${this.routePath}/${item.url}`);
     },
     toActivity(item) {
+      this.saveScrollTop();
+
       if (this.$route.path === '/activityPrev') return;
       this.$router.push(`${this.routePath}/activieyDetail?id=${item.id}`);
     },

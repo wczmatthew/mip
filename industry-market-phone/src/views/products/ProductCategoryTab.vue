@@ -44,6 +44,11 @@ export default {
     this.loading = true;
     this.getSortList();
   },
+  activated() {
+    this.$nextTick(() => {
+      this.$refs.productCategory && this.$refs.productCategory.updateMenuY();
+    });
+  },
   computed: {
     ...mapGetters('user', {
       refreshView: 'refreshView',

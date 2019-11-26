@@ -14,7 +14,6 @@ const state = {
   role: 0, // 用户角色: 0 普通用户，1 开单员, 2 查看数据员
   isBind: 0, // 0 未绑定手机号码
   erweima: '',
-  // userId: '',
   wxSetting: {},
   wxUserInfo: {},
   isShowRegisterModal: false, // 是否显示绑定手机号码弹窗
@@ -23,6 +22,8 @@ const state = {
   refreshView: '', // 刷新页面的url
   refreshAllTab: false, // 是否全部刷新
   feedback: {},
+  activityScrollTop: 0,
+  homeScrollTop: 0,
 };
 
 // getters
@@ -42,6 +43,8 @@ const getters = {
   refreshView: state => state.refreshView,
   refreshAllTab: state => state.refreshAllTab,
   feedback: state => state.feedback,
+  activityScrollTop: state => state.activityScrollTop,
+  homeScrollTop: state => state.homeScrollTop,
 };
 
 // actions -- 接口调用方法
@@ -128,6 +131,12 @@ const mutations = {
   },
   updateFeedback(state, data) {
     state.feedback = data;
+  },
+  updateActivityScrollTop(state, data) {
+    state.activityScrollTop = data || 0;
+  },
+  updateHomeScrollTop(state, data) {
+    state.homeScrollTop = data || 0;
   },
 };
 

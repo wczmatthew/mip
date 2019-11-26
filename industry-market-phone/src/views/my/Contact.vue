@@ -54,27 +54,27 @@
       </div>
 
       <p class="logo-title">
-        {{ companyName }}
+        {{ contactData.name }}
       </p>
 
       <p class="contact-title">
-        服务时间: 法定工作日 8:00 ~ 16:00
+        服务时间: 法定工作日 8:00 ~ 16:30
       </p>
 
-      <p class="contact-title" style="margin-top: .3rem">
-        售前/售后咨询:
+      <p class="contact-title" style="margin-top: .3rem" v-if="contactData.prePhone">
+        售前咨询:
       </p>
-      <a href="tel:4008177777" class="tel">
+      <a :href="'tel:'+contactData.prePhone" class="tel" v-if="contactData.prePhone">
         <i class="iconfont icon-kefu"></i>
-        400 817 7777
+        {{contactData.prePhone}}
       </a>
 
-      <p class="contact-title">
-        平台应用运维咨询:
+      <p class="contact-title" v-if="contactData.postPhone">
+        售后咨询:
       </p>
-      <a href="tel:13777777777" class="tel">
+      <a :href="'tel:' + contactData.postPhone" class="tel" v-if="contactData.postPhone">
         <i class="iconfont icon-kefu"></i>
-        13777777777 转 709377
+        {{contactData.postPhone}}
       </a>
     </div>
   </w-container>
@@ -91,13 +91,13 @@ export default {
       manager: USER_ROLE.manager,
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'contact' }), // 获取当前路由
       contactData: {},
+      prePhone: '',
+      postPhone: '',
     };
   },
   created() {},
   mounted() {
-    if (this.role === this.manager) {
-      this.getData();
-    }
+    this.getData();
   },
   computed: {
     ...mapGetters('user', {

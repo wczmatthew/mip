@@ -405,6 +405,10 @@ export default {
       if (!this.$refs.home) return;
       Utils.scrollToTop({ ref: this.$refs.home });
     },
+    updateScrollTop(scrollTop) {
+      if (!this.$refs.home) return;
+      this.$refs.home.scrollTop = scrollTop;
+    },
     refresh() {
       this.getData();
       this.getOtherData();
@@ -444,15 +448,21 @@ export default {
       }
       return time;
     },
+    saveScrollTop() {
+      this.$store.commit('user/updateHomeScrollTop', this.$refs.home.scrollTop);
+    },
     toMore() {
+      this.saveScrollTop();
       if (this.mode === 'prev') return;
       this.$router.push('/market/activity');
     },
     toSearch() {
+      this.saveScrollTop();
       if (this.mode === 'prev') return;
       this.$router.push(`${this.routePath}/search`);
     },
     onClickLink(item) {
+      this.saveScrollTop();
       if (this.mode === 'prev') return;
 
       if (!item.url) {
@@ -558,6 +568,8 @@ export default {
       this.hotPro5 = this.hotSaleProList.length > 4 ? this.hotSaleProList[4] : {};
     },
     toProductDetail(id) {
+      this.saveScrollTop();
+
       if (this.mode === 'prev') return;
 
       this.$router.push(`${this.routePath}/productDetail?bm=${id}`);
