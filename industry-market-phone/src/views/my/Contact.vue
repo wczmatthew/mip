@@ -23,7 +23,9 @@
       <p class="contact-title">
         日常运维咨询
       </p>
-      <w-img :src="contactData.headImg" class="contact-img"></w-img>
+      <div class="contact-img">
+        <w-img :src="contactData.headImg" v-if="contactData.headImg"  :err-img="bannerErrImg"></w-img>
+      </div>
       <p class="contact-title">
         {{contactData.name}}
       </p>
@@ -31,7 +33,7 @@
         <i class="iconfont icon-kefu"></i>
         {{contactData.phone}}
         <template v-if="contactData.shortTel">
-          转 {{contactData.shortTel}}
+          - {{contactData.shortTel}}
         </template>
       </a>
 
@@ -84,6 +86,7 @@ import { mapGetters } from 'vuex';
 import { USER_ROLE } from '@/common/Constants';
 import Utils from '@/common/Utils';
 import service from '@/services/user.service';
+import logo from '@/assets/common/user-logo.png';
 
 export default {
   data() {
@@ -93,6 +96,7 @@ export default {
       contactData: {},
       prePhone: '',
       postPhone: '',
+      bannerErrImg: logo,
     };
   },
   created() {},
@@ -135,6 +139,13 @@ export default {
   width: 20%;
   display: block;
   margin: .1rem auto 0;
+  overflow: hidden;
+
+  img {
+    width: 100%;
+    display: block;
+    height: auto !important;
+  }
 }
 
 .logo {
