@@ -91,13 +91,17 @@ export default {
       const userid = Utils.getLocalStorageItem('userId');
       this.qrcode.clear();
 
-      if (document.URL.indexOf('?') > -1) {
-        // 已经带参数了
-        this.qrcode.makeCode(`${document.URL}&key=${key}&recId=${userid}`);
-      } else {
-        // 没有带参数
-        this.qrcode.makeCode(`${document.URL}?key=${key}&recId=${userid}`);
-      }
+      const url = `${window.location.origin}${window.location.pathname}#/?key=${key}&recId=${userid}&path=${this.$route.path}&pathQuery=${JSON.stringify(this.$route.query)}`;
+
+      this.qrcode.makeCode(url);
+
+      // if (document.URL.indexOf('?') > -1) {
+      //   // 已经带参数了
+      //   this.qrcode.makeCode(`${document.URL}&key=${key}&recId=${userid}`);
+      // } else {
+      //   // 没有带参数
+      //   this.qrcode.makeCode(`${document.URL}?key=${key}&recId=${userid}`);
+      // }
 
       this.$nextTick(() => {
         setTimeout(() => {

@@ -26,6 +26,13 @@ export default {
       new VConsole();
     }
 
+    //  TODO: 判断是否是从有分享按钮界面的海报进入
+    // if (this.$route.query.path) {
+    //   // 分享海报进入, 需要进入分享的界面
+    //   Utils.saveLocalStorageItem('sharePath', this.$route.query.path || '', true);
+    //   Utils.saveLocalStorageItem('sharePathQuery', this.$route.query.pathQuery || '', true);
+    // }
+
     if (Utils.checkIsWeixin()) {
       this.$store.commit('user/updateGetOpenid', false);
 
@@ -131,6 +138,19 @@ export default {
       Utils.saveLocalStorageItem('isBind', result.isBind);
       Utils.saveLocalStorageItem('role', result.role);
       Utils.showToast('登录成功');
+
+      // TODO: 进入分享的界面
+      // const path = Utils.getLocalStorageItem('sharePath', true);
+      // if (path) {
+      //   this.$router.push({
+      //     path: path,
+      //     query: JSON.parse(Utils.getLocalStorageItem('sharePath', true) || ''),
+      //   });
+
+      //   Utils.saveLocalStorageItem('sharePath', '', true);
+      //   Utils.saveLocalStorageItem('sharePathQuery', '', true);
+      //   return;
+      // }
       this.$router.push('/market/home');
     },
   },

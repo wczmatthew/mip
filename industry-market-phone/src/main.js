@@ -48,12 +48,11 @@ Vue.use((Vue) => {
 
 router.beforeEach((to, from, next) => {
   if (Utils.checkIsWeixin()) {
+    // 微信浏览器
     if (process.env.NODE_ENV !== 'production') {
       next();
       return;
     }
-    // 微信浏览器
-    // console.log(store.state.user.wxSetting.appId);
     if (to.path === '/') {
       next();
       return;
@@ -76,7 +75,8 @@ router.beforeEach((to, from, next) => {
     }
     return;
   }
-  // console.log('beforeEach: ', to.path);
+
+  // 非微信浏览器
   const userid = Utils.getLocalStorageItem('userId');
   if (userid && to.path === '/login') {
     // 登录过一次, 可以直接登录
