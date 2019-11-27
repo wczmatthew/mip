@@ -23,19 +23,37 @@
       <div style="height: .1rem;"></div>
 
       <div class="feedback-card" v-for="(item, index) in dataList" :key="index" @click="toDetail(item)">
-        <div class="row1 w-underline">
-          <span class="name">
-            {{ item.acceptPerson }}
+
+        <div class="row1">
+          <span class="right color-grey">
+            {{ item.handleTime | dateFormat }}
           </span>
-          <span class="status">
-            {{ item.finnishFlagName }}
+          <span class="name color-blue">
+            处理人: {{ item.acceptPerson }}
           </span>
         </div>
+        <div class="w-underline" style="margin-top: .1rem;"></div>
+
         <div class="title">
           {{ item.problemTitle }}
         </div>
         <div class="content">
           {{ item.problem }}
+        </div>
+
+        <!-- <div class="fixed-status">
+          <span>{{ item.statusName }}</span>
+        </div> -->
+
+        <div style="margin-top: .1rem;"></div>
+
+        <div class="row1">
+          <span class="right color-grey">
+            处理结果
+          </span>
+          <span class="status color-blue">
+            {{ item.statusName }}
+          </span>
         </div>
       </div>
       <!-- 列表 end -->
@@ -67,6 +85,12 @@ export default {
   mounted() {
     // Utils.showLoading();
     this.onPullingDown();
+  },
+  filters: {
+    dateFormat(val) {
+      if (!val) return '';
+      return Utils.dateFormat(new Date(val), 'yyyy-MM-dd HH:mm:ss');
+    },
   },
   computed: {
     ...mapGetters('user', {
@@ -137,12 +161,43 @@ export default {
   padding: 0 $spacing-lr;
   border-radius: .05rem;
   padding-bottom: .1rem;
+  position: relative;
+  overflow: hidden;
+
+  .fixed-status {
+    position: absolute;
+    z-index: 10;
+    bottom: -.25rem;
+    right: -.25rem;
+    @include background-left-gradient(#306cff, #01d1fd);
+    color: #fff;
+    width: .5rem;
+    height: .5rem;
+    transform: rotate(45deg);
+
+    span {
+      display: block;
+      transform: rotate(-90deg);
+      position: absolute;
+      top: .18rem;
+      left: -.08rem;
+      font-size: 10px;
+    }
+  }
 
   .row1 {
     display: flex;
     justify-content: space-between;
     @include text-ellipsis;
-    padding: .1rem 0;
+    padding-top: .1rem;
+
+    .color-blue {
+      color: $color-blue;
+    }
+
+    .color-grey {
+      color: $color-grey-6;
+    }
 
     .status {
       color: $color-blue;
@@ -150,11 +205,14 @@ export default {
   }
 
   .title {
-    padding: .1rem 0;
+    padding: .1rem 0 .06rem;
+    color: black;
+    font-size: 15px;
   }
 
   .content {
     @include text-overflow-muli(2);
+    color: $color-grey-6;
   }
 }
 </style>

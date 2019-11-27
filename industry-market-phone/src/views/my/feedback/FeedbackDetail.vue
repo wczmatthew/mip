@@ -13,17 +13,20 @@
     <!-- 正文内容 -->
     <div class="feedback-card">
 
-      <div class="row1 w-underline">
-        <span class="name">
-          {{ feedback.acceptPerson }}
-        </span>
-        <span class="status">
-          {{ feedback.finnishFlagName }}
-        </span>
+      <div class="title">
+        标题: {{ feedback.problemTitle }}
       </div>
 
-      <div class="title">
-        {{ feedback.problemTitle }}
+      <div class="row1 w-underline">
+        <span class="name">
+          处理人: {{ feedback.acceptPerson }}
+        </span>
+        <!-- <span class="name">
+          {{ feedback.handleTime | dateFormat }}
+        </span> -->
+        <span class="status">
+          {{ feedback.statusName }}
+        </span>
       </div>
 
       <div class="content">
@@ -35,6 +38,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex';
+import Utils from '@/common/Utils';
 
 export default {
   data() {
@@ -43,6 +47,12 @@ export default {
   },
   created() {},
   mounted() {
+  },
+  filters: {
+    dateFormat(val) {
+      if (!val) return '';
+      return Utils.dateFormat(new Date(val), 'yyyy-MM-dd HH:mm:ss');
+    },
   },
   computed: {
     ...mapGetters('user', {
@@ -55,9 +65,6 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
-.w-container {
-  background: #fff;
-}
 
 .feedback-card {
   width: 100%;
@@ -65,13 +72,14 @@ export default {
   padding: 0 $spacing-lr;
   border-radius: .05rem;
   padding-top: .1rem;
+  padding-bottom: .2rem;
 
   .row1 {
     display: flex;
     justify-content: space-between;
     @include text-ellipsis;
     padding: .1rem 0;
-    color: $color-grey-6;
+    color: $color-grey;
     margin-bottom: .1rem;
 
     .status {
@@ -80,10 +88,8 @@ export default {
   }
 
   .title {
-    padding: .1rem 0;
+    padding: .1rem 0 0;
     font-size: 16px;
-    text-align: center;
-    margin-bottom: .1rem;
   }
 
   .content {

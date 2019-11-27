@@ -4,7 +4,7 @@
     <!-- 顶部栏 -->
     <template #header-mid>
       <div class="header-mid">
-        {{title}}
+        发现
       </div>
     </template>
     <!-- 顶部栏 end -->
