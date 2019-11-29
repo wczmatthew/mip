@@ -68,9 +68,29 @@ router.beforeEach((to, from, next) => {
         return;
       }
 
+      const key = Utils.getLocalStorageItem('marketKey', true);
+      if ((!key || key !== to.query.key) && to.query.key) {
+        Utils.saveLocalStorageItem('marketKey', to.query.key || '', true);
+      }
+
+      const recId = Utils.getLocalStorageItem('marketRecId', true);
+      if ((!recId || key !== to.query.recId) && to.query.recId) {
+        Utils.saveLocalStorageItem('marketRecId', to.query.recId || '', true);
+      }
+
       // 未获取openid
       next('/'); // 确保一定要调用 next()
     } catch (error) {
+      const key = Utils.getLocalStorageItem('marketKey', true);
+      if ((!key || key !== to.query.key) && to.query.key) {
+        Utils.saveLocalStorageItem('marketKey', to.query.key || '', true);
+      }
+
+      const recId = Utils.getLocalStorageItem('marketRecId', true);
+      if ((!recId || key !== to.query.recId) && to.query.recId) {
+        Utils.saveLocalStorageItem('marketRecId', to.query.recId || '', true);
+      }
+
       next('/'); // 确保一定要调用 next()
     }
     return;

@@ -161,7 +161,7 @@ export default {
       routePath: Utils.getCurrentPath({ fullPath: this.$route.path, currentPath: 'confirmOrder' }), // 获取当前路由
       totalPrice: 0, // 实际金额
       payPrice: 0, // 付款金额
-      payMode: -1,
+      payMode: 14,
       payModeOptions: [
         // { text: '在线支付', value: 1 },
         // { text: '现金/刷卡', value: 2 },
@@ -169,6 +169,7 @@ export default {
         { text: '支付宝支付', value: 11 },
         { text: '微信支付', value: 12 },
         { text: '银联支付', value: 13 },
+        { text: '线下支付', value: 14 },
       ],
       sendType: 1,
       sendTypeOptions: [

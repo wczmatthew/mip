@@ -140,16 +140,18 @@ export default {
       this.menuList = [];
       this.dataList = [];
       data.forEach((item) => {
-        this.menuList.push({
-          bname: item.bname,
-          sid: item.sid,
-          psid: item.psid,
-        });
+        if (item.childList && item.childList.length) {
+          this.menuList.push({
+            bname: item.bname,
+            sid: item.sid,
+            psid: item.psid,
+          });
 
-        this.dataList.push({
-          advInfo: item.advInfo || [],
-          childList: item.childList || [],
-        });
+          this.dataList.push({
+            advInfo: item.advInfo || [],
+            childList: item.childList || [],
+          });
+        }
       });
 
       // this.menuList = [...data];
@@ -182,6 +184,7 @@ export default {
         if (!Utils.getLastElementByClassName(`product${this.dataList.length - 1}`, container)) return;
         const scrollHeight = container.clientHeight;
         const lastHeight = Utils.getLastElementByClassName(`product${this.dataList.length - 1}`, container).clientHeight;
+        if (!lastHeight) return; // 最后一个产品没有数据, 不做处理
         if (scrollHeight <= lastHeight) return;
         this.emptyHeight = scrollHeight - lastHeight - 5;
       });

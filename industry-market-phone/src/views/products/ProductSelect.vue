@@ -264,7 +264,7 @@ export default {
 
       if (!isAllSelect) return;
 
-      // TODO: 判断是否绑定经销商
+      // 判断是否绑定经销商
       Utils.hideLoading();
       if (!this.customerId) {
         Utils.showAlert({

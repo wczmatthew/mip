@@ -1,5 +1,5 @@
 <template lang='html'>
-  <input :type="type" @blur="onBlur()" :value="value" @keyup="onChange" :placeholder="placeholder" :disabled="disabled">
+  <input :type="type" @blur="onBlur" :value="value" @keyup="onChange" :placeholder="placeholder" :disabled="disabled">
 </template>
 <script>
 import Utils from '@/common/Utils';
@@ -13,9 +13,11 @@ export default {
   mounted() {},
   components: {},
   methods: {
-    onBlur() {
+    onBlur(e) {
       Utils.resetWindowScrollTop(document.documentElement.clientHeight);
       this.$emit('blur');
+      console.log('blur: ', e.target.value);
+      this.$emit('change', e.target.value);
     },
     onChange(e) {
       this.$emit('change', e.target.value);
