@@ -16,7 +16,6 @@ export default {
     onBlur(e) {
       Utils.resetWindowScrollTop(document.documentElement.clientHeight);
       this.$emit('blur');
-      console.log('blur: ', e.target.value);
       this.$emit('change', e.target.value);
     },
     onChange(e) {
